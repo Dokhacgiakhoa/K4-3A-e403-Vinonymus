@@ -9,12 +9,12 @@ Loại: [x] Tính năng mới
 - **Core JTBD** (không tên sản phẩm/AI): Biết chính xác hôm nay cần học/làm gì với quỹ thời gian rảnh của mình, để hoàn thành bài lab đúng hạn.
 - **Problem statement** (không chữ AI): Học viên phải tự lục tài liệu phân mảnh trên nhiều nền tảng (Discord, Zoom, Drive, VLearn, GitHub), không biết đâu là trọng tâm trong slide dài, dẫn đến làm bài sát deadline hoặc nộp muộn.
 - **Evidence:**
-  - **Chuẩn B — mining (đã có, từ `discord-pack` + `vlearn-pack`, khoá 4):**
-    - 6.7% (52/779 tin của người, đếm theo từ khoá link/slide/zoom/drive/tài liệu, 3 ngày 12–14/09): hỏi xin lại slide/sổ tay/link buổi học vì tài liệu bị trôi kênh. VD: `M10991` "cho e xin slide của thầy"; `M23639` "em muốn xin slide nay thầy dạy ở 3a-lec-d301".
+  - **Chuẩn B — mining (đã có, từ `discord-pack` + `vlearn-pack`; phương pháp đếm: `docs/research/evidence-mining.md`):**
+    - 6.7% (52/779 tin của người, đếm theo từ khoá link/slide/zoom/drive/tài liệu, 3 ngày 12–14/09) nhắc tới tài liệu/link buổi học — gồm cả tin xin lẫn tin chia sẻ; số tin xin trực tiếp là 4, cần đọc tay 52 tin để tách trước CP4. VD: `M10991` "cho e xin slide của thầy"; `M23639` "em muốn xin slide nay thầy dạy ở 3a-lec-d301".
     - 8.8% (1.189/13.494 lượt chat VLearn, đếm theo từ khoá "tóm tắt"/"trọng tâm"; riêng khoá 4 là 182/3.097 = 5.9%): học viên xin tóm tắt/chỉ điểm trọng tâm thay vì tự đọc hết. VD: `turn_id T10312` (K4, 10/09) "tóm tắt các key".
     - AI Tutor chỉ 0.13% lượt tự gợi ý bước học tiếp theo (`suggest_next_topic`: 18/13.494) — không chủ động dẫn đường, học viên phải tự biết cần hỏi gì.
     - Bản tin ngày 14/09 (Discord): một học viên hỏi xin gia hạn vì lỡ nộp muộn Lab2 1 phút; một học viên khác hỏi quy định xử lý nộp muộn sau 23h59 — cho thấy học viên không ước lượng đúng thời gian cần cho bài.
-  - **Chuẩn A — khảo sát/phỏng vấn người thật:** `[TODO — CHƯA CÓ]`. Theo `huong-dan-checkpoint-1.md` của lớp, cần phỏng vấn ≥1 vài học viên K4 ngoài nhóm (mã ẩn danh `P01, P02...`), hỏi theo kịch bản Mom Test (2 câu mở đầu: có làm việc này trong 7 ngày qua không → lần gần nhất làm thế nào), đếm 4 số liệu (tổng số người hỏi → từng gặp việc này → gặp khó khăn → cùng 1 mẫu khó khăn cụ thể). Ưu tiên phỏng vấn luôn 2 willing user (Phúc, Quang).
+  - **Chuẩn A — khảo sát/phỏng vấn người thật:** `[TODO — CHƯA CÓ]`. Theo `docs/hackathon/huong-dan-cp1.md` của lớp, cần phỏng vấn ≥1 vài học viên K4 ngoài nhóm (mã ẩn danh `P01, P02...`), hỏi theo kịch bản Mom Test (2 câu mở đầu: có làm việc này trong 7 ngày qua không → lần gần nhất làm thế nào), đếm 4 số liệu (tổng số người hỏi → từng gặp việc này → gặp khó khăn → cùng 1 mẫu khó khăn cụ thể). Ưu tiên phỏng vấn luôn 2 willing user (W1, W2). Nhật ký: `docs/research/survey-log.md`.
   - **≥5 quote nguyên văn:** hiện có 4 (`M10991`, `M23639`, `T10312`, 2 dòng bản tin 14/09) — cần bổ sung thêm khi có khảo sát thật ở trên để đủ ≥5 và đa dạng nguồn.
 
 ## §2. Impact & quyết định chọn
@@ -22,7 +22,7 @@ Loại: [x] Tính năng mới
 
 | Ứng viên | Bao nhiêu người | Tần suất | Tốn gì mỗi lần | Khả thi trong thời gian thi | Chọn? |
 |---|---|---|---|---|---|
-| (1) Tổng hợp/tìm lại tài liệu phân mảnh (link slide/zoom/drive) | ~6.7% tin Discord 3 ngày (52/779) hỏi xin lại | mỗi buổi học mới lại hỏi | 20–40 phút gom lại/lần | Cao — chỉ cần tổng hợp link, không cần quyết định AI rõ | **Loại** — thiếu "1 quyết định AI", gần như thuần index hoá |
+| (1) Tổng hợp/tìm lại tài liệu phân mảnh (link slide/zoom/drive) | 6.7% tin Discord 3 ngày (52/779) nhắc tới tài liệu/link | mỗi buổi học mới lại hỏi | 20–40 phút gom lại/lần | Cao — chỉ cần tổng hợp link, không cần quyết định AI rõ | **Loại** — thiếu "1 quyết định AI", gần như thuần index hoá |
 | (2) Tóm tắt & chỉ trọng tâm bài giảng theo yêu cầu | 8.8% lượt chat VLearn (1.189/13.494); riêng K4 5.9% (182/3.097) | mỗi buổi/bài mới | vài phút chờ + rủi ro bỏ sót ý chính | Trung bình — cần RAG trên transcript | **Loại** — trùng lõi Track A (VLearn Tutor tối ưu), muốn giữ khác biệt cho Track E |
 | (3) Chẩn đoán nền tảng + thời gian → đề xuất 3 việc trọng tâm cho buổi lab tiếp theo | `[TODO: số liệu khảo sát A]` | mỗi buổi lab/workshop (~2–3 lần/tuần) | phân bổ sai thời gian → sát deadline, nộp muộn (bằng chứng bản tin 14/09) | Vừa sức — tận dụng UI wizard có sẵn (`ai-mentor-wizard.tsx`) + LLM router có sẵn trong `codebase/` | **✅ Chọn** |
 
@@ -41,7 +41,7 @@ Loại: [x] Tính năng mới
   - Không tự động nộp bài hộ học viên hay thay đổi deadline.
   - Không thay thế AI Tutor VLearn hiện có (không trả lời tự do mọi câu hỏi trong tài liệu).
   - Không lưu lịch sử nhiều buổi học/cá nhân hoá dài hạn — chỉ 1 lượt chẩn đoán/phiên.
-- **Mức prototype nhắm tới:** [x] Working (một phần) — phần chẩn đoán + đề xuất việc: AI chạy thật qua route mới; phần tài khoản/tiến độ/chứng chỉ: mock, không dùng trong lát cắt (xem `codebase/README.md`).
+- **Mức prototype nhắm tới:** [x] Working (một phần) — phần chẩn đoán + đề xuất việc: AI chạy thật qua route mới; phần tài khoản/tiến độ/chứng chỉ: mock, không dùng trong lát cắt (xem `README.md` mục Trạng thái prototype).
 - **Automation:** [x] conditional — Lý do theo cost-of-error: nếu AI tự chọn sai trọng tâm mà học viên làm theo ngay không kiểm tra, có thể học sai hướng sát deadline — cost-of-error cao, nên giữ học viên luôn thấy lý do và tự tick chọn/sửa checklist, AI không tự động hoá hoàn toàn.
 - **§4b. Nguyên tắc đã áp dụng (≥4 — HAX/PAIR):**
 
@@ -67,13 +67,14 @@ Loại: [x] Tính năng mới
   - Trần Nhật Minh — code API `/api/roadmap`, tích hợp LLM router có sẵn trong `codebase/src/lib/llm/router.ts`
   - Đinh Ngọc Đức — thiết kế prompt, xây golden set, chạy eval trước/sau
   - Nguyễn Việt Thành — giao diện wizard (`ai-mentor-wizard.tsx`), quay video demo
-- **Willing users (≥2 tên):** Nguyễn Đình Phúc, Nguyễn Khắc Quang — đã khai từ CP1, cần lên lịch cho họ dùng thử trước CP5.
+- **Willing users (≥2 tên):** W1, W2 — tên đầy đủ đã khai trong form CP1 (không ghi công khai ở repo); lên lịch dùng thử trước CP5, nhật ký tại `validation/log.md`.
 - **Multi-prototype:** không làm (bonus, bỏ qua do giới hạn thời gian).
 
 ## §9. Changelog
 | Thời điểm | Đổi gì | Vì sao |
 |---|---|---|
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
+| 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
 
 ---
 

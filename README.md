@@ -1,6 +1,7 @@
-# Mini Hackathon AI — Batch 04 · Lớp 3A
+# Vinonymus — AI Diagnostic Study Planner
 
-**SPEC → Prototype → Demo.** Đây không phải cuộc thi code — đây là cuộc thi **tư duy sản phẩm AI**.
+> **Mini Hackathon AI · Batch 04** · Lớp 3A · Phòng E403 · Cụm C2 · **Track E — Làn mở (trong phạm vi AI20k)**
+> **SPEC → Prototype → Demo.** Đây không phải cuộc thi code — đây là cuộc thi **tư duy sản phẩm AI**.
 
 ## 👥 Thành viên nhóm & Phân công vai trò
 
@@ -9,9 +10,109 @@
 | Họ và Tên | Mã Học Viên | Vai trò chính | Phần việc đảm nhiệm trong dự án |
 |---|---|---|---|
 | Đỗ Khắc Gia Khoa (đội trưởng) | 02733 | PM | Chốt Canvas & lát cắt, khảo sát nỗi đau, viết `spec.md`, điều phối checkpoint & nộp form, slide + pitch, validation (R6) |
-| Trần Nhật Minh | 02483 | BE | Backend/API cho prototype, lưu trữ dữ liệu, tích hợp với lời gọi AI, quản lý biến môi trường (không commit key) |
+| Trần Nhật Minh | 02483 | BE | Backend/API cho prototype (`/api/roadmap`), tích hợp lời gọi AI qua LLM router, quản lý biến môi trường (không commit key) |
 | Đinh Ngọc Đức | 02935 | AI | Thiết kế prompt/pipeline AI, xây golden set & chạy eval (`eval/`), phân tích lỗi và kịch bản rủi ro |
 | Nguyễn Việt Thành | 02924 | FE | Giao diện & luồng người dùng (CP2), mock bấm được, quay video thao tác CP3 và video demo dự phòng CP5 |
+
+---
+
+## 🎯 Sản phẩm
+
+**Vấn đề.** Học viên Khoá 4 tự học trước mỗi buổi lab/workshop phải lục tài liệu rải trên nhiều nền tảng (Discord, Zoom, Drive, VLearn, GitHub), không biết đâu là trọng tâm, nên dễ làm bài sát hạn hoặc nộp muộn. Bằng chứng: [`docs/research/evidence-mining.md`](docs/research/evidence-mining.md).
+
+**Lát cắt dự thi (một câu).** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài lab tiếp theo · được AI chẩn đoán nền tảng (tech/non-tech) và quỹ thời gian rảnh · để đề xuất đúng **3 đầu việc trọng tâm kèm link tài liệu** · giúp học viên hoàn thành bài đúng hạn.
+
+**Mức tự động hoá:** conditional — AI đề xuất và giải thích, học viên tick chọn/sửa trước khi làm; hỏi lại khi thông tin không đủ.
+
+Chi tiết quyết định sản phẩm: [`spec.md`](spec.md) · Yêu cầu hệ thống: [`docs/01-SRS.md`](docs/01-SRS.md)
+
+## 🚦 Trạng thái prototype
+
+| Phần | Trạng thái | Ghi chú |
+|---|---|---|
+| **AI Diagnostic Study Planner** (lát cắt dự thi) | 🔧 Đang build | UI wizard có sẵn (`codebase/src/components/learning/ai-mentor-wizard.tsx`); lõi hiện là luật if/else tĩnh (`codebase/src/lib/roadmap-ai-engine.ts`) → thay bằng lời gọi LLM thật qua `/api/roadmap`. Luật cũ giữ làm baseline so sánh |
+| Chat K.AI (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`) — tính năng nền, không phải lát cắt chấm |
+| Tài khoản, gói Pro, chứng chỉ, cây kỹ năng | 🎭 Mock | Không thuộc phạm vi thi |
+| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy — không cần để demo. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
+
+## 🧰 Tech stack
+
+| Lớp | Công nghệ | Trạng thái |
+|---|---|---|
+| Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · OpenRouter · embedding Gemini 768 chiều | Chat: chạy thật · Planner: đang build |
+| Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy |
+| Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
+| Kiểm thử & CI | Vitest · Husky pre-push · GitHub Actions (sync-content, keepalive) | Đang chạy |
+| Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
+
+Kiến trúc chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md)
+
+## 🗂️ Cấu trúc repo
+
+```
+K4-3A-e403-Vinonymus/
+├── README.md          ← file này (README duy nhất)
+├── spec.md            ← AI Spec — rubric chấm R1–R4
+├── demo-slides.pdf    ← slide 6 trang (CP5)
+├── docs/              ← toàn bộ tài liệu dự án — xem docs/00-muc-luc.md
+├── codebase/          ← prototype (Next.js app + backend .NET chưa tích hợp)
+├── eval/              ← golden set + kết quả các lượt chạy (R4)
+├── validation/        ← nhật ký cho người ngoài dùng thử (R6)
+└── reflection/        ← mỗi thành viên 1 file
+```
+
+## ▶️ Chạy thử
+
+Yêu cầu: Node.js 22+, một API key LLM miễn phí (khuyên dùng Gemini — [Google AI Studio](https://aistudio.google.com/apikey)).
+
+```bash
+cd codebase
+npm install
+cp .env.example .env.local   # điền Supabase nếu cần dùng Chat; không commit file này
+npm run dev                  # http://localhost:3000
+```
+
+- API key nhập ở trang **Cài đặt** trong app, chỉ lưu trên trình duyệt (`localStorage`), không lưu ở server.
+- Không cần chạy backend .NET và không cần deploy — luật thi chỉ yêu cầu chạy local và quay màn hình.
+- Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
+
+## 📚 Bản đồ tài liệu
+
+| Muốn biết | Đọc |
+|---|---|
+| Vì sao chọn bài toán này, bằng chứng, chuẩn "đạt" | [`spec.md`](spec.md) |
+| Hệ thống phải làm được gì (FR/NFR/AC) | [`docs/01-SRS.md`](docs/01-SRS.md) |
+| Kiến trúc, luồng dữ liệu | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
+| API | [`docs/03-api.md`](docs/03-api.md) |
+| Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
+| Luồng người dùng (CP2) | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
+| Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
+| Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
+| Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
+| Tài liệu cũ của dự án nền (không phản ánh lát cắt thi) | [`docs/legacy/`](docs/legacy/) |
+
+## 📅 Tiến độ checkpoint
+
+| Mốc | Hạn | Trạng thái |
+|---|---|---|
+| CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp |
+| CP2 · Luồng hoạt động | 21:00 · 16/9 | 🔄 Đang làm |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ⏳ |
+| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ |
+| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ |
+| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ |
+
+Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md)
+
+## 🔒 Bảo mật dữ liệu
+
+Repo **không chứa** data pack của chương trình (`data/` bị chặn trong `.gitignore`), không chứa câu trả lời khảo sát gốc, không chứa API key. Bằng chứng chỉ dẫn mã tham chiếu (`M#####`, `T#####`) và trích ngắn.
+
+---
+
+<details>
+<summary><strong>📋 Đề bài & luật thi — bản gốc từ BTC (bấm để mở)</strong></summary>
 
 > Nhóm copy nguyên file README này về repo của mình, rồi điền bảng trên. Cột **Phần việc đảm nhiệm** ghi càng cụ thể càng tốt.
 
@@ -356,3 +457,5 @@ Dữ liệu trong `data/` là dữ liệu thật của khoá học (đã ẩn da
 6. Sau sự kiện, **xoá các bản sao data pack** khỏi máy cá nhân và các công cụ đã upload nếu ban tổ chức yêu cầu.
 
 Vi phạm được xử lý theo quy định của khoá và có thể ảnh hưởng trực tiếp đến điểm của nhóm.
+
+</details>
