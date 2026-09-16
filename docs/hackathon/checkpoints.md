@@ -25,7 +25,9 @@ CP1–CP5 mỗi mốc 5 điểm, nộp muộn = 0. **Đội trưởng (Khoa, 027
 - [ ] Chạy baseline và bản AI, ghi `eval/results.md` (Đức)
 
 **Trước CP4**
-- [ ] Khảo sát/phỏng vấn người thật → `../research/survey-log.md` (Khoa)
+- [x] Phỏng vấn 2 người (P01, P02) → `../research/survey-log.md` (Khoa)
+- [ ] Mở rộng khảo sát thêm người ngoài nhóm, có cả non-tech (Khoa)
+- [ ] Thành, Đức xác nhận lời đáp P01, P02 đúng nguyên văn
 - [ ] Hoàn thiện `spec.md` §2, §3, §5, §6, §7; chốt quality bar (Khoa, Đức)
 
 **Trước CP5**

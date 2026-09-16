@@ -14,8 +14,12 @@ Loại: [x] Tính năng mới
     - 8.8% (1.189/13.494 lượt chat VLearn, đếm theo từ khoá "tóm tắt"/"trọng tâm"; riêng khoá 4 là 182/3.097 = 5.9%): học viên xin tóm tắt/chỉ điểm trọng tâm thay vì tự đọc hết. VD: `turn_id T10312` (K4, 10/09) "tóm tắt các key".
     - AI Tutor chỉ 0.13% lượt tự gợi ý bước học tiếp theo (`suggest_next_topic`: 18/13.494) — không chủ động dẫn đường, học viên phải tự biết cần hỏi gì.
     - Bản tin ngày 14/09 (Discord): một học viên hỏi xin gia hạn vì lỡ nộp muộn Lab2 1 phút; một học viên khác hỏi quy định xử lý nộp muộn sau 23h59 — cho thấy học viên không ước lượng đúng thời gian cần cho bài.
-  - **Chuẩn A — khảo sát/phỏng vấn người thật:** `[TODO — CHƯA CÓ]`. Theo `docs/hackathon/huong-dan-cp1.md` của lớp, cần phỏng vấn ≥1 vài học viên K4 ngoài nhóm (mã ẩn danh `P01, P02...`), hỏi theo kịch bản Mom Test (2 câu mở đầu: có làm việc này trong 7 ngày qua không → lần gần nhất làm thế nào), đếm 4 số liệu (tổng số người hỏi → từng gặp việc này → gặp khó khăn → cùng 1 mẫu khó khăn cụ thể). Ưu tiên phỏng vấn luôn 2 willing user (W1, W2). Nhật ký: `docs/research/survey-log.md`.
-  - **≥5 quote nguyên văn:** hiện có 4 (`M10991`, `M23639`, `T10312`, 2 dòng bản tin 14/09) — cần bổ sung thêm khi có khảo sát thật ở trên để đủ ≥5 và đa dạng nguồn.
+  - **Chuẩn A — phỏng vấn người thật (n = 2, 16/9; nhật ký: `docs/research/survey-log.md`):**
+    - 2/2 người tự học trước lab trong 7 ngày qua, 2/2 gặp khó khăn, 2/2 cùng mẫu khó khăn: tài liệu phân tán / không biết trọng tâm theo quỹ thời gian → vào lab cập rập.
+    - P01 (tech): "Mỗi buổi học phải mất ít nhất 20–25 phút chỉ để gom đủ link tài liệu."
+    - P02 (AI): "Slide bài giảng dài hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước."
+    - `[TODO]` Mẫu nhỏ và cả hai là willing user → hỏi thêm học viên K4 khác (có người non-tech) trước CP4; chưa đạt ngưỡng ≥20 người của chuẩn A.
+  - **≥5 quote/ví dụ nguyên văn:** đạt — `M10991`, `M23639`, `M24139`, `T10312`, bản tin 14/09, P01, P02 (chi tiết trong `docs/research/`).
 
 ## §2. Impact & quyết định chọn
 `[TODO — DRAFT, nhóm xác nhận lại số liệu trước khi chốt]`
@@ -24,7 +28,7 @@ Loại: [x] Tính năng mới
 |---|---|---|---|---|---|
 | (1) Tổng hợp/tìm lại tài liệu phân mảnh (link slide/zoom/drive) | 6.7% tin Discord 3 ngày (52/779) nhắc tới tài liệu/link | mỗi buổi học mới lại hỏi | 20–40 phút gom lại/lần | Cao — chỉ cần tổng hợp link, không cần quyết định AI rõ | **Loại** — thiếu "1 quyết định AI", gần như thuần index hoá |
 | (2) Tóm tắt & chỉ trọng tâm bài giảng theo yêu cầu | 8.8% lượt chat VLearn (1.189/13.494); riêng K4 5.9% (182/3.097) | mỗi buổi/bài mới | vài phút chờ + rủi ro bỏ sót ý chính | Trung bình — cần RAG trên transcript | **Loại** — trùng lõi Track A (VLearn Tutor tối ưu), muốn giữ khác biệt cho Track E |
-| (3) Chẩn đoán nền tảng + thời gian → đề xuất 3 việc trọng tâm cho buổi lab tiếp theo | `[TODO: số liệu khảo sát A]` | mỗi buổi lab/workshop (~2–3 lần/tuần) | phân bổ sai thời gian → sát deadline, nộp muộn (bằng chứng bản tin 14/09) | Vừa sức — tận dụng UI wizard có sẵn (`ai-mentor-wizard.tsx`) + LLM router có sẵn trong `codebase/` | **✅ Chọn** |
+| (3) Chẩn đoán nền tảng + thời gian → đề xuất 3 việc trọng tâm cho buổi lab tiếp theo | Mining E1/E2 + phỏng vấn 2/2 cùng mẫu khó khăn (n nhỏ) `[TODO: mở rộng]` | mỗi buổi lab/workshop (~2–3 lần/tuần) | phân bổ sai thời gian → sát deadline, nộp muộn (bằng chứng bản tin 14/09) | Vừa sức — tận dụng UI wizard có sẵn (`ai-mentor-wizard.tsx`) + LLM router có sẵn trong `codebase/` | **✅ Chọn** |
 
 - **Ứng viên đã loại:** (1) vì không có "1 quyết định AI" rõ ràng, chỉ là tra cứu/tổng hợp link. (2) vì trùng phạm vi Track A (VLearn Tutor tối ưu tóm tắt) — chọn giữ (3) để giữ đúng tính chất Track E (bài toán không nằm trong A–D).
 - **Ứng viên chọn:** (3) — kết hợp cả 2 evidence mining (tài liệu phân mảnh + xin tóm tắt) làm input chẩn đoán, có bằng chứng hậu quả rõ nhất (nộp muộn deadline), và tận dụng được hạ tầng AI + UI đã có sẵn trong `codebase/` để build kịp trong thời gian thi.
@@ -79,7 +83,7 @@ Loại: [x] Tính năng mới
 ---
 
 ## Việc còn thiếu trước hạn chốt spec (21:00 · 17/9)
-1. **Khảo sát/phỏng vấn người thật** (chuẩn A, §1) — chưa có, cần làm theo `huong-dan-checkpoint-1.md`.
+1. **Mở rộng khảo sát** (chuẩn A, §1) — mới có n = 2, cần thêm người ngoài nhóm, có cả nền tảng non-tech.
 2. **Số liệu §2** cần khảo sát A để hoàn thiện cột "bao nhiêu người" của ứng viên (3).
 3. **§3** cần thêm 1 sản phẩm tương tự ngoài chương trình.
 4. **§5, §6, §7** cần build xong `/api/roadmap` thật mới viết được.

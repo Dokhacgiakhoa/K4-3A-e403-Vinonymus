@@ -21,4 +21,4 @@ Mining `discord-pack` và `vlearn-pack`. Phương pháp đếm: [`../research/ev
 - **Phân công:** Khoa — PM · Minh — BE · Đức — AI · Thành — FE (chi tiết ở `README.md`).
 
 ## Sau CP1 cần bổ sung
-- Canvas chỉ có bằng chứng chuẩn B (mining). Hướng dẫn CP1 của lớp ([`huong-dan-cp1.md`](huong-dan-cp1.md)) nhấn mạnh khảo sát người thật → bổ sung ở [`../research/survey-log.md`](../research/survey-log.md).
+- Canvas nộp chủ yếu bằng chứng chuẩn B (mining). Đã bổ sung phỏng vấn 2 người (P01, P02) tại [`../research/survey-log.md`](../research/survey-log.md) — cần mở rộng mẫu theo [`huong-dan-cp1.md`](huong-dan-cp1.md).
