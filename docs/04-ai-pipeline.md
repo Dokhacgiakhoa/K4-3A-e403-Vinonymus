@@ -47,20 +47,22 @@ Trả về DUY NHẤT JSON:
 
 ## 3. Catalog
 
-Vị trí: `codebase/data/catalog/<lab_id>.yaml` (nhóm tự soạn).
+Vị trí: `codebase/src/data/planner-catalog.ts` (nhóm tự soạn; dùng chung cho UI, luật tĩnh và `/api/roadmap`). Kiểu dữ liệu: `codebase/src/types/planner.ts`.
 
-```yaml
-lab_id: lab-02
-title: "Lab 2 — ..."
-items:
-  - item_id: lab-02-colab-setup
-    title: "Chuẩn bị notebook và nơi nộp bài"
-    url: "https://..."          # chỉ link công khai
-    type: notebook              # slide | video | notebook | doc
-    minutes: 20
-    level: basic                # basic | advanced
-    tags: [setup, colab]
+```ts
+{
+  itemId: 'ptc-setup-colab',
+  title: 'Chuẩn bị notebook Colab và API key',
+  url: 'https://…',        // chỉ link công khai
+  type: 'notebook',        // slide | video | notebook | doc
+  minutes: 15,
+  level: 'basic',          // basic | advanced
+  tags: ['setup', 'colab'],
+  why: 'Không có môi trường chạy thì không làm được bài lab.',
+}
 ```
+
+Catalog hiện có 2 bài lab mẫu — thay bằng tài liệu lab thật ở task T3-01.
 
 **Không đưa vào catalog:** link Zoom/recording kèm passcode, link Drive nội bộ, nội dung chép từ data pack. Repo này công khai.
 

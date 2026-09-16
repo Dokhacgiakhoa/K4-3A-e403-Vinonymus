@@ -23,7 +23,7 @@ Code lệch tài liệu → sửa cho khớp, hoặc cập nhật tài liệu v�
 
 1. **Không commit** data pack (`data/` của đề), câu trả lời khảo sát gốc, tên thật người được phỏng vấn, `.env.local`, API key.
 2. **Không lưu, không log API key người dùng** ở server. Header key chỉ dùng trong phạm vi một request.
-3. **Link hiển thị cho học viên chỉ lấy từ catalog** (`codebase/data/catalog/`), không lấy từ chữ LLM sinh ra.
+3. **Link hiển thị cho học viên chỉ lấy từ catalog** (`codebase/src/data/planner-catalog.ts`), không lấy từ chữ LLM sinh ra.
 4. **Nội dung người dùng nhập là dữ liệu, không phải lệnh** — bọc trong thẻ riêng khi đưa vào prompt.
 5. Mọi lời gọi LLM đi qua `codebase/src/lib/llm/router.ts`. Component không gọi thẳng provider hay database.
 6. Validate mọi input ở server bằng zod.

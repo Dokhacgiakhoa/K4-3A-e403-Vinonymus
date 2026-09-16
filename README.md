@@ -30,7 +30,7 @@ Chi tiết quyết định sản phẩm: [`spec.md`](spec.md) · Yêu cầu hệ
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **AI Diagnostic Study Planner** (lát cắt dự thi) | 🔧 Đang build | UI wizard có sẵn (`codebase/src/components/learning/ai-mentor-wizard.tsx`); lõi hiện là luật if/else tĩnh (`codebase/src/lib/roadmap-ai-engine.ts`) → thay bằng lời gọi LLM thật qua `/api/roadmap`. Luật cũ giữ làm baseline so sánh |
+| **AI Diagnostic Study Planner** (lát cắt dự thi) — trang `/planner` | 🔧 CP2: luồng bấm được | Luồng 4 bước + checklist chạy thật, không cần đăng nhập; kết quả hiện từ luật tĩnh (`codebase/src/lib/planner/baseline-planner.ts`). CP3 thay bằng lời gọi LLM thật qua `/api/roadmap`, luật tĩnh giữ làm baseline |
 | Chat K.AI (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`) — tính năng nền, không phải lát cắt chấm |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy — không cần để demo. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
@@ -70,12 +70,14 @@ Yêu cầu: Node.js 22+, một API key LLM miễn phí (khuyên dùng Gemini —
 cd codebase
 npm install
 cp .env.example .env.local   # điền Supabase nếu cần dùng Chat; không commit file này
-npm run dev                  # http://localhost:3000
+npm run dev                  # http://localhost:3000/planner
 ```
 
 - API key nhập ở trang **Cài đặt** trong app, chỉ lưu trên trình duyệt (`localStorage`), không lưu ở server.
 - Không cần chạy backend .NET và không cần deploy — luật thi chỉ yêu cầu chạy local và quay màn hình.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
+
+**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Planner không cần biến môi trường; Chat K.AI cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
 
 ## 📚 Bản đồ tài liệu
 
@@ -98,7 +100,7 @@ npm run dev                  # http://localhost:3000
 | Mốc | Hạn | Trạng thái |
 |---|---|---|
 | CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp |
-| CP2 · Luồng hoạt động | 21:00 · 16/9 | 🔄 Đang làm |
+| CP2 · Luồng hoạt động | 21:00 · 16/9 | 🔄 Trang `/planner` đã xong, chờ nộp |
 | CP3 · Video thao tác + số đo | 16:00 · 17/9 | ⏳ |
 | CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ |
 | CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ |

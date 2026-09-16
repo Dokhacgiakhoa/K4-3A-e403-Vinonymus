@@ -21,10 +21,10 @@ Quy ước: **FR** = yêu cầu chức năng · **NFR** = phi chức năng · **
 
 | Thuật ngữ | Nghĩa |
 |---|---|
-| **Catalog** | Danh sách tài liệu cho từng bài lab do nhóm tự soạn tại `codebase/data/catalog/` — nguồn sự thật duy nhất cho link |
+| **Catalog** | Danh sách tài liệu cho từng bài lab do nhóm tự soạn tại `codebase/src/data/planner-catalog.ts` — nguồn sự thật duy nhất cho link |
 | **Plan** | Kết quả hợp lệ: 1–3 việc, mỗi việc trỏ đúng một `item_id` trong catalog |
 | **Clarify** | Hệ thống hỏi lại một câu thay vì đoán |
-| **Baseline** | Luật if/else cũ trong `roadmap-ai-engine.ts`, dùng để so sánh trước/sau và làm phương án dự phòng |
+| **Baseline** | Luật tĩnh trong `codebase/src/lib/planner/baseline-planner.ts`, dùng để so sánh trước/sau và làm phương án dự phòng |
 
 ---
 

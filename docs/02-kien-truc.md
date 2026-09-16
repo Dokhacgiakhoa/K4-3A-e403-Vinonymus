@@ -6,16 +6,16 @@ Prototype là một ứng dụng **Next.js 15 (App Router)** trong `codebase/`. 
 
 ```mermaid
 flowchart LR
-    U[Học viên] -->|chọn nền tảng, thời gian, bài lab| W[Wizard UI<br/>ai-mentor-wizard.tsx]
+    U[Học viên] -->|chọn nền tảng, thời gian, bài lab| W[Planner UI<br/>/planner]
     W -->|POST /api/roadmap<br/>header: key người dùng| R[Route handler<br/>app/api/roadmap]
     R -->|validate zod| R
-    R --> C[(Catalog<br/>data/catalog/)]
+    R --> C[(Catalog<br/>planner-catalog.ts)]
     R -->|prompt + catalog rút gọn| L[LLM router<br/>lib/llm/router.ts]
     L --> P{{Gemini / OpenAI / Claude / ...}}
     P --> L --> R
     R -->|lọc item_id theo catalog| R
     R -->|JSON plan / clarify / refuse| W
-    R -.lỗi hoặc không key.-> B[Baseline<br/>roadmap-ai-engine.ts]
+    R -.lỗi hoặc không key.-> B[Baseline<br/>baseline-planner.ts]
     W -->|tick, sửa, đổi thứ tự| S[(localStorage)]
 ```
 
@@ -38,24 +38,24 @@ flowchart LR
 codebase/
 ├── src/
 │   ├── app/                  ← trang + route handler (api/chat, api/roadmap*)
-│   ├── components/learning/  ← ai-mentor-wizard.tsx (UI Planner)
+│   ├── app/planner/          ← trang Planner (không cần đăng nhập)
+│   ├── components/planner/   ← study-planner.tsx (UI 4 bước + checklist)
 │   ├── lib/
 │   │   ├── llm/              ← router + adapter từng provider
 │   │   ├── rag/              ← pipeline Chat K.AI
-│   │   ├── roadmap-ai-engine.ts  ← baseline luật tĩnh
+│   │   ├── planner/          ← baseline-planner.ts (luật tĩnh, baseline + fallback)
 │   │   └── api/              ← client gọi backend .NET (có fallback)
-│   ├── data/                 ← dữ liệu tĩnh SFIA/giáo trình của dự án nền
+│   ├── data/                 ← planner-catalog.ts (catalog Planner) + dữ liệu SFIA của dự án nền
 │   └── types/
 ├── data/
 │   ├── faqs/, documents/     ← kho tri thức cho Chat K.AI
-│   └── catalog/*             ← catalog tài liệu lab cho Planner
 ├── supabase/migrations/      ← schema Postgres
 ├── tests/                    ← unit + eval của Chat
 ├── scripts/                  ← sync nội dung, audit FAQ, OCR
 ├── backend-core/, database/  ← .NET — chưa tích hợp (docs/06-backend-dotnet.md)
 └── backend-services/         ← script sinh nội dung của dự án nền, không chạy trong app
 ```
-`*` = chưa có, sẽ tạo khi build lát cắt.
+`*` = chưa có, tạo ở CP3.
 
 ## 4. Ranh giới thật / mock
 

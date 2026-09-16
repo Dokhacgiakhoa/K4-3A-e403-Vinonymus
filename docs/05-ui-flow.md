@@ -32,14 +32,19 @@ flowchart TD
 | Hỏi lại | Một câu hỏi + nút quay lại bước 2 | Trả lời |
 | Từ chối | Lý do + kênh hỗ trợ chính thức | Quay lại |
 
-## 3. Tái sử dụng từ codebase
+## 3. Hiện thực (CP2 · 16/9)
 
-`codebase/src/components/learning/ai-mentor-wizard.tsx` đã có khung wizard 5 bước. Việc cần làm:
-- Đổi nội dung các bước cho khớp bảng trên (bỏ câu hỏi SFIA/CV không thuộc lát cắt).
-- Thay `setTimeout` giả lập bằng lời gọi `/api/roadmap`.
-- Đổi màn hình kết quả từ "4 sprint 8 tuần" sang checklist ≤3 việc.
+Trang riêng **`/planner`** — không cần đăng nhập, không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
 
-**Lưu ý:** trang `/learning?mode=ai_roadmap` hiện yêu cầu đăng nhập và gói Pro. Cần cho Planner chạy không cần tài khoản để demo được (`[TODO]` xác nhận hướng xử lý với Minh).
+| File | Vai trò |
+|---|---|
+| `codebase/src/app/planner/page.tsx` | Route |
+| `codebase/src/components/planner/study-planner.tsx` | UI 4 bước + checklist (tick, bỏ, đổi thứ tự, khôi phục), lưu `localStorage` |
+| `codebase/src/lib/planner/baseline-planner.ts` | Luật tĩnh: clarify (<30 phút, lab lạ), refuse (làm hộ, đáp án, gia hạn, điểm, ghi đè chỉ dẫn), chọn ≤3 việc theo nền tảng + ghi chú |
+| `codebase/src/data/planner-catalog.ts` | Catalog mẫu 2 bài lab, chỉ link công khai |
+| `codebase/tests/unit/baseline-planner.test.ts` | 9 test cho luật trên |
+
+**Trạng thái:** kết quả hiện từ luật tĩnh, giao diện ghi rõ "Bản mô phỏng CP2 · chưa gọi AI". CP3 thay bằng lời gọi `/api/roadmap`; luật tĩnh giữ làm baseline và fallback (SRS FR-P09).
 
 ## 4. Nộp CP2
 
