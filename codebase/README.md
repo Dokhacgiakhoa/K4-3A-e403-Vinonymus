@@ -1,3 +1,17 @@
+> ## 📌 Ghi chú cho Mini Hackathon AI (nhóm Vinonymus, K4-3A-e403)
+> Codebase này được import nguyên vẹn từ dự án `AI-thuc-chien` đang phát triển riêng, dùng làm nền cho lát cắt dự thi. Trạng thái từng phần **tại thời điểm nộp**:
+>
+> | Phần | Trạng thái | Ghi chú |
+> |---|---|---|
+> | `src/lib/rag/*`, `/api/chat` (Chat K.AI, RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`tests/eval/`) |
+> | `src/lib/roadmap-ai-engine.ts`, `ai-mentor-wizard.tsx` (Lộ trình cá nhân hoá) | 🔧 Đang thay bằng AI thật | Hiện là luật if/else tĩnh — lát cắt thi sẽ thay bằng lời gọi LLM thật, giữ luật cũ làm baseline so sánh |
+> | `backend-core/`, `database/` (.NET 10 Clean Architecture — auth, ghi danh, chứng chỉ, thanh toán) | ⚠️ **Chưa tích hợp vào lát cắt dự thi** | App Next.js gọi các endpoint này qua `src/lib/api/auth-backend-client.ts` và `curriculum-backend-client.ts`, nhưng có cơ chế tự động fallback khi server .NET không chạy — không cần chạy .NET để demo. Quyết định của nhóm: giữ lại cho giai đoạn phát triển sau, không phải phạm vi chấm của hackathon này |
+> | `curriculum/`, `docs/`, `.agent/`, `.agents/` | 📚 Tài liệu/nội dung nền, không phải phần AI của lát cắt | |
+>
+> Không cần deploy để demo — chạy `npm run dev` và quay màn hình là đủ theo luật hackathon.
+
+---
+
 # AI SFIA Engineering & Learning Hub (AI Thực Chiến)
 
 > 🎓 **VinUni AI in Action • Khóa IV Fellow Edition**  
