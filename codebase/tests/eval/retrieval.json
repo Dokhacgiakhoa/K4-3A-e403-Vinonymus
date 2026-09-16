@@ -1,0 +1,28 @@
+[
+  {
+    "id": "R001",
+    "question": "Deadline assignment 1 là khi nào?",
+    "expectedDocumentTitles": ["Hướng dẫn Assignment 1 - Tìm kiếm và RAG cơ bản"],
+    "shouldAnswer": true
+  },
+  {
+    "id": "R002",
+    "question": "học phí kỳ sau bao nhiêu tiền",
+    "shouldAnswer": false,
+    "note": "Ngoài phạm vi — hệ thống PHẢI từ chối"
+  },
+  {
+    "id": "R003",
+    "question": "a1 ddl",
+    "expectedDocumentTitles": ["Hướng dẫn Assignment 1 - Tìm kiếm và RAG cơ bản"],
+    "shouldAnswer": true,
+    "note": "Kiểm tra việc giãn từ viết tắt"
+  },
+  {
+    "id": "R004",
+    "question": "deadline assignment 1 la khi nao",
+    "expectedDocumentTitles": ["Hướng dẫn Assignment 1 - Tìm kiếm và RAG cơ bản"],
+    "shouldAnswer": true,
+    "note": "Không dấu — kiểm tra chuẩn hoá"
+  }
+]

@@ -1,0 +1,11 @@
+faq_trigram_threshold: 0.75
+faq_vector_threshold: 0.90
+rag_min_score: 0.015
+rag_top_k: 8
+rag_candidate_k: 20
+chunk_size_tokens: 800
+chunk_overlap_ratio: 0.15
+cache_ttl_days: 7
+cache_enabled: true
+conversation_context_turns: 6
+refusal_message: "Mình chưa tìm thấy thông tin này trong kho tài liệu của khóa học. Bạn thử diễn đạt lại câu hỏi nhé."

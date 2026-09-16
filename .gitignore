@@ -2,3 +2,14 @@
 __pycache__/
 .env
 node_modules/
+
+# .NET build output
+bin/
+obj/
+*.user
+.env.local
+.env*.local
+
+# Private notes and internal verification screenshots (not for public repo)
+codebase/curriculum/private/
+codebase/public/images/faqs/minh-chung-*

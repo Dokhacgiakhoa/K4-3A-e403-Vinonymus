@@ -1,0 +1,47 @@
+using AIIANotebook.Domain.Enums;
+
+namespace AIIANotebook.Application.Features.Curriculum;
+
+public record CurriculumTopicDto(
+    Guid Id,
+    int TopicNumber,
+    string Title,
+    string Slug,
+    string Description,
+    int ReadingTimeMinutes,
+    string? CodeSnippet,
+    string? CodeLanguage,
+    bool IsCompleted = false
+);
+
+public record CurriculumModuleDetailDto(
+    Guid Id,
+    int ModuleNumber,
+    string Title,
+    string Slug,
+    string Description,
+    SFIALevel TargetLevel,
+    string BloomLevel,
+    int EstimatedHours,
+    string HumanAiRatio,
+    string? CodeSnippet,
+    string? CodeLanguage,
+    bool IsEnrolled,
+    int CompletedTopicsCount,
+    int TotalTopicsCount,
+    int ProgressPercent,
+    bool IsCompleted,
+    List<CurriculumTopicDto> Topics,
+    CurriculumTrack Track = CurriculumTrack.Universal
+);
+
+public record EnrollCourseRequest(Guid UserId, Guid ModuleId);
+public record ToggleTopicProgressRequest(Guid UserId, Guid ModuleId, Guid TopicId);
+
+public record CertificateResultDto(
+    string CertificateCode,
+    string RecipientName,
+    string CourseTitle,
+    string CourseLevel,
+    DateOnly IssueDate
+);

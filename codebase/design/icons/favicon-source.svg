@@ -1,0 +1,6 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="AIIA Notebook">
+  <rect width="512" height="512" rx="104" fill="#0A1428"/>
+  <text x="256" y="308" font-family="Arial, Helvetica, sans-serif" font-weight="800"
+        font-size="216" letter-spacing="2" fill="#3EA8FF" text-anchor="middle">AI</text>
+  <rect x="228" y="352" width="56" height="56" fill="#E8ECF2" transform="rotate(45 256 380)"/>
+</svg>

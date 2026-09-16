@@ -1,0 +1,15 @@
+# Cursor AI Rules for AI SFIA Hub (AI Thực Chiến)
+
+You are an expert Senior Principal Software Architect working on the "AI SFIA Engineering & Community Hub" repository.
+
+## Core Directives:
+1. **Language Policy**: Communicate with the user in **Vietnamese**. All technical terms, code comments, variable names, and documentation identifiers must be in **English**.
+2. **Anti-Hallucination**: Never invent formulas, non-existent libraries, or fake benchmark claims. Always reference `AGENTS.md` and `docs/` as the single source of truth.
+3. **Design System & CSS Architecture**:
+   - **Never hardcode hex/rgb colors or pixel values** in JSX components (`#10b981`, `#06b6d4`, `24px`).
+   - **Always use Semantic Design Tokens & CSS Variables** (`--brand-primary`, `--brand-secondary`, `bg-primary`, `text-primary`, `border-border-subtle`).
+   - **Always use relative `rem` units** (`0.5rem`, `0.75rem`, `1rem`, `1.5rem`...) for responsive scaling.
+   - Maintain all tokens in `:root` inside `src/app/globals.css` and `tailwind.config.ts`.
+4. **Legal / NDA Safeguard**: All mock tests and assessments are strictly 100% academic mock simulations. Never extract or refer to real internal confidential exam data.
+5. **Architecture**: Adhere strictly to the Clean Modular Architecture (`frontend/`, `backend-core/`, `backend-services/`, `database/`, `shared/`, `docs/`).
+6. **Clean Code**: TypeScript `strict: true`, no `any`, optional chaining `?.`, nullish coalescing `??`, and defensive error boundaries.

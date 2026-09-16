@@ -1,0 +1,29 @@
+﻿services:
+  postgres:
+    image: pgvector/pgvector:pg16
+    container_name: aiia_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: aiia_notebook
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./migrations/20260903_core_enterprise_schema.sql:/docker-entrypoint-initdb.d/01_schema.sql
+      - ./seeds/01_sfia_modules_seed.sql:/docker-entrypoint-initdb.d/02_seed.sql
+      - pgdata:/var/lib/postgresql/data
+
+  qdrant:
+    image: qdrant/qdrant:v1.9.0
+    container_name: aiia_qdrant
+    restart: unless-stopped
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+
+volumes:
+  pgdata:
+  qdrant_data:

@@ -1,0 +1,8 @@
+# Windsurf AI Rules for AI SFIA Hub (AI Thực Chiến)
+
+- Follow `AGENTS.md` strictly as the project constitution.
+- **Design System Rules**: No hardcoded hex/pixel values. Use Semantic Tokens (`--brand-primary`, `bg-primary`, `text-primary`) and `rem` units.
+- Zero server-side user API key logging or storage.
+- 100% Mock Academic Simulations for all assessment tests.
+- Always use `kebab-case` for directories and file names.
+- Verify TypeScript types against `shared/types/saas.ts` and `src/data/sfia-community-data.ts`.

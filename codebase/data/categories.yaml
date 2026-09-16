@@ -1,0 +1,23 @@
+- slug: thi-dgnl
+  name: Sơ loại & ĐGNL
+  description: Hồ sơ sơ loại, kỳ thi đánh giá năng lực và tuyển sinh — đến khi nhận mail báo đỗ vòng 2
+  icon: file-text
+  sort_order: 1
+
+- slug: chuong-trinh-hoc
+  name: Chương trình học
+  description: Nội dung học tập tại VinUni — lịch học, đề cương, bài tập, thực tập, đồ án
+  icon: book-open
+  sort_order: 2
+
+- slug: tien-ich
+  name: Tiện ích
+  description: Ăn uống, sinh hoạt, trợ cấp và các hỗ trợ song song với việc học
+  icon: coffee
+  sort_order: 3
+
+- slug: quy-dinh
+  name: Quy định
+  description: Nội quy thi cử, học tập, điểm danh và chuyển đổi lớp/nhóm/khóa
+  icon: shield-check
+  sort_order: 4
