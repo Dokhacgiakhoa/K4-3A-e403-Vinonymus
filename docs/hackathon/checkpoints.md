@@ -11,31 +11,8 @@ CP1–CP5 mỗi mốc 5 điểm, nộp muộn = 0. **Đội trưởng (Khoa, 027
 | **CP5** | 13:00 · 18/9 | Slide 6 trang PDF + video demo dự phòng | Khoa, Thành | ⏳ | `../../demo-slides.pdf` |
 | **CP6** | 17:30 · 18/9 | Thuyết trình (không nộp thêm) | Cả nhóm | ⏳ | — |
 
-## Việc cá nhân bắt buộc
+## Phân công chi tiết
 
-- [ ] **Mỗi thành viên tự nộp cùng link repo vào bài lab trên VLearn** (yêu cầu ghi trong form CP1, làm ngay trong CP1).
-  - [ ] Khoa · [ ] Minh · [ ] Đức · [ ] Thành
+Danh sách việc theo từng mốc, người phụ trách, hạn nội bộ và trạng thái: **[`tasks.md`](tasks.md)**.
 
-## Việc treo theo mốc
-
-**Trước CP3**
-- [ ] Build `/api/roadmap` gọi LLM thật (Minh)
-- [ ] Soạn catalog 2–3 bài lab trong `codebase/data/catalog/` (Minh, Đức)
-- [ ] Golden set ≥20 case trong `eval/` (Đức)
-- [ ] Chạy baseline và bản AI, ghi `eval/results.md` (Đức)
-
-**Trước CP4**
-- [x] Phỏng vấn 2 người (P01, P02) → `../research/survey-log.md` (Khoa)
-- [ ] Mở rộng khảo sát thêm người ngoài nhóm, có cả non-tech (Khoa)
-- [ ] Thành, Đức xác nhận lời đáp P01, P02 đúng nguyên văn
-- [ ] Hoàn thiện `spec.md` §2, §3, §5, §6, §7; chốt quality bar (Khoa, Đức)
-
-**Trước CP5**
-- [ ] 5 người ngoài nhóm dùng thử (gồm 2 willing user đã khai) → `../../validation/log.md` (Khoa)
-- [ ] Ít nhất 1 thay đổi ghi vào `spec.md` §9 (Khoa)
-- [ ] Slide 6 trang theo `02-guide.md` §5.1 của đề (Khoa)
-- [ ] Video demo dự phòng (Thành)
-
-**Trước CP6**
-- [ ] Mỗi người 1 file trong `../../reflection/`
-- [ ] Mỗi người tự giải thích được phần có tên mình (luật vibe-coding)
+**Nhắc việc cá nhân bắt buộc:** mỗi thành viên tự nộp cùng link repo vào bài lab trên VLearn (task T1-04).

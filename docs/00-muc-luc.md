@@ -19,6 +19,7 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 | File | Nội dung |
 |---|---|
 | [`hackathon/checkpoints.md`](hackathon/checkpoints.md) | CP1–CP6: hạn, sản phẩm nộp, trạng thái |
+| [`hackathon/tasks.md`](hackathon/tasks.md) | Phân công việc theo từng checkpoint, tag người phụ trách |
 | [`hackathon/cp1-canvas.md`](hackathon/cp1-canvas.md) | Canvas 4 ô đã nộp ở CP1 |
 | [`hackathon/huong-dan-cp1.md`](hackathon/huong-dan-cp1.md) | Ghi chép từ video hướng dẫn CP1 của lớp |
 

@@ -87,6 +87,7 @@ npm run dev                  # http://localhost:3000
 | API | [`docs/03-api.md`](docs/03-api.md) |
 | Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Luồng người dùng (CP2) | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
+| Ai làm gì, hạn nào | [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
 | Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
@@ -103,7 +104,7 @@ npm run dev                  # http://localhost:3000
 | CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ |
 | CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ |
 
-Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md)
+Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md) · Phân công: [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md)
 
 ## 🔒 Bảo mật dữ liệu
 
