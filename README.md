@@ -4,7 +4,7 @@
 
 ## 👥 Thành viên nhóm & Phân công vai trò
 
-**Nhóm:** Vinonymus · **Lớp:** 3A · **Phòng:** E403 · **Cụm:** ____ · **Track:** ____
+**Nhóm:** Vinonymus · **Lớp:** 3A · **Phòng:** E403 · **Cụm:** C2 · **Track:** E — Làn mở (trong phạm vi AI20k)
 
 | Họ và Tên | Mã Học Viên | Vai trò chính | Phần việc đảm nhiệm trong dự án |
 |---|---|---|---|
