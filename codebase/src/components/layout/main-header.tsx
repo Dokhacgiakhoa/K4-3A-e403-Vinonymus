@@ -20,6 +20,7 @@ export function MainHeader() {
     { href: '/', label: 'HOME' },
     { href: '/about', label: 'ABOUT' },
     { href: '/learning', label: 'LEARNING' },
+    { href: '/planner', label: 'PLANNER' },
     { href: '/test', label: 'TEST' },
     { href: '/instruction', label: 'INSTRUCTION' },
     { href: '/contact', label: 'CONTACT' },

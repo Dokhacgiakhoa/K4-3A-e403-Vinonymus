@@ -39,6 +39,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
   const mainNav = [
     { href: '/', label: 'Trang Chủ', icon: Home },
     { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
+    { href: '/planner', label: 'Study Planner', icon: Compass },
     { href: '/learning?mode=ai_roadmap', label: 'Lộ Trình AI Mentor', icon: Bot, isPro: true },
     { href: '/test', label: 'Khảo Thí SFIA', icon: ClipboardCheck },
     { href: '/architecture', label: 'Kiến Trúc Kỹ Thuật', icon: Cpu },
