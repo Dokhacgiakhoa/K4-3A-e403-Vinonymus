@@ -11,7 +11,7 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 | [`02-kien-truc.md`](02-kien-truc.md) | Kiến trúc, tech stack, luồng dữ liệu, ranh giới thật/mock | Minh |
 | [`03-api.md`](03-api.md) | Hợp đồng API `/api/roadmap` (mới) và `/api/chat` (có sẵn) | Minh |
 | [`04-ai-pipeline.md`](04-ai-pipeline.md) | Prompt, guardrail, LLM router, catalog tài liệu | Đức |
-| [`05-ui-flow.md`](05-ui-flow.md) | Luồng người dùng của Planner (CP2) | Thành |
+| [`05-ui-flow.md`](05-ui-flow.md) | Luồng người dùng của tính năng Lộ trình cá nhân hoá (CP2) | Thành |
 | [`06-backend-dotnet.md`](06-backend-dotnet.md) | Backend .NET — giữ lại, **chưa tích hợp** | Minh |
 | [`07-ai-access-plan.md`](07-ai-access-plan.md) | Kế hoạch bỏ Free/Pro, thêm menu "Cấu hình AI" (làm sau CP3) | Khoa |
 

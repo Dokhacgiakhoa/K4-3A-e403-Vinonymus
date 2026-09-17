@@ -37,7 +37,7 @@ import type {
 
 const STORAGE_KEY = 'vinonymus_planner_v2';
 const NOTE_MAX = 500;
-const STEPS = ['Nền tảng', 'Thời gian & bài lab', 'Ghi chú', 'Kế hoạch'] as const;
+const STEPS = ['Nền tảng', 'Thời gian & bài lab', 'Ghi chú', 'Lộ trình'] as const;
 const MINUTE_PRESETS = [30, 45, 60, 90, 120];
 
 interface ChecklistTask extends PlannedTask {
@@ -133,7 +133,7 @@ export function StudyPlanner() {
           note: input.note,
         }),
       });
-      if (!response.ok) throw new Error('API Planner không phản hồi hợp lệ');
+      if (!response.ok) throw new Error('API lộ trình cá nhân hoá không phản hồi hợp lệ');
 
       const res = (await response.json()) as PlannerResult;
       setResult(res);
@@ -199,11 +199,14 @@ export function StudyPlanner() {
       <div className="space-y-2">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
           <AlertTriangle className="w-3.5 h-3.5" />
-          CP3 · AI thật với fallback an toàn
+          Dùng AI thật · tự chuyển sang gợi ý mặc định nếu AI lỗi
         </div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">AI Diagnostic Study Planner</h1>
+        <h1 className="text-2xl sm:text-3xl font-bold text-white">Lộ trình cá nhân hoá</h1>
+        <p className="text-xs font-semibold uppercase tracking-wider text-sky-300">
+          Personalized Learning Path · AI Mentor đề xuất cho bạn
+        </p>
         <p className="text-sm text-slate-300 leading-relaxed">
-          Cho biết nền tảng và thời gian rảnh hôm nay — nhận đúng <strong>3 việc trọng tâm</strong> kèm link tài liệu
+          Cho biết nền tảng và thời gian rảnh hôm nay — nhận tối đa <strong>3 việc trọng tâm</strong> kèm link tài liệu
           cho bài lab tiếp theo. Bạn luôn sửa được danh sách trước khi bắt đầu.
         </p>
       </div>
@@ -544,7 +547,7 @@ export function StudyPlanner() {
               className="inline-flex items-center gap-1.5 px-5 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-sky-400 to-indigo-500 text-slate-950 disabled:opacity-50 cursor-pointer"
             >
               {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-              {loading ? 'Đang lập kế hoạch…' : 'Lập kế hoạch'}
+              {loading ? 'Đang tạo lộ trình…' : 'Tạo lộ trình'}
             </button>
           )}
 
@@ -554,7 +557,7 @@ export function StudyPlanner() {
               onClick={restart}
               className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-sm font-semibold text-slate-200 bg-slate-900 border border-slate-700 hover:bg-slate-800 cursor-pointer"
             >
-              <RotateCcw className="w-4 h-4" /> Lập kế hoạch mới
+              <RotateCcw className="w-4 h-4" /> Tạo lộ trình mới
             </button>
           )}
         </div>

@@ -1,4 +1,4 @@
-# 01 — Đặc tả yêu cầu phần mềm (SRS) · AI Diagnostic Study Planner
+# 01 — Đặc tả yêu cầu phần mềm (SRS) · Lộ trình cá nhân hoá (AI Mentor · Adaptive Learning System)
 
 > **Phạm vi:** chỉ lát cắt dự thi (xem [`spec.md`](../spec.md) §4). Các tính năng khác của codebase (Chat K.AI, tài khoản, gói Pro, backend .NET) nằm ngoài tài liệu này.
 > **Trạng thái:** bản nháp v0.1 · 16/9 · chốt cùng `spec.md` tại CP4 (21:00 · 17/9).

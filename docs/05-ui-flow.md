@@ -1,4 +1,4 @@
-# 05 — Luồng người dùng · Planner
+# 05 — Luồng người dùng · Lộ trình cá nhân hoá
 
 > Dùng cho **CP2** (hạn 21:00 · 16/9). Người phụ trách: Thành.
 
@@ -6,10 +6,10 @@
 
 ```mermaid
 flowchart TD
-    A([Mở trang Planner]) --> B[Bước 1: chọn nền tảng<br/>non-tech / tech-base / đã học AI]
+    A([Mở trang Lộ trình cá nhân hoá]) --> B[Bước 1: chọn nền tảng<br/>non-tech / tech-base / đã học AI]
     B --> C[Bước 2: nhập thời gian rảnh hôm nay<br/>+ chọn bài lab tiếp theo]
     C --> D[Bước 3: ghi chú tuỳ chọn]
-    D --> F[Bấm Lập kế hoạch<br/>POST /api/roadmap]
+    D --> F[Bấm Tạo lộ trình<br/>POST /api/roadmap]
     F --> R{Luật cứng}
     R -- dưới 30 phút / lab lạ --> H
     R -- làm hộ / đáp án / gia hạn / điểm --> I
@@ -43,11 +43,11 @@ Trang không kiểm tra key trước khi gọi API: key (nếu có) được g�
 
 ## 3. Hiện thực (CP2 · 16/9)
 
-Trang riêng **`/planner`** — không cần đăng nhập, không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
+Trang riêng **`/personalized-path`** — không cần đăng nhập, không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
 
 | File | Vai trò |
 |---|---|
-| `codebase/src/app/planner/page.tsx` | Route |
+| `codebase/src/app/personalized-path/page.tsx` | Route |
 | `codebase/src/components/planner/study-planner.tsx` | UI 4 bước + checklist (tick, bỏ, đổi thứ tự, khôi phục), lưu `localStorage` |
 | `codebase/src/lib/planner/baseline-planner.ts` | Luật tĩnh: clarify (<30 phút, lab lạ), refuse (làm hộ, đáp án, gia hạn, điểm, ghi đè chỉ dẫn), chọn ≤3 việc theo nền tảng + ghi chú |
 | `codebase/src/data/planner-catalog.ts` | Catalog 3 bài lab, chỉ link công khai |

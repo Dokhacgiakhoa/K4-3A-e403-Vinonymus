@@ -62,8 +62,8 @@ export async function POST(req: NextRequest) {
     if (!lab) return NextResponse.json(preflight);
 
     const userPrompt = buildPlannerUserPrompt(input, lab);
-    console.info(`[Planner:${requestId}] input`, input);
-    console.info(`[Planner:${requestId}] prompt`, {
+    console.info(`[AIMentor:${requestId}] input`, input);
+    console.info(`[AIMentor:${requestId}] prompt`, {
       system: PLANNER_SYSTEM_PROMPT,
       user: userPrompt,
     });
@@ -74,24 +74,24 @@ export async function POST(req: NextRequest) {
         readApiKeys(req),
       );
       const raw = await collectStream(routed.stream);
-      console.info(`[Planner:${requestId}] raw`, {
+      console.info(`[AIMentor:${requestId}] raw`, {
         provider: routed.provider,
         model: routed.model,
         response: raw,
       });
 
       const result = materializePlannerResult(parsePlannerLLMOutput(raw), input, lab);
-      console.info(`[Planner:${requestId}] result`, result);
+      console.info(`[AIMentor:${requestId}] result`, result);
       return NextResponse.json(result, { headers: { 'x-planner-request-id': requestId } });
     } catch (error) {
       console.warn(
-        `[Planner:${requestId}] fallback`,
+        `[AIMentor:${requestId}] fallback`,
         error instanceof Error ? error.message : String(error),
       );
       return NextResponse.json(preflight, { headers: { 'x-planner-request-id': requestId } });
     }
   } catch (error) {
-    console.error(`[Planner:${requestId}] unexpected`, error instanceof Error ? error.message : String(error));
+    console.error(`[AIMentor:${requestId}] unexpected`, error instanceof Error ? error.message : String(error));
     return NextResponse.json({ error: 'Không thể xử lý yêu cầu lập kế hoạch.' }, { status: 500 });
   }
 }
