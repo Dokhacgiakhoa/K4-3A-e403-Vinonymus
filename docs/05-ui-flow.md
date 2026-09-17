@@ -21,6 +21,8 @@ flowchart TD
     J --> Z([Học viên bắt đầu học])
 ```
 
+![Sơ đồ luồng người dùng — AI Diagnostic Study Planner](05-ui-flowchart.png)
+
 ## 2. Màn hình
 
 | Bước | Hiển thị | Hành động |

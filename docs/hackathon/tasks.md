@@ -36,7 +36,7 @@ Mục tiêu: người xem thấy được cả luồng từ đầu đến cuối
 |---|---|---|---|---|---|---|
 | T2-01 [#2](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/2) | Cho trang Planner mở được **không cần đăng nhập / gói Pro** (để demo) | `@Minh` | `@Thanh` | Trang riêng `codebase/src/app/planner/` | 20:15 | ✅ |
 | T2-02 [#3](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/3) | Đổi nội dung wizard theo [`05-ui-flow.md`](../05-ui-flow.md): nền tảng → thời gian + bài lab → ghi chú → checklist ≤3 việc; gắn cứng 1 kết quả mẫu | `@Thanh` | `@Minh` | `codebase/src/components/planner/study-planner.tsx` (kết quả từ luật tĩnh) | 20:30 | ✅ |
-| T2-03 [#4](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/4) | Quay màn hình đi hết một lượt (phương án dự phòng: xuất sơ đồ mermaid trong `05-ui-flow.md` ra ảnh) | `@Thanh` | — | Video / ảnh sơ đồ | 20:45 | ⬜ |
+| T2-03 [#4](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/4) | Quay màn hình đi hết một lượt (phương án dự phòng: xuất sơ đồ mermaid trong `05-ui-flow.md` ra ảnh) | `@Thanh` | — | Video / ảnh sơ đồ (`docs/05-ui-flowchart.png`) | 20:45 | ✅ |
 | T2-04 [#5](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/5) | Nộp form CP2 | `@Khoa` | — | Form CP2 (mock demo qua link Vercel) | 20:55 | ✅ |
 | T2-05 [#6](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/6) | Xác nhận lời đáp P01 / P02 trong `survey-log.md` đúng nguyên văn | `@Thanh` (P01) | `@Duc` (P02) | `survey-log.md` | 21:00 | ⬜ |
 | T2-06 [#7](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/7) | Chuẩn bị cho CP3: nháp prompt v0 + danh sách tên 20 case golden set | `@Duc` | — | [`04-ai-pipeline.md`](../04-ai-pipeline.md), `eval/` | 23:00 | ⬜ |
