@@ -105,54 +105,6 @@ export interface Database {
           }
         ]
       }
-      lecture_documents: {
-        Row: {
-          id: string
-          source_path: string
-          title: string
-          file_name: string
-          file_type: 'pdf' | 'text' | 'markdown'
-          mime_type: string
-          file_size_bytes: number
-          storage_path: string | null
-          extracted_content: string | null
-          content_hash: string
-          status: DocStatus
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          source_path: string
-          title: string
-          file_name: string
-          file_type: 'pdf' | 'text' | 'markdown'
-          mime_type: string
-          file_size_bytes?: number
-          storage_path?: string | null
-          extracted_content?: string | null
-          content_hash: string
-          status?: DocStatus
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          source_path?: string
-          title?: string
-          file_name?: string
-          file_type?: 'pdf' | 'text' | 'markdown'
-          mime_type?: string
-          file_size_bytes?: number
-          storage_path?: string | null
-          extracted_content?: string | null
-          content_hash?: string
-          status?: DocStatus
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
       document_tags: {
         Row: {
           document_id: string
