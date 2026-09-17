@@ -144,47 +144,56 @@ function sendConfirmationEmail(data, ticketCode) {
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body style="margin: 0; padding: 24px 10px; background-color: #070d19; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased;">
-      
+
       <div style="max-width: 600px; margin: 0 auto; background-color: #0f172a; border-radius: 16px; overflow: hidden; border: 1px solid #1e293b; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.55);">
-        
+
         <!-- HEADER BANNER -->
         <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #1d4ed8 100%); padding: 32px 24px; text-align: center;">
           <div style="display: inline-block; padding: 4px 14px; background: rgba(255, 255, 255, 0.16); border-radius: 999px; font-size: 11px; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
-            MINI HACKATHON AI &bull; BATCH 04 &bull; TRACK E
+            Mini Hackathon AI &bull; Batch 04 &bull; Track E
           </div>
-          <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; line-height: 1.3;">
+          <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.2px; line-height: 1.3;">
             Adaptive Learning System
           </h1>
           <p style="color: #e0f2fe; margin: 8px 0 0 0; font-size: 13px; font-weight: 500;">
-            AI Mentor (Chẩn đoán & Lộ trình) &bull; AI Helpdesk 24/7 (Hỗ trợ tức thì)
+            AI Mentor (Chẩn đoán &amp; Lộ trình) &bull; AI Helpdesk 24/7 (Hỗ trợ tức thì)
           </p>
         </div>
 
         <!-- LUCKY DRAW TICKET CARD -->
         <div style="padding: 24px 20px; background-color: #131f37; border-bottom: 1px solid #1e293b; text-align: center;">
           <div style="background: #090e1a; border: 2px dashed #38bdf8; border-radius: 14px; padding: 22px 18px; max-width: 480px; margin: 0 auto; box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);">
-            
+
             <div style="display: inline-block; padding: 4px 12px; background-color: rgba(56, 189, 248, 0.15); border: 1px solid #38bdf8; border-radius: 6px; font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 1px;">
-              MÃ HỌC VIÊN QUAY THƯỞNG DUY NHẤT
+              Mã học viên quay thưởng duy nhất
             </div>
 
             <div style="font-size: 34px; font-weight: 900; color: #fbbf24; letter-spacing: 4px; font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace; padding: 12px 0 8px 0; text-shadow: 0 0 15px rgba(251, 191, 36, 0.4);">
               ` + escapeHtml(ticketCode) + `
             </div>
 
-            <div style="border-top: 1px solid #1e293b; margin-top: 10px; padding-top: 12px; text-align: left; font-size: 12.5px; color: #cbd5e1; line-height: 1.7;">
-              <div style="margin-bottom: 5px;">
-                <span style="color: #38bdf8; font-weight: 700;">[THỜI GIAN QUAY]</span> 17h20 &bull; Thứ Sáu, ngày 18/09/2026
-              </div>
-              <div style="margin-bottom: 5px;">
-                <span style="color: #fbbf24; font-weight: 700;">[CƠ CẤU 10 GIẢI TRI ÂN]</span> 1 GIẢI NHẤT (100.000 VNĐ) &bull; 2 GIẢI NHÌ (50.000 VNĐ/giải) &bull; 3 GIẢI BA (20.000 VNĐ/giải) &bull; 4 GIẢI TƯ (10.000 VNĐ/giải)
-              </div>
-              <div style="margin-bottom: 5px;">
-                <span style="color: #a78bfa; font-weight: 700;">[TÀI KHOẢN NHẬN]</span> ` + escapeHtml(data.rewardAccount || "Đã lưu trong hệ thống") + `
-              </div>
-              <div style="font-size: 11px; color: #94a3b8; font-style: italic; margin-top: 8px; border-top: 1px dashed #1e293b; padding-top: 6px;">
-                * Quy định: Mỗi học viên sử dụng đúng Mã Học Viên duy nhất để quay thưởng, bảo đảm 100% công bằng và minh bạch.
-              </div>
+            <table style="width: 100%; border-top: 1px solid #1e293b; margin-top: 6px; text-align: left; font-size: 12.5px; color: #cbd5e1; border-collapse: collapse;">
+              <tr>
+                <td style="padding: 10px 0; color: #94a3b8; width: 38%; vertical-align: top;">Thời gian quay số</td>
+                <td style="padding: 10px 0; font-weight: 700; color: #f1f5f9; vertical-align: top;">17h20 &bull; Thứ Sáu, 18/09/2026</td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #94a3b8; vertical-align: top; border-top: 1px solid #1e293b;">Cơ cấu giải thưởng</td>
+                <td style="padding: 10px 0; color: #f1f5f9; vertical-align: top; border-top: 1px solid #1e293b; line-height: 1.7;">
+                  1 Nhất <strong style="color: #fbbf24;">100k</strong> &bull;
+                  2 Nhì <strong style="color: #fbbf24;">50k</strong> &bull;
+                  3 Ba <strong style="color: #fbbf24;">20k</strong> &bull;
+                  4 Tư <strong style="color: #fbbf24;">10k</strong>
+                </td>
+              </tr>
+              <tr>
+                <td style="padding: 10px 0; color: #94a3b8; vertical-align: top; border-top: 1px solid #1e293b;">Tài khoản nhận</td>
+                <td style="padding: 10px 0; color: #f1f5f9; vertical-align: top; border-top: 1px solid #1e293b;">` + escapeHtml(data.rewardAccount || "Đã lưu trong hệ thống") + `</td>
+              </tr>
+            </table>
+
+            <div style="font-size: 11px; color: #94a3b8; font-style: italic; margin-top: 6px; border-top: 1px dashed #1e293b; padding-top: 8px; text-align: left;">
+              * Mỗi học viên dùng đúng 1 mã học viên duy nhất để quay thưởng, đảm bảo minh bạch và công bằng.
             </div>
 
           </div>
@@ -196,34 +205,34 @@ function sendConfirmationEmail(data, ticketCode) {
             Xin chào <strong>` + escapeHtml(recipientName) + `</strong> (Mã HV: <strong style="color: #fbbf24;">` + escapeHtml(ticketCode) + `</strong>),
           </p>
           <p style="font-size: 13.5px; line-height: 1.6; color: #94a3b8; margin-top: 0; margin-bottom: 20px;">
-            Đội thi <strong>Vinonymus (Phòng E403)</strong> xin chân thành cảm ơn những đánh giá thực tế và khách quan của bạn. Đây là nguồn dữ liệu thực chứng quý báu giúp chúng tôi chứng minh bài toán và hoàn thiện giải pháp hệ sinh thái học tập thích ứng (Adaptive Learning).
+            Đội thi <strong style="color: #f1f5f9;">Vinonymus (Phòng E403)</strong> xin chân thành cảm ơn những đánh giá thực tế và khách quan của bạn. Đây là nguồn dữ liệu thực chứng quý báu giúp nhóm chứng minh bài toán và hoàn thiện giải pháp hệ sinh thái học tập thích ứng (Adaptive Learning).
           </p>
 
           <!-- RESPONSE SUMMARY CARD -->
-          <div style="background-color: #1e293b; border-radius: 12px; padding: 18px 20px; border-left: 4px solid #0284c7; margin: 20px 0;">
-            <div style="font-size: 13px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">
-              [TÓM TẮT THÔNG TIN ĐÓNG GÓP]
+          <div style="background-color: #1e293b; border-radius: 12px; padding: 18px 20px; border-left: 3px solid #38bdf8; margin: 20px 0;">
+            <div style="font-size: 12px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px;">
+              Tóm tắt thông tin đóng góp
             </div>
-            
+
             <table style="width: 100%; font-size: 13px; color: #cbd5e1; border-collapse: collapse;">
               <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8; width: 44%;">Mã học viên:</td>
+                <td style="padding: 9px 0; color: #94a3b8; width: 44%;">Mã học viên</td>
                 <td style="padding: 9px 0; font-weight: 700; color: #fbbf24;">` + escapeHtml(ticketCode) + `</td>
               </tr>
               <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8;">Nền tảng của bạn:</td>
+                <td style="padding: 9px 0; color: #94a3b8;">Nền tảng của bạn</td>
                 <td style="padding: 9px 0; font-weight: 600; color: #f1f5f9;">` + escapeHtml(data.background || "Chưa chọn") + `</td>
               </tr>
               <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8;">Nhận diện lỗ hổng:</td>
+                <td style="padding: 9px 0; color: #94a3b8;">Nhận diện lỗ hổng</td>
                 <td style="padding: 9px 0; color: #f1f5f9;">` + escapeHtml(data.selfAwarenessOfGaps || "Chưa chọn") + `</td>
               </tr>
               <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8;">Tính khả thi giải pháp:</td>
-                <td style="padding: 9px 0; font-weight: 600; color: #34d399;">` + escapeHtml(data.solutionFeasibility || "Chưa chọn") + `</td>
+                <td style="padding: 9px 0; color: #94a3b8;">Tính khả thi giải pháp</td>
+                <td style="padding: 9px 0; font-weight: 600; color: #f1f5f9;">` + escapeHtml(data.solutionFeasibility || "Chưa chọn") + `</td>
               </tr>
               <tr>
-                <td style="padding: 9px 0; color: #94a3b8;">Đánh giá ý tưởng:</td>
+                <td style="padding: 9px 0; color: #94a3b8;">Đánh giá ý tưởng</td>
                 <td style="padding: 9px 0; font-weight: 700; color: #fbbf24;">` + starRatingHtml + `</td>
               </tr>
             </table>
@@ -231,7 +240,7 @@ function sendConfirmationEmail(data, ticketCode) {
 
           <div style="background-color: #131f37; border: 1px solid #1e293b; border-radius: 10px; padding: 14px 16px; margin-top: 20px;">
             <p style="font-size: 12.5px; line-height: 1.6; color: #cbd5e1; margin: 0;">
-              Kết quả quay thưởng sẽ được công bố vào lúc <strong>17h20 ngày 18/09</strong> đối chiếu theo Mã Học Viên của bạn. Tiền thưởng sẽ được gửi trực tiếp đến tài khoản MoMo/STK đã đăng ký. Chúc bạn may mắn!
+              Kết quả quay thưởng sẽ được công bố vào lúc <strong style="color: #f1f5f9;">17h20 ngày 18/09</strong>, đối chiếu theo mã học viên của bạn. Tiền thưởng được chuyển trực tiếp đến tài khoản MoMo/STK đã đăng ký. Chúc bạn may mắn!
             </p>
           </div>
         </div>
@@ -239,7 +248,7 @@ function sendConfirmationEmail(data, ticketCode) {
         <!-- FOOTER -->
         <div style="background-color: #070d19; padding: 22px 20px; text-align: center; border-top: 1px solid #1e293b; font-size: 11.5px; color: #64748b; line-height: 1.6;">
           <p style="margin: 0 0 6px 0;">
-            Hệ Thống <strong>Adaptive Learning (AI Mentor & AI Helpdesk)</strong> &bull; Nhóm Vinonymus (Phòng E403)
+            Hệ thống <strong style="color: #94a3b8;">Adaptive Learning (AI Mentor &amp; AI Helpdesk)</strong> &bull; Nhóm Vinonymus (Phòng E403)
           </p>
           <p style="margin: 0;">
             Email tự động được gửi từ hệ thống khảo sát thực nghiệm Mini Hackathon AI. Vui lòng lưu email này để đối chiếu kết quả.
