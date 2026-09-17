@@ -201,7 +201,7 @@ Xem thêm:
 | Khoá Lộ trình cá nhân hoá cho người chưa đăng nhập | ✅ Đã có code, tắt cho tới khi có backend | Chỉ bật khi đã cấu hình địa chỉ backend, để web thật không bị khoá |
 | Gói Pro, chứng chỉ, cây kỹ năng, `/admin` (trừ trang duyệt tài khoản) | 🎭 Mock | Không thuộc phạm vi thi |
 | **Tích hợp Discord Activity (+5 XP)**, API `/api/integrations/discord/activity` | ✅ Chạy thật (Dual-Mode) | Ghi nhận hoạt động tự học (+5 XP/lượt) theo chuẩn kênh `#activity` của server `AI20K Build Phase - Cohort 4`. Mặc định chạy Mock Sandbox (trả về preview payload chuẩn) phục vụ chấm điểm; tự động chuyển Live khi có `DISCORD_WEBHOOK_URL`. 13 unit tests đạt 100%. Chi tiết: [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
-| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa deploy | Đã sẵn Dockerfile; tài khoản Railway hết hạn dùng thử nên chưa đưa lên được. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
+| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa deploy | Đăng ký/duyệt tài khoản, hạn mức khách, và các endpoint ghi danh/tiến độ/chứng chỉ/thanh toán (lấy người dùng từ token, không nhận `userId` từ request) đã code xong. Có Dockerfile; tài khoản Railway hết hạn dùng thử nên chưa đưa lên được. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
 
 ## 🗂️ Cấu trúc repo
 
@@ -243,7 +243,7 @@ npm run dev                  # http://localhost:3000/personalized-path
 ```
 
 - API key nhập ở trang **Cài đặt** trong app. Key chỉ lưu trên trình duyệt (`localStorage`), không lưu ở server.
-- Không cần chạy backend .NET.
+- Không cần chạy backend .NET — để trống các biến `*_BACKEND_CORE_URL` trong `.env.local` thì Lộ trình cá nhân hoá vẫn mở tự do, không bắt đăng nhập.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
 
 **Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Lộ trình cá nhân hoá (`/personalized-path`) không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. AI Helpdesk cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
