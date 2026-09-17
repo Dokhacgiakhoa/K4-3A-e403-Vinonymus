@@ -387,6 +387,17 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      // Đồng bộ thủ công theo migration 0014_submit_feedback_rpc.sql.
+      submit_feedback: {
+        Args: {
+          p_query_log_id: string
+          p_rating: number
+          p_reason?: string | null
+          p_note?: string | null
+          p_client_session_id?: string | null
+        }
+        Returns: string
+      }
       match_faq: {
         Args: {
           p_question: string

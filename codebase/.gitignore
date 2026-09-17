@@ -23,6 +23,9 @@ yarn-error.log*
 .env*.local
 .env
 
+# Supabase CLI project-local link metadata
+/supabase/.temp/
+
 # câu trả lời khảo sát gốc có họ tên, email, số tài khoản (AGENTS.md bất biến #1)
 /src/data/survey-responses-raw.json
 

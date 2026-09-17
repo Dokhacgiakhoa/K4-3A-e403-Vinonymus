@@ -170,10 +170,12 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 |---|---|---|
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
+| 17/9 | Đồng bộ `docs/02-kien-truc.md` và `docs/03-api.md` với code Planner, router và trạng thái AI Mentor/Helpdesk | API Planner đã nối FE; tài liệu cũ còn ghi chưa build và chưa phân biệt các giao diện mô phỏng |
 | 17/9 13:27 (CP3) | Chạy 20 Golden cases qua Gemini 3.5 Flash-Lite, đạt 18/20 (90%) | Ghi số thật; hai lỗi đều do mô hình thận trọng quá mức, không bịa link |
 | 17/9 14:31 (CP3) | Sửa prompt nguồn-catalog, nhận output dài an toàn và chạy lại, đạt 19/20 (95%) | G09, G10, G14 đã đạt; G02 còn sai do thứ tự item làm vượt quỹ thời gian |
 | 17/9 (sau CP3) | Đổi báo cáo thành `eval/run_results.md` và đồng bộ trạng thái CP3 đã nộp | Khớp đúng tên file đề bài và loại bỏ đường dẫn runner cũ |
 | 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi và quay thưởng tri ân tại `/contact` | Phục vụ mở rộng khảo sát lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 |
+| 17/9 (CP4) | Đồng bộ lại tài liệu kiến trúc/API với FPT router, nguồn key dự phòng và workflow kiểm tra hiện có; đánh dấu T4-06 hoàn tất | Tài liệu còn mô tả trạng thái cũ dù code đã được build |
 | 17/9 trước 21:00 (CP4) | Đối chiếu §5 với G09-G20 và khóa Quality Bar tại 18/20, 0 link ngoài catalog, G16-G18 đạt 3/3 | Cố định tiêu chuẩn trước hạn CP4; công khai G02 là case duy nhất chưa đạt |
 | 17/9 (trước CP4) | Đồng bộ README, `01-SRS`, `03-api`, `04-ai-pipeline`, `05-ui-flow`, `checkpoints`, `tasks` với code: 3 mức nền tảng, luồng không kiểm key trước khi gọi API, router 7 provider (FPT thử đầu), response dùng `itemId`, ghi chú đưa vào prompt dạng JSON string | Tài liệu mô tả bản nháp CP2, lệch với code đã build ở CP3 |
 | 17/9 (trước CP4) | §3 thêm 2 giải pháp ngoài chương trình (Khan Academy Mastery, Motion) và bảng so sánh | Đáp ứng yêu cầu ≥1 sản phẩm ngoài chương trình; làm rõ khoảng trống của lát cắt |
