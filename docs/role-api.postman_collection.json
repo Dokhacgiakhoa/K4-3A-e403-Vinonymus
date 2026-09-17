@@ -1,0 +1,2311 @@
+{
+  "info": {
+    "name": "Vinonymus - 4 roles",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "Run requests in the workflow order in role-api-schema.md, not Run All. Set email/password for each test account, login to fill the appropriate role token. Never export populated secrets."
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "email",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "studentToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "lectureToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "adminToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "roadmapId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "itemId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "documentId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "documentRevision",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "quizId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "quizRevision",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "attemptId",
+      "value": "",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "POST /auth/register - Đăng ký Student; xác nhận email theo cấu hình Supabase",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/register",
+        "description": "Auth; Đăng ký Student; xác nhận email theo cấu hình Supabase",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\",\n  \"displayName\": \"Learner\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /auth/login - Đăng nhập và lấy token cùng profile",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/login",
+        "description": "Auth; Đăng nhập và lấy token cùng profile",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"email\": \"{{email}}\",\n  \"password\": \"{{password}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /auth/refresh - Đổi refresh token lấy phiên mới",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/refresh",
+        "description": "Auth; Đổi refresh token lấy phiên mới",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "noauth"
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"refreshToken\": \"{{refreshToken}}\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /auth/logout - Thu hồi refresh token của phiên hiện tại và chặn access token",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/auth/logout",
+        "description": "Auth; Thu hồi refresh token của phiên hiện tại và chặn access token",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /me - Lấy profile và quyền hiện tại",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/me",
+        "description": "Profile; Lấy profile và quyền hiện tại",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PATCH /me - Sửa thông tin cá nhân và mục tiêu học",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/me",
+        "description": "Profile; Sửa thông tin cá nhân và mục tiêu học",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"displayName\": \"Learner\",\n  \"background\": \"tech_base\",\n  \"goal\": \"Learn AI\",\n  \"weeklyMinutes\": 120\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /catalog/labs - Danh sách lab, nội dung học và link đã kiểm chứng",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/catalog/labs",
+        "description": "Guest; Danh sách lab, nội dung học và link đã kiểm chứng",
+        "header": [],
+        "auth": {
+          "type": "noauth"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /learning/nodes - Danh sách node từ catalog dùng tạo roadmap",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/learning/nodes",
+        "description": "Learning; Danh sách node từ catalog dùng tạo roadmap",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /mentor/analyze - Phân tích nền tảng, mục tiêu và văn bản CV; trả nhãn AI hoặc baseline",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/mentor/analyze",
+        "description": "Mentor; Phân tích nền tảng, mục tiêu và văn bản CV; trả nhãn AI hoặc baseline",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"background\": \"tech_base\",\n  \"goal\": \"Learn prompts\",\n  \"available_minutes\": 60,\n  \"note\": \"\",\n  \"cv_text\": \"I write JavaScript.\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /mentor/roadmap - Tạo và lưu roadmap tối đa 3 task; trả clarify/refuse nếu chưa thể tạo",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/mentor/roadmap",
+        "description": "Mentor; Tạo và lưu roadmap tối đa 3 task; trả clarify/refuse nếu chưa thể tạo",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"background\": \"tech_base\",\n  \"available_minutes\": 60,\n  \"lab_id\": \"lab-prompt-tool-calling\",\n  \"note\": \"\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /mentor/roadmaps - Lịch sử roadmap của chính Student",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/mentor/roadmaps?limit=20&offset=0",
+        "description": "Mentor; Lịch sử roadmap của chính Student",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /mentor/roadmaps/{id} - Đọc roadmap đã lưu",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/mentor/roadmaps/{{roadmapId}}",
+        "description": "Mentor; Đọc roadmap đã lưu",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE /mentor/roadmaps/{id} - Xóa roadmap cá nhân",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/mentor/roadmaps/{{roadmapId}}",
+        "description": "Mentor; Xóa roadmap cá nhân",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PATCH /mentor/roadmaps/{id}/tasks/{itemId} - Cập nhật task thuộc roadmap của mình",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/mentor/roadmaps/{{roadmapId}}/tasks/{{itemId}}",
+        "description": "Progress; Cập nhật task thuộc roadmap của mình",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"status\": \"completed\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /learning/progress - Tiến độ theo từng roadmap cá nhân",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/learning/progress?limit=20&offset=0",
+        "description": "Progress; Tiến độ theo từng roadmap cá nhân",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /learning/progress - Cập nhật node có thật trong roadmap (alias của PATCH task)",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/learning/progress",
+        "description": "Progress; Cập nhật node có thật trong roadmap (alias của PATCH task)",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"roadmapId\": \"{{roadmapId}}\",\n  \"nodeId\": \"{{itemId}}\",\n  \"status\": \"completed\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /learning/documents - Danh sách tài liệu đã xuất bản",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/learning/documents?limit=20&offset=0",
+        "description": "Learning; Danh sách tài liệu đã xuất bản",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /learning/documents/{id} - Đọc thông tin học liệu đã xuất bản; không lộ đường dẫn nội bộ",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/learning/documents/{{documentId}}",
+        "description": "Learning; Đọc thông tin học liệu đã xuất bản; không lộ đường dẫn nội bộ",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /lecture/documents - Lecture xem tài liệu của mình; Admin xem toàn bộ",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/lecture/documents?limit=20&offset=0",
+        "description": "Lecture documents; Lecture xem tài liệu của mình; Admin xem toàn bộ",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/documents - Tạo bản nháp metadata học liệu PDF/TXT/MD; chưa upload file",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/documents",
+        "description": "Lecture documents; Tạo bản nháp metadata học liệu PDF/TXT/MD; chưa upload file",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Prompt handbook\",\n  \"summary\": \"References for learning prompts\",\n  \"labId\": \"lab-prompt-tool-calling\",\n  \"itemIds\": [\n    \"ptc-prompt-basics\"\n  ],\n  \"sourcePath\": \"lecture/handbook.md\",\n  \"fileName\": \"handbook.md\",\n  \"fileType\": \"markdown\",\n  \"mimeType\": \"text/markdown\",\n  \"fileSizeBytes\": 100,\n  \"contentHash\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /lecture/documents/{id} - Đọc chi tiết tài liệu trong phạm vi sở hữu",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}",
+        "description": "Lecture documents; Đọc chi tiết tài liệu trong phạm vi sở hữu",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT /lecture/documents/{id} - Sửa metadata và tạo phiên bản mới; phải archive bản published trước",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}",
+        "description": "Lecture documents; Sửa metadata và tạo phiên bản mới; phải archive bản published trước",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Prompt handbook\",\n  \"summary\": \"References for learning prompts\",\n  \"labId\": \"lab-prompt-tool-calling\",\n  \"itemIds\": [\n    \"ptc-prompt-basics\"\n  ],\n  \"sourcePath\": \"lecture/handbook.md\",\n  \"fileName\": \"handbook.md\",\n  \"fileType\": \"markdown\",\n  \"mimeType\": \"text/markdown\",\n  \"fileSizeBytes\": 100,\n  \"contentHash\": \"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE /lecture/documents/{id} - Xóa mềm tài liệu; giữ lịch sử và audit",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}",
+        "description": "Lecture documents; Xóa mềm tài liệu; giữ lịch sử và audit",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/documents/{id}/submit - Đưa bản nháp vào hàng chờ review",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}/submit",
+        "description": "Document review; Đưa bản nháp vào hàng chờ review",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/documents/{id}/review - Lecture khác hoặc Admin ghi quyết định duyệt cho đúng revision",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}/review",
+        "description": "Document review; Lecture khác hoặc Admin ghi quyết định duyệt cho đúng revision",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}},\n  \"decision\": \"approved\",\n  \"note\": \"Reviewed references and metadata\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/documents/{id}/publish - Lecture khác hoặc Admin xuất bản đúng revision đã được duyệt",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}/publish",
+        "description": "Document review; Lecture khác hoặc Admin xuất bản đúng revision đã được duyệt",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/documents/{id}/archive - Thu hồi tài liệu khỏi danh sách Student",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}/archive",
+        "description": "Document review; Thu hồi tài liệu khỏi danh sách Student",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /lecture/documents/{id}/versions - Lịch sử metadata theo revision",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}/versions",
+        "description": "Document review; Lịch sử metadata theo revision",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /lecture/documents/{id}/reviews - Lịch sử quyết định duyệt",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/lecture/documents/{{documentId}}/reviews",
+        "description": "Document review; Lịch sử quyết định duyệt",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /quizzes - Danh sách quiz đã xuất bản",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/quizzes?limit=20&offset=0",
+        "description": "Student quiz; Danh sách quiz đã xuất bản",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /quizzes/{id} - Đề quiz không chứa đáp án hoặc giải thích",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/quizzes/{{quizId}}",
+        "description": "Student quiz; Đề quiz không chứa đáp án hoặc giải thích",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /quizzes/{id}/submissions - Chấm trên server và lưu kết quả; requestId chống nộp trùng",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/quizzes/{{quizId}}/submissions",
+        "description": "Student quiz; Chấm trên server và lưu kết quả; requestId chống nộp trùng",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{quizRevision}},\n  \"requestId\": \"{{$guid}}\",\n  \"answers\": [\n    {\n      \"questionId\": \"q1\",\n      \"option\": \"A\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) pm.collectionVariables.set(\"attemptId\", d.id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /quizzes/submissions - Lịch sử làm bài của chính Student",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/quizzes/submissions?limit=20&offset=0",
+        "description": "Student quiz; Lịch sử làm bài của chính Student",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /quizzes/submissions/{id} - Đọc điểm và lời giải của lần nộp bài",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/quizzes/submissions/{{attemptId}}",
+        "description": "Student quiz; Đọc điểm và lời giải của lần nộp bài",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{studentToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /lecture/quizzes - Danh sách quiz do mình soạn; Admin xem toàn bộ",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes?limit=20&offset=0",
+        "description": "Lecture quiz; Danh sách quiz do mình soạn; Admin xem toàn bộ",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/quizzes - Soạn quiz với đáp án và giải thích",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes",
+        "description": "Lecture quiz; Soạn quiz với đáp án và giải thích",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Prompt basics\",\n  \"labId\": \"lab-prompt-tool-calling\",\n  \"passPercent\": 70,\n  \"questions\": [\n    {\n      \"id\": \"q1\",\n      \"text\": \"Which answer is correct?\",\n      \"options\": {\n        \"A\": \"First\",\n        \"B\": \"Second\",\n        \"C\": \"Third\",\n        \"D\": \"Fourth\"\n      },\n      \"correctOption\": \"A\",\n      \"explanation\": \"First is correct in this sample.\"\n    }\n  ]\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(201));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"quizId\", d.id); pm.collectionVariables.set(\"quizRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /lecture/quizzes/{id} - Đọc đề và đáp án trong phạm vi sở hữu",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes/{{quizId}}",
+        "description": "Lecture quiz; Đọc đề và đáp án trong phạm vi sở hữu",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"quizId\", d.id); pm.collectionVariables.set(\"quizRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PUT /lecture/quizzes/{id} - Sửa quiz và tăng revision",
+      "request": {
+        "method": "PUT",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes/{{quizId}}",
+        "description": "Lecture quiz; Sửa quiz và tăng revision",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Prompt basics\",\n  \"labId\": \"lab-prompt-tool-calling\",\n  \"passPercent\": 70,\n  \"questions\": [\n    {\n      \"id\": \"q1\",\n      \"text\": \"Which answer is correct?\",\n      \"options\": {\n        \"A\": \"First\",\n        \"B\": \"Second\",\n        \"C\": \"Third\",\n        \"D\": \"Fourth\"\n      },\n      \"correctOption\": \"A\",\n      \"explanation\": \"First is correct in this sample.\"\n    }\n  ],\n  \"revision\": {{quizRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"quizId\", d.id); pm.collectionVariables.set(\"quizRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE /lecture/quizzes/{id} - Xóa mềm quiz đã ngừng xuất bản",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes/{{quizId}}",
+        "description": "Lecture quiz; Xóa mềm quiz đã ngừng xuất bản",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{quizRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"quizId\", d.id); pm.collectionVariables.set(\"quizRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/quizzes/{id}/publish - Xuất bản đề quiz",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes/{{quizId}}/publish",
+        "description": "Lecture quiz; Xuất bản đề quiz",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{quizRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"quizId\", d.id); pm.collectionVariables.set(\"quizRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /lecture/quizzes/{id}/archive - Ngừng nhận bài cho quiz",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/lecture/quizzes/{{quizId}}/archive",
+        "description": "Lecture quiz; Ngừng nhận bài cho quiz",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{lectureToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{quizRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"quizId\", d.id); pm.collectionVariables.set(\"quizRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /admin/users - Danh sách profile có phân trang và lọc role",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/users?limit=20&offset=0",
+        "description": "Admin users; Danh sách profile có phân trang và lọc role",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /admin/users/{id} - Chi tiết profile người dùng",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/users/{{userId}}",
+        "description": "Admin users; Chi tiết profile người dùng",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PATCH /admin/users/{id}/role - Đổi role/tier; cấm tự đổi role",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/users/{{userId}}/role",
+        "description": "Admin users; Đổi role/tier; cấm tự đổi role",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"role\": \"lecture\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "PATCH /admin/users/{id}/status - Khóa/mở tài khoản; có hiệu lực trên request tiếp theo",
+      "request": {
+        "method": "PATCH",
+        "url": "{{baseUrl}}/api/v1/admin/users/{{userId}}/status",
+        "description": "Admin users; Khóa/mở tài khoản; có hiệu lực trên request tiếp theo",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"isActive\": false\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /admin/documents - Toàn bộ tài liệu để quản trị",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/documents?limit=20&offset=0",
+        "description": "Admin content; Toàn bộ tài liệu để quản trị",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /admin/documents/{id} - Chi tiết tài liệu của bất kỳ Lecture nào",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}",
+        "description": "Admin content; Chi tiết tài liệu của bất kỳ Lecture nào",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /admin/documents/{id}/review - Duyệt tài liệu đang review",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}/review",
+        "description": "Admin content; Duyệt tài liệu đang review",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}},\n  \"decision\": \"approved\",\n  \"note\": \"Reviewed references and metadata\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /admin/documents/{id}/publish - Xuất bản tài liệu đã được duyệt",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}/publish",
+        "description": "Admin content; Xuất bản tài liệu đã được duyệt",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "POST /admin/documents/{id}/archive - Thu hồi tài liệu khỏi Student",
+      "request": {
+        "method": "POST",
+        "url": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}/archive",
+        "description": "Admin content; Thu hồi tài liệu khỏi Student",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "DELETE /admin/documents/{id} - Xóa mềm tài liệu chưa published",
+      "request": {
+        "method": "DELETE",
+        "url": "{{baseUrl}}/api/v1/admin/documents/{{documentId}}",
+        "description": "Admin content; Xóa mềm tài liệu chưa published",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"revision\": {{documentRevision}}\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "  if (d && d.id) { pm.collectionVariables.set(\"documentId\", d.id); pm.collectionVariables.set(\"documentRevision\", d.revision); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /admin/audit - Nhật ký thao tác role, tài liệu và quiz",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/audit?limit=20&offset=0",
+        "description": "Admin audit; Nhật ký thao tác role, tài liệu và quiz",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "GET /admin/analytics - Số user, tài liệu published, review, roadmap và lượt quiz",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/v1/admin/analytics",
+        "description": "Admin analytics; Số user, tài liệu published, review, roadmap và lượt quiz",
+        "header": [],
+        "auth": {
+          "type": "bearer",
+          "bearer": [
+            {
+              "key": "token",
+              "value": "{{adminToken}}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Expected status\", () => pm.response.to.have.status(200));",
+              "if (pm.response.code < 300) {",
+              "  const d = pm.response.json().data;",
+              "  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + \"Token\", d.accessToken); pm.collectionVariables.set(\"refreshToken\", d.refreshToken); }",
+              "  if (d && d.roadmap) { pm.collectionVariables.set(\"roadmapId\", d.roadmap.id); pm.collectionVariables.set(\"itemId\", d.roadmap.tasks[0].itemId); }",
+              "}"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -103,6 +103,7 @@ Golden set có 20/20 case gắn với 20 mã nguồn thực khác nhau trong dat
 ## §9. Changelog
 | Thời điểm | Đổi gì | Vì sao |
 |---|---|---|
+| 17/9 (mở rộng theo yêu cầu team) | Triển khai 4 role Guest/Student/Lecture/Admin bằng TypeScript: auth, profile, roadmap/progress lưu DB, CRUD/review metadata học liệu, quiz, admin và schema FE; migration 0015-0016 | Hoàn thiện luồng bàn giao FE; Qdrant/upload/RAG tài liệu Lecture là giai đoạn sau. Không thay quality bar §7. Chi tiết và giới hạn tại docs/role-api-schema.md |
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
 | 17/9 | Đồng bộ `docs/02-kien-truc.md` và `docs/03-api.md` với code Planner, router và trạng thái AI Mentor/Helpdesk | API Planner đã nối FE; tài liệu cũ còn ghi chưa build và chưa phân biệt các giao diện mô phỏng |

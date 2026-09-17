@@ -1,5 +1,9 @@
 # 03 — API
 
+> **Mở rộng 4 role (17/9):** [luồng và danh sách endpoint v1](role-api-schema.md),
+> [OpenAPI](role-api.openapi.json), [Postman](role-api.postman_collection.json).
+> API bên dưới giữ contract cũ; không tự lưu roadmap và chưa đọc metadata Lecture mới.
+
 ## 1. `POST /api/roadmap` — tạo kế hoạch tự học
 
 > **Trạng thái:** đã build cho CP3; FE tại `/planner` gọi LLM thật qua router đa nhà cung cấp, có fallback baseline. Người phụ trách: Minh.

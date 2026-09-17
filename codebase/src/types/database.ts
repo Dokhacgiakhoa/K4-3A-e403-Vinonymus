@@ -1,3 +1,5 @@
+import type { PlatformDatabase } from '@/backend/platform/models';
+
 export type Json =
   | string
   | number
@@ -105,54 +107,7 @@ export interface Database {
           }
         ]
       }
-      lecture_documents: {
-        Row: {
-          id: string
-          source_path: string
-          title: string
-          file_name: string
-          file_type: 'pdf' | 'text' | 'markdown'
-          mime_type: string
-          file_size_bytes: number
-          storage_path: string | null
-          extracted_content: string | null
-          content_hash: string
-          status: DocStatus
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          id?: string
-          source_path: string
-          title: string
-          file_name: string
-          file_type: 'pdf' | 'text' | 'markdown'
-          mime_type: string
-          file_size_bytes?: number
-          storage_path?: string | null
-          extracted_content?: string | null
-          content_hash: string
-          status?: DocStatus
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          id?: string
-          source_path?: string
-          title?: string
-          file_name?: string
-          file_type?: 'pdf' | 'text' | 'markdown'
-          mime_type?: string
-          file_size_bytes?: number
-          storage_path?: string | null
-          extracted_content?: string | null
-          content_hash?: string
-          status?: DocStatus
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: []
-      }
+      lecture_documents: PlatformDatabase['public']['Tables']['lecture_documents'];
       document_tags: {
         Row: {
           document_id: string

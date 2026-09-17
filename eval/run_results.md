@@ -84,7 +84,17 @@ Runner tự tạo `latest-baseline-results.json` hoặc `latest-ai-results.json`
 
 ## 8. Dữ liệu điền form CP3
 
+> Các số CP3 bên dưới là kết quả lịch sử, không phải kết quả của đợt mở rộng API.
+
 - **Đã thử bao nhiêu lần:** 20.
 - **Trong đó bao nhiêu lần đạt:** 19 (**95%**).
 - **Chuẩn đạt:** dùng nguyên văn mục 2 phía trên.
 - **Những lần chưa đạt sai ở đâu:** G02 thiếu tài liệu `ptc-function-calling`. Gemini đã chọn đúng item nhưng xếp thứ ba; khi ghép catalog, item này làm tổng vượt 60 phút nên bị lọc. Kết quả vẫn không bịa link và không fallback baseline.
+
+## 9. Regression Khi Mở Rộng API 4 Role (17/9)
+
+- Chạy lại `npm run eval -- baseline`: 17/20 (85%), vẫn lỗi G06 (thiếu aps-pair), G14 và G15 (không clarify input mâu thuẫn). Không đổi golden-set hoặc quality bar.
+- Route Planner dùng chung service với API v1; không thay prompt Planner cũ. Mentor analyze thêm prompt định hướng riêng, chưa được eval bằng live model.
+- Mentor có 6 test fixture: valid evidence/catalog, lab bịa, evidence bịa, URL bịa, JSON lỗi và provider lỗi. Đây là kiểm thử hậu kiểm/fallback với LLM mock, không phải điểm chất lượng AI.
+- Không chạy lại AI golden-set live; không sử dụng điểm CP3 19/20 để khẳng định chất lượng Mentor mới.
+- Xem [báo cáo API](../docs/role-api-test-report.md) cho kết quả integration và HTTP smoke.
