@@ -105,6 +105,54 @@ export interface Database {
           }
         ]
       }
+      lecture_documents: {
+        Row: {
+          id: string
+          source_path: string
+          title: string
+          file_name: string
+          file_type: 'pdf' | 'text' | 'markdown'
+          mime_type: string
+          file_size_bytes: number
+          storage_path: string | null
+          extracted_content: string | null
+          content_hash: string
+          status: DocStatus
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          source_path: string
+          title: string
+          file_name: string
+          file_type: 'pdf' | 'text' | 'markdown'
+          mime_type: string
+          file_size_bytes?: number
+          storage_path?: string | null
+          extracted_content?: string | null
+          content_hash: string
+          status?: DocStatus
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          source_path?: string
+          title?: string
+          file_name?: string
+          file_type?: 'pdf' | 'text' | 'markdown'
+          mime_type?: string
+          file_size_bytes?: number
+          storage_path?: string | null
+          extracted_content?: string | null
+          content_hash?: string
+          status?: DocStatus
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       document_tags: {
         Row: {
           document_id: string
@@ -387,6 +435,17 @@ export interface Database {
       [_ in never]: never
     }
     Functions: {
+      // Đồng bộ thủ công theo migration 0014_submit_feedback_rpc.sql.
+      submit_feedback: {
+        Args: {
+          p_query_log_id: string
+          p_rating: number
+          p_reason?: string | null
+          p_note?: string | null
+          p_client_session_id?: string | null
+        }
+        Returns: string
+      }
       match_faq: {
         Args: {
           p_question: string

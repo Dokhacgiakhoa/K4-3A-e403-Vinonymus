@@ -79,7 +79,6 @@ Loại: [x] Tính năng mới
 |---|---|---|
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
-| 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi + quay thưởng tri ân 10 giải tại `/contact` | Phục vụ mở rộng khảo sát diện rộng lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 cho CP2 |
 
 ---
 
