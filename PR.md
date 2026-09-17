@@ -1,37 +1,36 @@
-# PR: Đổi quy ước mô tả PR từ srs.md sang PR.md, thêm rule cho Claude, Codex, Gemini
+# PR: Đổi cách gọi sang Adaptive Learning System (AI Mentor & AI Helpdesk)
 
-> **Task:** quy trình repo (ngoài bảng task) · **Issue:** — · **Branch:** `chore/pr-md-convention`
+> **Task:** CP4 · chốt `spec.md` · **Issue:** — · **Branch:** `docs/adaptive-learning-naming`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-Mỗi PR trước đây kèm `srs.md` ở gốc repo để mô tả PR. Tên này dễ nhầm với SRS chính thức (`docs/01-SRS.md`). PR này đổi quy ước sang `PR.md` và lưu quy ước thành rule cho cả ba công cụ AI nhóm đang dùng. Nhờ vậy mọi người và mọi agent viết mô tả PR theo cùng một mẫu.
+Thống nhất tên gọi sản phẩm trước khi nộp CP4. Hệ thống là **Adaptive Learning System** gồm 2 AI:
+- **AI Mentor:** xây dựng lộ trình cá nhân hoá, trang `/planner`, là lát cắt dự thi. Trước đây gọi là "AI Diagnostic Study Planner".
+- **AI Helpdesk:** giải đáp trên chat box. Trước đây gọi là "Chat K.AI".
+
+Chỉ đổi tên gọi. Phạm vi lát cắt và chuẩn đạt ở `spec.md` §7 giữ nguyên.
 
 ## 2. Truy vết
 | Thay đổi | Liên quan |
 |---|---|
-| Quy ước `PR.md` | `AGENTS.md` mục Git |
-| Rule cho 3 AI | `AGENTS.md` bối cảnh: "Áp dụng cho cả người và công cụ AI" |
-| Checklist mẫu PR | `.github/pull_request_template.md` |
+| Tiêu đề, dòng phạm vi, câu lát cắt, bảng §3 | `spec.md` §1–§4 |
+| Banner "bản nháp" → "đã chốt tại CP4" | Yêu cầu CP4 |
+| Changelog | `spec.md` §9 |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `srs.md` → `PR.md` | Đổi tên; nội dung thay bằng mô tả PR này. Báo cáo T4-04 cũ vẫn còn trong lịch sử git (PR #53) |
-| `AGENTS.md` | Thêm luật bắt buộc `PR.md` và đường dẫn rule của 3 AI |
-| `.claude/skills/pr-md/SKILL.md` | Skill cho Claude Code |
-| `.agents/skills/pr-md/SKILL.md` | Skill cho Codex (Gemini CLI cũng đọc thư mục này) |
-| `.agents/rules/pr-md.md` | Rule `always_on` cho Gemini trong Antigravity |
-| `.github/pull_request_template.md` | Thêm mục kiểm tra `PR.md`; sửa đường dẫn cũ `eval/results.md` → `eval/run_results.md` |
+| `README.md` | Tiêu đề; bảng giới thiệu 2 AI; đổi "Planner"/"Chat K.AI" thành AI Mentor/AI Helpdesk ở phần luồng, kiến trúc, trạng thái, deploy |
+| `spec.md` | Tiêu đề; dòng phạm vi; banner đã chốt; câu lát cắt; "Planner" → "AI Mentor" ở §3; thêm dòng §9 |
+| `PR.md` | Mô tả PR này |
 
 ## 4. Kiểm thử
-- Chỉ đổi tài liệu và file cấu hình AI, không đổi code.
+- Chỉ đổi tài liệu, không đổi code.
 - `npm run verify` chạy qua hook pre-push khi push branch này.
-- **Chưa kiểm thử:** chưa mở Antigravity, Codex và Claude Code để xác nhận từng công cụ tự nhận rule/skill mới. Đường dẫn chọn theo tài liệu chính thức: Antigravity dùng `.agents/rules`, Codex dùng `.agents/skills`, Claude Code dùng `.claude/skills`.
 
 ## 5. Tài liệu & changelog
-Không ghi `spec.md` §9 vì đây là thay đổi quy trình repo, không phải thay đổi sản phẩm.
+Đã ghi `spec.md` §9. Các tài liệu trong `docs/` (SRS, API, pipeline, UI flow) và tên route, tên file trong code vẫn dùng chữ "Planner"; chưa đổi trong PR này.
 
 ## 6. Rủi ro / việc còn lại
-- Mọi PR sau đều sửa `PR.md`, nên hai PR mở song song sẽ conflict ở file này. Khi merge, giữ bản của PR đang merge (đã ghi trong rule).
-- Sửa quy ước thì phải sửa cả ba file rule cho giống nhau.
-- PR #47 (`BE`) đang mở vẫn chưa có `PR.md`; cần bổ sung trước khi merge.
+- Đổi cách gọi trong `docs/` cho đồng bộ.
+- Dòng changelog cũ trong `spec.md` §9 vẫn giữ tên cũ vì là lịch sử.
