@@ -3,6 +3,13 @@
 > Lập 17/9 sau buổi rà soát repo. Phụ trách chung: `@Khoa` (R7 · Quy trình & repo).
 > Nguyên tắc: **không làm chậm CP3 (16:00 · 17/9)**. Việc nào đụng tới code đang build cho CP3 thì để sau khi nộp CP3.
 
+**Tiến độ (17/9):**
+- Giai đoạn 0: ✅ đã xong, trừ F0-6 (Khoa nhắn nhóm).
+- Giai đoạn 1: ✅ đã xong (PR #43), trừ F1-7 (bật sau khi các PR mở trước #43 đã merge).
+- Giai đoạn 2, 3: ⏳ chưa làm.
+
+> ⚠️ Sau #43, hook pre-push chạy từ gốc repo. Branch nào tách ra **trước** #43 phải merge `main` vào rồi mới push được, nếu không hook cũ sẽ báo lỗi `Could not read package.json`.
+
 ## 1. Hiện trạng — các vấn đề đã xác minh
 
 | # | Vấn đề | Bằng chứng | Hậu quả |
