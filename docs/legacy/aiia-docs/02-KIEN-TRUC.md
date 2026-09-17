@@ -33,9 +33,9 @@ graph TB
         PG[("Postgres 15<br/>+ pgvector + pg_trgm + unaccent<br/>KHÔNG dùng Auth, KHÔNG dùng Storage")]
     end
 
-    subgraph llm["Nhà cung cấp LLM — 7 provider"]
+    subgraph llm["Nhà cung cấp LLM — 6 provider"]
         G["Gemini<br/>(duy nhất làm được embedding)"]
-        X["OpenAI · Claude · DeepSeek<br/>Groq · Cerebras · OpenRouter"]
+        X["OpenAI · Claude · DeepSeek<br/>Groq · Cerebras"]
     end
 
     FILES --> REPO --> ACTION
@@ -137,7 +137,7 @@ src/
 │   │   ├── router.ts                  # Chọn provider TRONG SỐ key người dùng đã cung cấp;
 │   │   │                              #   peek chunk đầu để bắt lỗi thật, retry 1 lần khi 429 tạm thời
 │   │   └── providers/                 # gemini · openai · claude · deepseek · groq · cerebras
-│   │                                  #   · openrouter · openai-compatible (dùng chung cho 4 cái sau)
+│   │                                  #   · openai-compatible (dùng chung cho 3 cái sau)
 │   ├── rag/
 │   │   ├── normalize.ts
 │   │   ├── chunk.ts                   # Dùng chung bởi app VÀ scripts/sync-content.ts

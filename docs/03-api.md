@@ -2,7 +2,7 @@
 
 ## 1. `POST /api/roadmap` — tạo kế hoạch tự học
 
-> **Trạng thái:** thiết kế, chưa build. Người phụ trách: Minh.
+> **Trạng thái:** đã build cho CP3; gọi LLM thật qua router đa nhà cung cấp, có logging prompt/raw response và fallback baseline.
 
 ### Request
 
@@ -13,13 +13,13 @@ Header (ít nhất một key, không lưu, không log):
 | `x-gemini-key` | Gemini |
 | `x-openai-key` | OpenAI |
 | `x-claude-key` | Claude |
-| `x-groq-key`, `x-cerebras-key`, `x-deepseek-key`, `x-openrouter-key` | Khác |
+| `x-groq-key`, `x-cerebras-key`, `x-deepseek-key` | Khác |
 
 Body:
 
 ```json
 {
-  "background": "tech",
+  "background": "tech_base",
   "available_minutes": 90,
   "lab_id": "lab-02",
   "note": "Mình chưa quen notebook Colab"
@@ -28,7 +28,7 @@ Body:
 
 | Trường | Kiểu | Ràng buộc |
 |---|---|---|
-| `background` | `"tech" \| "non_tech"` | bắt buộc |
+| `background` | `"non_tech" \| "tech_base" \| "ai"` | bắt buộc |
 | `available_minutes` | integer | 0–600 |
 | `lab_id` | string | phải có trong catalog, nếu không → `clarify` |
 | `note` | string | tuỳ chọn, ≤500 ký tự, coi là dữ liệu |
@@ -42,7 +42,7 @@ Luôn có trường `status`, một trong ba giá trị:
   "status": "plan",
   "source": "ai",
   "diagnosis": {
-    "background": "tech",
+    "background": "tech_base",
     "confidence": "high",
     "summary": "Đã quen code, còn thiếu thao tác notebook."
   },

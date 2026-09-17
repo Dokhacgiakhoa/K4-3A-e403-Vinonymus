@@ -150,7 +150,7 @@ Giữ nguyên yêu cầu gốc: chip đánh số, bấm mở panel nguồn, ch�
 **AC:**
 1. Đường FAQ khớp chuỗi/trigram **luôn** dùng được, không cần key.
 2. Đường vector-FAQ và RAG **yêu cầu** header `X-LLM-Provider` + `X-LLM-Key`; thiếu ⇒ sự kiện `need_key`, không phải lỗi.
-3. Hỗ trợ: Gemini, OpenAI, Claude, DeepSeek, Groq, Cerebras, OpenRouter — người dùng chọn tối thiểu 1 provider (không cần cả 7). Khuyến nghị ≥ 2 provider (ví dụ Gemini + Groq) để router tự chuyển khi 1 provider hết quota/lỗi.
+3. Hỗ trợ: Gemini, OpenAI, Claude, DeepSeek, Groq, Cerebras — người dùng chọn tối thiểu 1 provider (không cần cả 6). Khuyến nghị ≥ 2 provider (ví dụ Gemini + Groq) để router tự chuyển khi 1 provider hết quota/lỗi.
 4. Key sai/hết hạn ⇒ báo rõ `INVALID_API_KEY` kèm tên provider, không rơi vào lỗi chung chung.
 5. Khi router đã thử hết mọi provider được cấp key mà vẫn không tạo được câu trả lời qua LLM (quota/rate-limit/lỗi thật), đường FAQ **vẫn phải trả lời** bằng nội dung `.md` gốc (không rỗng, không lỗi cứng) — nhưng phải kèm cờ báo cho giao diện biết đây là câu trả lời rút gọn (xem NFR-04.4), không được im lặng.
 

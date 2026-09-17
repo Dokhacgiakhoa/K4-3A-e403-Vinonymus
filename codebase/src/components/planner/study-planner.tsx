@@ -25,8 +25,8 @@ import {
   Users,
 } from 'lucide-react';
 import { PLANNER_CATALOG } from '@/data/planner-catalog';
-import { MIN_MINUTES, planWithRules } from '@/lib/planner/baseline-planner';
 import { clientStorage } from '@/lib/client-storage';
+import { MIN_MINUTES, planWithRules } from '@/lib/planner/baseline-planner';
 import type {
   CatalogItemType,
   PlannedTask,
@@ -35,7 +35,7 @@ import type {
   PlannerResult,
 } from '@/types/planner';
 
-const STORAGE_KEY = 'vinonymus_planner_v1';
+const STORAGE_KEY = 'vinonymus_planner_v2';
 const NOTE_MAX = 500;
 const STEPS = ['Nền tảng', 'Thời gian & bài lab', 'Ghi chú', 'Kế hoạch'] as const;
 const MINUTE_PRESETS = [30, 45, 60, 90, 120];
@@ -82,6 +82,7 @@ export function StudyPlanner() {
   const [labId, setLabId] = useState<string>(PLANNER_CATALOG[0]?.labId ?? '');
   const [note, setNote] = useState('');
   const [loading, setLoading] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
   const [result, setResult] = useState<PlannerResult | null>(null);
   const [checklist, setChecklist] = useState<ChecklistTask[]>([]);
 
@@ -106,34 +107,22 @@ export function StudyPlanner() {
     if (input && result?.status === 'plan') persist({ input, result, checklist: next });
   };
 
-  const applyResult = (res: PlannerResult, input: PlannerInput) => {
-    setResult(res);
-    if (res.status === 'plan') {
-      const list = res.tasks.map((t) => ({ ...t, done: false }));
-      setChecklist(list);
-      persist({ input, result: res, checklist: list });
-    } else {
-      setChecklist([]);
-      persist(null);
-    }
-    setStep(3);
-  };
-
   const generate = async () => {
     if (!input) return;
     setLoading(true);
-    try {
-      const keys = clientStorage.getApiKeys();
-      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
-      if (keys.gemini) headers['x-gemini-key'] = keys.gemini;
-      if (keys.openai) headers['x-openai-key'] = keys.openai;
-      if (keys.claude) headers['x-claude-key'] = keys.claude;
-      if (keys.deepseek) headers['x-deepseek-key'] = keys.deepseek;
-      if (keys.groq) headers['x-groq-key'] = keys.groq;
-      if (keys.cerebras) headers['x-cerebras-key'] = keys.cerebras;
-      if (keys.openrouter) headers['x-openrouter-key'] = keys.openrouter;
+    setNotice(null);
 
-      const res = await fetch('/api/roadmap', {
+    try {
+      const storedKeys = clientStorage.getApiKeys();
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (storedKeys.gemini) headers['x-gemini-key'] = storedKeys.gemini;
+      if (storedKeys.openai) headers['x-openai-key'] = storedKeys.openai;
+      if (storedKeys.claude) headers['x-claude-key'] = storedKeys.claude;
+      if (storedKeys.deepseek) headers['x-deepseek-key'] = storedKeys.deepseek;
+      if (storedKeys.groq) headers['x-groq-key'] = storedKeys.groq;
+      if (storedKeys.cerebras) headers['x-cerebras-key'] = storedKeys.cerebras;
+
+      const response = await fetch('/api/roadmap', {
         method: 'POST',
         headers,
         body: JSON.stringify({
@@ -143,14 +132,36 @@ export function StudyPlanner() {
           note: input.note,
         }),
       });
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = (await res.json()) as PlannerResult;
-      applyResult(data, input);
+      if (!response.ok) throw new Error('API Planner không phản hồi hợp lệ');
+
+      const res = (await response.json()) as PlannerResult;
+      setResult(res);
+      if (res.status === 'plan') {
+        const list = res.tasks.map((t) => ({ ...t, done: false }));
+        setChecklist(list);
+        persist({ input, result: res, checklist: list });
+        if (res.source === 'baseline') {
+          setNotice('Không gọi được mô hình AI hoặc chưa có API key; hệ thống đang dùng gợi ý mặc định an toàn.');
+        }
+      } else {
+        setChecklist([]);
+        persist(null);
+      }
     } catch {
-      // Mạng lỗi hay server không phản hồi — vẫn cho học viên một kế hoạch, dùng luật tĩnh (FR-P09)
-      applyResult(planWithRules(input), input);
+      const fallback = planWithRules(input);
+      setResult(fallback);
+      if (fallback.status === 'plan') {
+        const list = fallback.tasks.map((task) => ({ ...task, done: false }));
+        setChecklist(list);
+        persist({ input, result: fallback, checklist: list });
+      } else {
+        setChecklist([]);
+        persist(null);
+      }
+      setNotice('Mất kết nối tới API; hệ thống đang dùng gợi ý mặc định an toàn.');
     } finally {
       setLoading(false);
+      setStep(3);
     }
   };
 
@@ -185,9 +196,9 @@ export function StudyPlanner() {
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold uppercase tracking-wider">
-          <Sparkles className="w-3.5 h-3.5" />
-          Gọi AI thật qua API key của bạn · không có key thì dùng gợi ý mặc định
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
+          <AlertTriangle className="w-3.5 h-3.5" />
+          CP3 · AI thật với fallback an toàn
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white">AI Diagnostic Study Planner</h1>
         <p className="text-sm text-slate-300 leading-relaxed">
@@ -216,16 +227,23 @@ export function StudyPlanner() {
         ))}
       </ol>
 
+      {notice && (
+        <div role={'status'} className={'rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-3 text-sm text-amber-200'}>
+          {notice}
+        </div>
+      )}
+
       <section className="rounded-3xl bg-slate-950/70 border border-slate-800 backdrop-blur-xl p-5 sm:p-7 shadow-2xl">
         {/* Bước 1 */}
         {step === 0 && (
           <div className="space-y-4">
             <h2 className="text-lg font-bold text-white">Bạn đến từ nền tảng nào?</h2>
-            <div className="grid sm:grid-cols-2 gap-3">
+            <div className="grid sm:grid-cols-3 gap-3">
               {(
                 [
-                  { id: 'tech', title: 'Tech', desc: 'Đã viết code, quen dòng lệnh / notebook.', icon: Laptop },
                   { id: 'non_tech', title: 'Non-tech', desc: 'Kinh doanh, vận hành, thiết kế… ít hoặc chưa code.', icon: Users },
+                  { id: 'tech_base', title: 'Tech-base', desc: 'Đã viết code hoặc quen notebook nhưng còn mới với AI.', icon: Laptop },
+                  { id: 'ai', title: 'Đã học AI', desc: 'Đã biết prompting, API hoặc pipeline AI cơ bản.', icon: Sparkles },
                 ] as const
               ).map((opt) => {
                 const Icon = opt.icon;
@@ -542,7 +560,7 @@ export function StudyPlanner() {
       </section>
 
       <p className="text-[11px] text-slate-500 text-center">
-        Kế hoạch lưu trên trình duyệt của bạn, không gửi lên máy chủ. Nhóm Vinonymus · Mini Hackathon AI · Track E.
+        Kế hoạch được lưu trên trình duyệt; dữ liệu đầu vào chỉ được gửi tạm thời để mô hình tạo kế hoạch. Không nhập thông tin cá nhân. Nhóm Vinonymus · Track E.
       </p>
     </div>
   );

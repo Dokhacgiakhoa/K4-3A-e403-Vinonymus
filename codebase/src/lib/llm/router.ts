@@ -6,7 +6,6 @@ import { claudeAdapter } from './providers/claude';
 import { deepseekAdapter } from './providers/deepseek';
 import { groqAdapter } from './providers/groq';
 import { cerebrasAdapter } from './providers/cerebras';
-import { openrouterAdapter } from './providers/openrouter';
 
 const ADAPTERS: Record<string, LLMProviderAdapter> = {
   gemini: geminiAdapter,
@@ -15,10 +14,9 @@ const ADAPTERS: Record<string, LLMProviderAdapter> = {
   deepseek: deepseekAdapter,
   groq: groqAdapter,
   cerebras: cerebrasAdapter,
-  openrouter: openrouterAdapter,
 };
 
-const DEFAULT_PRIORITY = ['gemini', 'openai', 'claude', 'deepseek', 'groq', 'cerebras', 'openrouter'];
+const DEFAULT_PRIORITY = ['gemini', 'openai', 'claude', 'deepseek', 'groq', 'cerebras'];
 
 export class LLMRouterError extends Error {
   constructor(
@@ -86,18 +84,14 @@ export async function routeLLMRequest(
         provider: providerId,
         model:
           providerId === 'gemini'
-            ? 'gemini-flash-latest'
+            ? 'gemini-3.5-flash-lite'
             : providerId === 'openai'
-            ? 'gpt-5-mini'
+            ? 'gpt-4o-mini'
             : providerId === 'claude'
-            ? 'claude-sonnet-5'
+            ? 'claude-haiku-4-5-20251001'
             : providerId === 'deepseek'
             ? 'deepseek-chat'
-            : providerId === 'groq'
-            ? 'openai/gpt-oss-20b'
-            : providerId === 'cerebras'
-            ? 'gpt-oss-120b'
-            : 'openrouter/free',
+            : 'llama-3.3-70b',
       };
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : String(err);

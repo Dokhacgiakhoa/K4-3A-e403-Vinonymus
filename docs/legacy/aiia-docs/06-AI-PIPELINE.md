@@ -133,16 +133,15 @@ export const MODEL_CATALOG: Record<string, ModelSpec[]> = {
                { model: 'gemini-embedding-001', tasks: ['embedding'], contextWindow: 2048 }],
   groq:       [{ model: 'llama-3.3-70b-versatile', tasks: ['chat'], contextWindow: 131_072 }],
   cerebras:   [{ model: 'llama-3.3-70b', tasks: ['chat'], contextWindow: 8_192 }],
-  openrouter: [{ model: 'meta-llama/llama-3.3-70b-instruct:free', tasks: ['chat'], contextWindow: 65_536 }],
 };
 ```
-> Danh sách provider hỗ trợ đầy đủ (kể cả header/UI) hiện là 7: Gemini, OpenAI, Claude, DeepSeek, Groq, Cerebras, OpenRouter — nhưng chỉ Gemini/Groq/Cerebras/OpenRouter thực sự nằm trong `DEFAULT_PRIORITY` của router (xem `04-API-SPEC.md` mục A về khoảng trống header OpenAI/Claude/DeepSeek).
+> Danh sách provider hỗ trợ đầy đủ (kể cả header/UI) hiện là 6: Gemini, OpenAI, Claude, DeepSeek, Groq, Cerebras.
 
 ### Thuật toán thật (`src/lib/llm/router.ts`)
 
 ```
 HÀM routeLLMRequest(payload, keysNguoiDungCungCap):
-    ứngViên = DEFAULT_PRIORITY [gemini, openai, claude, deepseek, groq, cerebras, openrouter]
+    ứngViên = DEFAULT_PRIORITY [gemini, openai, claude, deepseek, groq, cerebras]
               LỌC provider CÓ key trong keysNguoiDungCungCap
 
     NẾU ứngViên rỗng: NÉM LLMRouterError(NEED_KEY)
