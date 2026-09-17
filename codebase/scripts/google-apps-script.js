@@ -1,6 +1,6 @@
 /**
  * Google Apps Script - Webhook Tiếp nhận Khảo sát Chuyên Sâu 12 Câu Hỏi & Quay Thưởng Tri Ân
- * Dự án: AI Diagnostic Study Planner (Nhóm Vinonymus - Track E)
+ * Dự án: Adaptive Learning System — Lộ trình cá nhân hoá (Nhóm Vinonymus - Track E)
  *
  * QUY TẮC MÃ DỰ THƯỞNG:
  * Mã dự thưởng chính là Mã Học Viên (studentId) duy nhất của mỗi người.

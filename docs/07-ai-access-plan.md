@@ -19,7 +19,7 @@ Hệ quả: **không cần** đăng nhập thật, thanh toán, bảng gói hay 
 | Hạng mục | Thực tế |
 |---|---|
 | Cờ Pro | `StoredUser.tier` / `plan` trong `localStorage`; `clientStorage.upgradeToPro()` chỉ bật cờ |
-| Nơi chặn theo Pro | `app/learning/page.tsx` (AI Mentor), `app/page.tsx`, `app-sidebar.tsx`, `main-header.tsx`, `user-profile-editor.tsx`, `account-profile-view.tsx`, `pro-upgrade-card.tsx`, `admin-cockpit-dashboard-view.tsx`, `gamified-skill-tree-view.tsx`, `auth-modal.tsx` (tài khoản demo Pro) |
+| Nơi chặn theo Pro | `app/learning/page.tsx` (wizard lộ trình 4 sprint), `app/page.tsx`, `app-sidebar.tsx`, `main-header.tsx`, `user-profile-editor.tsx`, `account-profile-view.tsx`, `pro-upgrade-card.tsx`, `admin-cockpit-dashboard-view.tsx`, `gamified-skill-tree-view.tsx`, `auth-modal.tsx` (tài khoản demo Pro) |
 | Form nhập key | `components/settings/api-key-manager.tsx` (trang `/settings`), viết tay từng provider. **Thiếu Cerebras** dù router có hỗ trợ |
 | Danh sách provider | Viết tay ở 6 nơi: `lib/llm/router.ts`, `app/api/chat/route.ts`, `app/api/roadmap/route.ts`, `chat-box.tsx`, `study-planner.tsx`, `api-key-manager.tsx` (và `scripts/run-eval.ts`) |
 | Thứ tự thử provider | Cố định trong `DEFAULT_PRIORITY` của router |
@@ -28,11 +28,11 @@ Hệ quả: **không cần** đăng nhập thật, thanh toán, bảng gói hay 
 
 ```mermaid
 flowchart TD
-    A([Mở tính năng cần AI<br/>Planner · Chat · AI Mentor]) --> B{Đã cấu hình key?}
+    A([Mở tính năng cần AI<br/>Lộ trình cá nhân hoá · AI Helpdesk]) --> B{Đã cấu hình key?}
     B -- có --> OK([Gọi AI bằng key của người dùng])
     B -- chưa --> C[Thẻ 'Cần cấu hình AI']
     C --> C1[Mở Tài khoản → Cấu hình AI]
-    C --> C2[Tạm dùng bản không AI<br/>Planner: gợi ý mặc định]
+    C --> C2[Tạm dùng bản không AI<br/>Lộ trình cá nhân hoá: gợi ý mặc định]
     C1 --> T{Chọn tab}
     T -- Biểu mẫu --> F[Điền từng ô key]
     T -- Khung code --> J[Dán JSON cấu hình]

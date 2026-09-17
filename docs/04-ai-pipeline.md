@@ -1,4 +1,4 @@
-# 04 — AI pipeline · Planner
+# 04 — AI pipeline · AI Mentor (tính năng Lộ trình cá nhân hoá)
 
 > **Trạng thái:** đã build cho CP3. Prompt/schema: `codebase/src/lib/prompts/planner.ts`; route: `codebase/src/app/api/roadmap/route.ts`; hậu kiểm: `codebase/src/lib/planner/ai-planner.ts`.
 

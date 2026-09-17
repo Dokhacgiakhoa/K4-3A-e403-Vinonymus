@@ -7,19 +7,28 @@
 
 | | |
 |---|---|
-| **Demo AI Mentor** | <https://k4-3a-e403-vinonymus.vercel.app/planner> |
-| **Tên miền riêng** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/planner> |
+| **Demo Lộ trình cá nhân hoá** | <https://k4-3a-e403-vinonymus.vercel.app/personalized-path> |
+| **Tên miền riêng** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path> |
 | **Spec (tài liệu chấm)** | [`spec.md`](spec.md) |
 | **Việc của nhóm** | [Milestones theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones) |
 
 **Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
 
-| AI | Làm gì | Trang | Vai trò trong cuộc thi |
+| AI | Làm gì | Tính năng hiển thị | Vai trò trong cuộc thi |
 |---|---|---|---|
-| **AI Mentor** | Xây dựng lộ trình học cá nhân hoá cho buổi lab tiếp theo | `/planner` | **Lát cắt dự thi**, được chấm theo `spec.md` |
+| **AI Mentor** | Đọc thông tin của học viên, đọc tài liệu giảng viên tải lên, phân tích CV để ra bài test năng lực, phân tích điểm test để xây lộ trình học (chi tiết bên dưới) | Tính năng **Lộ trình cá nhân hoá** tại `/personalized-path` | **Phần được chấm** (demo scope) là tính năng này, theo `spec.md` |
 | **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Widget chat nổi | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
 
-Với **AI Mentor**:
+**AI Mentor làm 4 việc** (trạng thái thật tính đến 17/9):
+
+| # | Việc của AI Mentor | Trạng thái |
+|---|---|---|
+| 1 | Đọc thông tin đầu vào của học viên | ⚠️ Một phần: đọc nền tảng tự khai, số phút rảnh, bài lab, ghi chú. Chưa đọc từ hồ sơ đăng nhập |
+| 2 | Đọc tài liệu giảng viên tải lên, phân tích rồi đưa vào thư viện tài liệu | ❌ Chưa làm: thư viện do nhóm tự soạn tay; chưa có giao diện giảng viên |
+| 3 | Phân tích CV của học viên để ra bài test năng lực online | ❌ Chưa có AI: màn hình mẫu chạy quy tắc cố định |
+| 4 | Phân tích điểm test để xây lộ trình học từ thư viện | ⚠️ Một phần: đã chọn tài liệu từ thư viện theo nền tảng tự khai, chưa theo điểm test |
+
+Với tính năng **Lộ trình cá nhân hoá (Personalized Learning Path)**:
 1. Học viên chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**).
 2. Học viên cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**.
 3. AI Mentor chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng.
@@ -66,7 +75,7 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 - Khảo sát form (n = 82 học viên): 87% không tự xác định được phần cần học bù trước buổi lab; 93% gặp tài liệu rải rác; 93% tự khai mất ít nhất 15 phút mỗi buổi chỉ để gom tài liệu.
 - Phỏng vấn (n = 2): cả 2 người đều gặp cùng kiểu khó khăn. Một người mất 20–25 phút mỗi buổi chỉ để gom link; người kia có 45 phút mà slide dài hơn 60 trang.
 
-**Lát cắt dự thi (một câu):** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài lab tiếp theo · được AI chẩn đoán nền tảng (non-tech / tech-base / AI) và quỹ thời gian rảnh · để đề xuất tối đa **3 đầu việc trọng tâm kèm link tài liệu** · giúp học viên hoàn thành bài đúng hạn.
+**Phần được chấm (demo scope), tóm trong một câu:** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài lab tiếp theo · được AI Mentor chẩn đoán nền tảng (non-tech / tech-base / AI) và quỹ thời gian rảnh · để đề xuất tối đa **3 đầu việc trọng tâm kèm link tài liệu** · giúp học viên hoàn thành bài đúng hạn.
 
 **Mức tự động hoá:** conditional. AI chỉ đề xuất và giải thích; học viên tự tick, chọn hoặc sửa trước khi làm. Khi thông tin không đủ, AI hỏi lại thay vì tự đoán.
 
@@ -83,14 +92,14 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 
 ## 🧭 Luồng người dùng
 
-Học viên mở AI Mentor tại `/planner`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
+Học viên mở trang **Lộ trình cá nhân hoá** tại `/personalized-path`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
 
 ```mermaid
 flowchart TD
-    A([Mở /planner]) --> B[Bước 1 · Chọn nền tảng<br/>non-tech / tech-base / đã học AI]
+    A([Mở /personalized-path]) --> B[Bước 1 · Chọn nền tảng<br/>non-tech / tech-base / đã học AI]
     B --> C[Bước 2 · Số phút rảnh hôm nay<br/>+ bài lab tiếp theo]
     C --> D[Bước 3 · Ghi chú tuỳ chọn<br/>'Bạn đang vướng gì?']
-    D --> F[Bấm Lập kế hoạch<br/>POST /api/roadmap]
+    D --> F[Bấm Tạo lộ trình<br/>POST /api/roadmap]
     F --> R{Luật cứng}
     R -- dưới 30 phút / lab lạ --> H
     R -- làm hộ / đáp án / gia hạn / điểm --> I
@@ -142,7 +151,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    U[Học viên] --> W[AI Mentor UI<br/>/planner]
+    U[Học viên] --> W[Trang Lộ trình cá nhân hoá<br/>/personalized-path]
     W -->|POST /api/roadmap<br/>header: key người dùng| R[Route handler]
     R -->|validate zod · luật cứng| R
     R --> C[(Catalog)]
@@ -160,7 +169,7 @@ flowchart LR
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/planner`) và API của AI Helpdesk (`/api/chat`): chạy thật |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/personalized-path`) và API của AI Helpdesk (`/api/chat`): chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
@@ -175,10 +184,10 @@ Xem thêm:
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **AI Mentor** — lộ trình cá nhân hoá (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
+| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
 | **AI Helpdesk** — API `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
 | **AI Helpdesk** — widget chat nổi "AI Helpdesk 24/7" | 🎭 Mock | Trả lời mẫu theo từ khoá, **chưa gọi** `/api/chat`; bộ chọn model chưa có tác dụng. Component chat gọi API thật (`components/chat/chat-box.tsx`) có sẵn nhưng chưa được gắn vào trang nào |
-| AI Mentor 4 sprint tại `/learning?mode=ai_roadmap` | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi LLM. **Không** phải lát cắt dự thi; AI Mentor được chấm là trang `/planner` |
+| Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi AI. **Không** thuộc phần được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
@@ -200,7 +209,7 @@ K4-3A-e403-Vinonymus/
 
 ## ▶️ Chạy thử
 
-**Bản đã deploy:** <https://k4-3a-e403-vinonymus.vercel.app/planner>
+**Bản đã deploy:** <https://k4-3a-e403-vinonymus.vercel.app/personalized-path>
 
 **Chạy local:** cần Node.js 22+ và một API key LLM miễn phí. Nên dùng Gemini, lấy key ở [Google AI Studio](https://aistudio.google.com/apikey).
 
@@ -208,14 +217,14 @@ K4-3A-e403-Vinonymus/
 cd codebase
 npm install                  # đồng thời cài hook pre-push
 cp .env.example .env.local   # điền Supabase nếu cần dùng Chat; không commit file này
-npm run dev                  # http://localhost:3000/planner
+npm run dev                  # http://localhost:3000/personalized-path
 ```
 
 - API key nhập ở trang **Cài đặt** trong app. Key chỉ lưu trên trình duyệt (`localStorage`), không lưu ở server.
 - Không cần chạy backend .NET.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
 
-**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. AI Mentor (`/planner`) không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. AI Helpdesk cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
+**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Lộ trình cá nhân hoá (`/personalized-path`) không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. AI Helpdesk cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
 
 ## 🤝 Quy trình làm việc nhóm
 

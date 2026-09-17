@@ -3,7 +3,7 @@ Hướng: **E — Làn mở** (trong phạm vi AI20k)
 Loại: [x] Tính năng mới
 
 **Phạm vi:** Adaptive Learning System gồm 2 AI:
-- **AI Mentor:** xây dựng lộ trình học cá nhân hoá, trang `/planner`. Đây là **lát cắt dự thi** mà spec này mô tả và chấm.
+- **AI Mentor:** AI làm 4 việc: (1) đọc thông tin đầu vào của học viên; (2) đọc tài liệu giảng viên tải lên để đưa vào thư viện; (3) phân tích CV để ra bài test năng lực online; (4) phân tích điểm test để xây lộ trình học từ thư viện. **Phần được chấm (lát cắt dự thi)** là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`), dùng việc (1) và một phần việc (4): chọn tài liệu theo nền tảng tự khai, chưa theo điểm test. Việc (2), (3) chưa làm.
 - **AI Helpdesk:** giải đáp thắc mắc trên chat box. Đây là tính năng nền, không thuộc phần chấm.
 
 > **Đã chốt tại CP4 (21:00 · 17/9).** Chuẩn "đạt" ở §7 không sửa sau mốc này. Phần chưa xong được tự khai ở cuối file.
@@ -183,6 +183,7 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 (CP4, trước 21:00) | Đội trưởng xác nhận quality bar 3 điều kiện ở §7; thêm đoạn minh bạch rằng ngưỡng được chốt sau lượt AI v1/v2 | Khoá chuẩn "đạt" theo yêu cầu CP4; tự khai thời điểm chốt thay vì để giám khảo tự suy |
 | 17/9 20:30 (CP4) | Hoàn thành §6 bốn đường đi trải nghiệm kèm ảnh chụp app thật (T4-04, đóng #22) | Thành phụ trách, Đức hỗ trợ; đặc tả srs.md và 4 ảnh tại docs/assets/cp4/ |
 | 17/9 ~20:50 (CP4) | Đổi cách gọi: hệ thống là **Adaptive Learning System** gồm **AI Mentor** (lộ trình cá nhân hoá, lát cắt dự thi, trước gọi "AI Diagnostic Study Planner") và **AI Helpdesk** (chat box, trước gọi "Chat K.AI"); banner đầu file đổi thành "đã chốt" | Thống nhất tên gọi với cách nhóm trình bày sản phẩm. Chỉ đổi tên gọi, không đổi phạm vi lát cắt hay chuẩn đạt §7 |
+| 17/9 (sau CP4) | Nói rõ **AI Mentor là tên của AI** (4 việc), không phải tên trang. Trang được chấm đổi tên thành **Lộ trình cá nhân hoá**, địa chỉ `/personalized-path` (link cũ `/planner` tự chuyển sang). Ghi trạng thái thật của 4 việc | Tránh hiểu nhầm AI Mentor là một trang; "lộ trình cá nhân hoá" là điểm khác biệt chính của sản phẩm. Không đổi chuẩn đạt §7 |
 
 ---
 

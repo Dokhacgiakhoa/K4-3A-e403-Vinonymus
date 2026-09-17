@@ -77,10 +77,10 @@ Runner tự tạo `latest-baseline-results.json` hoặc `latest-ai-results.json`
 
 ## 7. Kịch bản quay video CP3 khoảng 30 giây
 
-1. Mở `/planner`; bảo đảm đã lưu API key hợp lệ trong Settings.
+1. Mở `/personalized-path`; bảo đảm đã lưu API key hợp lệ trong Settings.
 2. Chọn **Tech-base**, **60 phút**, **Lab 04 · Prompt Engineering & Tool Calling**.
 3. Ghi chú: `Mình đã biết code nhưng chưa dùng function calling.`
-4. Bấm **Lập kế hoạch** và giữ nguyên cảnh loading cho tới khi có kết quả.
+4. Bấm **Tạo lộ trình** (lúc quay CP3 nút còn tên "Lập kế hoạch") và giữ nguyên cảnh loading cho tới khi có kết quả.
 5. Quay rõ badge **AI**, phần chẩn đoán và checklist có `Function calling với Gemini API`.
 6. Không dùng video có badge gợi ý mặc định; badge đó chứng minh fallback chứ không chứng minh lời gọi AI thật.
 

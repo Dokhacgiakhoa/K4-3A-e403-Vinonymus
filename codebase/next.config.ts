@@ -6,6 +6,13 @@ const nextConfig: NextConfig = {
   // khi cả hai chạy song song (ví dụ npm run verify build trong lúc dev server đang chạy).
   // Tách riêng .next-dev cho dev để không bao giờ đụng .next của production build nữa.
   distDir: process.env.NODE_ENV === "development" ? ".next-dev" : ".next",
+  // Link /planner đã nộp trong form CP2–CP4 và video demo; giữ để không trả 404.
+  async redirects() {
+    return [
+      { source: "/planner", destination: "/personalized-path", permanent: false },
+      { source: "/ai-mentor", destination: "/personalized-path", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {
