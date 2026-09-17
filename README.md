@@ -11,7 +11,7 @@
 | AI | Làm gì | Trang | Vai trò trong cuộc thi |
 |---|---|---|---|
 | **AI Mentor** | Xây dựng lộ trình học cá nhân hoá cho buổi lab tiếp theo | `/planner` | **Lát cắt dự thi**, được chấm theo `spec.md` |
-| **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Chat box | Tính năng nền, không thuộc phần chấm |
+| **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Widget chat nổi | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
 
 Với **AI Mentor**, học viên chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**), cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**. AI Mentor chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
 
@@ -138,7 +138,7 @@ flowchart LR
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor + AI Helpdesk: chạy thật |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/planner`) và API của AI Helpdesk (`/api/chat`): chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
@@ -151,7 +151,9 @@ Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
 | **AI Mentor** — lộ trình cá nhân hoá (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
-| **AI Helpdesk** — giải đáp trên chat box (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
+| **AI Helpdesk** — API `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
+| **AI Helpdesk** — widget chat nổi "AI Helpdesk 24/7" | 🎭 Mock | Trả lời mẫu theo từ khoá, **chưa gọi** `/api/chat`; bộ chọn model chưa có tác dụng. Component chat gọi API thật (`components/chat/chat-box.tsx`) có sẵn nhưng chưa được gắn vào trang nào |
+| AI Mentor 4 sprint tại `/learning?mode=ai_roadmap` | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi LLM. **Không** phải lát cắt dự thi; AI Mentor được chấm là trang `/planner` |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
