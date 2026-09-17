@@ -1,0 +1,32 @@
+flowchart TD
+    Start([Guest mở /planner<br/>README gọi là /personalized-path]) --> Catalog[GET /api/v1/catalog/labs<br/>Lấy lab và link công khai]
+    Catalog --> Input1[Bước 1 · Chọn nền tảng<br/>non-tech / tech-base / đã học AI]
+    Input1 --> Input2[Bước 2 · Số phút + bài lab tiếp theo]
+    Input2 --> Input3[Bước 3 · Ghi chú tùy chọn]
+    Input3 --> Create[POST /api/roadmap<br/>Tạo kế hoạch không lưu]
+    Create --> Rules{Zod + luật cứng}
+    Rules -- dưới 30 phút / lab lạ --> Clarify[HTTP 200<br/>status=clarify]
+    Rules -- làm hộ / đáp án / gia hạn / điểm --> Refuse[HTTP 200<br/>status=refuse]
+    Rules -- hợp lệ --> Provider{LLM router<br/>có key hợp lệ?}
+    Provider -- không có key / lỗi / sai schema --> Baseline[HTTP 200<br/>source=baseline<br/>Gợi ý mặc định]
+    Provider -- được --> Result{AI trả về}
+    Result -- plan --> Plan[HTTP 200<br/>status=plan, source=ai<br/>Checklist <= 3 việc]
+    Result -- clarify / confidence thấp --> Clarify
+    Result -- refuse --> Refuse
+    Clarify -- sửa thời gian / bài lab --> Input2
+    Refuse -- sửa ghi chú --> Input3
+    Baseline --> Plan
+    Plan --> Local[Tick / bỏ / đổi thứ tự<br/>localStorage, không gọi API]
+    Local --> End([Bắt đầu học])
+    Plan --> Save{Muốn lưu roadmap DB?}
+    Save -- Không --> End
+    Save -- Có --> Register[POST /api/v1/auth/register<br/>Tạo tài khoản Student]
+    Register --> Login[POST /api/v1/auth/login<br/>Nhận access + refresh token]
+    Login --> StudentFlow([Chuyển sang Student flow])
+
+    classDef input fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef endpoint fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef decision fill:#fff3e0,stroke:#ef6c00,color:#e65100
+    class Start,Input1,Input2,Input3,Local,End input
+    class Catalog,Create,Clarify,Refuse,Baseline,Plan,Register,Login,StudentFlow endpoint
+    class Rules,Provider,Result,Save decision

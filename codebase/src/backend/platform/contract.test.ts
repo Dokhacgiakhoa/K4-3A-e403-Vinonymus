@@ -12,7 +12,7 @@ describe('FE contract artifacts',()=>{
       expect(operation?.operationId).toBe(name);
       count++;
     }
-    expect(count).toBe(53);
+    expect(count).toBe(Object.keys(endpoints).length);
   });
   it('maps all registry methods to thin Next route exports',()=>{
     for(const [name,spec] of Object.entries(endpoints)) {
@@ -29,7 +29,7 @@ describe('FE contract artifacts',()=>{
     const substitute:Record<string,string>={
       email:'sample@example.com',password:'test-password',refreshToken:'test-refresh',
       roadmapId:'11111111-1111-4111-8111-111111111111',itemId:'ptc-setup-colab',
-      documentRevision:'1',quizRevision:'1','$guid':'11111111-1111-4111-8111-111111111111',
+      documentRevision:'1','$guid':'11111111-1111-4111-8111-111111111111',
     };
     for(let i=0;i<operations.length;i++){
       const spec=operations[i]!;

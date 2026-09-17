@@ -12,15 +12,15 @@ Chạy `npm run api:generate` trong `codebase` để cập nhật. Không sửa 
 | Role | Tính năng và dữ liệu thực |
 |---|---|
 | Guest | Xem catalog, FAQ, thử Planner không lưu, Chat công khai trên nguồn cũ, đăng ký/đăng nhập |
-| Student | Profile; gợi ý Mentor từ đầu vào; tạo/lưu/xem/xóa roadmap; cập nhật tiến độ; xem metadata học liệu đã duyệt; làm quiz và xem kết quả |
-| Lecture | CRUD metadata tài liệu của mình; lịch sử phiên bản/review; submit/review/publish/archive; CRUD và xuất bản quiz |
-| Admin | Xem/đổi role/tier/khóa người dùng; quản trị tài liệu toàn hệ thống; dùng API Lecture để quản trị quiz; audit và thống kê tổng hợp |
+| Student | Profile; gợi ý Mentor từ đầu vào; tạo/lưu/xem/xóa roadmap; cập nhật tiến độ; xem metadata học liệu đã duyệt |
+| Lecture | CRUD metadata tài liệu của mình; lịch sử phiên bản/review; submit/review/publish/archive |
+| Admin | Xem/đổi role/tier/khóa người dùng; quản trị tài liệu toàn hệ thống; audit và thống kê tổng hợp |
 
 Guest là trạng thái chưa đăng nhập, **không phải một role lưu trong DB**.
 Role DB là `student | lecture | admin`; `free | vip` là tier, chưa gắn thanh toán hoặc quota.
 Admin không tự động giả làm Student; các API học cá nhân yêu cầu role Student.
 
-Kế thừa ý tưởng profile/role, learning node, tiến độ và quiz từ backend .NET; triển khai lại bằng TypeScript/Next.js và SQL, không gọi .NET trong API v1. Luồng tài liệu có ràng buộc chủ sở hữu và duyệt phiên bản. Catalog hiện là các lab đã có trong Planner, **không phải toàn bộ giáo trình 35 tuần**.
+Kế thừa ý tưởng profile/role, learning node và tiến độ từ backend .NET; triển khai lại bằng TypeScript/Next.js và SQL, không gọi .NET trong API v1. Luồng tài liệu có ràng buộc chủ sở hữu và duyệt phiên bản. Catalog hiện là các lab đã có trong Planner, **không phải toàn bộ giáo trình 35 tuần**.
 
 ## Bốn Luồng Chính
 
@@ -41,11 +41,10 @@ Chat/FAQ cũ vẫn công khai như trước; không chịu phân quyền tài li
 6. `GET /mentor/roadmaps` và `GET /mentor/roadmaps/{id}` mở lại. Mỗi task có `itemId, title, url, type, minutes, reason, status, completedAt`.
 7. `PATCH /mentor/roadmaps/{id}/tasks/{itemId}` với `{"status":"completed"}`. Đọc tổng hợp tại `GET /learning/progress`. Không cập nhật node không thuộc roadmap.
 8. `GET /learning/documents`, `GET /learning/documents/{id}` xem mô tả và item liên quan, mở **link catalog** để học.
-9. `GET /quizzes` -> `GET /quizzes/{id}` -> `POST /quizzes/{id}/submissions` -> xem `GET /quizzes/submissions` và `/{id}`.
 
 `clarify` hoặc `refuse` là HTTP 200, không lưu roadmap mới. FE kiểm tra `data.status` trước khi truy cập `data.roadmap`.
 Gọi tạo roadmap lại tạo một bản mới, không tự ghi đè bản cũ.
-Progress là tự đánh dấu; quiz chưa tự mở khóa node hoặc cấp chứng chỉ.
+Progress là tự đánh dấu và chưa tự mở khóa node hoặc cấp chứng chỉ.
 
 Ví dụ roadmap:
 ```json
@@ -82,7 +81,6 @@ data: {
 - Trước khi sửa/xóa bản published phải `POST /{id}/archive`; sửa làm tăng revision, về draft và hủy phê duyệt cũ.
 - Mỗi thao tác sửa/review/publish/archive/delete cần `revision` đang đọc. Bản cũ trả 409.
 - `DELETE` là xóa mềm; dữ liệu lịch sử và audit vẫn còn. Không thể truy cập tài liệu đã xóa qua API thường.
-- Quiz: `POST /lecture/quizzes` -> `PUT /{id}` nếu cần -> `POST /{id}/publish`. Archive trước khi sửa/xóa. Quiz không có bước review riêng.
 
 Body metadata mẫu (không có multipart/file bytes):
 ```json
@@ -111,17 +109,16 @@ PUT gửi đủ metadata như tạo mới, cộng `revision`; không phải part
 - Không tự đổi role hoặc khóa chính mình; không xóa tài khoản bằng endpoint này.
 - Khóa/đổi role có hiệu lực ở request bảo vệ tiếp theo vì server đọc profile mới mỗi lần.
 - Duyệt nội dung: `GET /admin/documents` -> chi tiết -> review -> publish/archive/delete.
-- Có thể tạo/sửa nội dung và quản trị quiz qua `/lecture/*` vì các route đó cũng cho phép Admin.
-- `GET /admin/audit` xem thao tác quản trị/nội dung; `GET /admin/analytics` trả số user, user active, tài liệu published, pending review, roadmap, quiz attempt.
+- `GET /admin/audit` xem thao tác quản trị/nội dung; `GET /admin/analytics` trả số user, user active, tài liệu published, pending review và roadmap.
 - Analytics không phải báo cáo độ chính xác RAG hoặc dashboard doanh thu.
 
 ## Quy Ước FE
 
 - Base URL: `http://localhost:3000/api/v1`. Endpoint cũ `/api/*` dùng contract khác.
 - Bảo vệ bằng `Authorization: Bearer <accessToken>`; không dùng cookie/.NET token cũ.
-- Body JSON, kể cả DELETE tài liệu/quiz (`{"revision":1}`). Tối đa 128 KB; input strict, field lạ bị từ chối.
+- Body JSON, kể cả DELETE tài liệu (`{"revision":1}`). Tối đa 128 KB; input strict, field lạ bị từ chối.
 - Request body dùng camelCase, ngoại trừ input Mentor giữ `available_minutes, lab_id, cv_text` theo contract cũ.
-- Dữ liệu DB trả snake_case; task/câu hỏi/kết quả quiz có camelCase. OpenAPI mô tả từng field chính xác.
+- Dữ liệu DB trả snake_case; task có camelCase. OpenAPI mô tả từng field chính xác.
 - Thành công: `{"data": ...}`. List có query phân trang thêm `meta:{limit,offset,count}`; default 20, tối đa 100. `count` là số item trang hiện tại, không phải total. Tăng offset; dừng khi count < limit.
 - Danh sách versions/reviews chưa phân trang; không có realtime/search tùy ý.
 - Lỗi: `{"error":{"code":"REVISION_CONFLICT","message":"..."}}`, validation có thể kèm `details`.
@@ -129,8 +126,6 @@ PUT gửi đủ metadata như tạo mới, cộng `revision`; không phải part
 - Register luôn Student. Không truyền role/tier từ form đăng ký; Admin phân quyền sau.
 - Nếu `requiresEmailConfirmation=true`: chưa có token, FE yêu cầu xác nhận email rồi login.
 - Refresh đổi cặp token; FE thay cả access lẫn refresh token. Logout thu hồi refresh session và chặn access token đang gửi. Access token cũ khác trong cùng phiên có thể còn hiệu lực đến hạn JWT; không claim logout toàn thiết bị.
-- Quiz trước khi nộp không chứa `correctOption/explanation`. Sau khi nộp trả điểm và giải thích; dùng để luyện tập, không phải đề thi bí mật chống gian lận.
-- `requestId` quiz là UUID do FE tạo cho mỗi lần nộp, giữ nguyên khi retry cùng bài/cùng revision/cùng đáp án.
 - Thiếu key/provider lỗi/output không hợp lệ: Mentor trả `source=baseline`. Header LLM dùng chung với Planner cũ, không ghi key vào DB/log.
 - Không lưu raw CV vào DB và không log input Mentor; khi có key, văn bản CV được gửi tới provider để phân tích. FE cần thông báo việc này cho người dùng.
 
@@ -138,7 +133,7 @@ PUT gửi đủ metadata như tạo mới, cộng `revision`; không phải part
 
 1. Cài dependency: `npm ci` trong `codebase`.
 2. Cấu hình `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` trong env server. Service key không gửi xuống FE.
-3. Apply các migration theo thứ tự. Trên DB đã có 0001-0014, thêm **0015, 0016 rồi 0017** trong `codebase/supabase/migrations`; không chỉ chạy riêng migration cuối. Sao lưu/kiểm tra staging trước.
+3. Apply các migration theo thứ tự. Trên DB đã có 0001-0014, thêm **0015, 0016, 0017, 0018, 0019 rồi 0020** trong `codebase/supabase/migrations`; không chỉ chạy riêng migration cuối. Sao lưu/kiểm tra staging trước.
 4. Supabase bật email/password; cấu hình email confirmation và SMTP theo môi trường. Migration tạo trigger profile Student cho tài khoản mới và backfill user cũ thiếu profile.
 5. Khởi tạo Admin đầu tiên trong Supabase SQL Editor bằng tài khoản vận hành DB, chọn đúng UUID của tài khoản đã đăng ký:
 ```sql
@@ -150,7 +145,7 @@ where id = '<UUID tài khoản admin do bạn kiểm soát>'::uuid;
 7. `npm run dev`; import Postman, đặt baseUrl, lần lượt nhập email/password và login từng tài khoản để lưu token đúng role. Theo thứ tự luồng ở trên, không Run All toàn collection (nó chứa cả archive/delete/logout). Với thao tác `/me` bằng role khác, đổi bearer token mặc định Student.
 8. `npm run verify` chạy lint/typecheck/unit/integration/FAQ audit/build; `npm run api:check` kiểm tra tài liệu sinh không lệch registry.
 
-Bộ test API dùng Request/Response thật, migrations SQL thật trên PostgreSQL nhúng PGlite, auth fixture; adapter Supabase được test bằng HTTP mock. Có test thành công cho đủ 53 thao tác và ma trận từ chối sai role, dữ liệu khác chủ, review độc lập/revision, chấm quiz, khóa tài khoản, RPC server-only. **Không tương đương kiểm thử end-to-end trên Supabase remote/SMTP/provider AI thật**; migration remote không được tự apply trong lượt làm này.
+Bộ test API dùng Request/Response thật, migrations SQL thật trên PostgreSQL nhúng PGlite, auth fixture; adapter Supabase được test bằng HTTP mock. Smoke HTTP kiểm tra các protected operations còn lại sau khi luồng Quiz được gỡ. Supabase remote cần chạy migration 0020 để thu hồi grant RPC cũ. Embedding/upload thật vẫn chưa chạy end-to-end.
 
 ## Chưa Thuộc Đợt Bàn Giao Này
 

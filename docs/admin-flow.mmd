@@ -1,0 +1,24 @@
+flowchart TD
+    Start([Admin đăng nhập]) --> Login[POST /api/v1/auth/login<br/>role=admin]
+    Login --> Me[GET /api/v1/me<br/>Xác nhận role admin]
+
+    Me --> Users[GET /api/v1/admin/users<br/>Danh sách + lọc role + phân trang]
+    Users --> UserDetail[GET /api/v1/admin/users/{id}<br/>Chi tiết profile]
+    UserDetail --> UserAction{Quản trị user}
+    UserAction -- Đổi quyền/tier --> Role[PATCH /api/v1/admin/users/{id}/role]
+    UserAction -- Khóa/mở tài khoản --> Status[PATCH /api/v1/admin/users/{id}/status]
+    Role --> Guard[Server chặn tự đổi role<br/>hoặc hạ Admin cuối]
+    Status --> Guard
+
+    Me --> Audit[GET /api/v1/admin/audit<br/>Nhật ký thao tác]
+    Me --> Analytics[GET /api/v1/admin/analytics<br/>Số liệu tổng hợp]
+    Audit --> Operations[Theo dõi user]
+    Analytics --> Operations
+
+    Me --> Repo[Quy trình catalog/prompt theo README<br/>Sửa file -> PR -> CI -> CODEOWNERS -> merge -> Vercel -> eval]
+    Repo --> Catalog[Không gọi Admin API<br/>Catalog vẫn cập nhật qua repo]
+
+    classDef endpoint fill:#fce4ec,stroke:#ad1457,color:#880e4f
+    classDef decision fill:#fff3e0,stroke:#ef6c00,color:#e65100
+    class Start,Login,Me,Users,UserDetail,Role,Status,Guard,Audit,Analytics,Operations,Repo,Catalog endpoint
+    class UserAction decision

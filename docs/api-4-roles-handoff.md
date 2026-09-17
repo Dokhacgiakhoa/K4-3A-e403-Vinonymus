@@ -1,7 +1,7 @@
 # API 4 Role - FE Handoff
 
 Tài liệu này là bản đọc nhanh để FE biết mỗi endpoint phục vụ chức năng nào.
-Contract chi tiết về schema request/response nằm ở [role-api-schema.md](role-api-schema.md), OpenAPI ở [role-api.openapi.json](role-api.openapi.json), và Postman ở [role-api.postman_collection.json](role-api.postman_collection.json).
+Schema request/response chi tiết theo từng endpoint nằm ở [api-4-roles-schema-detail.md](api-4-roles-schema-detail.md). Contract máy đọc được nằm ở [role-api-schema.md](role-api-schema.md), OpenAPI ở [role-api.openapi.json](role-api.openapi.json), và Postman ở [role-api.postman_collection.json](role-api.postman_collection.json).
 
 ## Quy ước chung
 
@@ -14,6 +14,21 @@ Contract chi tiết về schema request/response nằm ở [role-api-schema.md](
 - `401`: chưa đăng nhập/token sai; `403`: sai role hoặc tài khoản bị khóa; `404`: không tồn tại/ngoài ownership; `409`: conflict trạng thái hoặc revision.
 - Link học viên nhìn thấy phải lấy từ catalog, không lấy từ nội dung LLM.
 
+## Quan hệ với luồng README
+
+README mô tả lát cắt demo cốt lõi, không đăng nhập:
+
+`/personalized-path` -> `POST /api/roadmap` -> validate Zod + luật cứng -> LLM router hoặc baseline -> checklist tối đa 3 việc -> `localStorage`.
+
+Trong code hiện tại, trang tương ứng đang được triển khai tại `/planner` (`codebase/src/app/planner/page.tsx`). `/personalized-path` là tên trong flow README, không phải route Next.js đang tồn tại.
+
+Các endpoint `/api/v1` bên dưới là lớp mở rộng cho tài khoản và vận hành 4 role. Không thay thế luồng Planner cốt lõi trong README. Vì vậy:
+
+- Guest dùng đúng Planner không lưu của README.
+- Student có thể dùng lại cùng input nền tảng, thời gian, lab và ghi chú, sau đó lưu roadmap qua API v1 nếu đã đăng nhập.
+- Lecture và Admin quản lý catalog metadata/học liệu ở lớp vận hành mở rộng; các link Planner vẫn phải lấy từ catalog.
+- Luồng quản trị repo trong README (PR -> CI -> merge -> Vercel -> eval) vẫn là quy trình cập nhật catalog/prompt chuẩn; Admin API không thay thế quy trình đó.
+
 ## Guest
 
 ### Authentication
@@ -25,12 +40,14 @@ Contract chi tiết về schema request/response nằm ở [role-api-schema.md](
 | `POST` | `/auth/refresh` | Đổi refresh token lấy cặp token mới. |
 | `GET` | `/catalog/labs` | Xem lab, learning item và link công khai đã được allowlist. |
 
-Planner thử không lưu của Guest dùng endpoint legacy `POST /api/roadmap`, không dùng `/api/v1`.
+Planner thử không lưu của Guest dùng endpoint legacy `POST /api/roadmap`, không dùng `/api/v1`, và bắt đầu tại `/personalized-path` theo README. Luật cứng xử lý thời gian dưới 30 phút, lab lạ và yêu cầu ngoài phạm vi trước khi gọi LLM; lỗi provider hoặc thiếu key trả baseline có nhãn `Gợi ý mặc định`.
 Guest cũng có thể dùng các API công khai legacy `/api/chat`, `/api/chat/feedback`, `/api/faqs`, `/api/health`.
 
 ## Student
 
 ### Profile và Mentor
+
+Student đăng nhập sau khi muốn lưu kết quả Planner. Luồng input giữ nguyên README: nền tảng -> số phút + lab -> ghi chú -> tạo lộ trình. API v1 bổ sung bước phân tích/lưu DB, không thay đổi nguyên tắc AI hỏi lại hoặc từ chối.
 
 | Method | Endpoint | Chức năng |
 |---|---|---|
@@ -55,19 +72,16 @@ Guest cũng có thể dùng các API công khai legacy `/api/chat`, `/api/chat/f
 
 Server kiểm tra roadmap, task và ownership; Student không thể cập nhật task tự tạo hoặc roadmap của người khác.
 
-### Học liệu và quiz
+### Học liệu
 
 | Method | Endpoint | Chức năng |
 |---|---|---|
 | `GET` | `/learning/documents` | Liệt kê metadata tài liệu đã published. |
 | `GET` | `/learning/documents/{id}` | Xem metadata tài liệu published, không lộ path/hash nội bộ. |
-| `GET` | `/quizzes` | Liệt kê quiz đã published. |
-| `GET` | `/quizzes/{id}` | Xem đề quiz; không trả đáp án đúng/giải thích trước khi nộp. |
-| `POST` | `/quizzes/{id}/submissions` | Nộp bài, server chấm điểm và lưu attempt; `requestId` chống nộp trùng. |
-| `GET` | `/quizzes/submissions` | Liệt kê lịch sử attempt của Student hiện tại. |
-| `GET` | `/quizzes/submissions/{id}` | Xem điểm và giải thích của attempt thuộc Student hiện tại. |
 
 ## Lecture
+
+Lecture thuộc luồng vận hành mở rộng, không nằm trên happy path của Guest Planner. Lecture chuẩn bị metadata tài liệu để Admin hoặc Lecture khác kiểm duyệt; sau khi publish, Student có thể thấy metadata học liệu trong luồng học.
 
 ### Quản lý tài liệu metadata
 
@@ -99,21 +113,9 @@ Workflow tài liệu:
 
 Lecture không được tự review hoặc tự publish tài liệu của mình. Mọi mutation cần gửi `revision` hiện tại; revision cũ trả `409`.
 
-### Soạn quiz
-
-| Method | Endpoint | Chức năng |
-|---|---|---|
-| `GET` | `/lecture/quizzes` | Liệt kê quiz do Lecture soạn; Admin xem toàn bộ. |
-| `POST` | `/lecture/quizzes` | Tạo quiz có câu hỏi, đáp án đúng và giải thích. |
-| `GET` | `/lecture/quizzes/{id}` | Xem quiz đầy đủ trong phạm vi ownership/quyền Admin. |
-| `PUT` | `/lecture/quizzes/{id}` | Sửa quiz và tăng revision. |
-| `DELETE` | `/lecture/quizzes/{id}` | Xóa mềm quiz đã archive. |
-| `POST` | `/lecture/quizzes/{id}/publish` | Publish quiz để Student làm. |
-| `POST` | `/lecture/quizzes/{id}/archive` | Ngừng nhận bài cho quiz. |
-
-Quiz Lecture không có bước review độc lập; cần archive trước khi sửa/xóa quiz đã publish.
-
 ## Admin
+
+Admin thuộc luồng quản trị mở rộng. README vẫn giữ quy trình catalog/prompt qua PR, CI, CODEOWNERS và eval; các endpoint Admin dưới đây phục vụ quản lý user và nội dung metadata trong hệ thống v1.
 
 ### Quản lý user
 
@@ -137,14 +139,12 @@ Admin không được tự đổi role hoặc tự khóa tài khoản của mìn
 | `POST` | `/admin/documents/{id}/archive` | Archive tài liệu khỏi Student. |
 | `DELETE` | `/admin/documents/{id}` | Xóa mềm tài liệu chưa published. |
 
-Admin dùng nhóm `/lecture/quizzes` để quản trị quiz vì các route Lecture cho phép cả Admin.
-
 ### Audit và analytics
 
 | Method | Endpoint | Chức năng |
 |---|---|---|
-| `GET` | `/admin/audit` | Xem nhật ký thao tác user, tài liệu và quiz. |
-| `GET` | `/admin/analytics` | Xem số user, active user, tài liệu published, pending review, roadmap và quiz attempt. |
+| `GET` | `/admin/audit` | Xem nhật ký thao tác user và tài liệu. |
+| `GET` | `/admin/analytics` | Xem số user, active user, tài liệu published, pending review và roadmap. |
 
 ## Không thuộc contract hiện tại
 
@@ -159,4 +159,8 @@ Admin dùng nhóm `/lecture/quizzes` để quản trị quiz vì các route Lect
 - Route: `codebase/src/app/api/v1/`
 - Test: `codebase/src/backend/platform/`
 - Schema đầy đủ: [role-api-schema.md](role-api-schema.md)
-- Sơ đồ luồng: [four-role-flows.mmd](four-role-flows.mmd)
+- Schema chi tiết từng endpoint: [api-4-roles-schema-detail.md](api-4-roles-schema-detail.md)
+- Sơ đồ Guest: [guest-flow.mmd](guest-flow.mmd)
+- Sơ đồ Student: [student-flow.mmd](student-flow.mmd)
+- Sơ đồ Lecture: [lecture-flow.mmd](lecture-flow.mmd)
+- Sơ đồ Admin: [admin-flow.mmd](admin-flow.mmd)

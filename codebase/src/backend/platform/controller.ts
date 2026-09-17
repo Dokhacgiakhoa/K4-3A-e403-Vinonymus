@@ -6,7 +6,11 @@ import { createPlatformDependencies, type AuthInput, type PlatformDependencies }
 import { endpoints, type EndpointSpec, type OperationId } from './endpoints';
 import { ApiError, errorResponse, jsonBody } from './http';
 import { analyzeLearner, generateRoadmap } from './mentor';
-import { analysisInput, roadmapInput, documentInput, quizInput } from './schemas';
+import { analysisInput, roadmapInput, documentInput } from './schemas';
+import { authenticate, type AuthOperation } from '@/backend/modules/auth/auth.service';
+import { executeLearningOperation, type LearningOperation } from '@/backend/modules/learning/learning.service';
+import { executeLectureOperation, type LectureOperation } from '@/backend/modules/lecture/lecture.service';
+import { executeAdminOperation, type AdminOperation } from '@/backend/modules/admin/admin.service';
 
 export type RouteContext = { params: Promise<Record<string,string>> };
 type Params = Record<string,string>;
@@ -19,10 +23,6 @@ function validateReferences(operation: OperationId, body: Record<string, unknown
       throw new ApiError(400, 'INVALID_CATALOG_REFERENCE', 'Lab hoặc item không thuộc catalog.');
     const mime = {pdf:'application/pdf',text:'text/plain',markdown:'text/markdown'}[doc.fileType];
     if (doc.mimeType !== mime) throw new ApiError(400, 'INVALID_FILE_TYPE', 'MIME type không khớp loại tài liệu.');
-  }
-  if (['createQuiz','updateQuiz'].includes(operation)) {
-    const quiz = quizInput.parse(Object.fromEntries(Object.entries(body).filter(([key]) => key !== 'revision')));
-    if (!findLab(quiz.labId)) throw new ApiError(400, 'INVALID_CATALOG_REFERENCE', 'Lab không thuộc catalog.');
   }
 }
 
@@ -43,7 +43,7 @@ export async function execute(operation: OperationId, request: Request, params: 
     if (operation === 'catalog') data = PLANNER_CATALOG;
     else if (operation === 'nodes') data = PLANNER_CATALOG.flatMap(lab => lab.items.map(item => ({ ...item, labId: lab.labId })));
     else if (operation === 'register' || operation === 'login' || operation === 'refresh' || operation === 'logout')
-      data = await deps!.auth(operation, body as AuthInput, operation === 'logout' ? bearerToken(request) : undefined);
+      data = await authenticate(deps!, operation as AuthOperation, body as AuthInput, operation === 'logout' ? bearerToken(request) : undefined);
     else if (operation === 'analyze') data = await analyzeLearner(analysisInput.parse(body), request);
     else if (operation === 'createRoadmap') {
       const input = roadmapInput.parse(body);
@@ -55,6 +55,18 @@ export async function execute(operation: OperationId, request: Request, params: 
             tasks: result.tasks.map(task => ({ ...task, status: 'todo', completedAt: null })) } });
         data = { status: 'plan', message: result.message, roadmap };
       }
+    } else if (spec.rpc === 'platform_learning' && spec.action) {
+      const target = operation === 'updateProgress' ? String(body.roadmapId) : params.id ?? null;
+      const input = { ...query, ...body, ...(params.itemId ? {itemId:params.itemId} : {}), ...(operation === 'updateProgress' ? {itemId:body.nodeId} : {}) };
+      data = await executeLearningOperation(deps!, spec.action as LearningOperation, profile!.id, target, input as Json);
+    } else if (spec.rpc === 'platform_documents' && spec.action) {
+      const target = params.id ?? null;
+      const input = { ...query, ...body };
+      data = await executeLectureOperation(deps!, spec.action as LectureOperation, profile!.id, target, input as Json);
+    } else if (spec.rpc === 'platform_admin' && spec.action) {
+      const target = params.id ?? null;
+      const input = { ...query, ...body };
+      data = await executeAdminOperation(deps!, spec.action as AdminOperation, profile!.id, target, input as Json);
     } else if (spec.rpc && spec.action) {
       const target = operation === 'updateProgress' ? String(body.roadmapId) : params.id ?? null;
       const input = { ...query, ...body, ...(params.itemId ? {itemId:params.itemId} : {}), ...(operation === 'updateProgress' ? {itemId:body.nodeId} : {}) };

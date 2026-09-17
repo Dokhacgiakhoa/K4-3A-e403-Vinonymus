@@ -20,9 +20,6 @@ const revoked = new Set<string>();
 const lab = PLANNER_CATALOG[0]!;
 const documentBody = {title:'Prompt handbook',summary:'Reviewed learning references',labId:lab.labId,itemIds:[lab.items[0]!.itemId],
   sourcePath:'lecture/handbook.md',fileName:'handbook.md',fileType:'markdown',mimeType:'text/markdown',fileSizeBytes:100,contentHash:'a'.repeat(64)};
-const quizBody = {title:'Prompt quiz',labId:lab.labId,passPercent:70,questions:[
-  {id:'q1',text:'Which option is correct?',options:{A:'First',B:'Second',C:'Third',D:'Fourth'},correctOption:'A',explanation:'The first option is correct.'},
-]};
 const deps: PlatformDependencies = {
   async identify(token) {
     const id = actors[token as Actor];
@@ -61,9 +58,9 @@ async function call(op: OperationId, actor?:Actor, body?:unknown, params:Record<
 }
 beforeAll(async () => {
   await db.exec(`create role anon; create role authenticated; create role service_role bypassrls;
-    create schema auth; create table auth.users(id uuid primary key,raw_user_meta_data jsonb default '{}');
+    create schema auth; create table auth.users(id uuid primary key,raw_user_meta_data jsonb default '{}',raw_app_meta_data jsonb default '{}');
     create function auth.uid() returns uuid language sql as 'select null::uuid';`);
-  for (const name of ['0015_platform_roles_and_lecture_documents.sql','0016_four_role_workflows.sql','0017_review_hardening.sql'])
+  for (const name of ['0015_platform_roles_and_lecture_documents.sql','0016_four_role_workflows.sql','0017_review_hardening.sql','0018_platform_identity_and_material_metadata.sql'])
     await db.exec(readFileSync(new URL('../../../supabase/migrations/'+name,import.meta.url),'utf8'));
   for (const [key,id] of Object.entries(actors)) {
     await db.query("insert into auth.users(id,raw_user_meta_data) values($1,$2)",[id,JSON.stringify({role:'admin',display_name:key})]);
@@ -89,6 +86,10 @@ describe('four-role API and real PostgreSQL workflows',()=>{
     const id=randomUUID();
     await db.query('insert into auth.users(id,raw_user_meta_data) values($1,$2)',[id,JSON.stringify({role:'admin'})]);
     expect((await db.query<{role:string}>('select role from profiles where id=$1',[id])).rows[0]!.role).toBe('student');
+    const staffId=randomUUID();
+    await db.query('insert into auth.users(id,raw_user_meta_data,raw_app_meta_data) values($1,$2,$3)',
+      [staffId,JSON.stringify({display_name:'Demo Lecture',role:'admin'}),JSON.stringify({platform_role:'lecture'})]);
+    expect((await db.query<{role:string}>('select role from profiles where id=$1',[staffId])).rows[0]!.role).toBe('lecture');
   });
 
   it('saves a roadmap and scopes progress to its owner and existing tasks',async()=>{
@@ -157,42 +158,6 @@ describe('four-role API and real PostgreSQL workflows',()=>{
     await call('createDocument','lecture',{...documentBody,mimeType:'application/pdf'},{},400);
   });
 
-  it('grades published quizzes on server, hides answers and handles idempotency',async()=>{
-    const quiz=await call('createQuiz','lecture',quizBody,{},201);const id=quiz.id;
-    await call('lectureQuizzes','lecture');
-    await call('lectureQuiz','lecture',undefined,{id});
-    await call('lectureQuiz','otherLecture',undefined,{id},404);
-    await call('quiz','student',undefined,{id},404);
-    await call('updateQuiz','lecture',{...quizBody,title:'Updated quiz',revision:1},{id});
-    await call('publishQuiz','lecture',{revision:1},{id},409);
-    await call('publishQuiz','lecture',{revision:2},{id});
-    const studentQuiz=await call('quiz','student',undefined,{id});
-    expect(studentQuiz.questions[0]).not.toHaveProperty('correctOption');
-    expect(studentQuiz.questions[0]).not.toHaveProperty('explanation');
-    await call('quizzes','student');
-    await call('deleteQuiz','lecture',{revision:2},{id},409);
-    const submission={revision:2,requestId:randomUUID(),answers:[{questionId:'q1',option:'A'}]};
-    await call('submitQuiz','student',{...submission,revision:1},{id},409);
-    await call('submitQuiz','student',{...submission,answers:[{questionId:'unknown',option:'A'}]},{id},400);
-    const first=await call('submitQuiz','student',submission,{id});
-    expect(first.result.scorePercent).toBe(100);
-    expect(first.result.passed).toBe(true);
-    const repeat=await call('submitQuiz','student',submission,{id});
-    expect(repeat.id).toBe(first.id);
-    await call('submitQuiz','student',{...submission,revision:3},{id},409);
-    await call('submitQuiz','student',{...submission,answers:[{questionId:'q1',option:'B'}]},{id},409);
-    const wrong=await call('submitQuiz','student',{...submission,requestId:randomUUID(),answers:[{questionId:'q1',option:'D'}]},{id});
-    expect(wrong.result.scorePercent).toBe(0);
-    await call('attempts','student');
-    await call('attempt','student',undefined,{id:first.id});
-    await call('attempt','other',undefined,{id:first.id},404);
-    await call('archiveQuiz','lecture',{revision:2},{id});
-    await call('quiz','student',undefined,{id},404);
-    await call('deleteQuiz','lecture',{revision:2},{id});
-    await call('attempt','student',undefined,{id:first.id});
-    expect((await call('submitQuiz','student',submission,{id})).id).toBe(first.id);
-  });
-
   it('admin moderates content, assigns roles and blocks accounts with audit',async()=>{
     const doc=await call('createDocument','lecture',{...documentBody,sourcePath:'lecture/admin-review.md'},{},201);const id=doc.id;
     await call('adminDocuments','admin');
@@ -238,7 +203,6 @@ describe('four-role API and real PostgreSQL workflows',()=>{
       await expect(db.query('select platform_admin($1,\'users\',null,\'{}\')',[actors.admin])).rejects.toThrow(/permission denied/);
       expect((await db.query('select * from profiles')).rows).toEqual([]);
       expect((await db.query('select * from lecture_documents')).rows).toEqual([]);
-      expect((await db.query('select * from learning_quiz_attempts')).rows).toEqual([]);
       expect((await db.query("update profiles set role='admin' where id=$1 returning id",[actors.student])).rows).toEqual([]);
       await expect(db.query("insert into profiles(id) values($1)",[randomUUID()])).rejects.toThrow(/row-level security/);
     } finally {await db.exec('reset role');}

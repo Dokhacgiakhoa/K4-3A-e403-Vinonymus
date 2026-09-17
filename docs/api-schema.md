@@ -263,5 +263,5 @@ trong đợt bàn giao này. FE dùng register/login/refresh/logout v1 cho 4 rol
 ## 5. Phần Mở Rộng
 
 API auth/profile, catalog/node, roadmap lưu DB, progress, metadata học liệu,
-review/publish, quiz và admin đã có trong [contract v1](role-api-schema.md).
+review/publish và admin đã có trong [contract v1](role-api-schema.md).
 Thanh toán, chứng chỉ, upload/parse file và Qdrant chưa thuộc đợt triển khai này.

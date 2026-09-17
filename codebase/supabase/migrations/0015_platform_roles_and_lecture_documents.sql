@@ -15,6 +15,23 @@ create table if not exists public.profiles (
 create index if not exists profiles_role_idx on public.profiles(role);
 create index if not exists profiles_tier_idx on public.profiles(tier);
 
+-- The first role migration also upgrades the legacy metadata table in place.
+-- Existing rows are assigned to the first authenticated profile and remain intact.
+insert into public.profiles(id, display_name)
+select id, left(coalesce(raw_user_meta_data->>'display_name', ''), 100)
+from auth.users
+on conflict (id) do nothing;
+do $$
+begin
+  if to_regclass('public.lecture_documents') is not null
+     and not exists (select 1 from information_schema.columns where table_schema='public' and table_name='lecture_documents' and column_name='owner_id') then
+    alter table public.lecture_documents add column owner_id uuid;
+    update public.lecture_documents set owner_id = (select id from public.profiles order by created_at, id limit 1);
+    alter table public.lecture_documents alter column owner_id set not null;
+    alter table public.lecture_documents add constraint lecture_documents_owner_id_fkey foreign key (owner_id) references public.profiles(id) on delete restrict;
+  end if;
+end $$;
+
 create table if not exists public.lecture_documents (
   id uuid primary key default gen_random_uuid(),
   owner_id uuid not null references public.profiles(id) on delete restrict,

@@ -1,4 +1,4 @@
-import { handler } from '@/backend/platform/controller';
+import { handler } from '@/backend/modules/admin/admin.controller';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';

@@ -43,8 +43,6 @@ const openapi={openapi:'3.0.3',info:{title:'Vinonymus Four-role API',version:'1.
 const lab='lab-prompt-tool-calling';
 const doc={title:'Prompt handbook',summary:'References for learning prompts',labId:lab,itemIds:['ptc-prompt-basics'],
   sourcePath:'lecture/handbook.md',fileName:'handbook.md',fileType:'markdown',mimeType:'text/markdown',fileSizeBytes:100,contentHash:'a'.repeat(64)};
-const quiz={title:'Prompt basics',labId:lab,passPercent:70,questions:[{id:'q1',text:'Which answer is correct?',
-  options:{A:'First',B:'Second',C:'Third',D:'Fourth'},correctOption:'A',explanation:'First is correct in this sample.'}]};
 const examples:Record<string,unknown>={
   register:{email:'{{email}}',password:'{{password}}',displayName:'Learner'},
   login:{email:'{{email}}',password:'{{password}}'},refresh:{refreshToken:'{{refreshToken}}'},
@@ -55,19 +53,16 @@ const examples:Record<string,unknown>={
   createDocument:doc,updateDocument:{...doc,revision:1},
   reviewDocument:{revision:1,decision:'approved',note:'Reviewed references and metadata'},
   adminReview:{revision:1,decision:'approved',note:'Reviewed references and metadata'},
-  createQuiz:quiz,updateQuiz:{...quiz,revision:1},
-  submitQuiz:{revision:1,requestId:'{{$guid}}',answers:[{questionId:'q1',option:'A'}]},
   userRole:{role:'lecture'},userStatus:{isActive:false},
 };
 const collection={info:{name:'Vinonymus - 4 roles',schema:'https://schema.getpostman.com/json/collection/v2.1.0/collection.json',
   description:'Run requests in the workflow order in role-api-schema.md, not Run All. Set email/password for each test account, login to fill the appropriate role token. Never export populated secrets.'},
   variable:Object.entries({baseUrl:'http://localhost:3000',email:'',password:'',studentToken:'',lectureToken:'',adminToken:'',refreshToken:'',
-    roadmapId:'',itemId:'',documentId:'',documentRevision:'1',quizId:'',quizRevision:'1',attemptId:'',userId:''}).map(([key,value])=>({key,value,type:'string'})),
+    roadmapId:'',itemId:'',documentId:'',documentRevision:'1',userId:''}).map(([key,value])=>({key,value,type:'string'})),
   item:specs.map(([op,spec])=>{
-    const resource=spec.path.includes('documents')?'documentId':spec.path.includes('quizzes/submissions')?'attemptId':
-      spec.path.includes('quizzes')?'quizId':spec.path.includes('users')?'userId':'roadmapId';
+    const resource=spec.path.includes('documents')?'documentId':spec.path.includes('users')?'userId':'roadmapId';
     let raw=JSON.stringify(examples[op]??{revision:1},null,2);
-    if(spec.body && raw.includes('"revision": 1')) raw=raw.replace('"revision": 1','"revision": {{'+(resource==='quizId'?'quizRevision':'documentRevision')+'}}');
+    if(spec.body && raw.includes('"revision": 1')) raw=raw.replace('"revision": 1','"revision": {{documentRevision}}');
     const role=spec.roles[0]??'student';
     const url='{{baseUrl}}/api/v1'+spec.path.replace('{id}','{{'+resource+'}}').replace('{itemId}','{{itemId}}')+(spec.query?'?limit=20&offset=0':'');
     return {name:spec.method+' '+spec.path+' - '+spec.summary,request:{
@@ -82,8 +77,6 @@ const collection={info:{name:'Vinonymus - 4 roles',schema:'https://schema.getpos
       '  if (d && d.accessToken) { pm.collectionVariables.set(d.user.role + "Token", d.accessToken); pm.collectionVariables.set("refreshToken", d.refreshToken); }',
       '  if (d && d.roadmap) { pm.collectionVariables.set("roadmapId", d.roadmap.id); pm.collectionVariables.set("itemId", d.roadmap.tasks[0].itemId); }',
       ...(spec.response==='Document'?['  if (d && d.id) { pm.collectionVariables.set("documentId", d.id); pm.collectionVariables.set("documentRevision", d.revision); }']:[]),
-      ...(spec.response==='Quiz'?['  if (d && d.id) { pm.collectionVariables.set("quizId", d.id); pm.collectionVariables.set("quizRevision", d.revision); }']:[]),
-      ...(op==='submitQuiz'?['  if (d && d.id) pm.collectionVariables.set("attemptId", d.id);']:[]),
       '}',
     ]}}]};
   })};

@@ -17,14 +17,6 @@ const doc = publicDoc.extend({owner_id:id,source_path:z.string(),file_name:z.str
   qdrant_collection:z.string(),content_hash:z.string(),chunk_count:z.number().int(),review_note:z.string().nullable(),
   published_by:id.nullable(),created_at:time,updated_at:time,approved_revision:z.number().int().nullable(),deleted_at:time.nullable()});
 const docSummary = publicDoc.extend({owner_id:id,updated_at:time});
-const question = z.object({id:z.string(),text:z.string(),options:z.object({A:z.string(),B:z.string(),C:z.string(),D:z.string()})});
-const quiz = z.object({id,owner_id:id,title:z.string(),lab_id:z.string(),questions:z.array(question.extend({correctOption:z.enum(['A','B','C','D']),explanation:z.string()})),
-  pass_percent:z.number(),status:z.enum(['draft','published','archived']),revision:z.number(),deleted_at:time.nullable(),created_at:time,updated_at:time});
-const quizSummary = quiz.pick({id:true,owner_id:true,title:true,lab_id:true,pass_percent:true,status:true,revision:true}).extend({question_count:z.number()});
-const attempt = z.object({id,student_id:id,quiz_id:id,quiz_revision:z.number(),request_id:id,created_at:time,
-  answers:z.array(z.object({questionId:z.string(),option:z.enum(['A','B','C','D'])})),
-  result:z.object({correctAnswers:z.number(),totalQuestions:z.number(),scorePercent:z.number(),passed:z.boolean(),
-    details:z.array(z.object({questionId:z.string(),correct:z.boolean(),correctOption:z.enum(['A','B','C','D']),explanation:z.string()}))})});
 const item = z.object({itemId:z.string(),title:z.string(),url:z.string().url(),type:z.enum(['slide','video','notebook','doc']),
   minutes:z.number(),level:z.enum(['basic','advanced']),tags:z.array(z.string()),why:z.string()});
 export const responses: Record<string,z.ZodTypeAny> = {
@@ -44,9 +36,7 @@ export const responses: Record<string,z.ZodTypeAny> = {
   Document:doc,PublicDocument:publicDoc,DocumentList:z.array(docSummary),
   VersionList:z.array(z.object({id,document_id:id,revision:z.number(),snapshot:doc,created_at:time})),
   ReviewList:z.array(z.object({id,document_id:id,reviewer_id:id,decision:z.enum(['approved','rejected','needs_changes']),note:z.string().nullable(),revision:z.number().nullable(),created_at:time})),
-  Quiz:quiz,StudentQuiz:quiz.extend({questions:z.array(question)}),QuizList:z.array(quizSummary),
-  Attempt:attempt,AttemptList:z.array(attempt),
   AuditList:z.array(z.object({id,actor_id:id.nullable(),action:z.string(),resource_id:id.nullable(),details:z.record(z.unknown()),created_at:time})),
-  Analytics:z.object({users:z.number(),activeUsers:z.number(),publishedDocuments:z.number(),pendingReviews:z.number(),roadmaps:z.number(),quizAttempts:z.number()}),
+  Analytics:z.object({users:z.number(),activeUsers:z.number(),publishedDocuments:z.number(),pendingReviews:z.number(),roadmaps:z.number()}),
 };
 export const errorSchema = z.object({error:z.object({code:z.string(),message:z.string(),details:z.unknown().optional()})});

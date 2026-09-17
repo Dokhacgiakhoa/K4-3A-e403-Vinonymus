@@ -1,0 +1,19 @@
+flowchart TD
+    Start([Lecture đăng nhập]) --> Login[POST /api/v1/auth/login<br/>role=lecture]
+    Login --> Me[GET /api/v1/me<br/>Xác nhận role lecture]
+
+    Me --> List[GET /api/v1/lecture/materials<br/>Danh sách bài giảng của mình]
+    List --> Action{Lecture muốn làm gì?}
+
+    Action -- Upload mới --> Upload[POST /api/v1/lecture/materials/upload<br/>Upload bài giảng lên Supabase]
+    Upload --> Embed[Server tạo embedding<br/>và lưu vector vào Supabase Postgres + pgvector]
+    Embed --> Done([Bài giảng sẵn sàng cho truy vấn/RAG])
+    Done --> List
+
+    Action -- Xóa --> Delete[DELETE /api/v1/lecture/materials/{id}<br/>Xóa bài giảng + vector trong pgvector]
+    Delete --> List
+
+    classDef endpoint fill:#fff3e0,stroke:#ef6c00,color:#e65100
+    classDef decision fill:#fce4ec,stroke:#ad1457,color:#880e4f
+    class Start,Login,Me,List,Upload,Embed,Done,Delete endpoint
+    class Action decision

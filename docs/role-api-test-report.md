@@ -33,10 +33,9 @@ Lint/build còn warning UI cũ về img và React hook dependency; không có l�
 - Trigger đăng ký luôn Student dù metadata cố truyền Admin.
 - Profile không cho tự đổi role/tier.
 - Student chỉ truy cập roadmap/attempt của mình; task phải nằm trong roadmap.
-- Lecture không đọc/sửa tài liệu hoặc quiz của Lecture khác.
+- Lecture kh?ng ??c/s?a t?i li?u c?a Lecture kh?c.
 - Draft/review/archived không hiện với Student; không lộ source_path/content_hash trong chi tiết học liệu Student.
 - Lecture không được tự review/publish tài liệu của mình; reviewer là Lecture khác hoặc Admin. Publish phải đúng revision đã được duyệt; sửa bản published bị chặn; sửa tạo version và hủy phê duyệt cũ.
-- Quiz ẩn đáp án trước nộp; server tính điểm; chống nộp trùng; retry cùng request sau archive/delete trả lại kết quả đã lưu.
 - Admin đổi role/khóa có hiệu lực ngay, không tự hạ quyền/khóa mình; lưu audit.
 - RLS chặn đọc/ghi trực tiếp từ authenticated dù đã có table grants; RPC chỉ cho service_role, vẫn kiểm tra actor role.
 - Audit insert lỗi làm rollback cả mutation.
