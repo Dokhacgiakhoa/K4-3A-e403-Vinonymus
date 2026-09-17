@@ -43,7 +43,7 @@ Trang không kiểm tra key trước khi gọi API: key (nếu có) được g�
 
 ## 3. Hiện thực (CP2 · 16/9)
 
-Trang riêng **`/personalized-path`** — không cần đăng nhập, không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
+Trang riêng **`/personalized-path`** — dành cho vai trò Student (đã đăng nhập, tài khoản đã được duyệt); khi chưa khai báo địa chỉ backend thì trang mở tự do, không bắt đăng nhập. Không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
 
 | File | Vai trò |
 |---|---|

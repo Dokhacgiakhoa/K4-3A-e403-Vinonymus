@@ -97,7 +97,40 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 
 ## 🧭 Luồng người dùng
 
-Học viên mở trang **Lộ trình cá nhân hoá** tại `/personalized-path`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
+Hệ thống có **4 vai trò**. Ai đăng nhập bằng tài khoản nào thì thấy luồng của vai trò đó.
+
+| # | Vai trò | Là ai | Vào được gì | Tình trạng |
+|---|---|---|---|---|
+| 1 | **Viewer** — khách chưa đăng nhập | Người lạ vừa mở web | Xem trang giới thiệu, danh mục lab; hỏi **AI Helpdesk** ở chatbox, tối đa **10 câu/ngày**. Không mở được Lộ trình cá nhân hoá | ✅ Đã làm |
+| 2 | **Student** — học viên đã đăng nhập | Học viên Khoá 4, tài khoản đã được duyệt | Hỏi AI Helpdesk không giới hạn + dùng **Lộ trình cá nhân hoá** (`/personalized-path`) | ✅ Đã làm (phần được chấm nằm ở đây) |
+| 3 | **Lecturer** — giảng viên | Người soạn giáo trình | Tải tài liệu lên để AI Mentor đọc vào thư viện tài liệu | ❌ **Chưa có giao diện.** Vai trò `Lecture` mới có trong backend; thư viện hiện do nhóm soạn tay trong `planner-catalog.ts` |
+| 4 | **Admin** | Nhóm Vinonymus | **Duyệt tài khoản** đăng ký mới tại `/admin/approvals` (đồng ý / từ chối) | ⚠️ Giao diện xong, chờ deploy backend |
+
+> **Vì sao phải chờ duyệt:** đăng ký xong **không** được đăng nhập ngay. Tài khoản ở trạng thái *chờ duyệt* cho tới khi Admin bấm đồng ý. Mục đích là giữ AI Helpdesk miễn phí làm cửa mở cho người lạ, còn phần tốn tiền gọi AI thì chỉ mở cho người thật.
+>
+> **Lưu ý khi chạy thử:** việc bắt đăng nhập chỉ bật khi đã khai báo địa chỉ backend (`NEXT_PUBLIC_BACKEND_CORE_URL`). Backend .NET chưa deploy, nên **web thật hiện chạy mở** — ai vào cũng dùng được như Student. Xem [Trạng thái prototype](#-trạng-thái-prototype).
+
+```mermaid
+flowchart TD
+    V([Mở web]) --> Q{Đã đăng nhập chưa?}
+    Q -- Chưa --> V1[1 · VIEWER<br/>Xem trang giới thiệu, danh mục lab<br/>Hỏi AI Helpdesk · 10 câu/ngày]
+    V1 --> V2{Muốn dùng Lộ trình cá nhân hoá?}
+    V2 -- Có --> V3[Đăng ký tài khoản] --> V4[Chờ Admin duyệt] --> A2
+    V2 -- Không --> V1
+    Q -- Rồi --> R{Vai trò}
+    R -- Student --> S1[2 · STUDENT<br/>AI Helpdesk không giới hạn<br/>+ Lộ trình cá nhân hoá] --> S2
+    R -- Lecturer --> L1[3 · LECTURER<br/>Tải tài liệu lên<br/>chưa có giao diện] -.- L2[AI Mentor đọc tài liệu<br/>vào thư viện]
+    R -- Admin --> A1[4 · ADMIN<br/>/admin/approvals]
+    A1 --> A2{Duyệt tài khoản mới} -- Đồng ý --> S1
+    A2 -- Từ chối --> X([Không đăng nhập được])
+    L2 -.-> S2[Lộ trình lấy tài liệu từ thư viện]
+```
+
+Sơ đồ chi tiết ở mức API cho cả 4 vai trò: [`role-flow.mmd`](role-flow.mmd).
+
+### Luồng Student — phần được chấm
+
+Đây là luồng được demo và chấm điểm. Học viên mở **Lộ trình cá nhân hoá** tại `/personalized-path`. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
 
 ```mermaid
 flowchart TD
@@ -130,7 +163,7 @@ Chi tiết màn hình: [`docs/05-ui-flow.md`](docs/05-ui-flow.md).
 
 ## 🛠️ Luồng vận hành (quản trị)
 
-Lát cắt dự thi **không có giao diện admin** và không có phân quyền quản trị. Trang `/admin` là màn hình tĩnh của dự án nền, không dùng trong demo. Việc "quản trị" do nhóm làm trực tiếp trên repo:
+Ngoài việc duyệt tài khoản ở `/admin/approvals` (xem bảng vai trò bên trên), phần quản trị còn lại — thêm bài lab, sửa link tài liệu, sửa prompt — nhóm làm **trực tiếp trên repo** chứ chưa có giao diện. Các trang `/admin` khác là màn hình tĩnh của dự án nền, không dùng trong demo.
 
 ```mermaid
 flowchart LR
