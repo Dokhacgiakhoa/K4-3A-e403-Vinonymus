@@ -7,6 +7,17 @@ trigger: always_on
 
 Mỗi Pull Request **bắt buộc** có file `PR.md` ở **gốc repo**, mô tả đúng PR đó. Mục đích: đọc một file là biết PR làm gì, không nhầm giữa các PR.
 
+## Không push thẳng vào main / production
+
+Repo chặn push trực tiếp vào `main` và `production` bằng GitHub Ruleset (chủ repo chỉ được bypass khi merge PR, không được bypass khi push thẳng — `current_user_can_bypass: pull_requests_only`). Vì vậy **mọi thay đổi đều đi qua nhánh + PR**, kể cả sửa nhỏ hay sửa gấp:
+
+1. Tạo nhánh mới từ `main` (không sửa trực tiếp trên `main`/`production` đang checkout).
+2. Commit, viết `PR.md` theo mẫu dưới đây.
+3. `git push -u origin <nhánh>` rồi mở PR (`gh pr create`).
+4. Merge PR (`gh pr merge`) — chủ repo được tự duyệt, không cần chờ người khác review.
+
+Nếu `git push` báo lỗi kiểu "protected branch"/"rule violations found" khi đẩy thẳng lên `main` hay `production`, đó là luật đang hoạt động đúng — không tìm cách vòng qua (không ép push, không tắt rule), chuyển sang tạo nhánh + PR.
+
 ## Không nhầm với SRS
 
 - `PR.md` = mô tả **một PR**. Mỗi PR ghi đè nội dung của PR trước.

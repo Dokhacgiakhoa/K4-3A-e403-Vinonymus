@@ -51,6 +51,7 @@ Không dùng `git push --no-verify` trừ khi cả nhóm đồng ý.
 
 ## Git
 
+- **Không bao giờ push thẳng vào `main` hoặc `production`**, kể cả khi công cụ hay quyền tài khoản cho phép. Mọi thay đổi đi qua: tạo nhánh mới từ `main` → commit → `git push -u origin <nhánh>` → mở PR (`gh pr create`) → merge PR (`gh pr merge`, có thể tự duyệt vì chủ repo được phép). `main` và `production` có GitHub Ruleset chặn push trực tiếp (`current_user_can_bypass: pull_requests_only`) — nếu lệnh push báo bị từ chối (protected branch / rule violation), đó là đang hoạt động đúng; sửa bằng cách tạo nhánh và PR, không tìm cách vượt qua.
 - Commit message tiếng Anh, dạng mệnh lệnh (`feat: add roadmap api`).
 - Mỗi thay đổi prompt → chạy lại golden set, ghi một dòng vào `eval/run_results.md`.
 - Thay đổi sau phản hồi người dùng → ghi `spec.md` §9.
