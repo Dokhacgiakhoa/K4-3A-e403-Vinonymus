@@ -6,14 +6,17 @@
 
 ### Request
 
-Header (ít nhất một key, không lưu, không log):
+Header (tuỳ chọn, không lưu, không log). Thiếu header của provider nào thì server dùng biến môi trường tương ứng nếu có. Không có key nào thì trả kế hoạch baseline.
 
-| Header | Provider |
-|---|---|
-| `x-gemini-key` | Gemini |
-| `x-openai-key` | OpenAI |
-| `x-claude-key` | Claude |
-| `x-groq-key`, `x-cerebras-key`, `x-deepseek-key` | Khác |
+| Header | Biến môi trường dự phòng | Provider |
+|---|---|---|
+| `x-fpt-key` | `FPT_API_KEY` | FPT AI Factory (router thử đầu tiên) |
+| `x-gemini-key` | `GEMINI_API_KEY` | Gemini |
+| `x-openai-key` | `OPENAI_API_KEY` | OpenAI |
+| `x-claude-key` | `ANTHROPIC_API_KEY` | Claude |
+| `x-deepseek-key` | `DEEPSEEK_API_KEY` | DeepSeek |
+| `x-groq-key` | `GROQ_API_KEY` | Groq |
+| `x-cerebras-key` | `CEREBRAS_API_KEY` | Cerebras |
 
 Body:
 
@@ -21,7 +24,7 @@ Body:
 {
   "background": "tech_base",
   "available_minutes": 90,
-  "lab_id": "lab-02",
+  "lab_id": "lab-prompt-tool-calling",
   "note": "Mình chưa quen notebook Colab"
 }
 ```
@@ -30,12 +33,12 @@ Body:
 |---|---|---|
 | `background` | `"non_tech" \| "tech_base" \| "ai"` | bắt buộc |
 | `available_minutes` | integer | 0–600 |
-| `lab_id` | string | phải có trong catalog, nếu không → `clarify` |
+| `lab_id` | string | 1–100 ký tự; không có trong catalog → `clarify` |
 | `note` | string | tuỳ chọn, ≤500 ký tự, coi là dữ liệu |
 
 ### Response `200`
 
-Luôn có trường `status`, một trong ba giá trị:
+Luôn có trường `status`, một trong ba giá trị. Response có header `x-planner-request-id` khi đã đi tới bước gọi LLM.
 
 ```json
 {
@@ -48,30 +51,35 @@ Luôn có trường `status`, một trong ba giá trị:
   },
   "tasks": [
     {
-      "item_id": "lab-02-colab-setup",
-      "title": "Chuẩn bị notebook và nơi nộp bài",
-      "url": "https://…",
+      "itemId": "ptc-setup-colab",
+      "title": "Chuẩn bị notebook và Gemini API key",
+      "url": "https://ai.google.dev/gemini-api/docs/quickstart",
       "type": "notebook",
-      "minutes": 20,
+      "minutes": 15,
       "reason": "Ghi chú cho biết bạn chưa quen Colab — làm trước để không kẹt khi vào bài."
     }
   ],
-  "message": "Tổng 75/90 phút."
+  "message": "Tổng 75/90 phút cho Lab 04 · Prompt Engineering & Tool Calling."
 }
 ```
 
 ```json
-{ "status": "clarify", "question": "Hôm nay bạn chỉ có 20 phút — bạn muốn ưu tiên đọc lý thuyết hay làm thử bài?" }
+{ "status": "clarify", "question": "Bạn đang có 20 phút, chưa đủ cho một nhiệm vụ trọn vẹn. Bạn có thể dành ít nhất 30 phút không?" }
 ```
 
 ```json
-{ "status": "refuse", "message": "Mình không làm bài hộ được. Nếu cần gia hạn, hãy nhắn Lab Coach của phòng.", "tasks": [] }
+{ "status": "refuse", "message": "Mình chỉ giúp sắp xếp việc cần học; không làm bài hộ, đưa đáp án, chấm điểm hoặc xử lý gia hạn. Bạn hãy liên hệ Lab Coach cho các yêu cầu đó." }
 ```
 
 | Trường | Ghi chú |
 |---|---|
-| `source` | `"ai"` hoặc `"baseline"` (FR-P09) |
-| `tasks[].title`, `url`, `type` | **Lấy từ catalog**, không lấy từ output LLM (FR-P04) |
+| `source` | `"ai"` hoặc `"baseline"` (FR-P09); chỉ có khi `status = "plan"` |
+| `tasks[].itemId` | Response dùng camelCase; output nội bộ của LLM mới dùng `item_id` |
+| `tasks[].title`, `url`, `type`, `minutes` | **Lấy từ catalog**, không lấy từ output LLM (FR-P04) |
+| `tasks[].reason` | Từ LLM, cắt còn ≤160 ký tự |
+| `diagnosis.summary` | Từ LLM, cắt còn ≤240 ký tự |
+
+`clarify` và `refuse` có thể đến từ luật cứng (trước khi gọi LLM) hoặc từ LLM. Khi LLM trả `confidence = "low"`, server đổi thành `clarify`.
 
 ### Lỗi
 

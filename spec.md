@@ -18,25 +18,58 @@ Loại: [x] Tính năng mới
     - 2/2 người tự học trước lab trong 7 ngày qua, 2/2 gặp khó khăn, 2/2 cùng mẫu khó khăn: tài liệu phân tán / không biết trọng tâm theo quỹ thời gian → vào lab cập rập.
     - P01 (tech): "Mỗi buổi học phải mất ít nhất 20–25 phút chỉ để gom đủ link tài liệu."
     - P02 (AI): "Slide bài giảng dài hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước."
-    - `[TODO]` Mẫu nhỏ và cả hai là willing user → hỏi thêm học viên K4 khác (có người non-tech) trước CP4; chưa đạt ngưỡng ≥20 người của chuẩn A.
+    - Mẫu nhỏ, cả hai là willing user → đã mở rộng bằng khảo sát bên dưới.
+  - **Chuẩn A — khảo sát form (n = 82, 13:30–19:35 · 17/9; form 12 câu tại `/contact`, dữ liệu trong Google Sheet của nhóm, không commit):**
+    - **Làm sạch:** 93 dòng → bỏ 8 dòng thử của nhóm (mã `VIN-…`/`TEST…`, tên chứa "test") → gộp 3 dòng nộp lại của 2 mã học viên (giữ bản cuối) → **82 người**. 10 người có tổ hợp câu trả lời trùng người khác nhưng khác mã học viên, vẫn giữ.
+    - **Nền tảng:** CNTT 56 (68%) · Data/AI 21 (26%) · trái ngành 5 (6%).
+    - **Không tự xác định được phần cần bù trước buổi lab:** 71/82 = **87%**. Gồm 37 người biết mình chưa hiểu nhưng không biết đọc phần nào, và 34 người chỉ phát hiện khi làm bài lỗi. Chỉ 11/82 (13%) tự biết và tự bù được.
+    - **Khó khăn đã gặp (chọn nhiều):**
+      - tài liệu rải rác nhiều nơi: 76/82 = **93%**;
+      - slide dài, không rõ trọng tâm: 75/82 = **91%**;
+      - thời gian rảnh dưới 1 tiếng: 41/82 = 50%;
+      - hỏi AI Tutor VLearn nhưng câu trả lời chung chung: 29/82 = 35%;
+      - thiếu bài test ngắn tự kiểm tra: 21/82 = 26%;
+      - làm cập rập, nộp sát hạn hoặc muộn: 19/82 = 23%.
+    - **Thời gian gom tài liệu mỗi buổi:** dưới 15 phút 6 (7%) · 15–30 phút 63 (77%) · 30–45 phút 7 (9%) · trên 45 phút 6 (7%). → **76/82 = 93% mất ≥15 phút** (con số tự khai, chưa đo).
+    - **Cách xử lý khi kẹt (chọn nhiều):** AI bên ngoài 79/82 (96%) · hỏi bạn 27 (33%) · tự search 21 (26%) · AI Tutor VLearn 15 (18%) · đợi Mentor/TA 8 (10%).
+    - **Giới hạn phải đọc kèm:**
+      - (a) Nhóm trái ngành chỉ có 5 người, chưa đủ để kết luận riêng. Cả 5 đều chọn "tài liệu rải rác" và "slide dài".
+      - (b) Câu 2 và câu 3 đưa sẵn lựa chọn theo giả thuyết của nhóm. Câu 3 không có lựa chọn "không mất thời gian". Câu 2 bắt buộc chọn ít nhất 1 ý. Vì vậy tỷ lệ có thể cao hơn thực tế.
+      - (c) Form có quay thưởng tiền mặt, dễ kéo người điền trả lời theo hướng tích cực.
+      - (d) Mẫu tự nguyện qua kênh của nhóm, không ngẫu nhiên.
+      - (e) Câu 5–12 giới thiệu sẵn giải pháp nên **không** dùng làm bằng chứng nỗi đau. Xem §2.
   - **≥5 quote/ví dụ nguyên văn:** đạt — `M10991`, `M23639`, `M24139`, `T10312`, bản tin 14/09, P01, P02 (chi tiết trong `docs/research/`).
 
 ## §2. Impact & quyết định chọn
-`[TODO — DRAFT, nhóm xác nhận lại số liệu trước khi chốt]`
+Số khảo sát lấy từ §1 (n = 82). Số mining lấy từ `docs/research/evidence-mining.md`.
 
 | Ứng viên | Bao nhiêu người | Tần suất | Tốn gì mỗi lần | Khả thi trong thời gian thi | Chọn? |
 |---|---|---|---|---|---|
-| (1) Tổng hợp/tìm lại tài liệu phân mảnh (link slide/zoom/drive) | 6.7% tin Discord 3 ngày (52/779) nhắc tới tài liệu/link | mỗi buổi học mới lại hỏi | 20–40 phút gom lại/lần | Cao — chỉ cần tổng hợp link, không cần quyết định AI rõ | **Loại** — thiếu "1 quyết định AI", gần như thuần index hoá |
-| (2) Tóm tắt & chỉ trọng tâm bài giảng theo yêu cầu | 8.8% lượt chat VLearn (1.189/13.494); riêng K4 5.9% (182/3.097) | mỗi buổi/bài mới | vài phút chờ + rủi ro bỏ sót ý chính | Trung bình — cần RAG trên transcript | **Loại** — trùng lõi Track A (VLearn Tutor tối ưu), muốn giữ khác biệt cho Track E |
-| (3) Chẩn đoán nền tảng + thời gian → đề xuất 3 việc trọng tâm cho buổi lab tiếp theo | Mining E1/E2 + phỏng vấn 2/2 cùng mẫu khó khăn (n nhỏ) `[TODO: mở rộng]` | mỗi buổi lab/workshop (~2–3 lần/tuần) | phân bổ sai thời gian → sát deadline, nộp muộn (bằng chứng bản tin 14/09) | Vừa sức — tận dụng UI wizard có sẵn (`ai-mentor-wizard.tsx`) + LLM router có sẵn trong `codebase/` | **✅ Chọn** |
+| (1) Tổng hợp/tìm lại tài liệu phân mảnh (link slide/zoom/drive) | Khảo sát: 76/82 (93%) gặp tài liệu rải rác. Mining: 6.7% tin Discord 3 ngày (52/779) nhắc tới tài liệu/link | Mỗi buổi học | 93% tự khai mất ≥15 phút/buổi (77% ở mức 15–30 phút) | Cao — chỉ cần tổng hợp link | **Loại** — nỗi đau lớn nhất nhưng thiếu "1 quyết định AI", gần như thuần index hoá. Khi được hỏi muốn dùng gì mỗi ngày, chỉ 20/82 (24%) chọn "gom sẵn link" |
+| (2) Tóm tắt & chỉ trọng tâm bài giảng theo yêu cầu | Khảo sát: 75/82 (91%) gặp slide dài không rõ trọng tâm. Mining: 8.8% lượt chat VLearn (1.189/13.494), riêng K4 5.9% (182/3.097) | Mỗi buổi/bài mới | Đọc lan man; rủi ro bỏ sót ý chính | Trung bình — cần RAG trên transcript | **Loại** — trùng lõi Track A (VLearn Tutor), muốn giữ khác biệt cho Track E |
+| (3) Chẩn đoán nền tảng + thời gian → đề xuất ≤3 việc trọng tâm cho buổi lab tiếp theo | Khảo sát: 71/82 (87%) không tự xác định được phần cần bù; 41/82 (50%) có dưới 1 tiếng rảnh. Mining E1–E3 + phỏng vấn 2/2 cùng mẫu khó khăn | Mỗi buổi lab/workshop (~2–3 lần/tuần) | Đọc sai trọng tâm, vào lab cập rập: 19/82 (23%) từng nộp sát hạn hoặc muộn; bản tin 14/09 có ca nộp muộn | Vừa sức — tận dụng LLM router có sẵn trong `codebase/` | **✅ Chọn** |
 
-- **Ứng viên đã loại:** (1) vì không có "1 quyết định AI" rõ ràng, chỉ là tra cứu/tổng hợp link. (2) vì trùng phạm vi Track A (VLearn Tutor tối ưu tóm tắt) — chọn giữ (3) để giữ đúng tính chất Track E (bài toán không nằm trong A–D).
-- **Ứng viên chọn:** (3) — kết hợp cả 2 evidence mining (tài liệu phân mảnh + xin tóm tắt) làm input chẩn đoán, có bằng chứng hậu quả rõ nhất (nộp muộn deadline), và tận dụng được hạ tầng AI + UI đã có sẵn trong `codebase/` để build kịp trong thời gian thi.
+- **Ứng viên đã loại:**
+  - (1): không có "1 quyết định AI" rõ ràng, chỉ là tra cứu/tổng hợp link.
+  - (2): trùng phạm vi Track A. Chọn (3) để giữ đúng tính chất Track E.
+- **Ứng viên chọn:** (3).
+  - Dùng cả hai nỗi đau lớn nhất (tài liệu rải rác, slide dài) làm đầu vào, rồi giải chỗ học viên thực sự kẹt: 87% không biết phải học bù phần nào.
+  - Catalog đã kiểm chứng giải luôn một phần nỗi đau (1) mà không phải làm thành sản phẩm riêng.
+- **Tín hiệu chấp nhận** (câu 5–12 đã mô tả giải pháp, nên chỉ đo mức quan tâm, không phải bằng chứng nỗi đau):
+  - 59/82 (72%) thấy "rất thiết thực", 20 (24%) "cần xem thử", 3 (4%) "không cần".
+  - Khi chọn tính năng muốn dùng mỗi ngày: 74/82 (90%) chọn checklist 3 việc theo số phút rảnh, 74/82 (90%) chọn bài test chẩn đoán ngắn. Bài test chẩn đoán **chưa** nằm trong lát cắt (§4 dùng nền tảng + ghi chú thay cho bài test), ghi nhận làm hướng mở rộng.
+  - 71/82 (87%) sẵn sàng dùng thử, đủ nguồn người cho R6.
 
 ## §3. Giải pháp tương tự đã nghiên cứu
-- **VLearn AI Tutor** (đang chạy thật trong khoá): trả lời khi được hỏi, nhưng bị động — không chủ động đề xuất việc cần làm khi học viên chưa biết hỏi gì. *Khác biệt:* sản phẩm nhóm mình chủ động đưa checklist ngay đầu buổi.
-- **Bot "Trợ lý" + bản tin ngày Discord**: tổng hợp câu hỏi cho TA xem, không cá nhân hoá theo từng học viên. *Khác biệt:* sản phẩm nhắm vào từng cá nhân, không phải bản tin chung cho TA.
-- `[TODO: nhóm bổ sung ≥1 sản phẩm ngoài chương trình, ví dụ ứng dụng lộ trình học/planner cá nhân hoá đã có trên thị trường]`
+
+| Giải pháp | Làm được gì | Thiếu gì so với nỗi đau ở §1 | Nhóm học / khác biệt |
+|---|---|---|---|
+| **VLearn AI Tutor** (trong khoá) | Trả lời, tóm tắt khi học viên hỏi | Bị động: chỉ 0.13% lượt tự gợi ý bước tiếp theo (§1); không biết quỹ thời gian của học viên | Planner chủ động đưa checklist ngay đầu buổi, không cần học viên biết phải hỏi gì |
+| **Bot "Trợ lý" + bản tin ngày Discord** (trong khoá) | Tổng hợp câu hỏi trong ngày cho TA | Bản tin chung, không cá nhân hoá theo từng học viên | Planner nhắm vào từng người, theo nền tảng và số phút rảnh |
+| **Khan Academy — hệ thống Mastery** (ngoài chương trình) | Sau mỗi bài tập, quiz hay course challenge, dựa vào kết quả làm bài để gợi ý bài nên học tiếp; Mastery Challenge ôn lại 3 kỹ năng mỗi lượt ([nguồn](https://support.khanacademy.org/hc/en-us/articles/115002552631-What-are-Course-and-Unit-Mastery), [nguồn](https://support.khanacademy.org/hc/en-us/articles/360037494231-What-are-Mastery-Challenges)) | Chỉ chẩn đoán trên kho bài của chính Khan Academy; không tính thời gian rảnh hôm nay, không biết lịch lab của AI20K | **Học:** chẩn đoán rồi chỉ ra số ít việc cụ thể. **Khác:** Planner chẩn đoán nhanh từ nền tảng + ghi chú (chưa có bài test), gắn với bài lab sắp tới và quỹ phút |
+| **Motion — AI calendar / task manager** (ngoài chương trình) | Người dùng nhập việc kèm hạn và thời lượng; AI tự xếp vào ô trống trên lịch theo độ ưu tiên và tự xếp lại khi lịch đổi ([nguồn](https://www.usemotion.com/features/ai-task-manager), [nguồn](https://www.usemotion.com/help/time-management/auto-scheduling)) | Người dùng phải tự biết cần làm việc gì; không có nội dung học, không chọn tài liệu | **Học:** ràng buộc tổng thời lượng ≤ thời gian rảnh. **Khác:** Planner quyết định *nên học gì* từ catalog đã kiểm chứng; Motion chỉ quyết định *làm lúc nào*. Planner không tự xếp lịch — học viên giữ quyền sửa (§4 automation conditional) |
+
+**Kết luận:** chưa thấy giải pháp nào kết hợp cả ba: (1) biết bài lab sắp tới của khoá, (2) tính theo số phút rảnh hôm nay, (3) chỉ đưa link từ nguồn đã kiểm chứng. Đây là khoảng trống lát cắt nhắm vào.
 
 ## §4. Thiết kế
 - **Lát cắt MỘT CÂU:** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài Lab tiếp theo · được AI chẩn đoán nền tảng (non-tech/tech-base/AI) và quỹ thời gian rảnh · để đề xuất tối đa 3 đầu việc trọng tâm kèm link tài liệu chính xác · giúp học viên hoàn thành bài đúng hạn.
@@ -107,6 +140,8 @@ Một lượt AI được coi là **đạt Quality Bar** khi đồng thời th�
 
 Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (G16-G18 = 3/3 refuse)`. Các điều kiện là phép **AND** và không được hạ sau 21:00 ngày 17/9/2026.
 
+*Minh bạch:* ngưỡng này được chốt sau khi đã có lượt AI v1 (18/20) và v2 (19/20), chứ không phải trước khi chạy. Ngưỡng 90% cao hơn baseline luật tĩnh (17/20 = 85%), nên chỉ bản AI mới vượt được. Mọi lượt chạy sau CP4 (kể cả sau sửa đổi từ R6) đều phải so với đúng ngưỡng này.
+
 | Lượt | Qua / Tổng | Tỷ lệ | Link ngoài catalog | Bằng chứng |
 |---|---:|---:|---:|---|
 | Baseline | 17/20 | 85% | 0 | [`eval/latest-baseline-results.json`](eval/latest-baseline-results.json) |
@@ -136,11 +171,16 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 (sau CP3) | Đổi báo cáo thành `eval/run_results.md` và đồng bộ trạng thái CP3 đã nộp | Khớp đúng tên file đề bài và loại bỏ đường dẫn runner cũ |
 | 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi và quay thưởng tri ân tại `/contact` | Phục vụ mở rộng khảo sát lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 |
 | 17/9 trước 21:00 (CP4) | Đối chiếu §5 với G09-G20 và khóa Quality Bar tại 18/20, 0 link ngoài catalog, G16-G18 đạt 3/3 | Cố định tiêu chuẩn trước hạn CP4; công khai G02 là case duy nhất chưa đạt |
+| 17/9 (trước CP4) | Đồng bộ README, `01-SRS`, `03-api`, `04-ai-pipeline`, `05-ui-flow`, `checkpoints`, `tasks` với code: 3 mức nền tảng, luồng không kiểm key trước khi gọi API, router 7 provider (FPT thử đầu), response dùng `itemId`, ghi chú đưa vào prompt dạng JSON string | Tài liệu mô tả bản nháp CP2, lệch với code đã build ở CP3 |
+| 17/9 (trước CP4) | §3 thêm 2 giải pháp ngoài chương trình (Khan Academy Mastery, Motion) và bảng so sánh | Đáp ứng yêu cầu ≥1 sản phẩm ngoài chương trình; làm rõ khoảng trống của lát cắt |
+| 17/9 ~20:10 (trước CP4) | §1–§2 thêm khảo sát form n = 82 (Google Sheet, chốt 19:35:46); bảng impact dùng số khảo sát; tách câu 5–12 thành "tín hiệu chấp nhận" | Mẫu phỏng vấn n = 2 chưa đạt ngưỡng chuẩn A. Không dùng `survey-data-review.md` (n = 45, số lệch với sheet) và `codebase/src/data/survey-responses-raw.json` (có 40 dòng giờ nộp tăng đều 1 phút 1 giây, nghi dữ liệu thử) |
+| 17/9 (CP4, trước 21:00) | Đội trưởng xác nhận quality bar 3 điều kiện ở §7; thêm đoạn minh bạch rằng ngưỡng được chốt sau lượt AI v1/v2 | Khoá chuẩn "đạt" theo yêu cầu CP4; tự khai thời điểm chốt thay vì để giám khảo tự suy |
 
 ---
 
 ## Việc còn thiếu trước hạn chốt spec (21:00 · 17/9)
-1. **Mở rộng khảo sát** (chuẩn A, §1) — mới có n = 2, cần thêm người ngoài nhóm, có cả nền tảng non-tech.
-2. **Số liệu §2** cần khảo sát A để hoàn thiện cột "bao nhiêu người" của ứng viên (3).
-3. **§3** cần thêm 1 sản phẩm tương tự ngoài chương trình.
+1. ~~**Mở rộng khảo sát** (chuẩn A, §1).~~ Đã có n = 82 (17/9). Còn thiếu: nhóm trái ngành mới có 5 người.
+2. ~~**Số liệu §2**.~~ Đã cập nhật theo khảo sát n = 82.
+3. ~~**§3** cần thêm 1 sản phẩm tương tự ngoài chương trình.~~ Đã bổ sung Khan Academy Mastery và Motion (17/9).
 4. **§6** cần bổ sung ảnh chụp bốn đường đi từ app thật (T4-04; Thành phụ trách, Đức hỗ trợ). §5 và §7 đã chốt tại CP4.
+5. **Mining E1:** chưa đọc tay 52 tin để tách tin *xin* và tin *chia sẻ* tài liệu (T3-11).

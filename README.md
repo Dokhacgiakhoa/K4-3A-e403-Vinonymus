@@ -6,7 +6,7 @@
 [![verify](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/actions/workflows/verify.yml/badge.svg)](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/actions/workflows/verify.yml)
 · **Demo:** <https://codebase-mu-eight.vercel.app> · **Spec:** [`spec.md`](spec.md) · **Việc của nhóm:** [Issues theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones)
 
-Học viên Khoá 4 cho biết mình **tech hay non-tech**, **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**. AI chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
+Học viên Khoá 4 chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**), cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**. AI chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
 
 **Mục lục:** [Thành viên](#-thành-viên--phân-công) · [Sản phẩm](#-sản-phẩm) · [Luồng người dùng](#-luồng-người-dùng) · [Luồng vận hành](#️-luồng-vận-hành-quản-trị) · [Kiến trúc](#️-kiến-trúc) · [Trạng thái](#-trạng-thái-prototype) · [Chạy thử](#️-chạy-thử) · [Làm việc nhóm](#-quy-trình-làm-việc-nhóm) · [Tiến độ](#-tiến-độ-checkpoint) · [Tài liệu](#-bản-đồ-tài-liệu)
 
@@ -34,9 +34,10 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 **Bằng chứng** (chi tiết và cách đếm: [`spec.md`](spec.md) §1, [`docs/research/`](docs/research/)):
 - 8.8% lượt chat VLearn (1.189/13.494) là xin tóm tắt hoặc xin chỉ trọng tâm thay vì tự đọc hết.
 - AI Tutor hiện tại chỉ chủ động gợi ý bước học tiếp theo ở 0.13% lượt (18/13.494).
+- Khảo sát form (n = 82 học viên): 87% không tự xác định được phần cần học bù trước buổi lab; 93% gặp tài liệu rải rác; 93% tự khai mất ít nhất 15 phút mỗi buổi chỉ để gom tài liệu.
 - Phỏng vấn (n = 2): cả 2 người đều gặp cùng kiểu khó khăn. Một người mất 20–25 phút mỗi buổi chỉ để gom link; người kia có 45 phút mà slide dài hơn 60 trang.
 
-**Lát cắt dự thi (một câu):** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài lab tiếp theo · được AI chẩn đoán nền tảng (tech/non-tech) và quỹ thời gian rảnh · để đề xuất đúng **3 đầu việc trọng tâm kèm link tài liệu** · giúp học viên hoàn thành bài đúng hạn.
+**Lát cắt dự thi (một câu):** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài lab tiếp theo · được AI chẩn đoán nền tảng (non-tech / tech-base / AI) và quỹ thời gian rảnh · để đề xuất tối đa **3 đầu việc trọng tâm kèm link tài liệu** · giúp học viên hoàn thành bài đúng hạn.
 
 **Mức tự động hoá:** conditional. AI chỉ đề xuất và giải thích; học viên tự tick, chọn hoặc sửa trước khi làm. Khi thông tin không đủ, AI hỏi lại thay vì tự đoán.
 
@@ -53,31 +54,34 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 
 ## 🧭 Luồng người dùng
 
-Học viên mở `/planner`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK).
+Học viên mở `/planner`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
 
 ```mermaid
 flowchart TD
-    A([Mở /planner]) --> B[Bước 1 · Chọn nền tảng<br/>tech / non-tech]
+    A([Mở /planner]) --> B[Bước 1 · Chọn nền tảng<br/>non-tech / tech-base / đã học AI]
     B --> C[Bước 2 · Số phút rảnh hôm nay<br/>+ bài lab tiếp theo]
     C --> D[Bước 3 · Ghi chú tuỳ chọn<br/>'Bạn đang vướng gì?']
-    D --> E{Có API key?}
-    E -- chưa --> K[Nhắc nhập key ở Cài đặt<br/>hoặc xem gợi ý mặc định]
+    D --> F[Bấm Lập kế hoạch<br/>POST /api/roadmap]
+    F --> R{Luật cứng}
+    R -- dưới 30 phút / lab lạ --> H
+    R -- làm hộ / đáp án / gia hạn / điểm --> I
+    R -- hợp lệ --> E{Gọi được LLM?}
+    E -- không có key / lỗi / sai schema --> K[Kế hoạch từ luật tĩnh<br/>nhãn 'Gợi ý mặc định']
     K --> G
-    E -- có --> F[POST /api/roadmap]
-    F --> S{Kết quả}
+    E -- được --> S{AI trả về}
     S -- plan --> G[Bước 4 · Checklist ≤3 việc<br/>lý do · thời lượng · link]
-    S -- clarify --> H[Một câu hỏi lại] --> C
-    S -- refuse --> I[Giải thích lý do từ chối<br/>+ trỏ tới Lab Coach]
+    S -- clarify / confidence thấp --> H[Một câu hỏi lại] -- Sửa thời gian / bài lab --> C
+    S -- refuse --> I[Lời từ chối<br/>+ gợi ý liên hệ Lab Coach] -- Sửa ghi chú --> D
     G --> J[Tick / bỏ / đổi thứ tự<br/>lưu trên trình duyệt]
     J --> Z([Bắt đầu học])
 ```
 
 | Tình huống | Học viên thấy gì |
 |---|---|
-| Đủ thông tin | Dòng chẩn đoán, checklist tối đa 3 việc, nhãn **AI** hoặc **Gợi ý mặc định** |
-| Dưới 30 phút / bài lab chưa có trong catalog | Một câu hỏi lại, kèm nút quay về bước 2 |
-| Nhờ làm hộ, xin đáp án, gia hạn, điểm, hoặc "bỏ qua hướng dẫn" | Lời từ chối kèm kênh hỗ trợ chính thức |
-| Không có key hoặc LLM lỗi | Kế hoạch từ luật tĩnh, gắn nhãn "Gợi ý mặc định" |
+| Đủ thông tin | Dòng chẩn đoán, checklist tối đa 3 việc, nhãn **AI** hoặc **Gợi ý mặc định · chưa cá nhân hoá bằng AI** |
+| Dưới 30 phút / bài lab chưa có trong catalog / ghi chú mâu thuẫn với nền tảng | Một câu hỏi lại, kèm nút quay về bước 2 |
+| Nhờ làm hộ, xin đáp án, gia hạn, điểm, hoặc "bỏ qua hướng dẫn" | Lời từ chối, gợi ý liên hệ Lab Coach, kèm nút sửa ghi chú |
+| Không có key, LLM lỗi hoặc trả sai định dạng | Kế hoạch từ luật tĩnh, gắn nhãn "Gợi ý mặc định" và một dòng thông báo |
 
 Chi tiết màn hình: [`docs/05-ui-flow.md`](docs/05-ui-flow.md).
 
@@ -120,17 +124,17 @@ flowchart LR
     W --> S[(localStorage)]
 ```
 
-- Mọi lời gọi LLM đều đi qua `codebase/src/lib/llm/router.ts`. Router hỗ trợ 7 provider và tự chuyển sang provider khác khi một provider lỗi.
+- Mọi lời gọi LLM đều đi qua `codebase/src/lib/llm/router.ts`. Router hỗ trợ 7 provider, thử lần lượt theo thứ tự FPT → Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras (chỉ những provider có key), tự thử lại khi lỗi tạm thời và chuyển sang provider khác khi một provider lỗi. Key sai (401/403) thì dừng và báo lỗi.
 - Server không lưu, không log API key.
 - Link hiển thị cho học viên **chỉ lấy từ catalog**, không bao giờ lấy từ chữ do LLM sinh ra.
 
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | Chat + Planner: chạy thật |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | Chat + Planner: chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
-| Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR vào `main` | Đang chạy |
+| Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
 | Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
 
 Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api.md`](docs/03-api.md) · Prompt & guardrail: [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md)
@@ -139,8 +143,9 @@ Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi Gemini qua `/api/roadmap`; Golden set đạt **19/20 = 95%**. Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
+| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
 | Chat K.AI (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
+| Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
 
@@ -150,7 +155,7 @@ Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api
 K4-3A-e403-Vinonymus/
 ├── README.md          ← file này (README duy nhất)
 ├── spec.md            ← AI Spec — rubric chấm R1–R4
-├── demo-slides.pdf    ← slide 6 trang (CP5)
+├── demo-slides.pdf    ← slide 6 trang (CP5 — chưa có, nộp trước 13:00 · 18/9)
 ├── .github/           ← CI verify, CODEOWNERS, mẫu PR/issue
 ├── docs/              ← toàn bộ tài liệu dự án — xem docs/00-muc-luc.md
 ├── codebase/          ← prototype (Next.js app + backend .NET chưa tích hợp)
@@ -176,7 +181,7 @@ npm run dev                  # http://localhost:3000/planner
 - Không cần chạy backend .NET.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
 
-**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Planner không cần biến môi trường. Chat K.AI cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
+**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Planner không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. Chat K.AI cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
 
 ## 🤝 Quy trình làm việc nhóm
 
