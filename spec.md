@@ -175,6 +175,7 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 (trước CP4) | §3 thêm 2 giải pháp ngoài chương trình (Khan Academy Mastery, Motion) và bảng so sánh | Đáp ứng yêu cầu ≥1 sản phẩm ngoài chương trình; làm rõ khoảng trống của lát cắt |
 | 17/9 ~20:10 (trước CP4) | §1–§2 thêm khảo sát form n = 82 (Google Sheet, chốt 19:35:46); bảng impact dùng số khảo sát; tách câu 5–12 thành "tín hiệu chấp nhận" | Mẫu phỏng vấn n = 2 chưa đạt ngưỡng chuẩn A. Không dùng `survey-data-review.md` (n = 45, số lệch với sheet) và `codebase/src/data/survey-responses-raw.json` (có 40 dòng giờ nộp tăng đều 1 phút 1 giây, nghi dữ liệu thử) |
 | 17/9 (CP4, trước 21:00) | Đội trưởng xác nhận quality bar 3 điều kiện ở §7; thêm đoạn minh bạch rằng ngưỡng được chốt sau lượt AI v1/v2 | Khoá chuẩn "đạt" theo yêu cầu CP4; tự khai thời điểm chốt thay vì để giám khảo tự suy |
+| 17/9 20:30 (CP4) | Hoàn thành §6 bốn đường đi trải nghiệm kèm ảnh chụp app thật (T4-04, đóng #22) | Thành phụ trách, Đức hỗ trợ; đặc tả srs.md và 4 ảnh tại docs/assets/cp4/ |
 
 ---
 
@@ -182,5 +183,5 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 1. ~~**Mở rộng khảo sát** (chuẩn A, §1).~~ Đã có n = 82 (17/9). Còn thiếu: nhóm trái ngành mới có 5 người.
 2. ~~**Số liệu §2**.~~ Đã cập nhật theo khảo sát n = 82.
 3. ~~**§3** cần thêm 1 sản phẩm tương tự ngoài chương trình.~~ Đã bổ sung Khan Academy Mastery và Motion (17/9).
-4. **§6** cần bổ sung ảnh chụp bốn đường đi từ app thật (T4-04; Thành phụ trách, Đức hỗ trợ). §5 và §7 đã chốt tại CP4.
+4. ~~**§6** cần bổ sung ảnh chụp bốn đường đi từ app thật.~~ Đã xong tại T4-04 với 4 ảnh chụp app thật; §5 và §7 đã chốt tại CP4.
 5. **Mining E1:** chưa đọc tay 52 tin để tách tin *xin* và tin *chia sẻ* tài liệu (T3-11).
