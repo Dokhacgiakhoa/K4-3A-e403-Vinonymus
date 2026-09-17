@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Khảo Sát Vinonymus</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.4/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #070d19;
+    --panel: #0f172a;
+    --panel2: #131f37;
+    --border: #1e293b;
+    --text: #f1f5f9;
+    --muted: #94a3b8;
+    --accent: #38bdf8;
+    --accent2: #0284c7;
+    --gold: #fbbf24;
+    --green: #34d399;
+    --red: #f87171;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    padding: 24px 16px 60px;
+  }
+  .wrap { max-width: 1180px; margin: 0 auto; }
+  header {
+    background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #1d4ed8 100%);
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    margin-bottom: 24px;
+  }
+  header .badge {
+    display: inline-block; padding: 4px 14px; background: rgba(255,255,255,0.16);
+    border-radius: 999px; font-size: 11px; font-weight: 700; color: #fff;
+    text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;
+  }
+  header h1 { margin: 0; font-size: 24px; font-weight: 800; }
+  header p { color: #e0f2fe; margin: 8px 0 0; font-size: 13px; }
+
+  .kpis {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px; margin-bottom: 24px;
+  }
+  .kpi {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; text-align: center;
+  }
+  .kpi .value { font-size: 28px; font-weight: 800; color: var(--gold); }
+  .kpi .label { font-size: 11.5px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: .3px; }
+
+  section {
+    background: var(--panel); border: 1px solid var(--border); border-radius: 14px;
+    padding: 20px 20px 8px; margin-bottom: 20px;
+  }
+  section h2 {
+    font-size: 15px; font-weight: 700; color: var(--accent);
+    text-transform: uppercase; letter-spacing: .4px; margin: 0 0 4px;
+  }
+  section .sub { color: var(--muted); font-size: 12.5px; margin: 0 0 16px; }
+
+  .grid2 { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; align-items: start; }
+  @media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
+
+  .chartbox { position: relative; height: 280px; margin-bottom: 12px; }
+  .chartbox.tall { height: 320px; }
+
+  table { width: 100%; border-collapse: collapse; font-size: 12.8px; margin-bottom: 16px; }
+  th, td { padding: 7px 8px; text-align: left; border-bottom: 1px solid var(--border); }
+  th { color: var(--muted); font-weight: 600; text-transform: uppercase; font-size: 10.5px; letter-spacing: .3px; }
+  td.num, th.num { text-align: right; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+
+  .note {
+    background: var(--panel2); border-left: 3px solid var(--accent);
+    border-radius: 8px; padding: 10px 14px; font-size: 12.8px; color: #cbd5e1;
+    margin: 10px 0 16px;
+  }
+  .cleanlist { font-size: 12.8px; color: #cbd5e1; }
+  .cleanlist code { background: var(--panel2); padding: 1px 5px; border-radius: 5px; color: var(--gold); }
+  footer { text-align: center; color: var(--muted); font-size: 11.5px; margin-top: 30px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="badge">Mini Hackathon · K4 · Lab 3A · Track E</div>
+    <h1>Dashboard Khảo Sát Vinonymus</h1>
+    <p>45 phản hồi thật (đã làm sạch từ 55 dòng gốc) · Adaptive Learning System — AI Mentor &amp; AI Helpdesk</p>
+  </header>
+
+  <div class="kpis">
+    <div class="kpi"><div class="value">45</div><div class="label">Phản hồi thật (sạch)</div></div>
+    <div class="kpi"><div class="value">4.80</div><div class="label">Điểm ý tưởng TB / 5</div></div>
+    <div class="kpi"><div class="value">84%</div><div class="label">Sẵn sàng dùng thử tiếp</div></div>
+    <div class="kpi"><div class="value">91%</div><div class="label">Gặp nỗi đau tài liệu rải rác</div></div>
+  </div>
+
+  <section>
+    <h2>Làm sạch dữ liệu</h2>
+    <p class="sub">55 dòng gốc trên Google Sheet → 45 phản hồi thật dùng để phân tích</p>
+    <div class="cleanlist">
+      • Loại <code>8 dòng test/dev</code>: <code>VIN-4606</code>, <code>VIN-8702</code>, <code>VIN-3709</code>, <code>TEST001</code>, <code>TEST-DEBUG</code>, <code>VIN-MKT-01</code>, <code>VIN-EDU-02</code>, <code>TEST-EMAILSYNC-0917</code> — mã/tên ghi rõ là thử nghiệm kỹ thuật.<br>
+      • Gộp <code>2 dòng nộp trùng</code> của mã <code>2733</code> (nộp lại nhiều lần lúc test form) — giữ đúng 1 bản.<br>
+      • Chuẩn hoá 2 câu trả lời bị lệch nhãn giữa các đợt sửa form (Câu 1 và Câu 3) về cùng 1 nhãn trước khi tính %.<br>
+      • File này không chứa email / SĐT / MoMo / Discord-Zalo / tên thật — chỉ số liệu tổng hợp (đúng bất biến #1, AGENTS.md).
+    </div>
+  </section>
+
+  <section>
+    <h2>Tổng quan mẫu</h2>
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartPlatform"></canvas></div>
+      <table>
+        <thead><tr><th>Nền tảng</th><th class="num">Số người</th><th class="num">%</th></tr></thead>
+        <tbody id="tblPlatform"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phần 1 · Nỗi đau thực tế (Câu 1–4)</h2>
+    <p class="sub">n = 45 · Câu 2 và Câu 4 cho chọn nhiều ý nên tổng % có thể &gt; 100%</p>
+
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartQ1"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 1 · Tự nhận biết lỗ hổng</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ1"></tbody>
+      </table>
+    </div>
+    <div class="note">85% học viên không tự xác định được lỗ hổng kiến thức trước khi vào lớp.</div>
+
+    <div class="grid2">
+      <div class="chartbox tall"><canvas id="chartQ2"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 2 · Khó khăn gặp phải</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ2"></tbody>
+      </table>
+    </div>
+    <div class="note">Tài liệu rải rác và slide quá dài đều chiếm 91% — hai nỗi đau lớn nhất.</div>
+
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartQ3"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 3 · Thời gian gom tài liệu</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ3"></tbody>
+      </table>
+    </div>
+
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartQ4"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 4 · Cách xử lý khi kẹt bài</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ4"></tbody>
+      </table>
+    </div>
+    <div class="note">98% đã dùng AI ngoài để gỡ kẹt bài — rào cản chấp nhận AI Mentor rất thấp.</div>
+  </section>
+
+  <section>
+    <h2>Phần 2 · Tính khả thi AI Mentor &amp; AI Helpdesk (Câu 5–8)</h2>
+    <div class="grid2">
+      <div class="chartbox tall"><canvas id="chartQ567"></canvas></div>
+      <table>
+        <thead><tr><th>Câu hỏi</th><th class="num">Rất tích cực</th><th class="num">Cần xem thử</th><th class="num">Từ chối</th></tr></thead>
+        <tbody id="tblQ567"></tbody>
+      </table>
+    </div>
+
+    <div class="grid2">
+      <div class="chartbox tall"><canvas id="chartQ8"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 8 · Tính năng muốn dùng nhất</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ8"></tbody>
+      </table>
+    </div>
+    <div class="note">2 tính năng cốt lõi của lát cắt dự thi (chẩn đoán + checklist) đúng là 2 tính năng được muốn nhất (91% mỗi loại).</div>
+  </section>
+
+  <section>
+    <h2>Phần 3 · Giao diện &amp; trải nghiệm (Câu 9–11)</h2>
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartQ9"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 9 · Đánh giá ý tưởng</th><th class="num">Số sao</th><th class="num">SL</th></tr></thead>
+        <tbody id="tblQ9"></tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartQ10"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 10 · Độ trực quan UI</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ10"></tbody>
+      </table>
+    </div>
+    <div class="grid2">
+      <div class="chartbox tall"><canvas id="chartQ11"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 11 · Điểm cần cải thiện UI</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ11"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Phần 4 · Đăng ký trải nghiệm sớm (Câu 12)</h2>
+    <div class="grid2">
+      <div class="chartbox"><canvas id="chartQ12"></canvas></div>
+      <table>
+        <thead><tr><th>Câu 12 · Sẵn sàng dùng thử</th><th class="num">SL</th><th class="num">%</th></tr></thead>
+        <tbody id="tblQ12"></tbody>
+      </table>
+    </div>
+    <div class="note">38/45 (84%) sẵn sàng dùng thử bản demo tiếp theo — nguồn ứng viên cho R6 (≥5 người ngoài nhóm).</div>
+  </section>
+
+  <footer>Dashboard tổng hợp cho nội bộ nhóm Vinonymus · Không chứa dữ liệu định danh cá nhân</footer>
+</div>
+
+<script>
+const COLORS = ['#38bdf8','#fbbf24','#34d399','#f87171','#a78bfa','#fb923c','#f472b6','#4ade80'];
+Chart.defaults.color = '#94a3b8';
+Chart.defaults.borderColor = '#1e293b';
+Chart.defaults.font.family = "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+
+const N = 45;
+const pct = (v) => (100 * v / N).toFixed(0) + '%';
+
+function fillTable(tbodyId, entries, showPct = true) {
+  const tbody = document.getElementById(tbodyId);
+  tbody.innerHTML = entries.map(([label, val]) =>
+    `<tr><td>${label}</td><td class="num">${val}</td>${showPct ? `<td class="num">${pct(val)}</td>` : ''}</tr>`
+  ).join('');
+}
+
+function barChart(canvasId, entries, horizontal = true) {
+  const ctx = document.getElementById(canvasId);
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: entries.map(e => e[0].length > 38 ? e[0].slice(0, 36) + '…' : e[0]),
+      datasets: [{ data: entries.map(e => e[1]), backgroundColor: COLORS, borderRadius: 6, maxBarThickness: 28 }]
+    },
+    options: {
+      indexAxis: horizontal ? 'y' : 'x',
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { grid: { color: '#1e293b' }, beginAtZero: true },
+        y: { grid: { display: false } }
+      }
+    }
+  });
+}
+
+function pieChart(canvasId, entries) {
+  const ctx = document.getElementById(canvasId);
+  new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+      labels: entries.map(e => e[0]),
+      datasets: [{ data: entries.map(e => e[1]), backgroundColor: COLORS, borderColor: '#0f172a', borderWidth: 2 }]
+    },
+    options: { plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10.5 } } } } }
+  });
+}
+
+// ---- Platform ----
+const platform = [
+  ["Dân Công nghệ thông tin", 29],
+  ["Đang theo chuyên sâu Data/AI", 15],
+  ["Người học trái ngành", 1]
+];
+pieChart('chartPlatform', platform);
+fillTable('tblPlatform', platform);
+
+// ---- Q1 ----
+const q1 = [
+  ["Biết chưa hiểu, không biết đọc gì để bù", 22],
+  ["Hoàn toàn không biết — vào lớp lỗi mới biết", 16],
+  ["Tự biết rõ mình thiếu gì, tự bù đắp được", 6],
+  ["Chỉ nhận ra khi fail hoặc GV chỉ ra", 1]
+];
+barChart('chartQ1', q1);
+fillTable('tblQ1', q1);
+
+// ---- Q2 (multi) ----
+const q2 = [
+  ["Tài liệu rải rác nhiều nơi", 41],
+  ["Slide quá dài, không rõ trọng tâm", 41],
+  ["Thời gian rảnh quá ít (<1 tiếng)", 22],
+  ["AI Tutor VLearn trả lời chung chung", 16],
+  ["Làm bài cập rập, sát hạn mới nộp", 8],
+  ["Không có bài test ngắn tự kiểm tra", 8]
+];
+barChart('chartQ2', q2);
+fillTable('tblQ2', q2);
+
+// ---- Q3 ----
+const q3 = [
+  ["15 – 30 phút", 33],
+  ["Trên 45 phút", 5],
+  ["30 – 45 phút", 4],
+  ["Dưới 15 phút", 3]
+];
+barChart('chartQ3', q3, false);
+fillTable('tblQ3', q3);
+
+// ---- Q4 (multi) ----
+const q4 = [
+  ["Dùng AI bên ngoài (ChatGPT/Claude/Gemini)", 44],
+  ["Hỏi bạn bè / đồng đội", 15],
+  ["Tự search Google/StackOverflow", 13],
+  ["Hỏi AI Tutor VLearn", 6],
+  ["Đợi lên lớp hỏi Mentor/Trợ giảng", 4]
+];
+barChart('chartQ4', q4);
+fillTable('tblQ4', q4);
+
+// ---- Q5/6/7 grouped ----
+const q567labels = ['C5. Chẩn đoán + lọc 3 việc', 'C6. Tự lên kế hoạch thích ứng', 'C7. Chỉ đích danh bài bù lỗ hổng'];
+const q567 = {
+  positive: [34, 34, 39],
+  tryFirst: [11, 11, 5],
+  reject: [0, 0, 1]
+};
+new Chart(document.getElementById('chartQ567'), {
+  type: 'bar',
+  data: {
+    labels: q567labels,
+    datasets: [
+      { label: 'Rất tích cực', data: q567.positive, backgroundColor: '#38bdf8', borderRadius: 5 },
+      { label: 'Cần xem thử', data: q567.tryFirst, backgroundColor: '#fbbf24', borderRadius: 5 },
+      { label: 'Từ chối', data: q567.reject, backgroundColor: '#f87171', borderRadius: 5 }
+    ]
+  },
+  options: {
+    indexAxis: 'y',
+    scales: { x: { stacked: true, beginAtZero: true, grid: { color: '#1e293b' } }, y: { stacked: true, grid: { display: false } } },
+    plugins: { legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10.5 } } } }
+  }
+});
+document.getElementById('tblQ567').innerHTML = q567labels.map((l, i) =>
+  `<tr><td>${l}</td><td class="num">${q567.positive[i]}</td><td class="num">${q567.tryFirst[i]}</td><td class="num">${q567.reject[i]}</td></tr>`
+).join('');
+
+// ---- Q8 (multi) ----
+const q8 = [
+  ["AI Mentor: Bài test chẩn đoán ngắn", 41],
+  ["AI Mentor: Checklist 3 việc trọng tâm", 41],
+  ["AI Helpdesk 24/7: hỏi đáp, gỡ kẹt tức thì", 10],
+  ["AI Mentor: gom sẵn link catalog", 7],
+  ["Cảnh báo trễ hạn + lộ trình SFIA", 5]
+];
+barChart('chartQ8', q8);
+fillTable('tblQ8', q8);
+
+// ---- Q9 ratings ----
+const q9 = [["5 sao", 37], ["4 sao", 7], ["3 sao", 1]];
+barChart('chartQ9', q9, false);
+fillTable('tblQ9', q9, false);
+document.getElementById('tblQ9').innerHTML = q9.map(([l, v]) => `<tr><td>${l}</td><td class="num">${v}</td></tr>`).join('');
+
+// ---- Q10 ----
+const q10 = [
+  ["Đẹp, rất dễ dùng", 30],
+  ["Tạm ổn, cần tinh gọn", 13],
+  ["Khó dùng, rối mắt", 2]
+];
+pieChart('chartQ10', q10);
+fillTable('tblQ10', q10);
+
+// ---- Q11 (multi) ----
+const q11 = [
+  ["Đã ổn, không cần sửa nhiều", 36],
+  ["Bố cục cần gọn gàng hơn", 11],
+  ["Font/kích thước chữ cần tối ưu", 8],
+  ["Màu sắc/tương phản cần dịu hơn", 8],
+  ["Cần bổ sung Light mode", 8]
+];
+barChart('chartQ11', q11);
+fillTable('tblQ11', q11);
+
+// ---- Q12 ----
+const q12 = [
+  ["Sẵn sàng! Gửi link khi có bản mới", 38],
+  ["Chưa chắc — tuỳ lúc đó", 6],
+  ["Không có nhu cầu", 1]
+];
+pieChart('chartQ12', q12);
+fillTable('tblQ12', q12);
+</script>
+</body>
+</html>
