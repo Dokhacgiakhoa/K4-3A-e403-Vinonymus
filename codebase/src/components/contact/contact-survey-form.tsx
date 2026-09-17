@@ -501,7 +501,7 @@ export function ContactSurveyForm() {
           Bản Khảo Sát Thực Nghiệm: Hệ Thống Adaptive Learning (AI Mentor & AI Helpdesk)
         </h2>
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-          Ý kiến khách quan của bạn là cơ sở thực chứng quan trọng để nhóm Vinonymus (Phòng E403) chứng minh nỗi đau và hoàn thiện giải pháp tại Mini Hackathon AI Batch 04.
+          Ý kiến khách quan của bạn là cơ sở thực chứng quan trọng để nhóm Vinonymus (Phòng E403) chứng minh nỗi đau và hoàn thiện giải pháp tại Mini Hackathon · K4 · Lab 3A · Track E.
         </p>
       </div>
 

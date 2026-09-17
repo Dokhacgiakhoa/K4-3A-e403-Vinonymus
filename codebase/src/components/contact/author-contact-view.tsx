@@ -55,7 +55,7 @@ export function AuthorContactView() {
             <span className="px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-500/40">AI Helpdesk 24/7 (Hỗ trợ tức thì)</span>
           </div>
           <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal max-w-2xl">
-            Mini Hackathon AI · Batch 04 · Track E — Làn mở. Nền tảng học tập thích ứng cá nhân hóa cho học viên Khóa 4, tích hợp bộ đôi trợ lực AI Mentor và AI Helpdesk 24/7.
+            Mini Hackathon · K4 · Lab 3A · Track E — Làn mở. Nền tảng học tập thích ứng cá nhân hóa cho học viên Khóa 4, tích hợp bộ đôi trợ lực AI Mentor và AI Helpdesk 24/7.
           </p>
           <a
             href="https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus"

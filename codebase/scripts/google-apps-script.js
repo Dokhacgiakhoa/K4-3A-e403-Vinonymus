@@ -127,6 +127,33 @@ function getStarDisplay(rating) {
   return stars + " (" + num + "/5 sao)";
 }
 
+// Định dạng 1 câu trả lời (chuỗi hoặc mảng multi-select) thành HTML an toàn cho bảng tóm tắt email
+function formatAnswerHtml(value) {
+  if (Array.isArray(value)) {
+    if (value.length === 0) return "Chưa chọn";
+    return value.map(function (item) { return "&bull; " + escapeHtml(item); }).join("<br>");
+  }
+  if (value === undefined || value === null || value === "") return "Chưa trả lời";
+  return escapeHtml(String(value));
+}
+
+// Sinh các dòng <tr> của bảng tóm tắt từ danh sách [nhãn, giá trị HTML đã escape]
+function buildSummaryRows(rows) {
+  return rows.map(function (row) {
+    return '<tr style="border-bottom: 1px solid #334155;">' +
+      '<td style="padding: 9px 12px 9px 0; color: #94a3b8; width: 42%; vertical-align: top;">' + row[0] + '</td>' +
+      '<td style="padding: 9px 0; color: #f1f5f9; vertical-align: top; line-height: 1.6;">' + row[1] + '</td>' +
+      '</tr>';
+  }).join('');
+}
+
+// Dòng tiêu đề phân nhóm (Phần 1-4) chèn giữa các dòng dữ liệu trong cùng 1 bảng
+function buildSectionHeaderRow(label, isFirst) {
+  var topSpacing = isFirst ? '0' : '18px';
+  var borderTop = isFirst ? '' : 'border-top: 1px solid #334155;';
+  return '<tr><td colspan="2" style="padding: ' + topSpacing + ' 0 8px 0; font-size: 11px; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.5px; ' + borderTop + '">' + label + '</td></tr>';
+}
+
 function sendConfirmationEmail(data, ticketCode) {
   var recipientEmail = data.email;
   var recipientName = data.fullName || "Bạn";
@@ -135,6 +162,38 @@ function sendConfirmationEmail(data, ticketCode) {
   var subject = "[Vinonymus E403] Xác nhận khảo sát & Mã quay thưởng học viên: " + ticketCode;
 
   var starRatingHtml = getStarDisplay(data.overallRating);
+
+  // Bảng tóm tắt đầy đủ 12 câu hỏi khảo sát, nhóm theo đúng 4 Phần hiển thị trên form web /contact
+  var summaryTableRowsHtml =
+    buildSummaryRows([
+      ["Nền tảng của bạn", formatAnswerHtml(data.background)]
+    ]) +
+    buildSectionHeaderRow("Phần 1 &middot; Nỗi đau thực tế (Câu 1-4)", false) +
+    buildSummaryRows([
+      ["Câu 1 &middot; Tự nhận biết lỗ hổng", formatAnswerHtml(data.selfAwarenessOfGaps)],
+      ["Câu 2 &middot; Khó khăn gặp phải", formatAnswerHtml(data.primaryPainPoints)],
+      ["Câu 3 &middot; Thời gian mất gom tài liệu", formatAnswerHtml(data.timeWasted)],
+      ["Câu 4 &middot; Cách xử lý khi kẹt bài", formatAnswerHtml(data.currentWorkarounds)]
+    ]) +
+    buildSectionHeaderRow("Phần 2 &middot; Tính khả thi giải pháp (Câu 5-8)", false) +
+    buildSummaryRows([
+      ["Câu 5 &middot; Tính khả thi giải pháp AI", formatAnswerHtml(data.solutionFeasibility)],
+      ["Câu 6 &middot; Nhu cầu lộ trình cá nhân hóa", formatAnswerHtml(data.wantPersonalizedRoadmap)],
+      ["Câu 7 &middot; Nhu cầu AI bù đắp kiến thức", formatAnswerHtml(data.wantAiGapFilling)],
+      ["Câu 8 &middot; Tính năng muốn dùng nhất", formatAnswerHtml(data.mostWantedFeatures)]
+    ]) +
+    buildSectionHeaderRow("Phần 3 &middot; Đánh giá giao diện (Câu 9-11)", false) +
+    buildSummaryRows([
+      ["Câu 9 &middot; Đánh giá ý tưởng", '<strong style="color: #fbbf24;">' + starRatingHtml + '</strong>'],
+      ["Câu 10 &middot; Độ trực quan giao diện", formatAnswerHtml(data.usabilityRating)],
+      ["Câu 11 &middot; Điểm cần cải thiện UI", formatAnswerHtml(data.uiImprovements)]
+    ]) +
+    buildSectionHeaderRow("Phần 4 &middot; Đăng ký &amp; góp ý (Câu 12)", false) +
+    buildSummaryRows([
+      ["Câu 12 &middot; Sẵn sàng dùng thử", formatAnswerHtml(data.willingToTest)],
+      ["Discord / Zalo", formatAnswerHtml(data.contactHandle)],
+      ["Góp ý thêm cho nhóm", formatAnswerHtml(data.generalFeedback)]
+    ]);
 
   var htmlBody = `
     <!DOCTYPE html>
@@ -150,7 +209,7 @@ function sendConfirmationEmail(data, ticketCode) {
         <!-- HEADER BANNER -->
         <div style="background: linear-gradient(135deg, #0284c7 0%, #0369a1 40%, #1d4ed8 100%); padding: 32px 24px; text-align: center;">
           <div style="display: inline-block; padding: 4px 14px; background: rgba(255, 255, 255, 0.16); border-radius: 999px; font-size: 11px; font-weight: 700; color: #ffffff; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;">
-            Mini Hackathon AI &bull; Batch 04 &bull; Track E
+            Mini Hackathon &bull; K4 &bull; Lab 3A &bull; Track E
           </div>
           <h1 style="color: #ffffff; margin: 0; font-size: 22px; font-weight: 800; letter-spacing: 0.2px; line-height: 1.3;">
             Adaptive Learning System
@@ -215,26 +274,7 @@ function sendConfirmationEmail(data, ticketCode) {
             </div>
 
             <table style="width: 100%; font-size: 13px; color: #cbd5e1; border-collapse: collapse;">
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8; width: 44%;">Mã học viên</td>
-                <td style="padding: 9px 0; font-weight: 700; color: #fbbf24;">` + escapeHtml(ticketCode) + `</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8;">Nền tảng của bạn</td>
-                <td style="padding: 9px 0; font-weight: 600; color: #f1f5f9;">` + escapeHtml(data.background || "Chưa chọn") + `</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8;">Nhận diện lỗ hổng</td>
-                <td style="padding: 9px 0; color: #f1f5f9;">` + escapeHtml(data.selfAwarenessOfGaps || "Chưa chọn") + `</td>
-              </tr>
-              <tr style="border-bottom: 1px solid #334155;">
-                <td style="padding: 9px 0; color: #94a3b8;">Tính khả thi giải pháp</td>
-                <td style="padding: 9px 0; font-weight: 600; color: #f1f5f9;">` + escapeHtml(data.solutionFeasibility || "Chưa chọn") + `</td>
-              </tr>
-              <tr>
-                <td style="padding: 9px 0; color: #94a3b8;">Đánh giá ý tưởng</td>
-                <td style="padding: 9px 0; font-weight: 700; color: #fbbf24;">` + starRatingHtml + `</td>
-              </tr>
+              ` + summaryTableRowsHtml + `
             </table>
           </div>
 
