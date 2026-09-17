@@ -90,6 +90,7 @@ npm run dev                  # http://localhost:3000/planner
 | Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Luồng người dùng (CP2) | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
 | Ai làm gì, hạn nào | [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) |
+| Kế hoạch sửa cấu trúc repo & quy trình | [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
 | Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
