@@ -10,17 +10,19 @@
 
 ### Request
 
-Header API key là tuỳ chọn. FE lấy key từ `localStorage` và gửi trong phạm vi request. Route dùng biến môi trường của server nếu thiếu header tương ứng; chỉ trả kế hoạch `baseline` khi không có key nào hoặc lời gọi LLM thất bại:
+Header (tuỳ chọn, không lưu, không log). Thiếu header của provider nào thì server dùng biến môi trường tương ứng nếu có. Không có key nào thì trả kế hoạch baseline.
 
-| Header | Provider |
-|---|---|
-| `x-gemini-key` | Gemini |
-| `x-openai-key` | OpenAI |
-| `x-claude-key` | Claude |
-| `x-groq-key`, `x-cerebras-key`, `x-deepseek-key` | Khác |
-| `x-fpt-key` | FPT AI Factory |
+| Header | Biến môi trường dự phòng | Provider |
+|---|---|---|
+| `x-fpt-key` | `FPT_API_KEY` | FPT AI Factory (router thử đầu tiên) |
+| `x-gemini-key` | `GEMINI_API_KEY` | Gemini |
+| `x-openai-key` | `OPENAI_API_KEY` | OpenAI |
+| `x-claude-key` | `ANTHROPIC_API_KEY` | Claude |
+| `x-deepseek-key` | `DEEPSEEK_API_KEY` | DeepSeek |
+| `x-groq-key` | `GROQ_API_KEY` | Groq |
+| `x-cerebras-key` | `CEREBRAS_API_KEY` | Cerebras |
 
-Router thử các provider có key theo thứ tự FPT → Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras. Model được cố định trong từng adapter, FE chưa cho chọn model. Lỗi tạm thời có thể được thử lại; lỗi trước token đầu tiên có thể chuyển sang provider kế tiếp; key sai (401/403) dừng thử. Không có key, provider lỗi hoặc output không hợp lệ thì Planner dùng `baseline`.
+Router thử các provider có key theo thứ tự FPT → Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras. Model được cố định trong từng adapter, FE chưa cho chọn model. Lỗi tạm thời (503/429) được thử lại tối đa 2 lần; lỗi khác chuyển sang provider kế tiếp; key sai (401/403) dừng thử. Không có key, provider lỗi hoặc output không hợp lệ thì dùng `baseline`.
 
 Body:
 
@@ -37,12 +39,12 @@ Body:
 |---|---|---|
 | `background` | `"non_tech" \| "tech_base" \| "ai"` | bắt buộc |
 | `available_minutes` | integer | 0–600 |
-| `lab_id` | string không rỗng | phải có trong catalog, nếu không → `clarify` |
+| `lab_id` | string | 1–100 ký tự; không có trong catalog → `clarify` |
 | `note` | string | tuỳ chọn, ≤500 ký tự, coi là dữ liệu |
 
 ### Response `200`
 
-Luôn có trường `status`, một trong ba giá trị:
+Luôn có trường `status`, một trong ba giá trị. Response có header `x-planner-request-id` khi đã đi tới bước gọi LLM.
 
 ```json
 {
@@ -68,20 +70,24 @@ Luôn có trường `status`, một trong ba giá trị:
 ```
 
 ```json
-{ "status": "clarify", "question": "Hôm nay bạn chỉ có 20 phút — chưa đủ cho một việc trọn vẹn. Bạn có thể dành ít nhất 30 phút không, hay muốn ưu tiên chỉ phần chuẩn bị môi trường?" }
+{ "status": "clarify", "question": "Bạn đang có 20 phút, chưa đủ cho một nhiệm vụ trọn vẹn. Bạn có thể dành ít nhất 30 phút không?" }
 ```
 
 ```json
-{ "status": "refuse", "message": "Mình chỉ giúp sắp xếp việc cần học, không làm bài hộ, không đưa đáp án và không xử lý gia hạn hay điểm số. Những việc đó bạn nhắn Lab Coach của phòng nhé." }
+{ "status": "refuse", "message": "Mình chỉ giúp sắp xếp việc cần học; không làm bài hộ, đưa đáp án, chấm điểm hoặc xử lý gia hạn. Bạn hãy liên hệ Lab Coach cho các yêu cầu đó." }
 ```
 
 | Trường | Ghi chú |
 |---|---|
-| `source` | `"ai"` hoặc `"baseline"` (FR-P09) |
-| `tasks[].itemId`, `title`, `url`, `type`, `minutes` | **Lấy từ catalog**, không lấy từ output LLM (FR-P04); tối đa 3 việc, không vượt quỹ thời gian |
-| `tasks[].reason` | Lý do do LLM sinh khi `source: "ai"`, hoặc do luật tĩnh tạo khi `source: "baseline"` |
+| `source` | `"ai"` hoặc `"baseline"` (FR-P09); chỉ có khi `status = "plan"` |
+| `tasks[].itemId` | Response dùng camelCase; output nội bộ của LLM mới dùng `item_id` |
+| `tasks[].title`, `url`, `type`, `minutes` | **Lấy từ catalog**, không lấy từ output LLM (FR-P04) |
+| `tasks[].reason` | Từ LLM (cắt còn ≤160 ký tự) khi `source: "ai"`; do luật tĩnh tạo khi `source: "baseline"` |
+| `diagnosis.summary` | Từ LLM, cắt còn ≤240 ký tự |
 
-Route kiểm tra lab, ghi chú ngoài phạm vi và thời gian dưới 30 phút trước khi gọi LLM. FE cho tick, bỏ, đổi thứ tự việc và lưu kế hoạch/checklist trong `localStorage`.
+`clarify` và `refuse` có thể đến từ luật cứng (trước khi gọi LLM) hoặc từ LLM. Khi LLM trả `confidence = "low"`, server đổi thành `clarify`.
+
+FE cho tick, bỏ, đổi thứ tự việc và lưu kế hoạch/checklist trong `localStorage`.
 
 ### Lỗi
 
@@ -92,17 +98,37 @@ Route kiểm tra lab, ghi chú ngoài phạm vi và thời gian dưới 30 phút
 | 200 + `status: "clarify"` / `"refuse"` | Lab không có trong catalog, thời gian dưới 30 phút, yêu cầu ngoài phạm vi hoặc chẩn đoán thiếu chắc chắn | `question` hoặc `message` tương ứng |
 | 500 | Lỗi không lường trước | `{ "error": "Không thể xử lý yêu cầu lập kế hoạch." }` |
 
-## 2. `POST /api/chat` — Chat K.AI (có sẵn)
+## 2. `POST /api/chat` — AI Helpdesk (trước gọi Chat K.AI)
 
-FE Chat K.AI gọi API này với `question`, `history` và các header key hiện có. SSE stream có các sự kiện `status`, `token`, `citations`, `done`, `need_key`, `error`. Pipeline ưu tiên FAQ; khi cần LLM thì dùng cùng router ở trên. Đặc tả gốc của dự án nền: [`legacy/aiia-docs/04-API-SPEC.md`](legacy/aiia-docs/04-API-SPEC.md). Không thuộc lát cắt dự thi.
+Component chat (`components/chat/chat-box.tsx`) gọi API này với `question`, `history` và các header key hiện có. SSE stream có các sự kiện `status`, `token`, `citations`, `done`, `need_key`, `error`. Pipeline ưu tiên FAQ; khi cần LLM thì dùng cùng router ở trên. Đặc tả gốc của dự án nền: [`legacy/aiia-docs/04-API-SPEC.md`](legacy/aiia-docs/04-API-SPEC.md). Không thuộc lát cắt dự thi.
 
-Widget nổi ghi "AI Helpdesk 24/7" trong `components/chat/floating-ai-widget.tsx` **chưa gọi** endpoint này: câu trả lời và bộ chọn model hiện là mô phỏng trên FE. AI Mentor 4 sprint tại `/learning?mode=ai_roadmap` cũng **chưa có API riêng**; wizard chạy quy tắc trong trình duyệt và lưu `localStorage`. Hai giao diện này không dùng `/api/roadmap`.
+Widget nổi ghi "AI Helpdesk 24/7" trong `components/chat/floating-ai-widget.tsx` **chưa gọi** endpoint này: câu trả lời và bộ chọn model hiện là mô phỏng trên FE. AI Mentor 4 sprint tại `/learning?mode=ai_roadmap` cũng **chưa có API riêng**; wizard chạy quy tắc trong trình duyệt và lưu `localStorage`. Hai giao diện này không dùng `/api/roadmap`. Component `chat-box.tsx` hiện cũng chưa được gắn vào trang nào.
 
 ## 3. Endpoint khác có sẵn
 
 | Endpoint | Mục đích |
 |---|---|
-| `POST /api/chat/feedback` | Đánh giá 👍/👎 câu trả lời chat |
+| `POST /api/chat/feedback` | Đánh giá 👍/👎 câu trả lời chat (chi tiết bên dưới) |
 | `GET /api/faqs` | Danh sách FAQ |
 | `GET /api/health` | Health check |
 | `GET /api/auth/login/[provider]`, `/api/auth/callback/[provider]` | OAuth GitHub/Google (mock, cần cấu hình) |
+
+### `POST /api/chat/feedback`
+
+Tách lớp trong `codebase/src/backend/`: route → controller → service → repository → RPC `submit_feedback` (migration `0014_submit_feedback_rpc.sql`). Ghi qua RPC để không phải mở quyền UPDATE/SELECT cho người dùng ẩn danh.
+
+| Trường | Ràng buộc (zod) |
+|---|---|
+| `queryLogId` | UUID, bắt buộc |
+| `rating` | `-1` hoặc `1` |
+| `reason` | tuỳ chọn: `wrong`, `incomplete`, `irrelevant`, `other` |
+| `note` | tuỳ chọn, ≤ 2.000 ký tự |
+| `clientSessionId` | tuỳ chọn, 1–200 ký tự |
+
+| HTTP | Khi nào | Body |
+|---|---|---|
+| 200 | Lưu được | `{ "success": true }` |
+| 400 | JSON hỏng hoặc sai schema | `{ "error": "…", "field": "…" }` |
+| 500 | Lỗi lưu | Thông báo chung, không trả lỗi nội bộ database |
+
+Kiểm thử: `codebase/tests/unit/backend-feedback.test.ts` (8 test).

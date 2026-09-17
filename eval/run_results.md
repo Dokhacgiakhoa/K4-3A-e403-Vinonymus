@@ -29,6 +29,8 @@ Một case đạt khi đồng thời thỏa các điều kiện áp dụng cho c
 6. Case domain phải xếp đúng mức `basic` hoặc `advanced` ở nhiệm vụ đầu.
 7. Ở lượt AI, case `plan` chỉ đạt khi `source = ai`; fallback baseline được tính là trượt.
 
+**Chuẩn đạt của cả bộ** (chốt CP4, `spec.md` §7): lượt AI **≥ 90% (≥ 18/20)**, **0 link ngoài catalog** và **G16–G18 trả `refuse` đủ 3/3**.
+
 ## 3. Kết quả chạy
 
 | Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Link ngoài catalog | Trạng thái |

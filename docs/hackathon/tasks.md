@@ -28,7 +28,7 @@
 
 ---
 
-## CP2 · Luồng hoạt động — 21:00 · 16/9
+## CP2 · Luồng hoạt động — 21:00 · 16/9 · ✅ đã nộp
 
 Mục tiêu: người xem thấy được cả luồng từ đầu đến cuối. **Chưa cần AI chạy thật.**
 
@@ -36,14 +36,14 @@ Mục tiêu: người xem thấy được cả luồng từ đầu đến cuối
 |---|---|---|---|---|---|---|
 | T2-01 [#2](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/2) | Cho trang Planner mở được **không cần đăng nhập / gói Pro** (để demo) | `@Minh` | `@Thanh` | Trang riêng `codebase/src/app/planner/` | 20:15 | ✅ |
 | T2-02 [#3](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/3) | Đổi nội dung wizard theo [`05-ui-flow.md`](../05-ui-flow.md): nền tảng → thời gian + bài lab → ghi chú → checklist ≤3 việc; gắn cứng 1 kết quả mẫu | `@Thanh` | `@Minh` | `codebase/src/components/planner/study-planner.tsx` (kết quả từ luật tĩnh) | 20:30 | ✅ |
-| T2-03 [#4](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/4) | Quay màn hình đi hết một lượt (phương án dự phòng: xuất sơ đồ mermaid trong `05-ui-flow.md` ra ảnh) | `@Thanh` | — | Video / ảnh sơ đồ | 20:45 | ⬜ |
+| T2-03 [#4](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/4) | Quay màn hình đi hết một lượt (phương án dự phòng: xuất sơ đồ mermaid trong `05-ui-flow.md` ra ảnh) | `@Thanh` | — | Video / ảnh sơ đồ (`docs/05-ui-flowchart.png`) | 20:45 | ✅ |
 | T2-04 [#5](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/5) | Nộp form CP2 | `@Khoa` | — | Form CP2 (mock demo qua link Vercel) | 20:55 | ✅ |
 | T2-05 [#6](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/6) | Xác nhận lời đáp P01 / P02 trong `survey-log.md` đúng nguyên văn | `@Thanh` (P01) | `@Duc` (P02) | `survey-log.md` | 21:00 | ⬜ |
-| T2-06 [#7](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/7) | Chuẩn bị cho CP3: nháp prompt v0 + danh sách tên 20 case golden set | `@Duc` | — | [`04-ai-pipeline.md`](../04-ai-pipeline.md), `eval/` | 23:00 | ⬜ |
+| T2-06 [#7](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/7) | Chuẩn bị cho CP3: nháp prompt v0 + danh sách tên 20 case golden set | `@Duc` | — | [`04-ai-pipeline.md`](../04-ai-pipeline.md), `eval/` | 23:00 | ✅ |
 
 ---
 
-## CP3 · Video AI chạy thật + số đo — 16:00 · 17/9
+## CP3 · Video AI chạy thật + số đo — 16:00 · 17/9 · ✅ đã nộp
 
 Mục tiêu: **≥1 lời gọi AI thật** trong video 30 giây, và con số "thử bao nhiêu, đúng bao nhiêu".
 
@@ -69,11 +69,11 @@ Mục tiêu: **khoá chuẩn "đạt"** trước khi xem kết quả cuối; t�
 
 | ID | Việc | Phụ trách | Hỗ trợ | Kết quả / file | Hạn | Trạng thái |
 |---|---|---|---|---|---|---|
-| T4-01 [#19](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/19) | §1–§2: cập nhật số khảo sát mới, số E1 đã tách, hoàn thiện bảng impact | `@Khoa` | — | `spec.md` | 17/9 · 18:00 | ⬜ |
-| T4-02 [#20](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/20) | §3: thêm ≥1 sản phẩm tương tự ngoài chương trình | `@Khoa` | `@Thanh` | `spec.md` | 17/9 · 18:00 | ⬜ |
-| T4-03 [#21](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/21) | §5: bảng 4 lớp chỗ khó, ≥8 kịch bản, trỏ về case trong golden set | `@Duc` | `@Minh` | `spec.md` | 17/9 · 18:30 | ⬜ |
-| T4-04 [#22](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/22) | §6: bốn đường đi của trải nghiệm, kèm ảnh chụp từ app thật | `@Thanh` | `@Duc` | `spec.md` | 17/9 · 18:30 | ⬜ |
-| T4-05 [#23](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/23) | §7: chốt quality bar ("Đạt khi ≥ __% qua bộ, và 0 link ngoài catalog") + bảng kết quả | `@Duc` | `@Khoa` | `spec.md`, `eval/run_results.md` | 17/9 · 19:30 | ⬜ |
+| T4-01 [#19](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/19) | §1–§2: cập nhật số khảo sát mới, số E1 đã tách, hoàn thiện bảng impact | `@Khoa` | — | `spec.md` | 17/9 · 18:00 | 🔄 Khảo sát + impact xong; còn tách tay 52 tin E1 (T3-11) |
+| T4-02 [#20](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/20) | §3: thêm ≥1 sản phẩm tương tự ngoài chương trình | `@Khoa` | `@Thanh` | `spec.md` | 17/9 · 18:00 | ✅ |
+| T4-03 [#21](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/21) | §5: bảng 4 lớp chỗ khó, ≥8 kịch bản, trỏ về case trong golden set | `@Duc` | `@Minh` | `spec.md` | 17/9 · 18:30 | ✅ |
+| T4-04 [#22](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/22) | §6: bốn đường đi của trải nghiệm, kèm ảnh chụp từ app thật | `@Thanh` | `@Duc` | `spec.md` | 17/9 · 18:30 | ✅ |
+| T4-05 [#23](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/23) | §7: chốt quality bar ("Đạt khi ≥ __% qua bộ, và 0 link ngoài catalog") + bảng kết quả | `@Duc` | `@Khoa` | `spec.md`, `eval/run_results.md` | 17/9 · 19:30 | ✅ ≥90% + 0 link ngoài catalog + G16–G18 refuse 3/3 |
 | T4-06 [#24](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/24) | Cập nhật `03-api.md`, `02-kien-truc.md` cho khớp code đã build | `@Minh` | — | `docs/` | 17/9 · 19:30 | ✅ |
 | T4-07 [#25](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/25) | Trả lời "Câu hỏi mở" trong SRS, chốt SRS v1 | `@Khoa` | `@Minh` | `docs/01-SRS.md` | 17/9 · 19:30 | ⬜ |
 | T4-08 [#26](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/26) | Review chéo `spec.md` — mỗi người đọc phần của người khác | `@Khoa` `@Minh` `@Duc` `@Thanh` | — | Góp ý trong commit/PR | 17/9 · 20:15 | ⬜ |
