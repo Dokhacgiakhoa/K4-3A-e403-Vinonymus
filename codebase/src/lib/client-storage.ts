@@ -240,7 +240,7 @@ export const clientStorage = {
         // Background Sync với C# .NET 10 Backend Core
         const user = this.getUser();
         if (user?.id) {
-          curriculumBackendClient.enrollCourse(user.id, moduleId).catch(() => {});
+          curriculumBackendClient.enrollCourse(moduleId).catch(() => {});
         }
       }
     } catch {
@@ -267,7 +267,7 @@ export const clientStorage = {
       // Background Sync với C# .NET 10 Backend Core
       const user = this.getUser();
       if (user?.id) {
-        curriculumBackendClient.unenrollCourse(user.id, moduleId).catch(() => {});
+        curriculumBackendClient.unenrollCourse(moduleId).catch(() => {});
       }
     } catch {
       // Handle error

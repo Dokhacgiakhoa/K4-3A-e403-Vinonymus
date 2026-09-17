@@ -35,8 +35,8 @@ public record CurriculumModuleDetailDto(
     CurriculumTrack Track = CurriculumTrack.Universal
 );
 
-public record EnrollCourseRequest(Guid UserId, Guid ModuleId);
-public record ToggleTopicProgressRequest(Guid UserId, Guid ModuleId, Guid TopicId);
+public record EnrollCourseRequest(Guid ModuleId);
+public record ToggleTopicProgressRequest(Guid ModuleId, Guid TopicId);
 
 public record CertificateResultDto(
     string CertificateCode,

@@ -158,6 +158,9 @@ Kiểm thử: `codebase/tests/unit/backend-feedback.test.ts` (8 test).
 | `POST /api/v1/auth/oauth-sync` | Chỉ Next.js server | Bắt buộc header `X-Internal-Key` trùng `Backend__InternalApiKey`; thiếu khoá thì `403` (OAuth bị tắt) |
 | `GET /api/v1/admin/users?status=Pending|Approved|Rejected` | Trang `/admin/approvals` | Chỉ tài khoản SuperAdmin; khác thì `403` |
 | `POST /api/v1/admin/users/{id}/approval` | Trang `/admin/approvals` | Body `{ "status": "Approved" | "Rejected" }`; chỉ SuperAdmin |
+| `GET /api/v1/curriculum/modules`, `/modules/{id}` | Trình duyệt | Không cần đăng nhập; có token hợp lệ thì kèm tiến độ của chính người đó |
+| `POST /api/v1/curriculum/enroll`, `/unenroll`, `/progress/toggle`; `GET /api/v1/curriculum/certificates?moduleId=` | Trình duyệt | Bắt buộc token của tài khoản đã duyệt, không thì `401`. Người dùng lấy từ token; body chỉ gồm `moduleId` (và `topicId`) |
+| `POST /api/v1/payments/vietqr` | Trình duyệt | Bắt buộc token; body `{ amountVnd, planName }` |
 | `POST /api/v1/quota/helpdesk/consume` | Next.js server | Body `{ sessionHash, ipHash }` (SHA-256 hex); trả `{ allowed, limit, remaining }` |
 
 Biến môi trường bắt buộc khi deploy: `Jwt__Secret` (≥ 32 ký tự, không dùng lại giá trị cũ từng nằm trong repo), `ConnectionStrings__DefaultConnection` hoặc `DATABASE_URL`, `Cors__AllowedOrigins__0…`. Tuỳ chọn: `Backend__InternalApiKey`, `GuestQuota__SessionDailyLimit`, `GuestQuota__IpDailyLimit`. Schema: chạy lần lượt các file trong `codebase/database/migrations/`.

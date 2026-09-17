@@ -5,7 +5,7 @@
 > - Danh sách endpoint và biến môi trường: [`03-api.md`](03-api.md) mục 4.
 > - JWT secret **không còn** nằm trong `appsettings.json`; secret cũ từng bị commit nên không được dùng lại. Chạy ở máy dùng `appsettings.Development.json`.
 > - Build: `docker build -t vinonymus-backend codebase/backend-core`. Schema: chạy lần lượt các file trong `codebase/database/migrations/` (bỏ qua `CREATE EXTENSION vector` nếu Postgres không có pgvector — schema không dùng kiểu vector).
-> - Còn tồn tại: các endpoint `curriculum/*` nhận `userId` từ request mà không kiểm tra token.
+> - Các endpoint `curriculum/*` và `payments/vietqr` lấy người dùng từ token (tài khoản đã duyệt), không nhận `userId` từ request.
 >
 > Nội dung bên dưới là README gốc của `backend-core/`.
 
