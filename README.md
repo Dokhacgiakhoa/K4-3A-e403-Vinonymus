@@ -14,10 +14,10 @@
 
 **Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
 
-| AI | Làm gì | Tính năng hiển thị | Vai trò trong cuộc thi |
-|---|---|---|---|
-| **AI Mentor** | Đọc thông tin của học viên, đọc tài liệu giảng viên tải lên, phân tích CV để ra bài test năng lực, phân tích điểm test để xây lộ trình học (chi tiết bên dưới) | Tính năng **Lộ trình cá nhân hoá** tại `/personalized-path` | **Phần được chấm** (demo scope) là tính năng này, theo `spec.md` |
-| **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Widget chat nổi | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
+| AI | Người dùng có trò chuyện không? | Làm gì | Hiện ra ở đâu | Vai trò trong cuộc thi |
+|---|---|---|---|---|
+| **AI Mentor** | **Không.** AI thực thi, chạy phía sau | Đọc thông tin của học viên, đọc tài liệu giảng viên tải lên, phân tích CV để ra bài test năng lực, phân tích điểm test để xây lộ trình học (chi tiết bên dưới) | Tính năng **Lộ trình cá nhân hoá** tại `/personalized-path` | **Phần được chấm** (demo scope) là tính năng này, theo `spec.md` |
+| **AI Helpdesk** | **Có.** Là AI duy nhất người dùng nói chuyện | Tra cứu, giải đáp về tài liệu và lộ trình học, có trích dẫn nguồn | Chatbox (widget chat nổi) | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
 
 **AI Mentor làm 4 việc** (trạng thái thật tính đến 17/9):
 
@@ -134,7 +134,8 @@ flowchart LR
     C --> D{CI verify<br/>+ review CODEOWNERS}
     D -- đỏ / cần sửa --> B
     D -- xanh + duyệt --> E[Merge vào main]
-    E --> F[Vercel tự deploy]
+    E --> P[PR main → production]
+    P --> F[Vercel deploy web thật]
     E --> G[Chạy lại golden set<br/>ghi eval/run_results.md]
     H[Phản hồi người dùng thử] --> I[Ghi validation/log.md<br/>+ spec.md §9] --> B
 ```
@@ -145,7 +146,7 @@ flowchart LR
 | Sửa prompt, guardrail | Đức | `codebase/src/lib/prompts/`, [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/run_results.md`](eval/run_results.md) |
 | Ghi nhận phản hồi, quyết định thay đổi | Khoa | [`validation/log.md`](validation/log.md)<br>`spec.md` §9 |
-| Deploy | Tự động khi merge `main` | Vercel, Root Directory = `codebase` |
+| Deploy | Web thật chỉ cập nhật khi merge vào nhánh `production` (mở PR `main` → `production`). Merge vào `main` chỉ tạo bản xem thử | Vercel, Root Directory = `codebase` |
 
 ## 🏗️ Kiến trúc
 

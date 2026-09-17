@@ -4,7 +4,7 @@
 
 ## Bối cảnh
 
-- Repo nộp bài Mini Hackathon AI, nhóm Vinonymus, Track E. Sản phẩm: **Adaptive Learning System** (AI Mentor & AI Helpdesk); phần được chấm là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`) do AI Mentor thực hiện — xem `README.md`, `spec.md`.
+- Repo nộp bài Mini Hackathon AI, nhóm Vinonymus, Track E. Sản phẩm: **Adaptive Learning System** (AI Mentor: AI thực thi, chạy phía sau · AI Helpdesk: AI trò chuyện ở chatbox); phần được chấm là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`) do AI Mentor thực hiện — xem `README.md`, `spec.md`.
 - Code nằm trong `codebase/` (Next.js). Tài liệu nằm trong `docs/` — mục lục ở `docs/00-muc-luc.md`.
 - `docs/legacy/` là tài liệu của dự án nền, **không** phải đặc tả hiện hành.
 
