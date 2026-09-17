@@ -78,12 +78,12 @@ Bảng này ánh xạ trực tiếp **12 kịch bản** tới Golden Set; mã `T
 Phân bổ: 3 ca nguồn sự thật, 4 ca mơ hồ, 3 ca ngoài phạm vi và 2 ca đặc thù nghiệp vụ; trong đó có 4 edge case G12, G13, G14, G18. Chi tiết input và tiêu chí máy đọc được nằm tại [`eval/golden-set.json`](eval/golden-set.json).
 
 ## §6. Bốn đường đi của trải nghiệm
-- **Happy path:** input hợp lệ → AI trả plan → hậu kiểm → checklist tối đa 3 việc.
-- **Low-confidence:** nền tảng và ghi chú mâu thuẫn → `clarify`, không đưa kế hoạch đoán mò.
-- **Failure/không căn cứ:** thiếu key, provider lỗi hoặc JSON sai schema → baseline có nhãn rõ ràng.
-- **Correction:** học viên quay lại sửa nền tảng/thời gian/ghi chú rồi tạo lại kế hoạch.
-- **Ngoài phạm vi:** làm hộ, xin đáp án/điểm/gia hạn hoặc injection → `refuse`.
-- **Đặc thù domain:** thứ tự tài liệu thay đổi theo non-tech, tech-base và AI.
+| Nhánh | Khi nào xảy ra | Người học thấy gì | Ảnh chụp app thật |
+|---|---|---|---|
+| `plan` | Input hợp lệ, đủ thời gian, bài lab có trong catalog | Chẩn đoán nền tảng + checklist tối đa 3 việc; mỗi việc có thời lượng, lý do và link catalog | ![Plan AI](docs/assets/cp4/01-plan-ai.png) |
+| `clarify` | Thiếu hoặc mâu thuẫn thông tin, ví dụ chỉ có 20 phút hoặc nền tảng tự khai không khớp ghi chú | Một câu hỏi lại; chưa lập kế hoạch đoán mò | ![Clarify](docs/assets/cp4/02-clarify.png) |
+| `fallback` | Không có key hợp lệ, provider lỗi hoặc JSON sai schema | Kế hoạch baseline có nhãn "Gợi ý mặc định · chưa cá nhân hoá bằng AI" để người học biết không phải AI live | ![Fallback](docs/assets/cp4/03-fallback.png) |
+| `refuse` | Làm hộ, xin đáp án/điểm/gia hạn hoặc prompt injection | Từ chối rõ phạm vi và cho phép sửa ghi chú | ![Refuse](docs/assets/cp4/04-refuse.png) |
 
 ## §7. Kiểm thử
 
