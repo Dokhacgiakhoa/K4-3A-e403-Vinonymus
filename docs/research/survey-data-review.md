@@ -1,5 +1,7 @@
 # Khảo sát Vinonymus — Làm sạch dữ liệu & phân tích kết quả
 
+> ⚠️ **Bản cũ, không dùng làm số chính thức.** Số liệu dưới đây (n = 45) không khớp với sheet khi đối chiếu lúc 19:35 · 17/9. Số chính thức (n = 82) và cách làm sạch nằm ở `spec.md` §1.
+
 > Nguồn: Google Sheet "Khảo sát Hackathon Vinonymus" (tab `Trang tính1`), xuất lúc 17/9/2026.
 > File này **không chứa** email, số điện thoại/MoMo, Discord/Zalo hay tên thật — chỉ số liệu tổng hợp, theo đúng bất biến #1 của `AGENTS.md` (không đưa câu trả lời khảo sát gốc/PII vào tài liệu chia sẻ).
 

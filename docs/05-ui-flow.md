@@ -6,33 +6,40 @@
 
 ```mermaid
 flowchart TD
-    A([Mở trang Planner]) --> B[Bước 1: chọn nền tảng<br/>tech / non-tech]
+    A([Mở trang Planner]) --> B[Bước 1: chọn nền tảng<br/>non-tech / tech-base / đã học AI]
     B --> C[Bước 2: nhập thời gian rảnh hôm nay<br/>+ chọn bài lab tiếp theo]
     C --> D[Bước 3: ghi chú tuỳ chọn]
-    D --> E{Đã có API key?}
-    E -- chưa --> K[Nhắc nhập key ở Cài đặt<br/>hoặc xem gợi ý mặc định]
+    D --> F[Bấm Lập kế hoạch<br/>POST /api/roadmap]
+    F --> R{Luật cứng}
+    R -- dưới 30 phút / lab lạ --> H
+    R -- làm hộ / đáp án / gia hạn / điểm --> I
+    R -- hợp lệ --> E{Gọi được LLM?}
+    E -- không có key / lỗi / sai schema --> K[Kế hoạch từ luật tĩnh<br/>nhãn 'Gợi ý mặc định']
     K --> G
-    E -- có --> F[Gọi /api/roadmap]
-    F --> S{status}
+    E -- được --> S{AI trả về}
     S -- plan --> G[Bước 4: checklist ≤3 việc<br/>lý do · thời lượng · link]
-    S -- clarify --> H[Hiện 1 câu hỏi lại] --> C
-    S -- refuse --> I[Giải thích vì sao từ chối<br/>+ trỏ tới Lab Coach]
+    S -- clarify / confidence thấp --> H[Hiện 1 câu hỏi lại] -- Sửa thời gian / bài lab --> C
+    S -- refuse --> I[Lời từ chối<br/>+ gợi ý liên hệ Lab Coach] -- Sửa ghi chú --> D
     G --> J[Tick / bỏ / đổi thứ tự<br/>lưu trên trình duyệt]
     J --> Z([Học viên bắt đầu học])
 ```
 
-![Sơ đồ luồng người dùng — AI Diagnostic Study Planner](05-ui-flowchart.png)
+Trang không kiểm tra key trước khi gọi API: key (nếu có) được gửi kèm header, server tự dùng luật tĩnh khi không gọi được LLM.
+
+Ảnh sơ đồ xuất ở CP2 (vẽ theo bản nháp cũ: 2 mức nền tảng, có bước kiểm tra key). Sơ đồ mermaid phía trên là bản khớp code hiện tại; ảnh sẽ được xuất lại sau.
+
+![Sơ đồ luồng người dùng — bản CP2](05-ui-flowchart.png)
 
 ## 2. Màn hình
 
 | Bước | Hiển thị | Hành động |
 |---|---|---|
-| 1 · Nền tảng | 2 thẻ lựa chọn có mô tả ngắn | Chọn 1 |
-| 2 · Thời gian & bài lab | Ô số phút, danh sách bài lab từ catalog | Nhập, chọn |
+| 1 · Nền tảng | 3 thẻ lựa chọn có mô tả ngắn: Non-tech, Tech-base, Đã học AI | Chọn 1 |
+| 2 · Thời gian & bài lab | Nút chọn nhanh 30/45/60/90/120 phút, ô số phút (0–600), danh sách bài lab từ catalog | Nhập, chọn |
 | 3 · Ghi chú | Ô text ≤500 ký tự, gợi ý "Bạn đang vướng gì?" | Tuỳ chọn |
-| 4 · Kết quả | Dòng chẩn đoán + checklist; nhãn "AI" hoặc "Gợi ý mặc định" | Tick, bỏ, kéo thả, mở link |
-| Hỏi lại | Một câu hỏi + nút quay lại bước 2 | Trả lời |
-| Từ chối | Lý do + kênh hỗ trợ chính thức | Quay lại |
+| 4 · Kết quả | Dòng chẩn đoán + checklist; nhãn "AI" hoặc "Gợi ý mặc định · chưa cá nhân hoá bằng AI" | Tick, bỏ, đổi thứ tự bằng nút lên/xuống, khôi phục đề xuất, mở link |
+| Hỏi lại | Một câu hỏi + nút "Sửa thời gian / bài lab" (về bước 2) | Sửa rồi tạo lại |
+| Từ chối | Lời từ chối, gợi ý liên hệ Lab Coach + nút "Sửa ghi chú" (về bước 3) | Sửa rồi tạo lại |
 
 ## 3. Hiện thực (CP2 · 16/9)
 
@@ -43,8 +50,8 @@ Trang riêng **`/planner`** — không cần đăng nhập, không cần gói Pr
 | `codebase/src/app/planner/page.tsx` | Route |
 | `codebase/src/components/planner/study-planner.tsx` | UI 4 bước + checklist (tick, bỏ, đổi thứ tự, khôi phục), lưu `localStorage` |
 | `codebase/src/lib/planner/baseline-planner.ts` | Luật tĩnh: clarify (<30 phút, lab lạ), refuse (làm hộ, đáp án, gia hạn, điểm, ghi đè chỉ dẫn), chọn ≤3 việc theo nền tảng + ghi chú |
-| `codebase/src/data/planner-catalog.ts` | Catalog mẫu 2 bài lab, chỉ link công khai |
-| `codebase/tests/unit/baseline-planner.test.ts` | 9 test cho luật trên |
+| `codebase/src/data/planner-catalog.ts` | Catalog 3 bài lab, chỉ link công khai |
+| `codebase/tests/unit/baseline-planner.test.ts` | 8 test cho luật trên |
 
 **Trạng thái:** CP3 đã nối `/api/roadmap` gọi LLM thật. Luật tĩnh vẫn được giữ làm baseline và fallback có nhãn rõ ràng (SRS FR-P09).
 

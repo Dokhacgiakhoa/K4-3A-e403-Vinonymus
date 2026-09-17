@@ -28,7 +28,7 @@
 
 ---
 
-## CP2 · Luồng hoạt động — 21:00 · 16/9
+## CP2 · Luồng hoạt động — 21:00 · 16/9 · ✅ đã nộp
 
 Mục tiêu: người xem thấy được cả luồng từ đầu đến cuối. **Chưa cần AI chạy thật.**
 
@@ -43,7 +43,7 @@ Mục tiêu: người xem thấy được cả luồng từ đầu đến cuối
 
 ---
 
-## CP3 · Video AI chạy thật + số đo — 16:00 · 17/9
+## CP3 · Video AI chạy thật + số đo — 16:00 · 17/9 · ✅ đã nộp
 
 Mục tiêu: **≥1 lời gọi AI thật** trong video 30 giây, và con số "thử bao nhiêu, đúng bao nhiêu".
 
@@ -69,11 +69,11 @@ Mục tiêu: **khoá chuẩn "đạt"** trước khi xem kết quả cuối; t�
 
 | ID | Việc | Phụ trách | Hỗ trợ | Kết quả / file | Hạn | Trạng thái |
 |---|---|---|---|---|---|---|
-| T4-01 [#19](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/19) | §1–§2: cập nhật số khảo sát mới, số E1 đã tách, hoàn thiện bảng impact | `@Khoa` | — | `spec.md` | 17/9 · 18:00 | ⬜ |
-| T4-02 [#20](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/20) | §3: thêm ≥1 sản phẩm tương tự ngoài chương trình | `@Khoa` | `@Thanh` | `spec.md` | 17/9 · 18:00 | ⬜ |
+| T4-01 [#19](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/19) | §1–§2: cập nhật số khảo sát mới, số E1 đã tách, hoàn thiện bảng impact | `@Khoa` | — | `spec.md` | 17/9 · 18:00 | 🔄 Khảo sát + impact xong; còn tách tay 52 tin E1 (T3-11) |
+| T4-02 [#20](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/20) | §3: thêm ≥1 sản phẩm tương tự ngoài chương trình | `@Khoa` | `@Thanh` | `spec.md` | 17/9 · 18:00 | ✅ |
 | T4-03 [#21](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/21) | §5: bảng 4 lớp chỗ khó, ≥8 kịch bản, trỏ về case trong golden set | `@Duc` | `@Minh` | `spec.md` | 17/9 · 18:30 | ✅ |
 | T4-04 [#22](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/22) | §6: bốn đường đi của trải nghiệm, kèm ảnh chụp từ app thật | `@Thanh` | `@Duc` | `spec.md` | 17/9 · 18:30 | ⬜ |
-| T4-05 [#23](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/23) | §7: chốt quality bar ("Đạt khi ≥ __% qua bộ, và 0 link ngoài catalog") + bảng kết quả | `@Duc` | `@Khoa` | `spec.md`, `eval/run_results.md` | 17/9 · 19:30 | ✅ |
+| T4-05 [#23](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/23) | §7: chốt quality bar ("Đạt khi ≥ __% qua bộ, và 0 link ngoài catalog") + bảng kết quả | `@Duc` | `@Khoa` | `spec.md`, `eval/run_results.md` | 17/9 · 19:30 | ✅ ≥90% + 0 link ngoài catalog + G16–G18 refuse 3/3 |
 | T4-06 [#24](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/24) | Cập nhật `03-api.md`, `02-kien-truc.md` cho khớp code đã build | `@Minh` | — | `docs/` | 17/9 · 19:30 | ⬜ |
 | T4-07 [#25](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/25) | Trả lời "Câu hỏi mở" trong SRS, chốt SRS v1 | `@Khoa` | `@Minh` | `docs/01-SRS.md` | 17/9 · 19:30 | ⬜ |
 | T4-08 [#26](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/26) | Review chéo `spec.md` — mỗi người đọc phần của người khác | `@Khoa` `@Minh` `@Duc` `@Thanh` | — | Góp ý trong commit/PR | 17/9 · 20:15 | ⬜ |
