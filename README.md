@@ -127,7 +127,7 @@ flowchart LR
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · OpenRouter · embedding Gemini 768 chiều | Chat: chạy thật · Planner: đang build |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · OpenRouter · embedding Gemini 768 chiều | Chat: chạy thật · Planner: chạy thật qua `/api/roadmap`, có baseline fallback |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR vào `main` | Đang chạy |
@@ -139,7 +139,7 @@ Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | 🔧 CP3: đang nối AI | Luồng 4 bước và checklist đã chạy thật, kết quả hiện lấy từ luật tĩnh ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)). CP3 thay bằng lời gọi LLM thật qua `/api/roadmap`; luật tĩnh giữ lại làm baseline và fallback |
+| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | ✅ Đã nối AI | Luồng 4 bước gọi `POST /api/roadmap`; có luật cứng `clarify/refuse`, gọi LLM qua router, lọc item theo catalog và fallback về luật tĩnh ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) khi thiếu key hoặc LLM lỗi |
 | Chat K.AI (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
@@ -174,6 +174,7 @@ npm run dev                  # http://localhost:3000/planner
 
 - API key nhập ở trang **Cài đặt** trong app. Key chỉ lưu trên trình duyệt (`localStorage`), không lưu ở server.
 - Không cần chạy backend .NET.
+- Planner vẫn chạy được khi chưa điền key: API trả kế hoạch `source: "baseline"` bằng luật tĩnh để demo không bị kẹt.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
 
 **Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Planner không cần biến môi trường. Chat K.AI cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).

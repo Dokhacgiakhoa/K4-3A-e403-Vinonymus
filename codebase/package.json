@@ -12,9 +12,9 @@
     "verify": "npm run lint && npm run typecheck && npm run test && npm run audit && npm run build",
     "sync": "npx tsx scripts/sync-content.ts",
     "audit": "npx tsx scripts/audit-faqs.ts",
+    "seed:lectures": "npx tsx scripts/seed-lecture-documents.ts",
     "ocr": "npx tsx scripts/ocr-image.ts",
-    "prepare": "cd .. && husky codebase/.husky",
-    "eval": "npx tsx scripts/run-eval.ts"
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
