@@ -173,7 +173,7 @@ export async function converseStream(
   model: string;
 } | null> {
   const hasAnyKey = Boolean(
-    keys.gemini || keys.openai || keys.claude || keys.deepseek || keys.groq || keys.cerebras || keys.openrouter
+    keys.gemini || keys.openai || keys.claude || keys.deepseek || keys.groq || keys.cerebras
   );
   if (!hasAnyKey) return null;
 

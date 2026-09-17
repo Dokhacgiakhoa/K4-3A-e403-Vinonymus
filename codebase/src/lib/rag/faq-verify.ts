@@ -89,7 +89,7 @@ export async function synthesizeFocusedFaqAnswer(
     knowledgeContent += `\n\n--- DỮ LIỆU MEDIA & LINK BẰNG CHỨNG XÁC THỰC (PHẦN 3) ---\n${mediaStr}`;
   }
 
-  const hasAnyKey = Boolean(keys.gemini || keys.groq || keys.cerebras || keys.openrouter);
+  const hasAnyKey = Boolean(keys.gemini || keys.groq || keys.cerebras);
   if (!hasAnyKey) {
     return knowledgeContent;
   }

@@ -11,7 +11,7 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 | [`02-kien-truc.md`](02-kien-truc.md) | Kiến trúc, tech stack, luồng dữ liệu, ranh giới thật/mock | Minh |
 | [`03-api.md`](03-api.md) | Hợp đồng API `/api/roadmap` (mới) và `/api/chat` (có sẵn) | Minh |
 | [`04-ai-pipeline.md`](04-ai-pipeline.md) | Prompt, guardrail, LLM router, catalog tài liệu | Đức |
-| [`05-ui-flow.md`](05-ui-flow.md) | Luồng người dùng của Planner (CP2) | Thành |
+| [`05-ui-flow.md`](05-ui-flow.md) | Luồng người dùng của tính năng Lộ trình cá nhân hoá (CP2) | Thành |
 | [`06-backend-dotnet.md`](06-backend-dotnet.md) | Backend .NET — giữ lại, **chưa tích hợp** | Minh |
 | [`07-ai-access-plan.md`](07-ai-access-plan.md) | Kế hoạch bỏ Free/Pro, thêm menu "Cấu hình AI" (làm sau CP3) | Khoa |
 
@@ -31,6 +31,8 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 |---|---|
 | [`research/evidence-mining.md`](research/evidence-mining.md) | Bằng chứng chuẩn B: phương pháp đếm, số liệu, mã tham chiếu |
 | [`research/survey-log.md`](research/survey-log.md) | Bằng chứng chuẩn A: nhật ký phỏng vấn/khảo sát (mã ẩn danh `P01…`) |
+| [`research/survey-data-review.md`](research/survey-data-review.md) | Khảo sát 45 học viên (Google Form `/contact`): làm sạch dữ liệu, phân tích theo câu hỏi, khuyến nghị cho `spec.md` |
+| [`research/survey-dashboard.html`](research/survey-dashboard.html) | Dashboard biểu đồ + bảng cho báo cáo khảo sát trên (mở trực tiếp bằng trình duyệt) |
 
 ## Tài liệu cũ
 

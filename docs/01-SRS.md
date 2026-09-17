@@ -1,4 +1,4 @@
-# 01 — Đặc tả yêu cầu phần mềm (SRS) · AI Diagnostic Study Planner
+# 01 — Đặc tả yêu cầu phần mềm (SRS) · Lộ trình cá nhân hoá (AI Mentor · Adaptive Learning System)
 
 > **Phạm vi:** chỉ lát cắt dự thi (xem [`spec.md`](../spec.md) §4). Các tính năng khác của codebase (Chat K.AI, tài khoản, gói Pro, backend .NET) nằm ngoài tài liệu này.
 > **Trạng thái:** bản nháp v0.1 · 16/9 · chốt cùng `spec.md` tại CP4 (21:00 · 17/9).
@@ -32,7 +32,7 @@ Quy ước: **FR** = yêu cầu chức năng · **NFR** = phi chức năng · **
 
 ### FR-P01 — Nhập thông tin chẩn đoán `P0`
 **AC:**
-1. Học viên chọn **nền tảng**: `tech` hoặc `non_tech`.
+1. Học viên chọn **nền tảng**: `non_tech`, `tech_base` hoặc `ai`.
 2. Học viên nhập **quỹ thời gian hôm nay** (phút, số nguyên 0–600).
 3. Học viên chọn **bài lab tiếp theo** từ danh sách lấy trong catalog.
 4. Ô **ghi chú tự do** tuỳ chọn, tối đa 500 ký tự.
@@ -46,7 +46,7 @@ Quy ước: **FR** = yêu cầu chức năng · **NFR** = phi chức năng · **
 
 ### FR-P03 — Sinh kế hoạch bằng AI `P0`
 **AC:**
-1. Gọi LLM thật qua `lib/llm/router.ts`, dùng key người dùng gửi trong header.
+1. Gọi LLM thật qua `lib/llm/router.ts`, dùng key người dùng gửi trong header (thiếu header thì dùng key trong biến môi trường server nếu có).
 2. Kết quả có **1–3 việc**, mỗi việc gồm: `item_id`, `reason` (≤160 ký tự), `minutes`.
 3. Kèm **chẩn đoán**: nền tảng, mức tự tin (`high` / `low`) và một câu giải thích.
 4. Tổng `minutes` ≤ quỹ thời gian học viên nhập.
@@ -76,7 +76,7 @@ Quy ước: **FR** = yêu cầu chức năng · **NFR** = phi chức năng · **
 **AC:** mỗi việc hiển thị lý do, thời lượng ước tính, loại tài liệu (slide / video / notebook / doc).
 
 ### FR-P09 — Phương án dự phòng `P1`
-**AC:** không có key, LLM lỗi, hoặc kết quả không hợp lệ → dùng baseline, gắn nhãn "Gợi ý mặc định, chưa cá nhân hoá".
+**AC:** không có key, LLM lỗi, hoặc kết quả không hợp lệ → dùng baseline, gắn nhãn "Gợi ý mặc định · chưa cá nhân hoá bằng AI".
 
 ### FR-P10 — Ghi log phục vụ eval `P1`
 **AC:** chỉ ghi: đầu vào đã chuẩn hoá (không ghi chú tự do), trạng thái trả về, `item_id` đã chọn, độ trễ, provider. Không ghi key, không ghi thông tin định danh.
@@ -111,6 +111,6 @@ Xem `spec.md` §4 Non-goals: không tài khoản/thanh toán/chứng chỉ, khô
 
 ## 7. Câu hỏi mở `[TODO]`
 
-1. Quality bar cụ thể (% qua golden set) — nhóm chốt tại CP4.
+1. ~~Quality bar cụ thể (% qua golden set) — nhóm chốt tại CP4.~~ Đã chốt: ≥ 90%, 0 link ngoài catalog và G16–G18 refuse 3/3 (`spec.md` §7).
 2. Catalog phủ bao nhiêu bài lab cho demo — đề xuất 2–3 bài.
 3. Ngưỡng 30 phút ở FR-P05 có hợp lý không — kiểm lại khi có khảo sát.

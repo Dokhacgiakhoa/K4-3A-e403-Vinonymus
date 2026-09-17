@@ -4,7 +4,7 @@
 - [x] Đường nhanh FAQ (F02) — `lib/rag/faq-match.ts` xử lý RPC `match_faq` (3 tầng exact, trigram, vector) và gọi `increment_faq_view()` khi trúng ([`src/lib/rag/faq-match.ts`](file:///d:/Github/AIIA-Notebook/src/lib/rag/faq-match.ts)).
 - [x] Đường RAG (F03) — `lib/rag/retrieve.ts` xử lý RPC `search_chunks_hybrid` (RRF Top-8) và fallback FTS ([`src/lib/rag/retrieve.ts`](file:///d:/Github/AIIA-Notebook/src/lib/rag/retrieve.ts)).
 - [x] Prompts — `lib/prompts/index.ts` chứa System Prompt RAG chuẩn và User Prompt bọc kho tri thức trong thẻ `<knowledge_base>` ([`src/lib/prompts/index.ts`](file:///d:/Github/AIIA-Notebook/src/lib/prompts/index.ts)).
-- [x] LLM Router Engine (F13) — `lib/llm/router.ts` điều phối key người dùng cung cấp (`gemini`, `groq`, `cerebras`, `openrouter`), hỗ trợ luân phiên fallback khi 429/5xx ([`src/lib/llm/router.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/router.ts)).
+- [x] LLM Router Engine (F13) — `lib/llm/router.ts` điều phối key người dùng cung cấp (`gemini`, `groq`, `cerebras`), hỗ trợ luân phiên fallback khi 429/5xx ([`src/lib/llm/router.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/router.ts)).
 - [x] API SSE Route — `app/api/chat/route.ts` nhận `POST /api/chat`, đọc API Key từ header (không lưu hay log key), stream SSE events (`status`, `token`, `citations`, `done`, `need_key`, `error`) ([`src/app/api/chat/route.ts`](file:///d:/Github/AIIA-Notebook/src/app/api/chat/route.ts)).
 - [x] Giao diện Chat tối thiểu (F01) — `<ChatContainer>` đọc SSE qua `fetch` + `getReader()`, `<MessageBubble>` kèm nhãn nguồn (`Từ FAQ`, `Từ tài liệu`, `Không tìm thấy`), nút **Sao chép** và **Tạo lại**, `<MarkdownRenderer>` bọc `rehype-sanitize`, `<CitationChip>` & `<CitationPanel>`, `<NeedKeyPrompt>` ([`src/components/chat/`](file:///d:/Github/AIIA-Notebook/src/components/chat/)).
 - [x] Unit Tests & Verification — Tạo `tests/unit/router.test.ts` và `tests/unit/pipeline.test.ts`, chạy `npm run verify` đạt PASS 100% (12/12 tests pass, build thành công).
@@ -23,7 +23,6 @@
 | [`src/lib/llm/providers/gemini.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/providers/gemini.ts) | Mới | Adapter stream cho Google Gemini REST API |
 | [`src/lib/llm/providers/groq.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/providers/groq.ts) | Mới | Adapter stream cho Groq Llama API |
 | [`src/lib/llm/providers/cerebras.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/providers/cerebras.ts) | Mới | Adapter stream cho Cerebras Llama API |
-| [`src/lib/llm/providers/openrouter.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/providers/openrouter.ts) | Mới | Adapter stream cho OpenRouter Llama API |
 | [`src/lib/llm/router.ts`](file:///d:/Github/AIIA-Notebook/src/lib/llm/router.ts) | Mới | Router Engine điều phối nhà cung cấp theo API key người dùng |
 | [`src/lib/rag/pipeline.ts`](file:///d:/Github/AIIA-Notebook/src/lib/rag/pipeline.ts) | Mới | Pipeline tổng hợp kết nối FAQ Match, Retrieve, Router |
 | [`src/app/api/chat/route.ts`](file:///d:/Github/AIIA-Notebook/src/app/api/chat/route.ts) | Mới | Route handler SSE `POST /api/chat` |

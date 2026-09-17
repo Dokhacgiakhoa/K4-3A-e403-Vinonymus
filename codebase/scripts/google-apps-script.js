@@ -1,7 +1,7 @@
 /**
  * Google Apps Script - Webhook Tiếp nhận Khảo sát Chuyên Sâu 12 Câu Hỏi & Quay Thưởng Tri Ân
- * Dự án: AI Diagnostic Study Planner (Nhóm Vinonymus - Track E)
- * 
+ * Dự án: Adaptive Learning System — Lộ trình cá nhân hoá (Nhóm Vinonymus - Track E)
+ *
  * QUY TẮC MÃ DỰ THƯỞNG:
  * Mã dự thưởng chính là Mã Học Viên (studentId) duy nhất của mỗi người.
  * Tránh trường hợp 1 người điền nhiều lần để cơ cấu số lượng mã số.
@@ -157,7 +157,7 @@ function buildSectionHeaderRow(label, isFirst) {
 function sendConfirmationEmail(data, ticketCode) {
   var recipientEmail = data.email;
   var recipientName = data.fullName || "Bạn";
-  
+
   // Tiêu đề email hoàn toàn không dùng emoji 4-byte để triệt tiêu lỗi font hình thoi chấm hỏi
   var subject = "[Vinonymus E403] Xác nhận khảo sát & Mã quay thưởng học viên: " + ticketCode;
 

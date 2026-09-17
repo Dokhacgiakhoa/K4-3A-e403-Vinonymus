@@ -19,20 +19,14 @@ export interface LLMProviderAdapter {
 
 export const MODEL_CATALOG: Record<string, ModelSpec[]> = {
   gemini: [
-    { model: 'gemini-flash-latest', tasks: ['chat', 'vision', 'classify'], contextWindow: 1_048_576 },
+    { model: 'gemini-3.5-flash-lite', tasks: ['chat', 'vision', 'classify'], contextWindow: 1_048_576 },
     { model: 'gemini-embedding-001', tasks: ['embedding'], contextWindow: 2048 },
   ],
   groq: [
-    { model: 'openai/gpt-oss-20b', tasks: ['chat'], contextWindow: 131_072 },
+    { model: 'llama-3.3-70b-versatile', tasks: ['chat'], contextWindow: 131_072 },
   ],
   cerebras: [
-    { model: 'gpt-oss-120b', tasks: ['chat'], contextWindow: 8_192 },
-  ],
-  openrouter: [
-    { model: 'openrouter/free', tasks: ['chat'], contextWindow: 65_536 },
-  ],
-  fpt: [
-    { model: 'gpt-oss-120b', tasks: ['chat'], contextWindow: 131_072 },
+    { model: 'llama-3.3-70b', tasks: ['chat'], contextWindow: 8_192 },
   ],
 };
 

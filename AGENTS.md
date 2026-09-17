@@ -4,7 +4,7 @@
 
 ## Bối cảnh
 
-- Repo nộp bài Mini Hackathon AI, nhóm Vinonymus, Track E. Lát cắt dự thi: **AI Diagnostic Study Planner** — xem `README.md`, `spec.md`.
+- Repo nộp bài Mini Hackathon AI, nhóm Vinonymus, Track E. Sản phẩm: **Adaptive Learning System** (AI Mentor & AI Helpdesk); phần được chấm là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`) do AI Mentor thực hiện — xem `README.md`, `spec.md`.
 - Code nằm trong `codebase/` (Next.js). Tài liệu nằm trong `docs/` — mục lục ở `docs/00-muc-luc.md`.
 - `docs/legacy/` là tài liệu của dự án nền, **không** phải đặc tả hiện hành.
 
@@ -52,8 +52,14 @@ Không dùng `git push --no-verify` trừ khi cả nhóm đồng ý.
 ## Git
 
 - Commit message tiếng Anh, dạng mệnh lệnh (`feat: add roadmap api`).
-- Mỗi thay đổi prompt → chạy lại golden set, ghi một dòng vào `eval/results.md`.
+- Mỗi thay đổi prompt → chạy lại golden set, ghi một dòng vào `eval/run_results.md`.
 - Thay đổi sau phản hồi người dùng → ghi `spec.md` §9.
+- **Mỗi PR bắt buộc có `PR.md` ở gốc repo** mô tả đúng PR đó (mục tiêu, truy vết, file thay đổi, kiểm thử thật, việc còn lại). Không dùng tên `srs.md` — SRS chính thức là `docs/01-SRS.md`. Không xoá `PR.md` khi review; conflict thì giữ bản của PR đang merge. Chi tiết và mẫu:
+  - Claude Code: `.claude/skills/pr-md/SKILL.md`
+  - Codex: `.agents/skills/pr-md/SKILL.md`
+  - Gemini / Antigravity: `.agents/rules/pr-md.md`
+
+  Sửa quy ước thì sửa cả ba file cho giống nhau.
 
 ## Luật vibe-coding
 

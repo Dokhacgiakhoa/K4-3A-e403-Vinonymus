@@ -1,0 +1,196 @@
+%% UML class diagram: database model for AI Mentor, AI Helpdesk, chat and roadmaps.
+%% <<required FK>> = NOT NULL foreign key; <<optional FK>> = nullable foreign key.
+classDiagram
+    class VisitorSession {
+        +UUID id PK
+        +string tokenHash UK
+        +DateTime createdAt
+        +DateTime lastSeenAt
+        +DateTime expiresAt
+    }
+
+    class Conversation {
+        +UUID id PK
+        +UUID visitorSessionId <<required FK>>
+        +AgentType agentType
+        +string title
+        +ConversationStatus status
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+
+    class Message {
+        +UUID id PK
+        +UUID conversationId <<required FK>>
+        +long sequenceNo
+        +MessageRole role
+        +string content
+        +MessageStatus status
+        +UUID replyToMessageId <<optional FK>>
+        +UUID clientRequestId <<optional UK>>
+        +JSON citations
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+
+    class LearnerProfile {
+        +UUID id PK
+        +UUID visitorSessionId <<required FK, UK>>
+        +Background background
+        +string targetGoal
+        +decimal weeklyHours
+        +string bioDescription
+        +JSON skills
+        +JSON adaptiveAnswers
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+
+    class Roadmap {
+        +UUID id PK
+        +UUID learnerProfileId <<required FK>>
+        +int version
+        +string title
+        +string targetGoal
+        +decimal weeklyHoursBudget
+        +int durationWeeks
+        +decimal totalTargetHours
+        +string aiMentorAdvice
+        +JSON inputSnapshot
+        +RoadmapStatus status
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+
+    class RoadmapMilestone {
+        +UUID id PK
+        +UUID roadmapId <<required FK>>
+        +int sortOrder
+        +string title
+        +string description
+        +int targetDays
+        +decimal estimatedHours
+        +JSON selectedLessonIds
+        +string bossFightTask
+        +MilestoneStatus status
+        +DateTime completedAt
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+
+    class AgentRun {
+        +UUID id PK
+        +UUID conversationId <<required FK>>
+        +UUID requestMessageId <<required FK>>
+        +UUID responseMessageId <<optional FK, UK>>
+        +AgentType agentType
+        +string agentVersion
+        +string provider
+        +string model
+        +AgentRunStatus status
+        +int inputTokens
+        +int outputTokens
+        +int latencyMs
+        +string errorCode
+        +DateTime startedAt
+        +DateTime finishedAt
+    }
+
+    class LectureDocument {
+        +UUID id PK
+        +string sourcePath UK
+        +string title
+        +string fileName
+        +LectureFileType fileType
+        +string mimeType
+        +long fileSizeBytes
+        +string storagePath
+        +string extractedContent
+        +string contentHash
+        +LectureDocumentStatus status
+        +DateTime createdAt
+        +DateTime updatedAt
+    }
+
+    class LectureFileType {
+        <<enumeration>>
+        pdf
+        text
+        markdown
+    }
+
+    class LectureDocumentStatus {
+        <<enumeration>>
+        draft
+        published
+        archived
+    }
+
+    class AgentType {
+        <<enumeration>>
+        mentor
+        helpdesk
+    }
+
+    class MessageRole {
+        <<enumeration>>
+        user
+        assistant
+    }
+
+    class MessageStatus {
+        <<enumeration>>
+        pending
+        streaming
+        completed
+        failed
+        cancelled
+    }
+
+    class ConversationStatus {
+        <<enumeration>>
+        active
+        archived
+    }
+
+    class RoadmapStatus {
+        <<enumeration>>
+        draft
+        inProgress
+        completed
+        paused
+        superseded
+    }
+
+    class MilestoneStatus {
+        <<enumeration>>
+        locked
+        available
+        completed
+    }
+
+    class AgentRunStatus {
+        <<enumeration>>
+        running
+        succeeded
+        failed
+        cancelled
+    }
+
+    class Background {
+        <<enumeration>>
+        nonTech
+        softwareDev
+        dataAnalyst
+        student
+    }
+
+    VisitorSession "1" --> "0..*" Conversation : owns
+    VisitorSession "1" --> "0..1" LearnerProfile : has
+    Conversation "1" --> "0..*" Message : contains
+    Conversation "1" --> "0..*" AgentRun : has
+    Message "0..1" --> "0..*" Message : replies to
+    Message "1" --> "0..*" AgentRun : request
+    AgentRun "1" --> "0..1" Message : response
+    LearnerProfile "1" --> "0..*" Roadmap : has
+    Roadmap "1" --> "1..*" RoadmapMilestone : contains
