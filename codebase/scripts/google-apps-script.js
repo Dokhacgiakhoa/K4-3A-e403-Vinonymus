@@ -171,7 +171,7 @@ function sendConfirmationEmail(data, ticketCode) {
                 <span style="color: #38bdf8; font-weight: 700;">[THỜI GIAN QUAY]</span> 17h20 &bull; Thứ Sáu, ngày 18/09/2026
               </div>
               <div style="margin-bottom: 5px;">
-                <span style="color: #fbbf24; font-weight: 700;">[CƠ CẤU 10 GIẢI]</span> 1 Nhất (100k) &bull; 2 Nhì (50k) &bull; 3 Ba (20k) &bull; 4 Tư (10k)
+                <span style="color: #fbbf24; font-weight: 700;">[CƠ CẤU 10 GIẢI TRI ÂN]</span> 1 GIẢI NHẤT (100.000 VNĐ) &bull; 2 GIẢI NHÌ (50.000 VNĐ/giải) &bull; 3 GIẢI BA (20.000 VNĐ/giải) &bull; 4 GIẢI TƯ (10.000 VNĐ/giải)
               </div>
               <div style="margin-bottom: 5px;">
                 <span style="color: #a78bfa; font-weight: 700;">[TÀI KHOẢN NHẬN]</span> ` + escapeHtml(data.rewardAccount || "Đã lưu trong hệ thống") + `
