@@ -38,7 +38,7 @@ flowchart LR
 codebase/
 ├── src/
 │   ├── app/                  ← trang + route handler (api/chat, api/roadmap)
-│   ├── app/personalized-path/ ← trang Lộ trình cá nhân hoá (không cần đăng nhập)
+│   ├── app/personalized-path/ ← trang Lộ trình cá nhân hoá (vai trò Student)
 │   ├── components/planner/   ← study-planner.tsx (UI 4 bước + checklist)
 │   ├── components/learning/  ← wizard lộ trình 4 sprint (quy tắc chạy trên FE, không gọi AI)
 │   ├── components/chat/      ← AI Helpdesk: widget nổi dùng chat-box.tsx gọi /api/chat
