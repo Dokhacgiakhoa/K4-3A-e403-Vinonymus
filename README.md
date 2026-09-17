@@ -4,7 +4,13 @@
 > **SPEC → Prototype → Demo.** Đây không phải cuộc thi code — đây là cuộc thi **tư duy sản phẩm AI**.
 
 [![verify](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/actions/workflows/verify.yml/badge.svg)](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/actions/workflows/verify.yml)
-· **Demo:** <https://codebase-mu-eight.vercel.app> · **Spec:** [`spec.md`](spec.md) · **Việc của nhóm:** [Issues theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones)
+
+| | |
+|---|---|
+| **Demo AI Mentor** | <https://k4-3a-e403-vinonymus.vercel.app/planner> |
+| **Tên miền riêng** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/planner> |
+| **Spec (tài liệu chấm)** | [`spec.md`](spec.md) |
+| **Việc của nhóm** | [Milestones theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones) |
 
 **Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
 
@@ -13,9 +19,25 @@
 | **AI Mentor** | Xây dựng lộ trình học cá nhân hoá cho buổi lab tiếp theo | `/planner` | **Lát cắt dự thi**, được chấm theo `spec.md` |
 | **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Widget chat nổi | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
 
-Với **AI Mentor**, học viên chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**), cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**. AI Mentor chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
+Với **AI Mentor**:
+1. Học viên chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**).
+2. Học viên cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**.
+3. AI Mentor chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng.
+4. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
 
-**Mục lục:** [Thành viên](#-thành-viên--phân-công) · [Sản phẩm](#-sản-phẩm) · [Luồng người dùng](#-luồng-người-dùng) · [Luồng vận hành](#️-luồng-vận-hành-quản-trị) · [Kiến trúc](#️-kiến-trúc) · [Trạng thái](#-trạng-thái-prototype) · [Chạy thử](#️-chạy-thử) · [Làm việc nhóm](#-quy-trình-làm-việc-nhóm) · [Tiến độ](#-tiến-độ-checkpoint) · [Tài liệu](#-bản-đồ-tài-liệu)
+**Mục lục**
+- [Thành viên & phân công](#-thành-viên--phân-công)
+- [Sản phẩm](#-sản-phẩm)
+- [Luồng người dùng](#-luồng-người-dùng)
+- [Luồng vận hành (quản trị)](#️-luồng-vận-hành-quản-trị)
+- [Kiến trúc](#️-kiến-trúc)
+- [Trạng thái prototype](#-trạng-thái-prototype)
+- [Cấu trúc repo](#️-cấu-trúc-repo)
+- [Chạy thử](#️-chạy-thử)
+- [Quy trình làm việc nhóm](#-quy-trình-làm-việc-nhóm)
+- [Tiến độ checkpoint](#-tiến-độ-checkpoint)
+- [Bản đồ tài liệu](#-bản-đồ-tài-liệu)
+- [Bảo mật dữ liệu](#-bảo-mật-dữ-liệu)
 
 ## 👥 Thành viên & phân công
 
@@ -38,7 +60,7 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 
 **Vấn đề:** tài liệu nằm rải rác ở Discord, Zoom, Drive, VLearn và GitHub. Học viên không biết phần nào là trọng tâm so với quỹ thời gian mình có, nên dễ làm bài sát hạn hoặc nộp muộn.
 
-**Bằng chứng** (chi tiết và cách đếm: [`spec.md`](spec.md) §1, [`docs/research/`](docs/research/)):
+**Bằng chứng** (chi tiết và cách đếm ở `spec.md` §1 và thư mục `docs/research/`):
 - 8.8% lượt chat VLearn (1.189/13.494) là xin tóm tắt hoặc xin chỉ trọng tâm thay vì tự đọc hết.
 - AI Tutor hiện tại chỉ chủ động gợi ý bước học tiếp theo ở 0.13% lượt (18/13.494).
 - Khảo sát form (n = 82 học viên): 87% không tự xác định được phần cần học bù trước buổi lab; 93% gặp tài liệu rải rác; 93% tự khai mất ít nhất 15 phút mỗi buổi chỉ để gom tài liệu.
@@ -113,7 +135,7 @@ flowchart LR
 | Thêm hoặc sửa tài liệu lab (**chỉ link công khai**) | Đức (Minh hỗ trợ) | [`codebase/src/data/planner-catalog.ts`](codebase/src/data/planner-catalog.ts) |
 | Sửa prompt, guardrail | Đức | `codebase/src/lib/prompts/`, [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/run_results.md`](eval/run_results.md) |
-| Ghi nhận phản hồi, quyết định thay đổi | Khoa | [`validation/log.md`](validation/log.md), [`spec.md`](spec.md) §9 |
+| Ghi nhận phản hồi, quyết định thay đổi | Khoa | [`validation/log.md`](validation/log.md)<br>`spec.md` §9 |
 | Deploy | Tự động khi merge `main` | Vercel, Root Directory = `codebase` |
 
 ## 🏗️ Kiến trúc
@@ -144,7 +166,10 @@ flowchart LR
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
 | Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
 
-Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api.md`](docs/03-api.md) · Prompt & guardrail: [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md)
+Xem thêm:
+- Kiến trúc chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md)
+- Hợp đồng API: [`docs/03-api.md`](docs/03-api.md)
+- Prompt & guardrail: [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md)
 
 ## 🚦 Trạng thái prototype
 
@@ -175,7 +200,7 @@ K4-3A-e403-Vinonymus/
 
 ## ▶️ Chạy thử
 
-**Bản đã deploy:** <https://codebase-mu-eight.vercel.app/planner>
+**Bản đã deploy:** <https://k4-3a-e403-vinonymus.vercel.app/planner>
 
 **Chạy local:** cần Node.js 22+ và một API key LLM miễn phí. Nên dùng Gemini, lấy key ở [Google AI Studio](https://aistudio.google.com/apikey).
 
@@ -215,7 +240,10 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 | CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
 | CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
 
-Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md) · Phân công: [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) · Kế hoạch sửa repo: [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md)
+Xem thêm:
+- Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md)
+- Phân công: [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md)
+- Kế hoạch sửa repo: [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md)
 
 ## 📚 Bản đồ tài liệu
 
