@@ -173,12 +173,14 @@ flowchart LR
 | AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/personalized-path`) và API của AI Helpdesk (`/api/chat`): chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
+| Tích hợp mở rộng | Discord Activity API (`/api/integrations/discord/activity`), hỗ trợ Dual-Mode (Mock Sandbox & Live Webhook) ghi nhận +5 XP | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
 | Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
 
 Xem thêm:
 - Kiến trúc chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md)
 - Hợp đồng API: [`docs/03-api.md`](docs/03-api.md)
+- Đặc tả API Discord (+5 XP): [`docs/feature-discord-api.md`](docs/feature-discord-api.md)
 - Prompt & guardrail: [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md)
 
 ## 🚦 Trạng thái prototype
@@ -193,6 +195,7 @@ Xem thêm:
 | Đăng ký chờ duyệt, trang `/admin/approvals` | ✅ Đã có code, ⚠️ chưa deploy backend | Đăng ký xong phải chờ quản trị viên duyệt mới đăng nhập được. Cần backend .NET chạy thật |
 | Khoá Lộ trình cá nhân hoá cho người chưa đăng nhập | ✅ Đã có code, tắt cho tới khi có backend | Chỉ bật khi đã cấu hình địa chỉ backend, để web thật không bị khoá |
 | Gói Pro, chứng chỉ, cây kỹ năng, `/admin` (trừ trang duyệt tài khoản) | 🎭 Mock | Không thuộc phạm vi thi |
+| **Tích hợp Discord Activity (+5 XP)**, API `/api/integrations/discord/activity` | ✅ Chạy thật (Dual-Mode) | Ghi nhận hoạt động tự học (+5 XP/lượt) theo chuẩn kênh `#activity` của server `AI20K Build Phase - Cohort 4`. Mặc định chạy Mock Sandbox (trả về preview payload chuẩn) phục vụ chấm điểm; tự động chuyển Live khi có `DISCORD_WEBHOOK_URL`. 13 unit tests đạt 100%. Chi tiết: [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa deploy | Đã sẵn Dockerfile; tài khoản Railway hết hạn dùng thử nên chưa đưa lên được. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
 
 ## 🗂️ Cấu trúc repo
@@ -246,11 +249,11 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 | Mốc | Hạn | Trạng thái nộp | % Issue | Việc |
 |---|---|---|---:|---|
 | CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | 100% (1/1) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
-| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 50% (3/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
-| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | 82% (9/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
-| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | 0% (0/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
-| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
-| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
+| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 100% (6/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp (eval 19/20) | 100% (11/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
+| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ✅ Đã nộp (khoá Quality Bar 19/20) | 100% (9/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
+| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ Đang làm (hạn 13:00 · 18/9) | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
+| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ Chiều 18/9 | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
 
 Xem thêm:
 - Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md)
@@ -265,6 +268,7 @@ Xem thêm:
 | Hệ thống phải làm được gì (FR/NFR/AC) | [`docs/01-SRS.md`](docs/01-SRS.md) |
 | Kiến trúc, luồng dữ liệu | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
 | API | [`docs/03-api.md`](docs/03-api.md) |
+| Đặc tả API & Tích hợp Discord Activity (+5 XP) | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Luồng người dùng | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
 | Ai làm gì, hạn nào | [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) |

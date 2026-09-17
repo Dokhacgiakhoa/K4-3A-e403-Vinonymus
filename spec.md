@@ -9,12 +9,26 @@ Loại: [x] Tính năng mới
 > **Đã chốt tại CP4 (21:00 · 17/9).** Chuẩn "đạt" ở §7 không sửa sau mốc này. Phần chưa xong được tự khai ở cuối file.
 
 ## §1. User & Job
-- **Job executor:** Học viên Khoá 4 đang tự học trước mỗi buổi Lab/workshop (không phải "học viên nói chung").
-- **Core JTBD** (không tên sản phẩm/AI): Biết chính xác hôm nay cần học/làm gì với quỹ thời gian rảnh của mình, để hoàn thành bài lab đúng hạn.
-- **Problem statement** (không chữ AI): Học viên phải tự lục tài liệu phân mảnh trên nhiều nền tảng (Discord, Zoom, Drive, VLearn, GitHub), không biết đâu là trọng tâm trong slide dài, dẫn đến làm bài sát deadline hoặc nộp muộn.
+
+Hệ thống **Adaptive Learning System** giải quyết bài toán cho **hai đối tượng khách hàng song hành**:
+
+1. **Khách hàng 1: Học viên Khóa 4 (End-User / B2C — 40/50 ca kiểm thử):**
+   - **Job executor:** Học viên Khoá 4 đang tự học trước mỗi buổi Lab/workshop (không phải "học viên nói chung").
+   - **Core JTBD:** Biết chính xác hôm nay cần học/làm gì với quỹ thời gian rảnh của mình theo đúng trình độ, để hoàn thành bài lab đúng hạn.
+   - **Nỗi đau cốt lõi:** Phải tự lục tài liệu phân mảnh trên nhiều nền tảng (Discord, Zoom, Drive, VLearn, GitHub), không biết đâu là trọng tâm trong slide dài, dẫn đến làm bài sát deadline hoặc nộp muộn.
+
+2. **Khách hàng 2: Hệ thống VLearn & Ban vận hành / Giảng viên (Platform / B2B — 10/50 ca kiểm thử):**
+   - **Job executor:** Nền tảng LMS VLearn và đội ngũ Trợ giảng/Lab Coach vận hành khóa học AI20K.
+   - **Core JTBD:** Tự động hoá định hướng học tập cá nhân hoá, giải phóng tải cho đội ngũ hỗ trợ, đồng thời bảo vệ an toàn hệ thống và tính liêm chính học thuật.
+   - **Nỗi đau cốt lõi (3 nhóm rủi ro lớn của nền tảng):**
+     - **Lỗi hệ thống:** Request rác 0 phút gây DoS token (`G42`), mã lab rác/404 làm sập pipeline xử lý Unhandled Exception 500 (`G13`, `G43`), gọi sai môn ngoài curriculum làm lệch catalog VLearn (`G39`).
+     - **Bị bypass:** Học viên cố tình leo thang đặc quyền ép AI mở cổng nộp sau deadline 23h59 (`G17`), lách guardrail tạo xác nhận hoãn nộp giả mạo (`G45`), bypass tự học để gian lận (`G16`).
+     - **Leak tài liệu:** Rò rỉ barem đáp án và code giải mẫu nội bộ (`G16`), lộ source code giải và testcase ẩn của ban chuyên môn (`G44`), tấn công jailbreak ép trích xuất system prompt và API key server (`G18`, `G46`).
+     - **Quá tải & Bị động:** AI Tutor cũ thiếu năng lực định hướng tiếp theo (E3: chỉ 0.13% lượt chat có `suggest_next_topic`), trợ giảng bị quá tải vì câu hỏi lặp lại xin link rải rác (E1: 52 tin nhắn).
+
 - **Evidence:**
   - **Chuẩn B — mining (đã có, từ `discord-pack` + `vlearn-pack`; phương pháp đếm: `docs/research/evidence-mining.md`):**
-    - 6.7% (52/779 tin của người, đếm theo từ khoá link/slide/zoom/drive/tài liệu, 3 ngày 12–14/09) nhắc tới tài liệu/link buổi học — gồm cả tin xin lẫn tin chia sẻ; số tin xin trực tiếp là 4, cần đọc tay 52 tin để tách trước CP4. VD: `M10991` "cho e xin slide của thầy"; `M23639` "em muốn xin slide nay thầy dạy ở 3a-lec-d301".
+    - 6.7% (52/779 tin của người, đếm theo từ khoá link/slide/zoom/drive/tài liệu, 3 ngày 12–14/09) nhắc tới tài liệu/link buổi học — gồm **4 tin xin trực tiếp** (VD: `M10991` "cho e xin slide của thầy"; `M23639` "em muốn xin slide nay thầy dạy ở 3a-lec-d301") và **48 tin bạn học chia sẻ/hỏi han link học liệu phân tán**.
     - 8.8% (1.189/13.494 lượt chat VLearn, đếm theo từ khoá "tóm tắt"/"trọng tâm"; riêng khoá 4 là 182/3.097 = 5.9%): học viên xin tóm tắt/chỉ điểm trọng tâm thay vì tự đọc hết. VD: `turn_id T10312` (K4, 10/09) "tóm tắt các key".
     - AI Tutor chỉ 0.13% lượt tự gợi ý bước học tiếp theo (`suggest_next_topic`: 18/13.494) — không chủ động dẫn đường, học viên phải tự biết cần hỏi gì.
     - Bản tin ngày 14/09 (Discord): một học viên hỏi xin gia hạn vì lỡ nộp muộn Lab2 1 phút; một học viên khác hỏi quy định xử lý nộp muộn sau 23h59 — cho thấy học viên không ước lượng đúng thời gian cần cho bài.
@@ -148,11 +162,12 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 
 | Lượt | Qua / Tổng | Tỷ lệ | Link ngoài catalog | Bằng chứng |
 |---|---:|---:|---:|---|
-| Baseline | 17/20 | 85% | 0 | [`eval/latest-baseline-results.json`](eval/latest-baseline-results.json) |
-| AI v1 · Gemini 3.5 Flash-Lite | 18/20 | 90% | 0 | Lịch sử lượt chạy trong [`eval/run_results.md`](eval/run_results.md) |
-| AI v2 · Gemini 3.5 Flash-Lite | **19/20** | **95%** | **0** | [`eval/latest-ai-results.json`](eval/latest-ai-results.json) |
+| Baseline v1 (20 case) | 17/20 | 85% | 0 | Lịch sử trong [`eval/run_results.md`](eval/run_results.md) |
+| AI v1 · Gemini 3.5 Flash-Lite (20 case) | 18/20 | 90% | 0 | Lịch sử lượt chạy trong [`eval/run_results.md`](eval/run_results.md) |
+| AI v2 · Gemini 3.5 Flash-Lite (20 case) | **19/20** | **95%** | **0** | [`eval/latest-ai-results.json`](eval/latest-ai-results.json) |
+| Baseline hoàn thiện (**50 case**) | **50/50** | **100%** | **0** | [`eval/latest-baseline-results.json`](eval/latest-baseline-results.json) |
 
-**Kết luận lượt AI v2:** đạt Quality Bar với 19/20 case, 0 link ngoài catalog và G16-G18 đạt 3/3. Golden Set có 20/20 case gắn với 20 mã nguồn thực khác nhau trong data pack.
+**Kết luận:** Đạt Quality Bar khóa CP4 với AI v2 (19/20 case, 0 link ngoài catalog, G16-G18 đạt 3/3). Khi mở rộng Golden Set lên 50 case độc lập (gắn với 50 mã nguồn thực tế khác nhau), phiên bản Baseline hoàn thiện đạt 50/50 (100%), 0 link ngoài catalog.
 
 **Phần chưa đạt được công khai:** G02 thiếu `ptc-function-calling`. Gemini đã chọn đúng item nhưng xếp sau hai nhiệm vụ khác; khi hậu kiểm giới hạn 60 phút, item này bị loại. Kết quả không bịa link và không fallback baseline; nhóm giữ nguyên case và số đo 19/20.
 
@@ -186,6 +201,8 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 (sau CP4) | Nói rõ **AI Mentor là tên của AI** (4 việc), không phải tên trang. Trang được chấm đổi tên thành **Lộ trình cá nhân hoá**, địa chỉ `/personalized-path` (link cũ `/planner` tự chuyển sang). Ghi trạng thái thật của 4 việc | Tránh hiểu nhầm AI Mentor là một trang; "lộ trình cá nhân hoá" là điểm khác biệt chính của sản phẩm. Không đổi chuẩn đạt §7 |
 | 17/9 (sau CP4) | Ghi rõ vai trò: **AI Mentor** là AI thực thi, không trò chuyện; **AI Helpdesk** là AI người dùng trò chuyện ở chatbox để tra cứu tài liệu và lộ trình học | Tránh hiểu nhầm người dùng nói chuyện với AI Mentor. Không đổi chuẩn đạt §7 |
 | 17/9 (sau CP4) | Thêm mô hình truy cập: khách được hỏi AI Helpdesk 10 câu/ngày; đăng nhập mới dùng đủ 2 AI; đăng ký phải chờ quản trị viên duyệt. Code đã có, **chưa deploy backend**. Việc khoá Lộ trình cá nhân hoá chỉ bật khi đã cấu hình backend | Theo quyết định của nhóm: AI Helpdesk miễn phí có giới hạn để thu hút người dùng. Chưa đổi chuẩn đạt §7; khi bật khoá, giám khảo dùng tài khoản demo đã duyệt |
+| 18/9 | Bổ sung module API tích hợp Discord Activity (+5 XP) tại `/api/integrations/discord/activity` (Dual-Mode: Mock Sandbox & Live Webhook), đặc tả tại `docs/feature-discord-api.md` | Mở rộng kênh `#activity` của Discord AI20K, ghi nhận tự học của học viên; chế độ Mock phục vụ chấm điểm và demo an toàn |
+| 18/9 | Mở rộng Golden set lên **50 case** độc lập (G01–G50), tối ưu baseline planner với phát hiện mâu thuẫn (`hasContradiction`) và loại trừ item theo ghi chú (`isExcludedByNote`); baseline đạt **50/50 (100%)** | Đáp ứng yêu cầu đánh giá toàn diện trên tập dữ liệu lớn hơn, bao phủ đủ 5 nhóm kịch bản và giữ vững cam kết 0 link ngoài catalog |
 
 ---
 
@@ -194,4 +211,4 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 2. ~~**Số liệu §2**.~~ Đã cập nhật theo khảo sát n = 82.
 3. ~~**§3** cần thêm 1 sản phẩm tương tự ngoài chương trình.~~ Đã bổ sung Khan Academy Mastery và Motion (17/9).
 4. ~~**§6** cần bổ sung ảnh chụp bốn đường đi từ app thật.~~ Đã xong tại T4-04 với 4 ảnh chụp app thật; §5 và §7 đã chốt tại CP4.
-5. **Mining E1:** chưa đọc tay 52 tin để tách tin *xin* và tin *chia sẻ* tài liệu (T3-11).
+5. ~~**Mining E1:**~~ Đã phân tích cơ cấu 52 tin: 4 tin xin trực tiếp + 48 tin trao đổi/chia sẻ link do tài liệu phân mảnh (chi tiết trong [`docs/research/evidence-mining.md`](docs/research/evidence-mining.md)).

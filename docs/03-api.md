@@ -124,6 +124,7 @@ Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình
 | Endpoint | Mục đích |
 |---|---|
 | `POST /api/chat/feedback` | Đánh giá 👍/👎 câu trả lời chat (chi tiết bên dưới) |
+| `POST /api/integrations/discord/activity` | Ghi nhận hoạt động tự học (+5 XP) lên Discord (Dual-Mode: Mock/Live, chi tiết bên dưới) |
 | `GET /api/faqs` | Danh sách FAQ |
 | `GET /api/health` | Health check |
 | `GET /api/auth/login/[provider]`, `/api/auth/callback/[provider]` | OAuth GitHub/Google (mock, cần cấu hình) |
@@ -147,6 +148,30 @@ Tách lớp trong `codebase/src/backend/`: route → controller → service → 
 | 500 | Lỗi lưu | Thông báo chung, không trả lỗi nội bộ database |
 
 Kiểm thử: `codebase/tests/unit/backend-feedback.test.ts` (8 test).
+
+### `POST /api/integrations/discord/activity`
+
+Ghi nhận hoạt động tự học hoàn thành trên web và gửi thông báo cộng **+5 XP** lên kênh `#activity` của Discord server chương trình. Hỗ trợ cơ chế **Dual-Mode** (Mock Sandbox tự động sinh preview khi chưa có Webhook; gửi live khi có biến môi trường `DISCORD_WEBHOOK_URL`). Chi tiết đặc tả: [`docs/feature-discord-api.md`](feature-discord-api.md).
+
+| Trường | Ràng buộc (zod) | Mô tả |
+|---|---|---|
+| `student_name` | string, 1–100 ký tự, bắt buộc | Tên hiển thị học viên |
+| `discord_user_id` | string (17–20 số), tuỳ chọn | Discord Snowflake ID để tag `<@id>` |
+| `event_type` | enum, bắt buộc | `diagnostic_completed` \| `task_completed` \| `session_completed` |
+| `lab_id` | string, bắt buộc | Mã bài lab (VD: `lab-02`) |
+| `task_title` | string, tuỳ chọn, ≤200 ký tự | Tiêu đề việc học đã hoàn thành |
+| `xp` | integer, 1–50, mặc định `5` | Điểm XP cộng thưởng (mặc định chuẩn 5 XP) |
+| `metadata` | object, tuỳ chọn | Ngữ cảnh bổ sung |
+
+| HTTP | Khi nào | Body |
+|---|---|---|
+| 200 (Live) | Gửi thành công tới Webhook Discord | `{ "success": true, "mocked": false, "message": "…", "data": { … } }` |
+| 200 (Mock) | Chưa cấu hình Webhook (chấm điểm / demo) | `{ "success": true, "mocked": true, "message": "…", "data": { … }, "preview": { … } }` |
+| 400 | Sai schema dữ liệu đầu vào | `{ "error": "…", "field": "…", "hint": "…" }` |
+| 502 | Máy chủ Discord từ chối hoặc timeout 5s | `{ "error": "…", "hint": "…" }` |
+| 500 | Lỗi nội bộ không lường trước | `{ "error": "Đã xảy ra lỗi nội bộ…", "hint": "…" }` |
+
+Kiểm thử: `codebase/tests/unit/discord-service.test.ts` (10 test), `codebase/tests/unit/discord-route.test.ts` (3 test).
 
 ## 4. Backend .NET (`codebase/backend-core`)
 

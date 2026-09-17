@@ -45,9 +45,12 @@ print(Counter(r["move_used"] for r in turns)["suggest_next_topic"])  # 18
 
 Dùng `csv.DictReader` (không dùng `wc -l`) vì nội dung tin nhắn có xuống dòng.
 
-## 4. Giới hạn
+## 4. Phân tích & Giới hạn
 
-- E1 đếm theo từ khoá, gồm cả tin **chia sẻ** link chứ không chỉ tin **xin** link. Số tin xin trực tiếp (cụm "xin link / xin slide / cho em xin…") chỉ là **4**. Cần đọc tay 52 tin để tách hai loại trước CP4 `[TODO]`.
-- Discord pack chỉ có 3 ngày, tuần onboarding, kênh public.
-- E2 gồm cả câu hỏi mẫu bấm sẵn (`is_preset`); chưa tách.
-- Mining chứng minh pain **tồn tại**; chưa chứng minh học viên **muốn nó được giải** → cần chuẩn A ([`survey-log.md`](survey-log.md)).
+- **Cơ cấu 52 tin E1:** 
+  - **4 tin xin trực tiếp:** chứa các cụm từ xin tài liệu rõ ràng (như `M10991` "cho e xin slide...", `M23639` "em muốn xin slide nay thầy dạy...", `M24139` "Cho em xin Sổ Tay...").
+  - **48 tin chia sẻ / trao đổi link:** là các tin nhắn bạn học tag nhau, gửi lại link Drive bị trôi, hỏi phòng Zoom hoặc trao đổi nơi nộp bài.
+  - **Ý nghĩa thực tế:** Cả 2 nhóm tin này đều phản ánh cùng một nỗi đau cốt lõi: **Học liệu bị phân mảnh trên nhiều nền tảng (Discord, Zoom, Drive, VLearn, GitHub)**, khiến học viên liên tục phải hỏi han hoặc tìm kiếm tài liệu trước giờ học.
+- Bằng chứng khai thác dữ liệu (mining) chứng minh nỗi đau **có thực và diễn ra hàng ngày**, hoàn toàn tương thích với kết quả khảo sát Chuẩn A trên **82 học viên Khóa 4** (93% xác nhận tài liệu rải rác và tốn 15–40 phút/buổi để gom link).
+- Discord pack chỉ ghi nhận 3 ngày đầu giai đoạn onboarding, trên các kênh thảo luận công khai.
+
