@@ -93,7 +93,7 @@ flowchart LR
     D -- đỏ / cần sửa --> B
     D -- xanh + duyệt --> E[Merge vào main]
     E --> F[Vercel tự deploy]
-    E --> G[Chạy lại golden set<br/>ghi eval/results.md]
+    E --> G[Chạy lại golden set<br/>ghi eval/run_results.md]
     H[Phản hồi người dùng thử] --> I[Ghi validation/log.md<br/>+ spec.md §9] --> B
 ```
 
@@ -101,7 +101,7 @@ flowchart LR
 |---|---|---|
 | Thêm hoặc sửa tài liệu lab (**chỉ link công khai**) | Đức (Minh hỗ trợ) | [`codebase/src/data/planner-catalog.ts`](codebase/src/data/planner-catalog.ts) |
 | Sửa prompt, guardrail | Đức | `codebase/src/lib/prompts/`, [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
-| Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/results.md`](eval/results.md) |
+| Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/run_results.md`](eval/run_results.md) |
 | Ghi nhận phản hồi, quyết định thay đổi | Khoa | [`validation/log.md`](validation/log.md), [`spec.md`](spec.md) §9 |
 | Deploy | Tự động khi merge `main` | Vercel, Root Directory = `codebase` |
 
@@ -184,7 +184,7 @@ npm run dev                  # http://localhost:3000/planner
 2. **Làm trên branch riêng:** `feat/…`, `fix/…`, `docs/…`, `chore/…`. Không push thẳng vào `main`.
 3. **Mở PR** theo mẫu có sẵn, ghi `Closes #<số issue>`. CODEOWNERS tự gán người review theo thư mục.
 4. **CI `verify`** (lint, typecheck, test, audit, build) phải xanh thì mới merge. Hook pre-push cũng chạy verify ngay trên máy.
-5. Đổi prompt thì chạy lại golden set và ghi vào `eval/results.md`. Đổi theo phản hồi người dùng thì ghi vào `spec.md` §9.
+5. Đổi prompt thì chạy lại golden set và ghi vào `eval/run_results.md`. Đổi theo phản hồi người dùng thì ghi vào `spec.md` §9.
 
 Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 
@@ -194,7 +194,7 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 |---|---|---|---|
 | CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
 | CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
-| CP3 · Video thao tác + số đo | 16:00 · 17/9 | 🔄 Đang làm | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
 | CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
 | CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
 | CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
@@ -215,7 +215,7 @@ Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkp
 | Kế hoạch sửa cấu trúc repo & quy trình | [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
 | Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
-| Kết quả kiểm thử | [`eval/results.md`](eval/results.md) |
+| Kết quả kiểm thử | [`eval/run_results.md`](eval/run_results.md) |
 | Nhật ký người dùng thử | [`validation/log.md`](validation/log.md) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
 | Tài liệu cũ của dự án nền (không phản ánh lát cắt thi) | [`docs/legacy/`](docs/legacy/) |

@@ -84,4 +84,4 @@ Chi tiết kịch bản: `spec.md` §5.
 
 ## 6. Đánh giá
 
-Golden set và kết quả: [`../eval/`](../eval/). Baseline đạt **17/20 = 85%**; lượt Gemini 3.5 Flash-Lite mới nhất đạt **19/20 = 95%**; cả hai đều có **0 link ngoài catalog**. Mỗi lần sửa prompt phải chạy lại toàn bộ golden set và ghi kết quả thật vào `eval/results.md`.
+Golden set và kết quả: [`../eval/`](../eval/). Baseline đạt **17/20 = 85%**; lượt Gemini 3.5 Flash-Lite mới nhất đạt **19/20 = 95%**; cả hai đều có **0 link ngoài catalog**. Mỗi lần sửa prompt phải chạy lại toàn bộ golden set và ghi kết quả thật vào `eval/run_results.md`.

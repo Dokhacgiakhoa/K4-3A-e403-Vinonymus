@@ -52,7 +52,7 @@ Không dùng `git push --no-verify` trừ khi cả nhóm đồng ý.
 ## Git
 
 - Commit message tiếng Anh, dạng mệnh lệnh (`feat: add roadmap api`).
-- Mỗi thay đổi prompt → chạy lại golden set, ghi một dòng vào `eval/results.md`.
+- Mỗi thay đổi prompt → chạy lại golden set, ghi một dòng vào `eval/run_results.md`.
 - Thay đổi sau phản hồi người dùng → ghi `spec.md` §9.
 
 ## Luật vibe-coding
