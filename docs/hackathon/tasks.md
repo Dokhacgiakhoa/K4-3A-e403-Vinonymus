@@ -74,7 +74,7 @@ Mục tiêu: **khoá chuẩn "đạt"** trước khi xem kết quả cuối; t�
 | T4-03 [#21](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/21) | §5: bảng 4 lớp chỗ khó, ≥8 kịch bản, trỏ về case trong golden set | `@Duc` | `@Minh` | `spec.md` | 17/9 · 18:30 | ⬜ |
 | T4-04 [#22](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/22) | §6: bốn đường đi của trải nghiệm, kèm ảnh chụp từ app thật | `@Thanh` | `@Duc` | `spec.md` | 17/9 · 18:30 | ⬜ |
 | T4-05 [#23](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/23) | §7: chốt quality bar ("Đạt khi ≥ __% qua bộ, và 0 link ngoài catalog") + bảng kết quả | `@Duc` | `@Khoa` | `spec.md`, `eval/run_results.md` | 17/9 · 19:30 | ⬜ |
-| T4-06 [#24](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/24) | Cập nhật `03-api.md`, `02-kien-truc.md` cho khớp code đã build | `@Minh` | — | `docs/` | 17/9 · 19:30 | ⬜ |
+| T4-06 [#24](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/24) | Cập nhật `03-api.md`, `02-kien-truc.md` cho khớp code đã build | `@Minh` | — | `docs/` | 17/9 · 19:30 | ✅ |
 | T4-07 [#25](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/25) | Trả lời "Câu hỏi mở" trong SRS, chốt SRS v1 | `@Khoa` | `@Minh` | `docs/01-SRS.md` | 17/9 · 19:30 | ⬜ |
 | T4-08 [#26](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/26) | Review chéo `spec.md` — mỗi người đọc phần của người khác | `@Khoa` `@Minh` `@Duc` `@Thanh` | — | Góp ý trong commit/PR | 17/9 · 20:15 | ⬜ |
 | T4-09 [#27](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/27) | Nộp form CP4 (link `spec.md` + tự khai phần chưa xong) | `@Khoa` | — | Form CP4 | 17/9 · 20:50 | ⬜ |

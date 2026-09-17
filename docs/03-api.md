@@ -6,7 +6,7 @@
 
 ### Request
 
-Header API key là tuỳ chọn. FE lấy key từ `localStorage` và gửi trong phạm vi request; không có key thì API trả kế hoạch `baseline`:
+Header API key là tuỳ chọn. FE lấy key từ `localStorage` và gửi trong phạm vi request. Route dùng biến môi trường của server nếu thiếu header tương ứng; chỉ trả kế hoạch `baseline` khi không có key nào hoặc lời gọi LLM thất bại:
 
 | Header | Provider |
 |---|---|
@@ -16,7 +16,7 @@ Header API key là tuỳ chọn. FE lấy key từ `localStorage` và gửi tron
 | `x-groq-key`, `x-cerebras-key`, `x-deepseek-key` | Khác |
 | `x-fpt-key` | FPT AI Factory |
 
-Router thử các provider có key theo thứ tự FPT → Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras. Model được cố định trong từng adapter, FE chưa cho chọn model. Lỗi trước token đầu tiên có thể chuyển sang provider kế tiếp; key sai (401/403) dừng thử. Không có key, provider lỗi hoặc output không hợp lệ thì Planner dùng `baseline`.
+Router thử các provider có key theo thứ tự FPT → Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras. Model được cố định trong từng adapter, FE chưa cho chọn model. Lỗi tạm thời có thể được thử lại; lỗi trước token đầu tiên có thể chuyển sang provider kế tiếp; key sai (401/403) dừng thử. Không có key, provider lỗi hoặc output không hợp lệ thì Planner dùng `baseline`.
 
 Body:
 
@@ -52,14 +52,14 @@ Luôn có trường `status`, một trong ba giá trị:
   "tasks": [
     {
       "itemId": "ptc-setup-colab",
-      "title": "Chuẩn bị notebook Colab và API key",
+      "title": "Chuẩn bị notebook và Gemini API key",
       "url": "https://ai.google.dev/gemini-api/docs/quickstart",
       "type": "notebook",
       "minutes": 15,
       "reason": "Ghi chú cho biết bạn chưa quen Colab — làm trước để không kẹt khi vào bài."
     }
   ],
-  "message": "Tổng 15/90 phút cho Lab · Prompt Engineering & Tool Calling."
+  "message": "Tổng 15/90 phút cho Lab 04 · Prompt Engineering & Tool Calling."
 }
 ```
 
@@ -84,8 +84,9 @@ Route kiểm tra lab, ghi chú ngoài phạm vi và thời gian dưới 30 phút
 | HTTP | Khi nào | Body |
 |---|---|---|
 | 400 | Body sai schema | `{ "error": "…", "field": "available_minutes" }` |
-| 200 + `source: "baseline"` | Không có key / LLM lỗi / output không hợp lệ | Kế hoạch mặc định kèm nhãn |
+| 200 + `source: "baseline"` | Không có key ở header lẫn server / LLM lỗi / output không hợp lệ | Kế hoạch mặc định kèm nhãn |
 | 200 + `status: "clarify"` / `"refuse"` | Lab không có trong catalog, thời gian dưới 30 phút, yêu cầu ngoài phạm vi hoặc chẩn đoán thiếu chắc chắn | `question` hoặc `message` tương ứng |
+| 500 | Lỗi không lường trước | `{ "error": "Không thể xử lý yêu cầu lập kế hoạch." }` |
 
 ## 2. `POST /api/chat` — Chat K.AI (có sẵn)
 
