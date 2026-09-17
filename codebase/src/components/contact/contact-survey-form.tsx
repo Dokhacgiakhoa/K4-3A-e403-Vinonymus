@@ -26,6 +26,7 @@ import {
   AlertCircle,
   Hash,
   HelpCircle,
+  QrCode,
 } from 'lucide-react';
 
 const surveyClientSchema = z.object({
@@ -354,13 +355,43 @@ export function ContactSurveyForm() {
       {/* LUCKY DRAW BANNER & RULES */}
       <div className="relative overflow-hidden rounded-2xl bg-[#0b1329] border border-slate-800/80 p-5 sm:p-8 space-y-6">
         {/* BANNER ẢNH TRI ÂN */}
-        <div className="relative w-full h-40 sm:h-56 rounded-xl overflow-hidden">
+        <div className="relative w-full h-44 sm:h-64 rounded-xl overflow-hidden">
           <img
             src="/images/survey-reward-banner.jpg"
             alt="Quay Thưởng Tri Ân Học Viên Khóa 4"
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1329] via-[#0b1329]/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1329] via-[#0b1329]/65 to-transparent" />
+
+          {/* MÃ QR KHẢO SÁT */}
+          <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
+            <a
+              href="https://k4-3a-e403-vinonymus.kailabs.io.vn/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-teal-500/40 shadow-2xl shadow-black/60 transition hover:border-teal-400 group"
+              title="Quét hoặc bấm mở link khảo sát"
+            >
+              <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-lg p-1 shadow shrink-0 flex items-center justify-center group-hover:scale-105 transition">
+                <img
+                  src="/images/survey-qr.svg"
+                  alt="QR Code Khảo Sát Vinonymus"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="hidden sm:block text-left pr-1.5">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-teal-300 uppercase tracking-wider">
+                  <QrCode className="w-3.5 h-3.5 text-teal-400" />
+                  <span>Quét Mã QR</span>
+                </div>
+                <p className="text-xs text-slate-200 font-medium leading-snug mt-0.5">
+                  Làm khảo sát<br />trên điện thoại
+                </p>
+                <span className="text-[10px] text-teal-400/80 font-mono">kailabs.io.vn/contact</span>
+              </div>
+            </a>
+          </div>
+
           <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div className="space-y-1.5">
               <div className="inline-flex items-center gap-1.5 text-teal-300 text-[11px] font-medium tracking-wide">
