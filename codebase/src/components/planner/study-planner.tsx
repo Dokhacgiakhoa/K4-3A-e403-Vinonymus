@@ -26,6 +26,7 @@ import {
 } from 'lucide-react';
 import { PLANNER_CATALOG } from '@/data/planner-catalog';
 import { MIN_MINUTES, planWithRules } from '@/lib/planner/baseline-planner';
+import { clientStorage } from '@/lib/client-storage';
 import type {
   CatalogItemType,
   PlannedTask,
@@ -105,24 +106,52 @@ export function StudyPlanner() {
     if (input && result?.status === 'plan') persist({ input, result, checklist: next });
   };
 
-  const generate = () => {
+  const applyResult = (res: PlannerResult, input: PlannerInput) => {
+    setResult(res);
+    if (res.status === 'plan') {
+      const list = res.tasks.map((t) => ({ ...t, done: false }));
+      setChecklist(list);
+      persist({ input, result: res, checklist: list });
+    } else {
+      setChecklist([]);
+      persist(null);
+    }
+    setStep(3);
+  };
+
+  const generate = async () => {
     if (!input) return;
     setLoading(true);
-    // CP2 chỉ mô phỏng: kết quả lấy từ luật tĩnh, chưa gọi LLM (sẽ nối /api/roadmap ở CP3)
-    window.setTimeout(() => {
-      const res = planWithRules(input);
-      setResult(res);
-      if (res.status === 'plan') {
-        const list = res.tasks.map((t) => ({ ...t, done: false }));
-        setChecklist(list);
-        persist({ input, result: res, checklist: list });
-      } else {
-        setChecklist([]);
-        persist(null);
-      }
+    try {
+      const keys = clientStorage.getApiKeys();
+      const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+      if (keys.gemini) headers['x-gemini-key'] = keys.gemini;
+      if (keys.openai) headers['x-openai-key'] = keys.openai;
+      if (keys.claude) headers['x-claude-key'] = keys.claude;
+      if (keys.deepseek) headers['x-deepseek-key'] = keys.deepseek;
+      if (keys.groq) headers['x-groq-key'] = keys.groq;
+      if (keys.cerebras) headers['x-cerebras-key'] = keys.cerebras;
+      if (keys.openrouter) headers['x-openrouter-key'] = keys.openrouter;
+
+      const res = await fetch('/api/roadmap', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({
+          background: input.background,
+          available_minutes: input.availableMinutes,
+          lab_id: input.labId,
+          note: input.note,
+        }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = (await res.json()) as PlannerResult;
+      applyResult(data, input);
+    } catch {
+      // Mạng lỗi hay server không phản hồi — vẫn cho học viên một kế hoạch, dùng luật tĩnh (FR-P09)
+      applyResult(planWithRules(input), input);
+    } finally {
       setLoading(false);
-      setStep(3);
-    }, 700);
+    }
   };
 
   const restart = () => {
@@ -156,9 +185,9 @@ export function StudyPlanner() {
     <div className="max-w-3xl mx-auto space-y-6">
       {/* Header */}
       <div className="space-y-2">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-300 text-[11px] font-bold uppercase tracking-wider">
-          <AlertTriangle className="w-3.5 h-3.5" />
-          Bản mô phỏng CP2 · kết quả từ luật tĩnh, chưa gọi AI
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold uppercase tracking-wider">
+          <Sparkles className="w-3.5 h-3.5" />
+          Gọi AI thật qua API key của bạn · không có key thì dùng gợi ý mặc định
         </div>
         <h1 className="text-2xl sm:text-3xl font-bold text-white">AI Diagnostic Study Planner</h1>
         <p className="text-sm text-slate-300 leading-relaxed">

@@ -6,7 +6,7 @@ export const cerebrasAdapter: LLMProviderAdapter = {
   chatStream(payload: ChatPayload, apiKey: string): AsyncIterable<string> {
     return streamOpenAiCompatible(
       'https://api.cerebras.ai/v1',
-      'llama-3.3-70b',
+      'gpt-oss-120b',
       payload,
       apiKey
     );

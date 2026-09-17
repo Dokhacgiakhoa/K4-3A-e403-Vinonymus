@@ -6,7 +6,7 @@ export const groqAdapter: LLMProviderAdapter = {
   chatStream(payload: ChatPayload, apiKey: string): AsyncIterable<string> {
     return streamOpenAiCompatible(
       'https://api.groq.com/openai/v1',
-      'llama-3.3-70b-versatile',
+      'openai/gpt-oss-20b',
       payload,
       apiKey
     );

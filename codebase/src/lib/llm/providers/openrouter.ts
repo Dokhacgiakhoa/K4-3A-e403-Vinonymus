@@ -6,7 +6,7 @@ export const openrouterAdapter: LLMProviderAdapter = {
   chatStream(payload: ChatPayload, apiKey: string): AsyncIterable<string> {
     return streamOpenAiCompatible(
       'https://openrouter.ai/api/v1',
-      'meta-llama/llama-3.3-70b-instruct:free',
+      'openrouter/free',
       payload,
       apiKey,
       {

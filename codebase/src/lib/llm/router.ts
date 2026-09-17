@@ -88,12 +88,16 @@ export async function routeLLMRequest(
           providerId === 'gemini'
             ? 'gemini-flash-latest'
             : providerId === 'openai'
-            ? 'gpt-4o-mini'
+            ? 'gpt-5-mini'
             : providerId === 'claude'
-            ? 'claude-3-5-sonnet'
+            ? 'claude-sonnet-5'
             : providerId === 'deepseek'
             ? 'deepseek-chat'
-            : 'llama-3.3-70b',
+            : providerId === 'groq'
+            ? 'openai/gpt-oss-20b'
+            : providerId === 'cerebras'
+            ? 'gpt-oss-120b'
+            : 'openrouter/free',
       };
     } catch (err: unknown) {
       const errorMsg = err instanceof Error ? err.message : String(err);
