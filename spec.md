@@ -136,6 +136,7 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 (sau CP3) | Đổi báo cáo thành `eval/run_results.md` và đồng bộ trạng thái CP3 đã nộp | Khớp đúng tên file đề bài và loại bỏ đường dẫn runner cũ |
 | 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi và quay thưởng tri ân tại `/contact` | Phục vụ mở rộng khảo sát lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 |
 | 17/9 trước 21:00 (CP4) | Đối chiếu §5 với G09-G20 và khóa Quality Bar tại 18/20, 0 link ngoài catalog, G16-G18 đạt 3/3 | Cố định tiêu chuẩn trước hạn CP4; công khai G02 là case duy nhất chưa đạt |
+| 17/9 20:30 (CP4) | Hoàn thành §6 bốn đường đi trải nghiệm kèm ảnh chụp app thật (T4-04, đóng #22) | Thành phụ trách, Đức hỗ trợ; đặc tả srs.md và 4 ảnh tại docs/assets/cp4/ |
 
 ---
 
@@ -143,4 +144,4 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 1. **Mở rộng khảo sát** (chuẩn A, §1) — mới có n = 2, cần thêm người ngoài nhóm, có cả nền tảng non-tech.
 2. **Số liệu §2** cần khảo sát A để hoàn thiện cột "bao nhiêu người" của ứng viên (3).
 3. **§3** cần thêm 1 sản phẩm tương tự ngoài chương trình.
-4. **§6** cần bổ sung ảnh chụp bốn đường đi từ app thật (T4-04; Thành phụ trách, Đức hỗ trợ). §5 và §7 đã chốt tại CP4.
+(Mục §6 đã hoàn thành tại T4-04 với đầy đủ 4 ảnh chụp app thật; §5 và §7 đã chốt).
