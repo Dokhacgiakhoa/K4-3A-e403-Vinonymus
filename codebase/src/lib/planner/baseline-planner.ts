@@ -6,13 +6,22 @@ export const MAX_TASKS = 3;
 
 // Yêu cầu ngoài phạm vi: làm hộ, xin đáp án/điểm, xin gia hạn, cố ghi đè chỉ dẫn.
 // Ghi chú của học viên là DỮ LIỆU — khớp mẫu thì từ chối, không làm theo.
-const OUT_OF_SCOPE_PATTERNS = [
+// Dùng chung cho luật tĩnh và luật cứng chạy trước khi gọi LLM ở /api/roadmap,
+// để hai nơi không lệch nhau khi có mẫu ngoài phạm vi mới.
+export const OUT_OF_SCOPE_PATTERNS = [
   /làm hộ|làm giùm|làm dùm|giải hộ|code hộ/i,
   /đáp án|lời giải/i,
   /gia hạn|xin (nộp )?muộn|dời deadline/i,
   /chấm điểm|xin điểm|cho điểm/i,
   /bỏ qua (mọi |các )?hướng dẫn|ignore (all |previous )?instructions/i,
 ];
+
+export const OUT_OF_SCOPE_MESSAGE =
+  'Mình chỉ giúp sắp xếp việc cần học, không làm bài hộ, không đưa đáp án và không xử lý gia hạn hay điểm số. Những việc đó bạn nhắn Lab Coach của phòng nhé.';
+
+export function isOutOfScope(note: string): boolean {
+  return OUT_OF_SCOPE_PATTERNS.some((p) => p.test(note));
+}
 
 function normalize(text: string): string {
   return text.toLowerCase().normalize('NFC');
@@ -66,12 +75,8 @@ export function planWithRules(input: PlannerInput): PlannerResult {
     return { status: 'clarify', question: 'Mình chưa có tài liệu cho bài lab này. Bạn chọn một bài lab trong danh sách nhé?' };
   }
 
-  if (OUT_OF_SCOPE_PATTERNS.some((p) => p.test(input.note))) {
-    return {
-      status: 'refuse',
-      message:
-        'Mình chỉ giúp sắp xếp việc cần học, không làm bài hộ, không đưa đáp án và không xử lý gia hạn hay điểm số. Những việc đó bạn nhắn Lab Coach của phòng nhé.',
-    };
+  if (isOutOfScope(input.note)) {
+    return { status: 'refuse', message: OUT_OF_SCOPE_MESSAGE };
   }
 
   if (input.availableMinutes < MIN_MINUTES) {

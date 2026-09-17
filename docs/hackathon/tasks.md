@@ -49,12 +49,12 @@ Mục tiêu: **≥1 lời gọi AI thật** trong video 30 giây, và con số "
 
 | ID | Việc | Phụ trách | Hỗ trợ | Kết quả / file | Hạn | Trạng thái |
 |---|---|---|---|---|---|---|
-| T3-01 [#8](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/8) | Soạn catalog 2–3 bài lab — **chỉ link công khai**, không link Zoom/passcode, không chép data pack | `@Duc` | `@Minh` | `codebase/src/data/planner-catalog.ts` | 17/9 · 10:00 | ⬜ |
-| T3-02 [#9](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/9) | Build `POST /api/roadmap`: validate zod → luật cứng (clarify) → gọi LLM router → lọc `item_id` theo catalog → fallback baseline | `@Minh` | `@Duc` | `codebase/src/app/api/roadmap/route.ts` | 17/9 · 12:00 | ⬜ |
-| T3-03 [#10](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/10) | Cập nhật tên model cũ trong LLM router | `@Minh` | — | `codebase/src/lib/llm/router.ts` | 17/9 · 12:00 | ⬜ |
-| T3-04 [#11](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/11) | Prompt v1 + schema zod cho output LLM | `@Duc` | `@Minh` | `codebase/src/lib/prompts/`, `04-ai-pipeline.md` | 17/9 · 12:00 | ⬜ |
+| T3-01 [#8](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/8) | Soạn catalog 2–3 bài lab — **chỉ link công khai**, không link Zoom/passcode, không chép data pack | `@Duc` | `@Minh` | `codebase/src/data/planner-catalog.ts` | 17/9 · 10:00 | ✅ |
+| T3-02 [#9](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/9) | Build `POST /api/roadmap`: validate zod → luật cứng (clarify) → gọi LLM router → lọc `item_id` theo catalog → fallback baseline | `@Minh` | `@Duc` | `codebase/src/app/api/roadmap/route.ts` | 17/9 · 12:00 | ✅ |
+| T3-03 [#10](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/10) | Cập nhật tên model cũ trong LLM router | `@Minh` | — | `codebase/src/lib/llm/router.ts` | 17/9 · 12:00 | ✅ |
+| T3-04 [#11](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/11) | Prompt v1 + schema zod cho output LLM | `@Duc` | `@Minh` | `codebase/src/lib/prompts/`, `04-ai-pipeline.md` | 17/9 · 12:00 | ✅ |
 | T3-05 [#12](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/12) | Golden set ≥20 case (≥10 case phát triển từ dữ liệu thật, chỉ dẫn mã) theo cơ cấu trong `eval/results.md` | `@Duc` | `@Khoa` | `eval/golden-set.json` | 17/9 · 12:00 | ⬜ |
-| T3-06 [#13](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/13) | Nối wizard với `/api/roadmap`; hiển thị plan / clarify / refuse / nhãn "Gợi ý mặc định"; checklist tick–bỏ–đổi thứ tự lưu `localStorage` | `@Thanh` | `@Minh` | `study-planner.tsx` | 17/9 · 13:30 | ⬜ |
+| T3-06 [#13](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/13) | Nối wizard với `/api/roadmap`; hiển thị plan / clarify / refuse / nhãn "Gợi ý mặc định"; checklist tick–bỏ–đổi thứ tự lưu `localStorage` | `@Thanh` | `@Minh` | `study-planner.tsx` | 17/9 · 13:30 | ✅ |
 | T3-07 [#14](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/14) | Script chạy eval; chạy baseline (lượt 0) và AI (lượt 1); ghi số thật kể cả khi xấu | `@Duc` | `@Minh` | `codebase/scripts/run-eval.ts` (đọc `../eval/golden-set.json` — đặt trong `codebase/` để import được `@/…`), `eval/results.md` | 17/9 · 15:00 | ⬜ |
 | T3-08 [#15](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/15) | Quay video 30 giây bấm thật, thấy AI trả kết quả | `@Thanh` | — | Video CP3 | 17/9 · 15:30 | ⬜ |
 | T3-09 [#16](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/16) | Nộp form CP3 (video + số đo) | `@Khoa` | — | Form CP3 | 17/9 · 15:50 | ⬜ |

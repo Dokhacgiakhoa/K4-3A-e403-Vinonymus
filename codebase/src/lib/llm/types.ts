@@ -23,13 +23,13 @@ export const MODEL_CATALOG: Record<string, ModelSpec[]> = {
     { model: 'gemini-embedding-001', tasks: ['embedding'], contextWindow: 2048 },
   ],
   groq: [
-    { model: 'llama-3.3-70b-versatile', tasks: ['chat'], contextWindow: 131_072 },
+    { model: 'openai/gpt-oss-20b', tasks: ['chat'], contextWindow: 131_072 },
   ],
   cerebras: [
-    { model: 'llama-3.3-70b', tasks: ['chat'], contextWindow: 8_192 },
+    { model: 'gpt-oss-120b', tasks: ['chat'], contextWindow: 8_192 },
   ],
   openrouter: [
-    { model: 'meta-llama/llama-3.3-70b-instruct:free', tasks: ['chat'], contextWindow: 65_536 },
+    { model: 'openrouter/free', tasks: ['chat'], contextWindow: 65_536 },
   ],
 };
 

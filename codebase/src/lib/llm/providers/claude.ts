@@ -16,7 +16,7 @@ export const claudeAdapter: LLMProviderAdapter = {
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
-        model: 'claude-3-5-sonnet-20241022',
+        model: 'claude-sonnet-5',
         system: payload.systemPrompt,
         messages,
         max_tokens: 1024,
