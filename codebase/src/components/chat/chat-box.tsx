@@ -20,7 +20,7 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
     {
       id: 'welcome',
       role: 'assistant',
-      content: 'Chào bạn! Mình là **K.AI** — Sổ tay AI **không chính thức** do học viên chương trình **AI in Action** (AIIA) xây dựng. Bạn có thể hỏi mình bất kỳ thắc mắc nào về chương trình nhé!',
+      content: 'Chào bạn! Mình là **AI Helpdesk**. Bạn có thể hỏi mình để tra cứu tài liệu, lộ trình học và thông tin chương trình. Mình do nhóm học viên xây dựng, **không phải kênh hỗ trợ chính thức**.',
       createdAt: new Date().toISOString(),
     },
   ]);
@@ -253,13 +253,13 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
       {/* Header Bar */}
       <div className="flex items-center justify-between px-4 py-3 bg-slate-950/40 border-b border-slate-800/60 text-white shrink-0 backdrop-blur-md">
         <div className="flex items-center gap-2.5">
-          <img src="/aiia-logo.png?v=4" alt="K.AI Logo" className="w-8 h-8 rounded-xl object-cover shadow-md border border-cyan-500/30" />
+          <img src="/aiia-logo.png?v=4" alt="AI Helpdesk" className="w-8 h-8 rounded-xl object-cover shadow-md border border-cyan-500/30" />
           <div>
             <h3 className="text-sm font-bold flex items-center gap-1.5">
-              K.AI
+              AI Helpdesk
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
             </h3>
-            <p className="text-[10px] text-slate-400">Sổ tay AI in Action</p>
+            <p className="text-[10px] text-slate-400">Tra cứu tài liệu & lộ trình học</p>
           </div>
         </div>
 
@@ -269,7 +269,7 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
             <button
               onClick={onCloseMobile}
               className="px-3 py-1.5 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 hover:text-rose-200 border border-rose-500/40 text-xs font-bold transition-all shadow-md active:scale-95 flex items-center gap-1 ml-1"
-              title="Đóng Chat K.AI"
+              title="Thu nhỏ AI Helpdesk"
             >
               <X className="w-4 h-4 text-rose-400" />
               <span>Đóng</span>

@@ -96,9 +96,9 @@ FE cho tick, bỏ, đổi thứ tự việc và lưu kế hoạch/checklist tron
 
 ## 2. `POST /api/chat` — AI Helpdesk (trước gọi Chat K.AI)
 
-Component chat (`components/chat/chat-box.tsx`) gọi API này với `question`, `history` và các header key hiện có. SSE stream có các sự kiện `status`, `token`, `citations`, `done`, `need_key`, `error`. Pipeline ưu tiên FAQ; khi cần LLM thì dùng cùng router ở trên. Đặc tả gốc của dự án nền: [`legacy/aiia-docs/04-API-SPEC.md`](legacy/aiia-docs/04-API-SPEC.md). Không thuộc lát cắt dự thi.
+Chatbox AI Helpdesk (widget nổi `components/chat/floating-ai-widget.tsx`, bên trong dùng `chat-box.tsx`) gọi API này với `question`, `history` và các header key hiện có. SSE stream có các sự kiện `status`, `token`, `citations`, `done`, `need_key`, `error`. Pipeline ưu tiên FAQ; khi cần LLM thì dùng cùng router ở trên. Đặc tả gốc của dự án nền: [`legacy/aiia-docs/04-API-SPEC.md`](legacy/aiia-docs/04-API-SPEC.md). Không thuộc lát cắt dự thi.
 
-Widget nổi ghi "AI Helpdesk 24/7" trong `components/chat/floating-ai-widget.tsx` **chưa gọi** endpoint này: câu trả lời và bộ chọn model hiện là mô phỏng trên FE. Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") cũng **chưa có API riêng**; wizard chạy quy tắc trong trình duyệt và lưu `localStorage`. Hai giao diện này không dùng `/api/roadmap`. Component `chat-box.tsx` hiện cũng chưa được gắn vào trang nào.
+Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") cũng **chưa có API riêng**; wizard chạy quy tắc trong trình duyệt và lưu `localStorage`. Wizard này không dùng `/api/roadmap`.
 
 ## 3. Endpoint khác có sẵn
 

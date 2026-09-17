@@ -17,7 +17,7 @@
 | AI | Người dùng có trò chuyện không? | Làm gì | Hiện ra ở đâu | Vai trò trong cuộc thi |
 |---|---|---|---|---|
 | **AI Mentor** | **Không.** AI thực thi, chạy phía sau | Đọc thông tin của học viên, đọc tài liệu giảng viên tải lên, phân tích CV để ra bài test năng lực, phân tích điểm test để xây lộ trình học (chi tiết bên dưới) | Tính năng **Lộ trình cá nhân hoá** tại `/personalized-path` | **Phần được chấm** (demo scope) là tính năng này, theo `spec.md` |
-| **AI Helpdesk** | **Có.** Là AI duy nhất người dùng nói chuyện | Tra cứu, giải đáp về tài liệu và lộ trình học, có trích dẫn nguồn | Chatbox (widget chat nổi) | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
+| **AI Helpdesk** | **Có.** Là AI duy nhất người dùng nói chuyện | Tra cứu, giải đáp về tài liệu và lộ trình học, có trích dẫn nguồn | Chatbox (widget chat nổi) | Tính năng nền, không thuộc phần chấm. Chatbox đã gọi AI thật (xem [Trạng thái](#-trạng-thái-prototype)) |
 
 **AI Mentor làm 4 việc** (trạng thái thật tính đến 17/9):
 
@@ -186,8 +186,7 @@ Xem thêm:
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
 | **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
-| **AI Helpdesk** — API `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
-| **AI Helpdesk** — widget chat nổi "AI Helpdesk 24/7" | 🎭 Mock | Trả lời mẫu theo từ khoá, **chưa gọi** `/api/chat`; bộ chọn model chưa có tác dụng. Component chat gọi API thật (`components/chat/chat-box.tsx`) có sẵn nhưng chưa được gắn vào trang nào |
+| **AI Helpdesk** — chatbox nổi ở mọi trang, gọi `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Ưu tiên trả lời từ FAQ đã xác thực; câu cần tra sâu thì dùng LLM và cần API key. Có eval (`codebase/tests/eval/`). Là tính năng nền, không thuộc phần được chấm |
 | Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi AI. **Không** thuộc phần được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
