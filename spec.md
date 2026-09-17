@@ -185,6 +185,7 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 ~20:50 (CP4) | Đổi cách gọi: hệ thống là **Adaptive Learning System** gồm **AI Mentor** (lộ trình cá nhân hoá, lát cắt dự thi, trước gọi "AI Diagnostic Study Planner") và **AI Helpdesk** (chat box, trước gọi "Chat K.AI"); banner đầu file đổi thành "đã chốt" | Thống nhất tên gọi với cách nhóm trình bày sản phẩm. Chỉ đổi tên gọi, không đổi phạm vi lát cắt hay chuẩn đạt §7 |
 | 17/9 (sau CP4) | Nói rõ **AI Mentor là tên của AI** (4 việc), không phải tên trang. Trang được chấm đổi tên thành **Lộ trình cá nhân hoá**, địa chỉ `/personalized-path` (link cũ `/planner` tự chuyển sang). Ghi trạng thái thật của 4 việc | Tránh hiểu nhầm AI Mentor là một trang; "lộ trình cá nhân hoá" là điểm khác biệt chính của sản phẩm. Không đổi chuẩn đạt §7 |
 | 17/9 (sau CP4) | Ghi rõ vai trò: **AI Mentor** là AI thực thi, không trò chuyện; **AI Helpdesk** là AI người dùng trò chuyện ở chatbox để tra cứu tài liệu và lộ trình học | Tránh hiểu nhầm người dùng nói chuyện với AI Mentor. Không đổi chuẩn đạt §7 |
+| 17/9 (sau CP4) | Thêm mô hình truy cập: khách được hỏi AI Helpdesk 10 câu/ngày; đăng nhập mới dùng đủ 2 AI; đăng ký phải chờ quản trị viên duyệt. Code đã có, **chưa deploy backend**. Việc khoá Lộ trình cá nhân hoá chỉ bật khi đã cấu hình backend | Theo quyết định của nhóm: AI Helpdesk miễn phí có giới hạn để thu hút người dùng. Chưa đổi chuẩn đạt §7; khi bật khoá, giám khảo dùng tài khoản demo đã duyệt |
 
 ---
 

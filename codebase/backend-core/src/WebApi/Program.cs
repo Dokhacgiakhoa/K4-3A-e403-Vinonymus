@@ -25,14 +25,16 @@ builder.Services.AddCors(options =>
 });
 
 // 2. Database Context (PostgreSQL EF Core 10)
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-    ?? "Host=localhost;Port=5432;Database=aiia_notebook;Username=postgres;Password=postgres";
+var connectionString = ResolveConnectionString(builder.Configuration);
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(connectionString)
            .UseSnakeCaseNamingConvention());
 
 builder.Services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+// Thiếu JWT secret thì dừng ngay khi khởi động, không chạy với khoá mặc định công khai.
+AuthWebService.GetJwtSecret(builder.Configuration);
 
 var app = builder.Build();
 
@@ -52,9 +54,9 @@ app.MapGet("/api/v1/health", () => Results.Ok(new
 }));
 
 // 0. Authentication Endpoints (.NET 10 + BCrypt + JWT)
-app.MapPost("/api/v1/auth/register", async (ApplicationDbContext db, RegisterRequest req, IConfiguration config) =>
+app.MapPost("/api/v1/auth/register", async (ApplicationDbContext db, RegisterRequest req) =>
 {
-    var result = await AuthWebService.RegisterAsync(db, req, config);
+    var result = await AuthWebService.RegisterAsync(db, req);
     return result.Success ? Results.Ok(result) : Results.BadRequest(result);
 });
 
@@ -73,19 +75,74 @@ app.MapGet("/api/v1/auth/me", async (ApplicationDbContext db, HttpContext http, 
         return Results.Unauthorized();
     }
 
-    var profile = await AuthWebService.GetMeAsync(db, userId.Value);
-    if (profile == null)
+    // Chỉ tài khoản đang hoạt động và đã được duyệt mới được coi là đã đăng nhập.
+    var user = await AuthWebService.GetActiveApprovedUserAsync(db, userId.Value);
+    if (user == null)
     {
-        return Results.NotFound(new { success = false, message = "Không tìm thấy thông tin người dùng." });
+        return Results.Unauthorized();
     }
 
-    return Results.Ok(new { success = true, data = profile });
+    return Results.Ok(new { success = true, data = AuthWebService.MapToProfile(user) });
 });
 
-app.MapPost("/api/v1/auth/oauth-sync", async (ApplicationDbContext db, OAuthSyncRequest req, IConfiguration config) =>
+app.MapPost("/api/v1/auth/oauth-sync", async (ApplicationDbContext db, OAuthSyncRequest req, HttpContext http, IConfiguration config) =>
 {
+    // Endpoint này cấp token theo email, nên chỉ server Next.js (có khoá nội bộ) được gọi.
+    var internalKey = config["Backend:InternalApiKey"];
+    var providedKey = http.Request.Headers["X-Internal-Key"].FirstOrDefault();
+    if (string.IsNullOrWhiteSpace(internalKey) || internalKey.Length < 32 ||
+        !System.Security.Cryptography.CryptographicOperations.FixedTimeEquals(
+            System.Text.Encoding.UTF8.GetBytes(internalKey),
+            System.Text.Encoding.UTF8.GetBytes(providedKey ?? string.Empty)))
+    {
+        return Results.StatusCode(StatusCodes.Status403Forbidden);
+    }
+
     var result = await AuthWebService.OAuthSyncAsync(db, req, config);
     return result.Success ? Results.Ok(result) : Results.BadRequest(result);
+});
+
+// 0.2 Hạn mức AI Helpdesk cho khách chưa đăng nhập (Next.js gọi, chỉ nhận mã băm SHA-256)
+app.MapPost("/api/v1/quota/helpdesk/consume", async (ApplicationDbContext db, ConsumeGuestQuotaRequest req, IConfiguration config) =>
+{
+    if (!GuestQuotaWebService.IsValidHash(req.SessionHash) || !GuestQuotaWebService.IsValidHash(req.IpHash))
+    {
+        return Results.BadRequest(new { success = false, message = "Mã phiên không hợp lệ." });
+    }
+
+    var result = await GuestQuotaWebService.ConsumeAsync(db, req, config);
+    return Results.Ok(new { success = true, data = result });
+});
+
+// 0.1 Duyệt tài khoản (chỉ SuperAdmin)
+app.MapGet("/api/v1/admin/users", async (ApplicationDbContext db, HttpContext http, IConfiguration config, string? status) =>
+{
+    if (!await AdminWebService.IsSuperAdminAsync(db, http.Request.Headers["Authorization"].FirstOrDefault(), config))
+    {
+        return Results.StatusCode(StatusCodes.Status403Forbidden);
+    }
+
+    AccountApprovalStatus? filter = Enum.TryParse<AccountApprovalStatus>(status, true, out var parsed) ? parsed : null;
+    var users = await AdminWebService.ListUsersAsync(db, filter);
+    return Results.Ok(new { success = true, data = users });
+});
+
+app.MapPost("/api/v1/admin/users/{id:guid}/approval", async (ApplicationDbContext db, HttpContext http, IConfiguration config, Guid id, SetApprovalRequest req) =>
+{
+    if (!await AdminWebService.IsSuperAdminAsync(db, http.Request.Headers["Authorization"].FirstOrDefault(), config))
+    {
+        return Results.StatusCode(StatusCodes.Status403Forbidden);
+    }
+
+    if (!Enum.TryParse<AccountApprovalStatus>(req.Status, true, out var status) || status == AccountApprovalStatus.Pending)
+    {
+        return Results.BadRequest(new { success = false, message = "Trạng thái phải là Approved hoặc Rejected." });
+    }
+
+    var profile = await AdminWebService.SetApprovalAsync(db, id, status);
+    return profile == null
+        ? Results.NotFound(new { success = false, message = "Không tìm thấy tài khoản." })
+        : Results.Ok(new { success = true, data = profile });
 });
 
 // 1. Curriculum Modules (SFIA L0 - L4) - Hỗ trợ lọc theo Track (NonTech, TechBase, AiBase, Universal)
@@ -161,3 +218,32 @@ app.MapPost("/api/v1/payments/vietqr", (CreatePaymentDto dto) =>
 app.Run();
 
 public record CreatePaymentDto(Guid UserId, decimal AmountVnd, string PlanName);
+public record SetApprovalRequest(string Status);
+
+public partial class Program
+{
+    // Railway cấp DATABASE_URL dạng postgresql://user:pass@host:port/db, Npgsql cần dạng key=value.
+    static string ResolveConnectionString(IConfiguration config)
+    {
+        var configured = config.GetConnectionString("DefaultConnection");
+        if (!string.IsNullOrWhiteSpace(configured)) return configured;
+
+        var url = config["DATABASE_URL"];
+        if (string.IsNullOrWhiteSpace(url))
+        {
+            throw new InvalidOperationException("Thiếu chuỗi kết nối: đặt ConnectionStrings__DefaultConnection hoặc DATABASE_URL.");
+        }
+
+        var uri = new Uri(url);
+        var userInfo = uri.UserInfo.Split(':', 2);
+        var builder = new Npgsql.NpgsqlConnectionStringBuilder
+        {
+            Host = uri.Host,
+            Port = uri.Port > 0 ? uri.Port : 5432,
+            Database = uri.AbsolutePath.TrimStart('/'),
+            Username = Uri.UnescapeDataString(userInfo[0]),
+            Password = userInfo.Length > 1 ? Uri.UnescapeDataString(userInfo[1]) : string.Empty
+        };
+        return builder.ConnectionString;
+    }
+}

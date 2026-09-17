@@ -1,9 +1,11 @@
-# 06 — Backend .NET (chưa tích hợp)
+# 06 — Backend .NET (tài khoản, duyệt tài khoản, hạn mức khách)
 
-> ⚠️ **Không thuộc lát cắt dự thi.** Nhóm quyết định giữ code trong `codebase/backend-core/` và `codebase/database/` cho giai đoạn sau.
-> - App Next.js gọi backend này qua `src/lib/api/auth-backend-client.ts` và `curriculum-backend-client.ts` (mặc định `http://localhost:5000`), có **fallback tự động** khi .NET không chạy.
-> - Không cần chạy .NET để demo.
-> - `appsettings.json` đang ghi cứng JWT secret và mật khẩu Postgres dev — phải chuyển sang biến môi trường trước khi dùng thật.
+> **Trạng thái (17/9):** đã thêm đăng ký chờ duyệt, API duyệt cho admin, bộ đếm hạn mức AI Helpdesk cho khách và Dockerfile. **Chưa deploy** (tài khoản Railway hết hạn dùng thử).
+> - Next.js gọi backend qua `src/lib/api/auth-backend-client.ts` (trình duyệt) và `src/lib/server/*` (server). Chưa cấu hình địa chỉ backend thì app không bắt đăng nhập.
+> - Danh sách endpoint và biến môi trường: [`03-api.md`](03-api.md) mục 4.
+> - JWT secret **không còn** nằm trong `appsettings.json`; secret cũ từng bị commit nên không được dùng lại. Chạy ở máy dùng `appsettings.Development.json`.
+> - Build: `docker build -t vinonymus-backend codebase/backend-core`. Schema: chạy lần lượt các file trong `codebase/database/migrations/` (bỏ qua `CREATE EXTENSION vector` nếu Postgres không có pgvector — schema không dùng kiểu vector).
+> - Còn tồn tại: các endpoint `curriculum/*` nhận `userId` từ request mà không kiểm tra token.
 >
 > Nội dung bên dưới là README gốc của `backend-core/`.
 

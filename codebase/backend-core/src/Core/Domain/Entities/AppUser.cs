@@ -16,4 +16,6 @@ public class AppUser : BaseEntity
     public int AiTokenQuota { get; set; } = 100_000;
     public int AiTokenUsed { get; set; } = 0;
     public bool IsActive { get; set; } = true;
+    // Tài khoản mới phải chờ quản trị viên duyệt mới được đăng nhập.
+    public AccountApprovalStatus ApprovalStatus { get; set; } = AccountApprovalStatus.Pending;
 }
