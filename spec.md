@@ -79,6 +79,7 @@ Loại: [x] Tính năng mới
 |---|---|---|
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
+| 17/9 | Đồng bộ `docs/02-kien-truc.md` và `docs/03-api.md` với code Planner, router và trạng thái AI Mentor/Helpdesk | API Planner đã nối FE; tài liệu cũ còn ghi chưa build và chưa phân biệt các giao diện mô phỏng |
 
 ---
 
