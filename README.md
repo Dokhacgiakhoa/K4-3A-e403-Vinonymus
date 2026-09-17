@@ -7,9 +7,14 @@
 
 | | |
 |---|---|
-| **Demo Lộ trình cá nhân hoá** | <https://k4-3a-e403-vinonymus.vercel.app/personalized-path> |
-| **Tên miền riêng** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path> |
-| **Spec (tài liệu chấm)** | [`spec.md`](spec.md) |
+| **Trang chủ hệ thống** | <https://k4-3a-e403-vinonymus.kailabs.io.vn> |
+| **Demo Lộ trình cá nhân hoá (Phần chấm thi)** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path> |
+| **Bản demo dự phòng (Vercel)** | <https://k4-3a-e403-vinonymus.vercel.app/personalized-path> |
+| **AI Spec (Tài liệu chấm chính thức)** | [`spec.md`](spec.md) |
+| **Đặc tả yêu cầu hệ thống (SRS)** | [`docs/01-SRS.md`](docs/01-SRS.md) |
+| **Kiến trúc & Luồng dữ liệu** | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
+| **Kiểm định Eval 50 case (100%)** | [`eval/run_results.md`](eval/run_results.md) |
+| **Tích hợp Discord Activity (+5 XP)** | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | **Việc của nhóm** | [Milestones theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones) |
 
 **Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
@@ -187,7 +192,7 @@ Xem thêm:
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
+| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`. Bộ kiểm định mở rộng **50/50 case = 100%** theo mô hình **Khách hàng kép**: **40 case Nỗi đau Học viên** (B2C: non-tech/tech-base/AI, quỹ thời gian thực tế, giải quyết triệt để 52 tin phân mảnh tài liệu E1, 0 link ngoài) và **10 case Nỗi đau Hệ thống VLearn & Ban vận hành** (B2B: chặn leak code mẫu/đáp án/testcase ẩn, chặn bypass deadline LMS, chặn prompt injection, xử lý an toàn Broken Link/Mã lab 404 chống crash 500, chặn DoS token request 0 phút). Xem [`eval/run_results.md`](eval/run_results.md). Baseline luật tĩnh đạt **50/50 (100%)** làm baseline & fallback an toàn ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
 | **AI Helpdesk** — chatbox nổi ở mọi trang, gọi `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Ưu tiên trả lời từ FAQ đã xác thực; câu cần tra sâu thì dùng LLM và cần API key. Có eval (`codebase/tests/eval/`). Là tính năng nền, không thuộc phần được chấm |
 | Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi AI. **Không** thuộc phần được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
@@ -215,7 +220,18 @@ K4-3A-e403-Vinonymus/
 
 ## ▶️ Chạy thử
 
-**Bản đã deploy:** <https://k4-3a-e403-vinonymus.vercel.app/personalized-path>
+**Bản đã deploy:**
+- **Trang chủ hệ thống:** <https://k4-3a-e403-vinonymus.kailabs.io.vn>
+- **Lộ trình cá nhân hoá (Phần chấm thi):** <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path>
+- **Bản demo dự phòng (Vercel):** <https://k4-3a-e403-vinonymus.vercel.app/personalized-path>
+
+**Test nhanh API Discord Activity (+5 XP):**
+```bash
+# Gửi activity học tập (chế độ Sandbox Preview không cần webhook secret)
+curl -X POST https://k4-3a-e403-vinonymus.kailabs.io.vn/api/integrations/discord/activity \
+  -H "Content-Type: application/json" \
+  -d "{\"student_id\":\"HV02733\",\"action_type\":\"generate_path\",\"topic\":\"Lab 02\",\"duration_minutes\":45}"
+```
 
 **Chạy local:** cần Node.js 22+ và một API key LLM miễn phí. Nên dùng Gemini, lấy key ở [Google AI Studio](https://aistudio.google.com/apikey).
 
@@ -267,16 +283,22 @@ Xem thêm:
 | Vì sao chọn bài toán này, bằng chứng, chuẩn "đạt" | [`spec.md`](spec.md) |
 | Hệ thống phải làm được gì (FR/NFR/AC) | [`docs/01-SRS.md`](docs/01-SRS.md) |
 | Kiến trúc, luồng dữ liệu | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
-| API | [`docs/03-api.md`](docs/03-api.md) |
+| Hợp đồng API (`/api/roadmap`, `/api/chat`) | [`docs/03-api.md`](docs/03-api.md) |
 | Đặc tả API & Tích hợp Discord Activity (+5 XP) | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Luồng người dùng | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
+| Kế hoạch kiến trúc AI Access & BYOK | [`docs/07-ai-access-plan.md`](docs/07-ai-access-plan.md) |
 | Ai làm gì, hạn nào | [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) |
 | Kế hoạch sửa cấu trúc repo & quy trình | [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
-| Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
-| Kết quả kiểm thử | [`eval/run_results.md`](eval/run_results.md) |
-| Nhật ký người dùng thử | [`validation/log.md`](validation/log.md) |
+| Bằng chứng mining từ tin nhắn Discord & Chatlog | [`docs/research/evidence-mining.md`](docs/research/evidence-mining.md) |
+| Phân tích dữ liệu khảo sát 45 học viên thật | [`docs/research/survey-data-review.md`](docs/research/survey-data-review.md) |
+| Dashboard biểu đồ khảo sát trực quan (HTML) | [`docs/research/survey-dashboard.html`](docs/research/survey-dashboard.html) |
+| Báo cáo rà soát chất lượng 53 file FAQ | [`docs/reports/faq-audit-report.md`](docs/reports/faq-audit-report.md) |
+| Kết quả kiểm định tự động (50/50 cases = 100%) | [`eval/run_results.md`](eval/run_results.md) |
+| Nhật ký người dùng ngoài thử nghiệm (R6) | [`validation/log.md`](validation/log.md) |
+| Quy ước PR bắt buộc ở gốc repo | [`PR.md`](PR.md) |
+| Sơ đồ luồng vai trò hệ thống (Mermaid) | [`role-flow.mmd`](role-flow.mmd) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
 | Tài liệu cũ của dự án nền (không phản ánh lát cắt thi) | [`docs/legacy/`](docs/legacy/) |
 

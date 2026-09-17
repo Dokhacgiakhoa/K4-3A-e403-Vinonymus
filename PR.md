@@ -29,7 +29,8 @@
 | `codebase/src/lib/planner/baseline-planner.ts` | Thêm `hasContradiction`, `isExcludedByNote`, tối ưu quy tắc lấp nhiệm vụ cho học viên AI |
 | `codebase/src/lib/prompts/planner.ts` | Bổ sung chỉ dẫn ưu tiên xếp nhiệm vụ khớp nhu cầu lên đầu mảng tasks |
 | `codebase/tests/unit/discord-service.test.ts` | 10 unit tests cho Discord service |
-| `codebase/tests/unit/discord-route.test.ts` | 3 unit tests cho Discord route API |
+| `codebase/tests/unit/discord-route.test.ts` | 4 unit tests cho Discord route API (GET & POST) |
+| `codebase/src/app/api/integrations/discord/activity/route.ts` | Bổ sung GET handler trả về metadata và POST xử lý hoạt động |
 | `codebase/tests/unit/baseline-planner.test.ts` | Bổ sung unit tests cho phát hiện mâu thuẫn và loại trừ item |
 | `eval/golden-set.json` | Mở rộng từ 20 lên 50 test cases độc lập (G01–G50) gắn với 50 mã tham chiếu data pack |
 | `eval/run-eval.ts` | Nâng ngưỡng kiểm tra số lượng case tối thiểu lên 50 |
@@ -41,13 +42,13 @@
 | `docs/hackathon/checkpoints.md` | Đánh dấu hoàn thành 100% cho CP1, CP2, CP3, CP4 |
 | `docs/hackathon/tasks.md` | Cập nhật tiến độ task và milestone thành viên |
 | `spec.md` | Cập nhật §1, §7 (bảng 50 case) và §9 (changelog) |
-| `README.md` | Cập nhật bảng trạng thái Checkpoints 100% |
+| `README.md` | Cập nhật domain chính `kailabs.io.vn`, bảng quick links, 50 case eval 100%, test curl Discord |
 
 ## 4. Kiểm thử
 - `npm run verify` (`lint` + `typecheck` + `test` + `audit` + `build`):
   - ESLint: 0 error.
   - TypeScript: 0 error (`tsc --noEmit`).
-  - Unit tests: **88/88 passed** (16 test suites).
+  - Unit tests: **89/89 passed** (16 test suites).
   - FAQ Audit: 53 files reviewed, 0 critical errors, 0 warnings.
   - Build: 24/24 static/dynamic routes build thành công.
 - `npx tsx ../eval/run-eval.ts baseline`:
@@ -58,7 +59,9 @@
 ## 5. Tài liệu & changelog
 - Đã tạo `docs/feature-discord-api.md`.
 - Đã cập nhật `docs/00-muc-luc.md`, `docs/03-api.md`, `docs/01-SRS.md`, `docs/research/evidence-mining.md`.
+- Đã cập nhật `README.md` đồng bộ domain chính và kết quả 50 case 100%.
 - Đã ghi mục mới vào `spec.md` §9 Changelog (18/9).
 
 ## 6. Rủi ro / việc còn lại
 - Không có. Tất cả các case kiểm thử và build đều đã vượt qua 100%.
+

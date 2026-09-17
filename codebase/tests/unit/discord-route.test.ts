@@ -1,9 +1,18 @@
 import { NextRequest } from 'next/server';
 import { describe, expect, it } from 'vitest';
-import { POST } from '@/app/api/integrations/discord/activity/route';
+import { GET, POST } from '@/app/api/integrations/discord/activity/route';
 
-describe('POST /api/integrations/discord/activity Route Handler', () => {
-  it('trả về 200 kèm payload mock preview khi gửi dữ liệu hợp lệ', async () => {
+describe('Discord Activity Route Handler', () => {
+  it('GET trả về 200 kèm thông tin hướng dẫn và trạng thái endpoint', async () => {
+    const res = await GET();
+    expect(res.status).toBe(200);
+    const data = await res.json();
+    expect(data.status).toBe('ok');
+    expect(data.endpoint).toBe('/api/integrations/discord/activity');
+    expect(data.method).toBe('POST');
+  });
+
+  it('POST trả về 200 kèm payload mock preview khi gửi dữ liệu hợp lệ', async () => {
     const req = new NextRequest('http://localhost:3000/api/integrations/discord/activity', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -28,7 +37,7 @@ describe('POST /api/integrations/discord/activity Route Handler', () => {
     expect(data.preview.content).toContain('Giữ nhịp học đều tay nào! 📚');
   });
 
-  it('trả về 400 với thông báo tiếng Việt khi thiếu trường bắt buộc', async () => {
+  it('POST trả về 400 với thông báo tiếng Việt khi thiếu trường bắt buộc', async () => {
     const req = new NextRequest('http://localhost:3000/api/integrations/discord/activity', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -47,7 +56,7 @@ describe('POST /api/integrations/discord/activity Route Handler', () => {
     expect(data.hint).toBeDefined();
   });
 
-  it('trả về 400 khi body không phải là JSON', async () => {
+  it('POST trả về 400 khi body không phải là JSON', async () => {
     const req = new NextRequest('http://localhost:3000/api/integrations/discord/activity', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -61,3 +70,4 @@ describe('POST /api/integrations/discord/activity Route Handler', () => {
     expect(data.error).toContain('không đúng định dạng JSON');
   });
 });
+

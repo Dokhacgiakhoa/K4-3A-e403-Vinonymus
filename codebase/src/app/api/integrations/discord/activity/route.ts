@@ -5,6 +5,20 @@ import { discordActivityPayloadSchema } from '@/types/discord';
 export const runtime = 'nodejs';
 
 /**
+ * Trả về thông tin trạng thái endpoint và hướng dẫn gọi API.
+ */
+export async function GET() {
+  return NextResponse.json({
+    status: 'ok',
+    endpoint: '/api/integrations/discord/activity',
+    description: 'API ghi nhận hoạt động tự học và tích lũy +5 XP lên kênh #activity Discord.',
+    method: 'POST',
+    mode: process.env.DISCORD_WEBHOOK_URL ? 'live' : 'mock_sandbox',
+    docs: '/docs/feature-discord-api.md',
+  });
+}
+
+/**
  * Xử lý yêu cầu ghi nhận hoạt động tự học và tính điểm (+5 XP) lên Discord.
  * Hỗ trợ chế độ Mock tự động khi chưa cấu hình Webhook chính thức của BTC.
  */
