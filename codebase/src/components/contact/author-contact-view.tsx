@@ -40,18 +40,22 @@ export function AuthorContactView() {
   return (
     <div className="space-y-8 animate-fadeIn font-sans">
       {/* HERO — thông tin đội thi */}
-      <div className="relative overflow-hidden rounded-3xl banner-3d-hero p-6 sm:p-10 shadow-2xl border border-sky-500/30">
+      <div className="relative overflow-hidden rounded-3xl banner-3d-hero p-6 sm:p-10 shadow-2xl border border-teal-500/30">
         <div className="flex flex-col items-center md:items-start gap-3 text-center md:text-left">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0b1329]/80 border border-sky-500/40 text-sky-300 text-xs font-medium uppercase tracking-wider backdrop-blur-md">
-            <Users className="w-3.5 h-3.5 text-sky-400" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#0b1329]/80 border border-teal-500/40 text-teal-300 text-xs font-medium uppercase tracking-wider backdrop-blur-md">
+            <Users className="w-3.5 h-3.5 text-teal-400" />
             <span>Nhóm Vinonymus · Lớp 3A · Phòng E403 · Cụm C2</span>
           </div>
           <h1 className="text-2xl sm:text-4xl font-bold text-white tracking-wide uppercase leading-tight text-shadow-clean">
-            AI Diagnostic Study Planner
+            Adaptive Learning System
           </h1>
+          <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-cyan-300">
+            <span className="px-2.5 py-0.5 rounded-full bg-cyan-500/20 border border-cyan-500/40">AI Mentor (Chẩn đoán & Lộ trình)</span>
+            <span className="text-slate-400">·</span>
+            <span className="px-2.5 py-0.5 rounded-full bg-teal-500/20 border border-teal-500/40">AI Helpdesk 24/7 (Hỗ trợ tức thì)</span>
+          </div>
           <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal max-w-2xl">
-            Mini Hackathon AI · Batch 04 · Track E — Làn mở. Bốn thành viên phụ trách bốn phần việc, mỗi người
-            giải thích được đúng phần có tên mình.
+            Mini Hackathon AI · Batch 04 · Track E — Làn mở. Nền tảng học tập thích ứng cá nhân hóa cho học viên Khóa 4, tích hợp bộ đôi trợ lực AI Mentor và AI Helpdesk 24/7.
           </p>
           <a
             href="https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus"
@@ -59,7 +63,7 @@ export function AuthorContactView() {
             rel="noreferrer"
             className="mt-2 inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#0b1329]/80 hover:bg-slate-800 border border-slate-700 text-xs font-semibold text-white transition shadow-sm"
           >
-            <Github className="w-4 h-4 text-sky-400" />
+            <Github className="w-4 h-4 text-teal-400" />
             <span>Repo GitHub</span>
           </a>
         </div>
@@ -75,7 +79,7 @@ export function AuthorContactView() {
             <div className="flex items-center gap-2">
               {member.isLead && <Crown className="w-4 h-4 text-amber-400 shrink-0" />}
               <h3 className="text-sm font-bold text-white">{member.name}</h3>
-              <span className="ml-auto px-2 py-0.5 rounded-full bg-sky-500/20 border border-sky-500/40 text-sky-300 text-[10px] font-mono uppercase">
+              <span className="ml-auto px-2 py-0.5 rounded-full bg-teal-500/20 border border-teal-500/40 text-teal-300 text-[10px] font-mono uppercase">
                 {member.role}
               </span>
             </div>
