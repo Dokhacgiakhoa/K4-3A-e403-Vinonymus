@@ -1,8 +1,12 @@
-# AI SPEC — AI Diagnostic Study Planner · Nhóm Vinonymus · K4-3A-E403 · Cụm C2
+# AI SPEC — Adaptive Learning System (AI Mentor & AI Helpdesk) · Nhóm Vinonymus · K4-3A-E403 · Cụm C2
 Hướng: **E — Làn mở** (trong phạm vi AI20k)
 Loại: [x] Tính năng mới
 
-> ⚠️ **Bản nháp — chưa chốt.** Đánh dấu `[TODO]` là phần còn thiếu, chưa đủ để khoá chuẩn "đạt" tại hạn chốt spec (21:00 17/9, CP4). Xem chi tiết ở cuối file.
+**Phạm vi:** Adaptive Learning System gồm 2 AI:
+- **AI Mentor:** xây dựng lộ trình học cá nhân hoá, trang `/planner`. Đây là **lát cắt dự thi** mà spec này mô tả và chấm.
+- **AI Helpdesk:** giải đáp thắc mắc trên chat box. Đây là tính năng nền, không thuộc phần chấm.
+
+> **Đã chốt tại CP4 (21:00 · 17/9).** Chuẩn "đạt" ở §7 không sửa sau mốc này. Phần chưa xong được tự khai ở cuối file.
 
 ## §1. User & Job
 - **Job executor:** Học viên Khoá 4 đang tự học trước mỗi buổi Lab/workshop (không phải "học viên nói chung").
@@ -64,15 +68,15 @@ Số khảo sát lấy từ §1 (n = 82). Số mining lấy từ `docs/research/
 
 | Giải pháp | Làm được gì | Thiếu gì so với nỗi đau ở §1 | Nhóm học / khác biệt |
 |---|---|---|---|
-| **VLearn AI Tutor** (trong khoá) | Trả lời, tóm tắt khi học viên hỏi | Bị động: chỉ 0.13% lượt tự gợi ý bước tiếp theo (§1); không biết quỹ thời gian của học viên | Planner chủ động đưa checklist ngay đầu buổi, không cần học viên biết phải hỏi gì |
-| **Bot "Trợ lý" + bản tin ngày Discord** (trong khoá) | Tổng hợp câu hỏi trong ngày cho TA | Bản tin chung, không cá nhân hoá theo từng học viên | Planner nhắm vào từng người, theo nền tảng và số phút rảnh |
-| **Khan Academy — hệ thống Mastery** (ngoài chương trình) | Sau mỗi bài tập, quiz hay course challenge, dựa vào kết quả làm bài để gợi ý bài nên học tiếp; Mastery Challenge ôn lại 3 kỹ năng mỗi lượt ([nguồn](https://support.khanacademy.org/hc/en-us/articles/115002552631-What-are-Course-and-Unit-Mastery), [nguồn](https://support.khanacademy.org/hc/en-us/articles/360037494231-What-are-Mastery-Challenges)) | Chỉ chẩn đoán trên kho bài của chính Khan Academy; không tính thời gian rảnh hôm nay, không biết lịch lab của AI20K | **Học:** chẩn đoán rồi chỉ ra số ít việc cụ thể. **Khác:** Planner chẩn đoán nhanh từ nền tảng + ghi chú (chưa có bài test), gắn với bài lab sắp tới và quỹ phút |
-| **Motion — AI calendar / task manager** (ngoài chương trình) | Người dùng nhập việc kèm hạn và thời lượng; AI tự xếp vào ô trống trên lịch theo độ ưu tiên và tự xếp lại khi lịch đổi ([nguồn](https://www.usemotion.com/features/ai-task-manager), [nguồn](https://www.usemotion.com/help/time-management/auto-scheduling)) | Người dùng phải tự biết cần làm việc gì; không có nội dung học, không chọn tài liệu | **Học:** ràng buộc tổng thời lượng ≤ thời gian rảnh. **Khác:** Planner quyết định *nên học gì* từ catalog đã kiểm chứng; Motion chỉ quyết định *làm lúc nào*. Planner không tự xếp lịch — học viên giữ quyền sửa (§4 automation conditional) |
+| **VLearn AI Tutor** (trong khoá) | Trả lời, tóm tắt khi học viên hỏi | Bị động: chỉ 0.13% lượt tự gợi ý bước tiếp theo (§1); không biết quỹ thời gian của học viên | AI Mentor chủ động đưa checklist ngay đầu buổi, không cần học viên biết phải hỏi gì |
+| **Bot "Trợ lý" + bản tin ngày Discord** (trong khoá) | Tổng hợp câu hỏi trong ngày cho TA | Bản tin chung, không cá nhân hoá theo từng học viên | AI Mentor nhắm vào từng người, theo nền tảng và số phút rảnh |
+| **Khan Academy — hệ thống Mastery** (ngoài chương trình) | Sau mỗi bài tập, quiz hay course challenge, dựa vào kết quả làm bài để gợi ý bài nên học tiếp; Mastery Challenge ôn lại 3 kỹ năng mỗi lượt ([nguồn](https://support.khanacademy.org/hc/en-us/articles/115002552631-What-are-Course-and-Unit-Mastery), [nguồn](https://support.khanacademy.org/hc/en-us/articles/360037494231-What-are-Mastery-Challenges)) | Chỉ chẩn đoán trên kho bài của chính Khan Academy; không tính thời gian rảnh hôm nay, không biết lịch lab của AI20K | **Học:** chẩn đoán rồi chỉ ra số ít việc cụ thể. **Khác:** AI Mentor chẩn đoán nhanh từ nền tảng + ghi chú (chưa có bài test), gắn với bài lab sắp tới và quỹ phút |
+| **Motion — AI calendar / task manager** (ngoài chương trình) | Người dùng nhập việc kèm hạn và thời lượng; AI tự xếp vào ô trống trên lịch theo độ ưu tiên và tự xếp lại khi lịch đổi ([nguồn](https://www.usemotion.com/features/ai-task-manager), [nguồn](https://www.usemotion.com/help/time-management/auto-scheduling)) | Người dùng phải tự biết cần làm việc gì; không có nội dung học, không chọn tài liệu | **Học:** ràng buộc tổng thời lượng ≤ thời gian rảnh. **Khác:** AI Mentor quyết định *nên học gì* từ catalog đã kiểm chứng; Motion chỉ quyết định *làm lúc nào*. AI Mentor không tự xếp lịch — học viên giữ quyền sửa (§4 automation conditional) |
 
 **Kết luận:** chưa thấy giải pháp nào kết hợp cả ba: (1) biết bài lab sắp tới của khoá, (2) tính theo số phút rảnh hôm nay, (3) chỉ đưa link từ nguồn đã kiểm chứng. Đây là khoảng trống lát cắt nhắm vào.
 
 ## §4. Thiết kế
-- **Lát cắt MỘT CÂU:** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài Lab tiếp theo · được AI chẩn đoán nền tảng (non-tech/tech-base/AI) và quỹ thời gian rảnh · để đề xuất tối đa 3 đầu việc trọng tâm kèm link tài liệu chính xác · giúp học viên hoàn thành bài đúng hạn.
+- **Lát cắt MỘT CÂU:** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài Lab tiếp theo · được AI Mentor chẩn đoán nền tảng (non-tech/tech-base/AI) và quỹ thời gian rảnh · để đề xuất tối đa 3 đầu việc trọng tâm kèm link tài liệu chính xác · giúp học viên hoàn thành bài đúng hạn.
 - **Non-goals (≥3):**
   - Không build/hoàn thiện hệ thống tài khoản, ghi danh, thanh toán, chứng chỉ (giữ nguyên phần mock có sẵn trong `codebase/`, không phải phạm vi thi).
   - Không tự động nộp bài hộ học viên hay thay đổi deadline.
@@ -176,6 +180,7 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 ~20:10 (trước CP4) | §1–§2 thêm khảo sát form n = 82 (Google Sheet, chốt 19:35:46); bảng impact dùng số khảo sát; tách câu 5–12 thành "tín hiệu chấp nhận" | Mẫu phỏng vấn n = 2 chưa đạt ngưỡng chuẩn A. Không dùng `survey-data-review.md` (n = 45, số lệch với sheet) và `codebase/src/data/survey-responses-raw.json` (có 40 dòng giờ nộp tăng đều 1 phút 1 giây, nghi dữ liệu thử) |
 | 17/9 (CP4, trước 21:00) | Đội trưởng xác nhận quality bar 3 điều kiện ở §7; thêm đoạn minh bạch rằng ngưỡng được chốt sau lượt AI v1/v2 | Khoá chuẩn "đạt" theo yêu cầu CP4; tự khai thời điểm chốt thay vì để giám khảo tự suy |
 | 17/9 20:30 (CP4) | Hoàn thành §6 bốn đường đi trải nghiệm kèm ảnh chụp app thật (T4-04, đóng #22) | Thành phụ trách, Đức hỗ trợ; đặc tả srs.md và 4 ảnh tại docs/assets/cp4/ |
+| 17/9 ~20:50 (CP4) | Đổi cách gọi: hệ thống là **Adaptive Learning System** gồm **AI Mentor** (lộ trình cá nhân hoá, lát cắt dự thi, trước gọi "AI Diagnostic Study Planner") và **AI Helpdesk** (chat box, trước gọi "Chat K.AI"); banner đầu file đổi thành "đã chốt" | Thống nhất tên gọi với cách nhóm trình bày sản phẩm. Chỉ đổi tên gọi, không đổi phạm vi lát cắt hay chuẩn đạt §7 |
 
 ---
 

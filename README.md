@@ -1,4 +1,4 @@
-# Vinonymus — AI Diagnostic Study Planner
+# Vinonymus — Adaptive Learning System: AI Mentor & AI Helpdesk
 
 > **Mini Hackathon AI · Batch 04** · Lớp 3A · Phòng E403 · Cụm C2 · **Track E — Làn mở (trong phạm vi AI20k)**
 > **SPEC → Prototype → Demo.** Đây không phải cuộc thi code — đây là cuộc thi **tư duy sản phẩm AI**.
@@ -6,7 +6,14 @@
 [![verify](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/actions/workflows/verify.yml/badge.svg)](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/actions/workflows/verify.yml)
 · **Demo:** <https://codebase-mu-eight.vercel.app> · **Spec:** [`spec.md`](spec.md) · **Việc của nhóm:** [Issues theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones)
 
-Học viên Khoá 4 chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**), cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**. AI chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
+**Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
+
+| AI | Làm gì | Trang | Vai trò trong cuộc thi |
+|---|---|---|---|
+| **AI Mentor** | Xây dựng lộ trình học cá nhân hoá cho buổi lab tiếp theo | `/planner` | **Lát cắt dự thi**, được chấm theo `spec.md` |
+| **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Chat box | Tính năng nền, không thuộc phần chấm |
+
+Với **AI Mentor**, học viên chọn nền tảng của mình (**non-tech**, **tech-base** hoặc **đã học AI**), cho biết **hôm nay rảnh bao nhiêu phút** và **bài lab tiếp theo là gì**. AI Mentor chọn ra **tối đa 3 việc cần làm trước**. Mỗi việc có lý do, thời lượng và link tài liệu lấy từ catalog đã kiểm chứng. Học viên tick, bỏ hoặc đổi thứ tự trước khi bắt đầu học.
 
 **Mục lục:** [Thành viên](#-thành-viên--phân-công) · [Sản phẩm](#-sản-phẩm) · [Luồng người dùng](#-luồng-người-dùng) · [Luồng vận hành](#️-luồng-vận-hành-quản-trị) · [Kiến trúc](#️-kiến-trúc) · [Trạng thái](#-trạng-thái-prototype) · [Chạy thử](#️-chạy-thử) · [Làm việc nhóm](#-quy-trình-làm-việc-nhóm) · [Tiến độ](#-tiến-độ-checkpoint) · [Tài liệu](#-bản-đồ-tài-liệu)
 
@@ -54,7 +61,7 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 
 ## 🧭 Luồng người dùng
 
-Học viên mở `/planner`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
+Học viên mở AI Mentor tại `/planner`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
 
 ```mermaid
 flowchart TD
@@ -113,7 +120,7 @@ flowchart LR
 
 ```mermaid
 flowchart LR
-    U[Học viên] --> W[Planner UI<br/>/planner]
+    U[Học viên] --> W[AI Mentor UI<br/>/planner]
     W -->|POST /api/roadmap<br/>header: key người dùng| R[Route handler]
     R -->|validate zod · luật cứng| R
     R --> C[(Catalog)]
@@ -131,7 +138,7 @@ flowchart LR
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | Chat + Planner: chạy thật |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor + AI Helpdesk: chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
@@ -143,8 +150,8 @@ Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
-| Chat K.AI (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
+| **AI Mentor** — lộ trình cá nhân hoá (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
+| **AI Helpdesk** — giải đáp trên chat box (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
@@ -181,7 +188,7 @@ npm run dev                  # http://localhost:3000/planner
 - Không cần chạy backend .NET.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
 
-**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Planner không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. Chat K.AI cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
+**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. AI Mentor (`/planner`) không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. AI Helpdesk cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
 
 ## 🤝 Quy trình làm việc nhóm
 
