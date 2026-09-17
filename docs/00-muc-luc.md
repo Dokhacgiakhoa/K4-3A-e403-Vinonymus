@@ -31,6 +31,8 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 |---|---|
 | [`research/evidence-mining.md`](research/evidence-mining.md) | Bằng chứng chuẩn B: phương pháp đếm, số liệu, mã tham chiếu |
 | [`research/survey-log.md`](research/survey-log.md) | Bằng chứng chuẩn A: nhật ký phỏng vấn/khảo sát (mã ẩn danh `P01…`) |
+| [`research/survey-data-review.md`](research/survey-data-review.md) | Khảo sát 45 học viên (Google Form `/contact`): làm sạch dữ liệu, phân tích theo câu hỏi, khuyến nghị cho `spec.md` |
+| [`research/survey-dashboard.html`](research/survey-dashboard.html) | Dashboard biểu đồ + bảng cho báo cáo khảo sát trên (mở trực tiếp bằng trình duyệt) |
 
 ## Tài liệu cũ
 

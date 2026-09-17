@@ -78,7 +78,7 @@ Theo phân công checkpoint CP4 trong [`docs/hackathon/tasks.md`](docs/hackathon
 
 | Đường đi | Mã FR tương ứng ([`docs/01-SRS.md`](docs/01-SRS.md)) | Mã kịch bản ([`eval/golden-set.json`](eval/golden-set.json)) | Tiêu chí nghiệm thu (AC) | Trạng thái |
 |---|---|---|---|---|
-| `plan` | FR-P01, FR-P03, FR-P04, FR-P08 | G01–G11, G19–G20 | $\le 3$ việc, 100% URL catalog, tổng phút $\le$ ngân sách | ✅ Đạt |
+| `plan` | FR-P01, FR-P03, FR-P04, FR-P08 | G01–G11, G19–G20 | $\le 3$ việc, 100% URL catalog, tổng phút $\le$ ngân sách | ✅ Đạt 12/13 ở lượt AI v2 — **G02 chưa đạt** (thiếu `ptc-function-calling`, xem `spec.md` §7); 0 link ngoài catalog |
 | `clarify` | FR-P02, FR-P05 | G12–G15 | Trả `status: clarify`, kèm đúng 1 câu hỏi làm rõ | ✅ Đạt |
 | `fallback` | FR-P09 | Kiểm thử ngắt key / timeout | Nhãn "Gợi ý mặc định", kế hoạch tĩnh từ catalog | ✅ Đạt |
 | `refuse` | FR-P06 | G16–G18 | Trả `status: refuse`, từ chối hữu ích, an toàn injection | ✅ Đạt |
