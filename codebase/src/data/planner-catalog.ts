@@ -92,7 +92,7 @@ export const PLANNER_CATALOG: CatalogLab[] = [
         type: 'doc',
         minutes: 30,
         level: 'advanced',
-        tags: ['core', 'ux', 'pair', 'human in control'],
+        tags: ['core', 'ux', 'pair', 'human in control', 'human control'],
         why: 'Chọn nguyên tắc tương tác phù hợp với rủi ro khi AI quyết định sai.',
       },
       {

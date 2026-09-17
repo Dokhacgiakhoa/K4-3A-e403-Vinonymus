@@ -14,6 +14,7 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 | [`05-ui-flow.md`](05-ui-flow.md) | Luồng người dùng của tính năng Lộ trình cá nhân hoá (CP2) | Thành |
 | [`06-backend-dotnet.md`](06-backend-dotnet.md) | Backend .NET — giữ lại, **chưa tích hợp** | Minh |
 | [`07-ai-access-plan.md`](07-ai-access-plan.md) | Kế hoạch bỏ Free/Pro, thêm menu "Cấu hình AI" (làm sau CP3) | Khoa |
+| [`feature-discord-api.md`](feature-discord-api.md) | Đặc tả tính năng & API tích hợp Discord Activity (+5 XP) | Minh |
 
 ## Hackathon
 

@@ -7,9 +7,14 @@
 
 | | |
 |---|---|
-| **Demo Lộ trình cá nhân hoá** | <https://k4-3a-e403-vinonymus.vercel.app/personalized-path> |
-| **Tên miền riêng** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path> |
-| **Spec (tài liệu chấm)** | [`spec.md`](spec.md) |
+| **Trang chủ hệ thống** | <https://k4-3a-e403-vinonymus.kailabs.io.vn> |
+| **Demo Lộ trình cá nhân hoá (Phần chấm thi)** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path> |
+| **Bản demo dự phòng (Vercel)** | <https://k4-3a-e403-vinonymus.vercel.app/personalized-path> |
+| **AI Spec (Tài liệu chấm chính thức)** | [`spec.md`](spec.md) |
+| **Đặc tả yêu cầu hệ thống (SRS)** | [`docs/01-SRS.md`](docs/01-SRS.md) |
+| **Kiến trúc & Luồng dữ liệu** | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
+| **Kiểm định Eval 50 case (100%)** | [`eval/run_results.md`](eval/run_results.md) |
+| **Tích hợp Discord Activity (+5 XP)** | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | **Việc của nhóm** | [Milestones theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones) |
 
 **Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
@@ -173,19 +178,21 @@ flowchart LR
 | AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/personalized-path`) và API của AI Helpdesk (`/api/chat`): chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
+| Tích hợp mở rộng | Discord Activity API (`/api/integrations/discord/activity`), hỗ trợ Dual-Mode (Mock Sandbox & Live Webhook) ghi nhận +5 XP | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
 | Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
 
 Xem thêm:
 - Kiến trúc chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md)
 - Hợp đồng API: [`docs/03-api.md`](docs/03-api.md)
+- Đặc tả API Discord (+5 XP): [`docs/feature-discord-api.md`](docs/feature-discord-api.md)
 - Prompt & guardrail: [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md)
 
 ## 🚦 Trạng thái prototype
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
+| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`. Bộ kiểm định mở rộng **50/50 case = 100%** theo mô hình **Khách hàng kép**: **40 case Nỗi đau Học viên** (B2C: non-tech/tech-base/AI, quỹ thời gian thực tế, giải quyết triệt để 52 tin phân mảnh tài liệu E1, 0 link ngoài) và **10 case Nỗi đau Hệ thống VLearn & Ban vận hành** (B2B: chặn leak code mẫu/đáp án/testcase ẩn, chặn bypass deadline LMS, chặn prompt injection, xử lý an toàn Broken Link/Mã lab 404 chống crash 500, chặn DoS token request 0 phút). Xem [`eval/run_results.md`](eval/run_results.md). Baseline luật tĩnh đạt **50/50 (100%)** làm baseline & fallback an toàn ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
 | **AI Helpdesk** — chatbox nổi ở mọi trang, gọi `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Ưu tiên trả lời từ FAQ đã xác thực; câu cần tra sâu thì dùng LLM và cần API key. Có eval (`codebase/tests/eval/`). Là tính năng nền, không thuộc phần được chấm |
 | Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi AI. **Không** thuộc phần được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
@@ -193,6 +200,7 @@ Xem thêm:
 | Đăng ký chờ duyệt, trang `/admin/approvals` | ✅ Đã có code, ⚠️ chưa deploy backend | Đăng ký xong phải chờ quản trị viên duyệt mới đăng nhập được. Cần backend .NET chạy thật |
 | Khoá Lộ trình cá nhân hoá cho người chưa đăng nhập | ✅ Đã có code, tắt cho tới khi có backend | Chỉ bật khi đã cấu hình địa chỉ backend, để web thật không bị khoá |
 | Gói Pro, chứng chỉ, cây kỹ năng, `/admin` (trừ trang duyệt tài khoản) | 🎭 Mock | Không thuộc phạm vi thi |
+| **Tích hợp Discord Activity (+5 XP)**, API `/api/integrations/discord/activity` | ✅ Chạy thật (Dual-Mode) | Ghi nhận hoạt động tự học (+5 XP/lượt) theo chuẩn kênh `#activity` của server `AI20K Build Phase - Cohort 4`. Mặc định chạy Mock Sandbox (trả về preview payload chuẩn) phục vụ chấm điểm; tự động chuyển Live khi có `DISCORD_WEBHOOK_URL`. 13 unit tests đạt 100%. Chi tiết: [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa deploy | Đăng ký/duyệt tài khoản, hạn mức khách, và các endpoint ghi danh/tiến độ/chứng chỉ/thanh toán (lấy người dùng từ token, không nhận `userId` từ request) đã code xong. Có Dockerfile; tài khoản Railway hết hạn dùng thử nên chưa đưa lên được. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
 
 ## 🗂️ Cấu trúc repo
@@ -212,7 +220,18 @@ K4-3A-e403-Vinonymus/
 
 ## ▶️ Chạy thử
 
-**Bản đã deploy:** <https://k4-3a-e403-vinonymus.vercel.app/personalized-path>
+**Bản đã deploy:**
+- **Trang chủ hệ thống:** <https://k4-3a-e403-vinonymus.kailabs.io.vn>
+- **Lộ trình cá nhân hoá (Phần chấm thi):** <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path>
+- **Bản demo dự phòng (Vercel):** <https://k4-3a-e403-vinonymus.vercel.app/personalized-path>
+
+**Test nhanh API Discord Activity (+5 XP):**
+```bash
+# Gửi activity học tập (chế độ Sandbox Preview không cần webhook secret)
+curl -X POST https://k4-3a-e403-vinonymus.kailabs.io.vn/api/integrations/discord/activity \
+  -H "Content-Type: application/json" \
+  -d "{\"student_id\":\"HV02733\",\"action_type\":\"generate_path\",\"topic\":\"Lab 02\",\"duration_minutes\":45}"
+```
 
 **Chạy local:** cần Node.js 22+ và một API key LLM miễn phí. Nên dùng Gemini, lấy key ở [Google AI Studio](https://aistudio.google.com/apikey).
 
@@ -246,11 +265,11 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 | Mốc | Hạn | Trạng thái nộp | % Issue | Việc |
 |---|---|---|---:|---|
 | CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | 100% (1/1) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
-| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 50% (3/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
-| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | 82% (9/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
-| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | 0% (0/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
-| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
-| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
+| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 100% (6/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp (eval 19/20) | 100% (11/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
+| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ✅ Đã nộp (khoá Quality Bar 19/20) | 100% (9/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
+| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ Đang làm (hạn 13:00 · 18/9) | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
+| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ Chiều 18/9 | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
 
 Xem thêm:
 - Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md)
@@ -264,15 +283,22 @@ Xem thêm:
 | Vì sao chọn bài toán này, bằng chứng, chuẩn "đạt" | [`spec.md`](spec.md) |
 | Hệ thống phải làm được gì (FR/NFR/AC) | [`docs/01-SRS.md`](docs/01-SRS.md) |
 | Kiến trúc, luồng dữ liệu | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
-| API | [`docs/03-api.md`](docs/03-api.md) |
+| Hợp đồng API (`/api/roadmap`, `/api/chat`) | [`docs/03-api.md`](docs/03-api.md) |
+| Đặc tả API & Tích hợp Discord Activity (+5 XP) | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Luồng người dùng | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
+| Kế hoạch kiến trúc AI Access & BYOK | [`docs/07-ai-access-plan.md`](docs/07-ai-access-plan.md) |
 | Ai làm gì, hạn nào | [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) |
 | Kế hoạch sửa cấu trúc repo & quy trình | [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
-| Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
-| Kết quả kiểm thử | [`eval/run_results.md`](eval/run_results.md) |
-| Nhật ký người dùng thử | [`validation/log.md`](validation/log.md) |
+| Bằng chứng mining từ tin nhắn Discord & Chatlog | [`docs/research/evidence-mining.md`](docs/research/evidence-mining.md) |
+| Phân tích dữ liệu khảo sát 45 học viên thật | [`docs/research/survey-data-review.md`](docs/research/survey-data-review.md) |
+| Dashboard biểu đồ khảo sát trực quan (HTML) | [`docs/research/survey-dashboard.html`](docs/research/survey-dashboard.html) |
+| Báo cáo rà soát chất lượng 53 file FAQ | [`docs/reports/faq-audit-report.md`](docs/reports/faq-audit-report.md) |
+| Kết quả kiểm định tự động (50/50 cases = 100%) | [`eval/run_results.md`](eval/run_results.md) |
+| Nhật ký người dùng ngoài thử nghiệm (R6) | [`validation/log.md`](validation/log.md) |
+| Quy ước PR bắt buộc ở gốc repo | [`PR.md`](PR.md) |
+| Sơ đồ luồng vai trò hệ thống (Mermaid) | [`role-flow.mmd`](role-flow.mmd) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
 | Tài liệu cũ của dự án nền (không phản ánh lát cắt thi) | [`docs/legacy/`](docs/legacy/) |
 

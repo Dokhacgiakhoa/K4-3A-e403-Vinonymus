@@ -1,0 +1,79 @@
+flowchart TD
+    Start([Bắt đầu]) --> Role{"Xác định trạng thái / role"}
+
+    subgraph G["Guest - chưa đăng nhập"]
+        G1["Xem catalog lab"] --> G2["GET /api/v1/catalog/labs"]
+        G2 --> G3["Thử tạo Planner không lưu"]
+        G3 --> G4["POST /api/roadmap legacy"]
+        G4 --> G5{"Muốn lưu roadmap?"}
+        G5 -- Không --> G6["Nhận plan / clarify / refuse / baseline"]
+        G5 -- Có --> G7["POST /api/v1/auth/register"]
+        G7 --> G8["POST /api/v1/auth/login"]
+    end
+
+    subgraph S["Student"]
+        S1["Đăng nhập"] --> S2["GET /api/v1/me"]
+        S2 --> S3["PATCH /api/v1/me cập nhật mục tiêu"]
+        S3 --> S4["POST /api/v1/mentor/analyze"]
+        S4 --> S5{"Kết quả Mentor"}
+        S5 -- clarify/refuse --> S6["Hiển thị yêu cầu bổ sung / từ chối"]
+        S5 -- plan/baseline --> S7["POST /api/v1/mentor/roadmap"]
+        S7 --> S8["GET roadmap history/detail"]
+        S8 --> S9["PATCH task hoặc POST learning/progress"]
+        S9 --> S10["GET learning/progress"]
+        S10 --> S11["Xem học liệu published"]
+        S11 --> S12["GET learning/documents"]
+        S12 --> S13["Làm quiz"]
+        S13 --> S14["GET quiz, POST submission, GET attempt"]
+    end
+
+    subgraph L["Lecture"]
+        L1["Đăng nhập role lecture"] --> L2["GET /api/v1/me"]
+        L2 --> L3["Tạo metadata tài liệu"]
+        L3 --> L4["POST /lecture/documents"]
+        L4 --> L5["PUT metadata / revision nếu cần"]
+        L5 --> L6["POST /documents/{id}/submit"]
+        L6 --> L7{"Reviewer"}
+        L7 -- Lecture khác hoặc Admin --> L8["POST /documents/{id}/review"]
+        L7 -- Chủ tài liệu --> L9["409 SELF_REVIEW"]
+        L8 --> L10{"Quyết định"}
+        L10 -- needs_changes --> L5
+        L10 -- rejected --> L11["failed"]
+        L10 -- approved --> L12["POST /documents/{id}/publish"]
+        L12 --> L13["Student thấy metadata published"]
+        L3 --> L14["Soạn quiz"]
+        L14 --> L15["POST /lecture/quizzes"]
+        L15 --> L16["PUT /lecture/quizzes/{id}"]
+        L16 --> L17["POST publish hoặc archive"]
+        L17 --> L18["Student làm quiz"]
+    end
+
+    subgraph A["Admin"]
+        A1["Đăng nhập role admin"] --> A2["GET /api/v1/me"]
+        A2 --> A3["Quản lý user"]
+        A3 --> A4["GET /admin/users"]
+        A4 --> A5["PATCH role/status user khác"]
+        A2 --> A6["Moderation tài liệu"]
+        A6 --> A7["GET /admin/documents"]
+        A7 --> A8["review / publish / archive / delete"]
+        A2 --> A9["Quản trị quiz qua /lecture/quizzes"]
+        A2 --> A10["GET /admin/audit"]
+        A2 --> A11["GET /admin/analytics"]
+    end
+
+    Role -- Guest --> G1
+    Role -- Student --> S1
+    Role -- Lecture --> L1
+    Role -- Admin --> A1
+    G8 --> S1
+    L13 --> S11
+    L18 --> S13
+
+    classDef guest fill:#e8f5e9,stroke:#2e7d32,color:#1b5e20
+    classDef student fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef lecture fill:#fff3e0,stroke:#ef6c00,color:#e65100
+    classDef admin fill:#fce4ec,stroke:#ad1457,color:#880e4f
+    class G1,G2,G3,G4,G5,G6,G7,G8 guest
+    class S1,S2,S3,S4,S5,S6,S7,S8,S9,S10,S11,S12,S13,S14 student
+    class L1,L2,L3,L4,L5,L6,L7,L8,L9,L10,L11,L12,L13,L14,L15,L16,L17,L18 lecture
+    class A1,A2,A3,A4,A5,A6,A7,A8,A9,A10,A11 admin
