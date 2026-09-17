@@ -1,0 +1,33 @@
+name: verify
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: codebase
+    env:
+      # Hook git chỉ dùng trên máy dev, CI không cần cài
+      HUSKY: 0
+      # Giá trị giả để build không vỡ khi thiếu Supabase; không phải key thật
+      NEXT_PUBLIC_SUPABASE_URL: https://placeholder.supabase.co
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: placeholder-anon-key
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: codebase/package-lock.json
+      - run: npm ci
+      - run: npm run verify

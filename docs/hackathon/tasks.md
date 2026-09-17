@@ -1,7 +1,7 @@
 # Phân công công việc theo checkpoint
 
 > Nguồn sự thật cho **ai làm gì, hạn nào**. Hạn nộp chính thức: [`checkpoints.md`](checkpoints.md).
-> Mỗi việc có một GitHub Issue (bấm số `#` cạnh mã việc) — [xem bảng Issues theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones). Đóng issue và cập nhật trạng thái ở đây khi xong việc.
+> Mỗi việc có một GitHub Issue (bấm số `#` cạnh mã việc) — [xem bảng Issues theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones). Việc của bạn: tab Issues → **Assigned to me**. Đóng issue và cập nhật trạng thái ở đây khi xong việc.
 > Trạng thái: ⬜ chưa làm · 🔄 đang làm · ✅ xong · ⛔ bị chặn (ghi lý do ở cột Ghi chú).
 
 ## Thành viên
@@ -9,9 +9,9 @@
 | Tag | Họ tên | Vai trò | GitHub |
 |---|---|---|---|
 | `@Khoa` | Đỗ Khắc Gia Khoa (đội trưởng) | PM | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) |
-| `@Minh` | Trần Nhật Minh | BE | `[TODO]` |
-| `@Duc` | Đinh Ngọc Đức | AI | `[TODO]` |
-| `@Thanh` | Nguyễn Việt Thành | FE | `[TODO]` |
+| `@Minh` | Trần Nhật Minh | BE | [@minh-tran-2611](https://github.com/minh-tran-2611) |
+| `@Duc` | Đinh Ngọc Đức | AI | [@dinhngocduc1311](https://github.com/dinhngocduc1311) |
+| `@Thanh` | Nguyễn Việt Thành | FE | [@thanhnvhust514](https://github.com/thanhnvhust514) |
 
 **Quy tắc:** mỗi việc có đúng **1 người phụ trách** (chịu trách nhiệm cuối và phải giải thích được khi giám khảo hỏi). Người hỗ trợ giúp làm, không thay người phụ trách. Việc nộp form luôn do `@Khoa` làm bằng mã 02733.
 
@@ -37,7 +37,7 @@ Mục tiêu: người xem thấy được cả luồng từ đầu đến cuối
 | T2-01 [#2](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/2) | Cho trang Planner mở được **không cần đăng nhập / gói Pro** (để demo) | `@Minh` | `@Thanh` | Trang riêng `codebase/src/app/planner/` | 20:15 | ✅ |
 | T2-02 [#3](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/3) | Đổi nội dung wizard theo [`05-ui-flow.md`](../05-ui-flow.md): nền tảng → thời gian + bài lab → ghi chú → checklist ≤3 việc; gắn cứng 1 kết quả mẫu | `@Thanh` | `@Minh` | `codebase/src/components/planner/study-planner.tsx` (kết quả từ luật tĩnh) | 20:30 | ✅ |
 | T2-03 [#4](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/4) | Quay màn hình đi hết một lượt (phương án dự phòng: xuất sơ đồ mermaid trong `05-ui-flow.md` ra ảnh) | `@Thanh` | — | Video / ảnh sơ đồ | 20:45 | ⬜ |
-| T2-04 [#5](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/5) | Nộp form CP2 | `@Khoa` | — | Form CP2 | 20:55 | ⬜ |
+| T2-04 [#5](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/5) | Nộp form CP2 | `@Khoa` | — | Form CP2 (mock demo qua link Vercel) | 20:55 | ✅ |
 | T2-05 [#6](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/6) | Xác nhận lời đáp P01 / P02 trong `survey-log.md` đúng nguyên văn | `@Thanh` (P01) | `@Duc` (P02) | `survey-log.md` | 21:00 | ⬜ |
 | T2-06 [#7](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/7) | Chuẩn bị cho CP3: nháp prompt v0 + danh sách tên 20 case golden set | `@Duc` | — | [`04-ai-pipeline.md`](../04-ai-pipeline.md), `eval/` | 23:00 | ⬜ |
 
@@ -55,7 +55,7 @@ Mục tiêu: **≥1 lời gọi AI thật** trong video 30 giây, và con số "
 | T3-04 [#11](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/11) | Prompt v1 + schema zod cho output LLM | `@Duc` | `@Minh` | `codebase/src/lib/prompts/`, `04-ai-pipeline.md` | 17/9 · 12:00 | ⬜ |
 | T3-05 [#12](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/12) | Golden set ≥20 case (≥10 case phát triển từ dữ liệu thật, chỉ dẫn mã) theo cơ cấu trong `eval/results.md` | `@Duc` | `@Khoa` | `eval/golden-set.json` | 17/9 · 12:00 | ⬜ |
 | T3-06 [#13](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/13) | Nối wizard với `/api/roadmap`; hiển thị plan / clarify / refuse / nhãn "Gợi ý mặc định"; checklist tick–bỏ–đổi thứ tự lưu `localStorage` | `@Thanh` | `@Minh` | `study-planner.tsx` | 17/9 · 13:30 | ⬜ |
-| T3-07 [#14](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/14) | Script chạy eval; chạy baseline (lượt 0) và AI (lượt 1); ghi số thật kể cả khi xấu | `@Duc` | `@Minh` | `eval/run-eval.ts`, `eval/results.md` | 17/9 · 15:00 | ⬜ |
+| T3-07 [#14](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/14) | Script chạy eval; chạy baseline (lượt 0) và AI (lượt 1); ghi số thật kể cả khi xấu | `@Duc` | `@Minh` | `codebase/scripts/run-eval.ts` (đọc `../eval/golden-set.json` — đặt trong `codebase/` để import được `@/…`), `eval/results.md` | 17/9 · 15:00 | ⬜ |
 | T3-08 [#15](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/15) | Quay video 30 giây bấm thật, thấy AI trả kết quả | `@Thanh` | — | Video CP3 | 17/9 · 15:30 | ⬜ |
 | T3-09 [#16](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/16) | Nộp form CP3 (video + số đo) | `@Khoa` | — | Form CP3 | 17/9 · 15:50 | ⬜ |
 | T3-10 [#17](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/17) | Mở rộng phỏng vấn thêm ≥3 người ngoài nhóm, có người non-tech, **không mô tả giải pháp trước khi hỏi xong** | `@Khoa` | `@Thanh` ghi chép | `survey-log.md` | 17/9 · 15:00 | ⬜ |

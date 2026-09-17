@@ -13,7 +13,7 @@
     "sync": "npx tsx scripts/sync-content.ts",
     "audit": "npx tsx scripts/audit-faqs.ts",
     "ocr": "npx tsx scripts/ocr-image.ts",
-    "prepare": "husky"
+    "prepare": "cd .. && husky codebase/.husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
