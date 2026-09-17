@@ -17,31 +17,37 @@ function doPost(e) {
 
     var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
 
-    // Thiết lập dòng tiêu đề (Header) nếu sheet đang trống
+    // Thiết lập dòng tiêu đề (Header) nếu sheet đang trống hoặc chưa đồng bộ đúng 20 cột chuẩn
+    var headers = [
+      "Thời Gian",
+      "Mã Học Viên (Mã Dự Thưởng)",
+      "Họ và Tên",
+      "Email",
+      "Nền Tảng",
+      "Thông Tin MoMo / STK Nhận Thưởng",
+      "Câu 1: Tự Biết Điểm Yếu/Hổng?",
+      "Câu 2: Khó Khăn/Nỗi Đau Gặp Phải (Multi-select)",
+      "Câu 3: Thời Gian Mất Để Gom Tài Liệu",
+      "Câu 4: Cách Xử Lý Khi Kẹt Bài (Multi-select)",
+      "Câu 5: Tính Khả Thi Của Giải Pháp AI",
+      "Câu 6: Nhu Cầu Lộ Trình Cá Nhân Hóa",
+      "Câu 7: Nhu Cầu AI Bù Đắp Kiến Thức Hổng",
+      "Câu 8: Tính Năng Muốn Dùng Nhất (Multi-select)",
+      "Câu 9: Đánh Giá Ý Tưởng (1-5)",
+      "Câu 10: Độ Trực Quan UI",
+      "Câu 11: Điểm Cần Cải Thiện UI (Multi-select)",
+      "Câu 12: Sẵn Sàng Thử CP4/CP5 (Willing User)",
+      "Góp Ý Thêm Cho Nhóm",
+      "Discord / Zalo"
+    ];
+
     if (sheet.getLastRow() === 0) {
-      var headers = [
-        "Thời Gian",
-        "Mã Học Viên (Mã Dự Thưởng)",
-        "Họ và Tên",
-        "Email",
-        "Nền Tảng",
-        "Thông Tin MoMo / STK Nhận Thưởng",
-        "Câu 1: Tự Biết Điểm Yếu/Hổng?",
-        "Câu 2: Khó Khăn/Nỗi Đau Gặp Phải (Multi-select)",
-        "Câu 3: Thời Gian Mất Để Gom Tài Liệu",
-        "Câu 4: Cách Xử Lý Khi Kẹt Bài (Multi-select)",
-        "Câu 5: Tính Khả Thi Của Giải Pháp AI",
-        "Câu 6: Nhu Cầu Lộ Trình Cá Nhân Hóa",
-        "Câu 7: Nhu Cầu AI Bù Đắp Kiến Thức Hổng",
-        "Câu 8: Tính Năng Muốn Dùng Nhất (Multi-select)",
-        "Câu 9: Đánh Giá Ý Tưởng (1-5)",
-        "Câu 10: Độ Trực Quan UI",
-        "Câu 11: Điểm Cần Cải Thiện UI (Multi-select)",
-        "Câu 12: Sẵn Sàng Thử CP4/CP5 (Willing User)",
-        "Góp Ý Thêm Cho Nhóm",
-        "Discord / Zalo"
-      ];
       sheet.appendRow(headers);
+      sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#0284c7").setFontColor("#ffffff");
+      sheet.setFrozenRows(1);
+    } else if (sheet.getRange(1, 2).getValue() !== "Mã Học Viên (Mã Dự Thưởng)") {
+      // Tự động chuẩn hóa lại Header dòng 1 nếu đang mang tiêu đề cũ để không bị lệch cột
+      sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
       sheet.getRange(1, 1, 1, headers.length).setFontWeight("bold").setBackground("#0284c7").setFontColor("#ffffff");
       sheet.setFrozenRows(1);
     }

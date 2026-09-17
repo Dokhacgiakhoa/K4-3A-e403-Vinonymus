@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
+// Webhook Google Apps Script mặc định của nhóm (dùng làm fallback khi deploy web chưa gán biến môi trường)
+const DEFAULT_GOOGLE_SHEET_WEBAPP_URL =
+  'https://script.google.com/macros/s/AKfycbw66zZsubUzQ0AEt3DlwoEFml3OHa9XaU5moYKZuB9sKQp702KazvBj02ZKbyO5Dzb5/exec';
+
 // Schema xác thực dữ liệu khảo sát 12 câu hỏi (Mã học viên là Mã dự thưởng duy nhất)
 const surveySchema = z.object({
   fullName: z
@@ -113,9 +117,12 @@ export async function POST(req: NextRequest) {
       ticketCode,
     };
 
-    const webhookUrl = process.env.GOOGLE_SHEET_WEBAPP_URL?.trim();
+    // Ưu tiên biến môi trường GOOGLE_SHEET_WEBAPP_URL; tự động fallback về webhook mặc định khi chạy production/dev
+    const webhookUrl =
+      process.env.GOOGLE_SHEET_WEBAPP_URL?.trim() ||
+      (process.env.NODE_ENV !== 'test' ? DEFAULT_GOOGLE_SHEET_WEBAPP_URL : undefined);
 
-    // Nếu chưa cấu hình biến môi trường GOOGLE_SHEET_WEBAPP_URL, phản hồi mô phỏng thành công
+    // Nếu chưa cấu hình biến môi trường và đang ở chế độ mock test
     if (!webhookUrl) {
       return NextResponse.json(
         {
@@ -157,6 +164,16 @@ export async function POST(req: NextRequest) {
       ticketCode?: string;
       message?: string;
     };
+
+    if (result?.status === 'error') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: result.message || 'Lỗi khi lưu khảo sát vào Google Sheets. Vui lòng thử lại sau.',
+        },
+        { status: 500 }
+      );
+    }
 
     return NextResponse.json(
       {
