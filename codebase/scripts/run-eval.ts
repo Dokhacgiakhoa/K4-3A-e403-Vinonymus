@@ -45,6 +45,7 @@ const HEADER_BY_PROVIDER: Record<string, string> = {
   groq: 'x-groq-key',
   cerebras: 'x-cerebras-key',
   openrouter: 'x-openrouter-key',
+  fpt: 'x-fpt-key',
 };
 
 function parseArgs(): { mode: 'baseline' | 'ai' } {

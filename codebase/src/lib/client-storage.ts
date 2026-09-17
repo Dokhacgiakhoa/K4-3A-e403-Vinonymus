@@ -49,6 +49,7 @@ export interface StoredApiKeys {
   groq?: string;
   cerebras?: string;
   openrouter?: string;
+  fpt?: string;
 }
 
 const CONVERSATIONS_KEY = 'aiia_conversations';

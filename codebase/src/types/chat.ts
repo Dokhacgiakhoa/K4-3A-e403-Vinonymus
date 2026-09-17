@@ -35,6 +35,7 @@ export interface ChatApiHeaderKeys {
   groq?: string;
   cerebras?: string;
   openrouter?: string;
+  fpt?: string;
 }
 
 export interface ChatApiRequestBody {

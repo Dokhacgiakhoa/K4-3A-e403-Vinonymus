@@ -31,6 +31,9 @@ export const MODEL_CATALOG: Record<string, ModelSpec[]> = {
   openrouter: [
     { model: 'openrouter/free', tasks: ['chat'], contextWindow: 65_536 },
   ],
+  fpt: [
+    { model: 'gpt-oss-120b', tasks: ['chat'], contextWindow: 131_072 },
+  ],
 };
 
 export interface RouteResult {

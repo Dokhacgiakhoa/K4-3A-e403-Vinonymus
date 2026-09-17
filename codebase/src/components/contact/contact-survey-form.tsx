@@ -351,24 +351,107 @@ export function ContactSurveyForm() {
 
   return (
     <div className="relative overflow-hidden rounded-3xl bg-[#0f172a]/95 border border-slate-700/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8 font-sans">
-      {/* LUCKY DRAW BANNER */}
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-teal-950/40 via-cyan-950/25 to-slate-900/40 border border-teal-500/30 p-5 sm:p-6 shadow-xl">
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 text-center sm:text-left">
-          <div className="w-12 h-12 rounded-2xl bg-teal-500/15 border border-teal-400/30 flex items-center justify-center shrink-0 shadow-lg shadow-teal-500/10 text-teal-400">
-            <Gift className="w-6 h-6" />
+      {/* LUCKY DRAW BANNER & RULES */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0c1a2f] via-[#092231] to-[#071926] border border-teal-500/40 p-6 sm:p-8 shadow-2xl space-y-6">
+        {/* Header banner */}
+        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pb-4 border-b border-teal-500/20">
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500/20 to-cyan-500/10 border border-teal-400/40 flex items-center justify-center shrink-0 shadow-lg shadow-teal-500/20 text-teal-300">
+            <Gift className="w-7 h-7" />
           </div>
-          <div className="space-y-1.5">
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-300 text-[11px] font-bold uppercase tracking-wider">
-              <Award className="w-3.5 h-3.5 text-teal-400" />
-              <span>Vòng Quay Tri Ân Học Viên · 17h20 Ngày 18/09</span>
+          <div className="space-y-1 text-center sm:text-left">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-300 text-xs font-bold uppercase tracking-wider">
+              <Award className="w-4 h-4 text-teal-400" />
+              <span>Chương Trình Tri Ân Học Viên Khóa 4 · Quay Thưởng 10 Giải</span>
             </div>
-            <h3 className="text-base sm:text-lg font-bold text-white">
-              Khảo Sát Nỗi Đau VLearn & Quay Thưởng Theo Mã Học Viên
+            <h3 className="text-lg sm:text-xl font-bold text-white tracking-wide">
+              Cơ Cấu Giải Thưởng & Thể Lệ Quay Thưởng May Mắn
             </h3>
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-              Mã dự thưởng chính là <strong>Mã Học Viên</strong> duy nhất của bạn. 
-              Nhóm sẽ quay thưởng 10 giải tri ân: <strong className="text-teal-300">1 Nhất 100k · 2 Nhì 50k · 3 Ba 20k · 4 Tư 10k</strong> chuyển khoản thẳng qua MoMo / STK lúc <strong>17h20 ngày 18/09</strong>.
+            <p className="text-xs sm:text-sm text-slate-300">
+              Nhằm cảm ơn những chia sẻ thực chất của các bạn về nỗi đau khi tự học và làm bài lab, đội thi Vinonymus tổ chức quay thưởng tri ân dành riêng cho người tham gia khảo sát.
             </p>
+          </div>
+        </div>
+
+        {/* 2 Blocks: CƠ CẤU GIẢI THƯỞNG (1 GIẢI 1 DÒNG) & THỂ LỆ QUAY THƯỞNG */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+          {/* CỘT 1: CƠ CẤU GIẢI THƯỞNG (1 GIẢI 1 DÒNG) */}
+          <div className="rounded-2xl bg-[#0b1329]/80 border border-teal-500/30 p-4 sm:p-5 space-y-3">
+            <div className="flex items-center gap-2 text-teal-300 text-xs sm:text-sm font-bold uppercase tracking-wider">
+              <Coins className="w-4 h-4 text-teal-400" />
+              <span>Cơ Cấu 10 Giải Thưởng (Chuyển Khoản Trực Tiếp)</span>
+            </div>
+
+            <div className="space-y-2 text-xs sm:text-sm">
+              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🥇</span>
+                  <span className="font-semibold text-white">1 Giải Nhất</span>
+                </div>
+                <span className="font-mono font-bold text-teal-300 text-sm sm:text-base">100.000 VNĐ</span>
+              </div>
+
+              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🥈</span>
+                  <span className="font-semibold text-white">2 Giải Nhì</span>
+                </div>
+                <span className="font-mono font-bold text-teal-300 text-xs sm:text-sm">Mỗi giải 50.000 VNĐ <span className="text-[11px] text-slate-400 font-normal">(tổng 100k)</span></span>
+              </div>
+
+              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🥉</span>
+                  <span className="font-semibold text-white">3 Giải Ba</span>
+                </div>
+                <span className="font-mono font-bold text-teal-300 text-xs sm:text-sm">Mỗi giải 20.000 VNĐ <span className="text-[11px] text-slate-400 font-normal">(tổng 60k)</span></span>
+              </div>
+
+              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">🎖️</span>
+                  <span className="font-semibold text-white">4 Giải Tư</span>
+                </div>
+                <span className="font-mono font-bold text-teal-300 text-xs sm:text-sm">Mỗi giải 10.000 VNĐ <span className="text-[11px] text-slate-400 font-normal">(tổng 40k)</span></span>
+              </div>
+            </div>
+          </div>
+
+          {/* CỘT 2: THỂ LỆ THAM GIA & QUAY THƯỞNG */}
+          <div className="rounded-2xl bg-[#0b1329]/80 border border-teal-500/30 p-4 sm:p-5 space-y-3">
+            <div className="flex items-center gap-2 text-teal-300 text-xs sm:text-sm font-bold uppercase tracking-wider">
+              <Clock className="w-4 h-4 text-teal-400" />
+              <span>Thể Lệ & Cách Thức Tham Gia</span>
+            </div>
+
+            <ul className="space-y-2 text-xs sm:text-sm text-slate-200">
+              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <Hash className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Mã dự thưởng:</strong> Chính là <strong>Mã Học Viên</strong> duy nhất của bạn. Mỗi học viên chỉ có 1 mã dự thưởng để đảm bảo công bằng.
+                </span>
+              </li>
+
+              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <Clock className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Thời gian quay số:</strong> Đúng <strong>17h20 · Ngày 18/09/2026</strong>.
+                </span>
+              </li>
+
+              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <Wallet className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Hình thức nhận thưởng:</strong> Chuyển khoản trực tiếp ngay sau khi có kết quả qua ví <strong>MoMo</strong> hoặc <strong>STK Ngân Hàng</strong> bạn cung cấp.
+                </span>
+              </li>
+
+              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
+                <Mail className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                <span>
+                  <strong>Xác nhận tự động:</strong> Ngay sau khi gửi khảo sát, hệ thống sẽ gửi 1 email xác nhận kèm mã học viên để bạn lưu lại đối chiếu.
+                </span>
+              </li>
+            </ul>
           </div>
         </div>
       </div>

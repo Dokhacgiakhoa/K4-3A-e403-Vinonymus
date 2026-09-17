@@ -22,7 +22,7 @@ export function MainHeader() {
     { href: '/learning', label: 'LEARNING' },
     { href: '/test', label: 'TEST' },
     { href: '/instruction', label: 'INSTRUCTION' },
-    { href: '/contact', label: 'CONTACT' },
+    { href: '/contact', label: 'SURVEY' },
   ];
 
   // Desktop Sliding Pill State & Refs
