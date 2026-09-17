@@ -18,7 +18,8 @@ import {
   ShieldAlert, 
   Crown,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  UserCheck
 } from 'lucide-react';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { FocusModeButton } from '@/components/learning/focus-mode-controller';
@@ -39,6 +40,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
   const mainNav = [
     { href: '/', label: 'Trang Chủ', icon: Home },
     { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
+    { href: '/personalized-path', label: 'Lộ trình cá nhân hoá', icon: GraduationCap },
     { href: '/learning?mode=ai_roadmap', label: 'Lộ Trình AI Mentor', icon: Bot, isPro: true },
     { href: '/test', label: 'Khảo Thí SFIA', icon: ClipboardCheck },
     { href: '/architecture', label: 'Kiến Trúc Kỹ Thuật', icon: Cpu },
@@ -192,6 +194,25 @@ export function AppSidebar({ user }: AppSidebarProps) {
             >
               <ShieldAlert className="w-[18px] h-[18px] text-red-400 shrink-0" />
               {!isCollapsed && <span>Quản Trị Hệ Thống</span>}
+            </Link>
+          )}
+
+          {((user.role as string) === 'admin' || (user.tier as string) === 'Admin') && (
+            <Link
+              href="/admin/approvals"
+              className={`flex items-center rounded-xl text-sm transition-colors ${
+                isCollapsed
+                  ? 'w-10 h-10 mx-auto justify-center p-0'
+                  : 'gap-2.5 px-3 py-2.5'
+              } ${
+                pathname === '/admin/approvals'
+                  ? 'bg-red-500/20 text-red-300 font-bold border border-red-500/40'
+                  : 'text-red-400/80 hover:text-red-300 hover:bg-red-950/30 border border-transparent font-medium'
+              }`}
+              title={isCollapsed ? 'Duyệt tài khoản' : undefined}
+            >
+              <UserCheck className="w-[18px] h-[18px] text-red-400 shrink-0" />
+              {!isCollapsed && <span>Duyệt tài khoản</span>}
             </Link>
           )}
 

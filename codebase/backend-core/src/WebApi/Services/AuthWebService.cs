@@ -21,14 +21,26 @@ public record UserProfileDto(
     string CurrentLevel,
     int TotalStudyHours,
     int AiTokenQuota,
-    int AiTokenUsed
+    int AiTokenUsed,
+    string ApprovalStatus
 );
-public record AuthResultDto(bool Success, string Message, string? Token = null, UserProfileDto? User = null);
+public record AuthResultDto(
+    bool Success,
+    string Message,
+    string? Token = null,
+    UserProfileDto? User = null,
+    string? ApprovalStatus = null
+);
 public record OAuthSyncRequest(string Provider, string ProviderId, string Email, string DisplayName, string? AvatarUrl);
 
 public static class AuthWebService
 {
-    public static async Task<AuthResultDto> RegisterAsync(ApplicationDbContext db, RegisterRequest req, IConfiguration config)
+    public const string PendingMessage =
+        "Tài khoản của bạn đang chờ quản trị viên duyệt. Bạn sẽ đăng nhập được sau khi tài khoản được duyệt.";
+    public const string RejectedMessage =
+        "Tài khoản của bạn chưa được duyệt. Vui lòng liên hệ quản trị viên nếu cần hỗ trợ.";
+
+    public static async Task<AuthResultDto> RegisterAsync(ApplicationDbContext db, RegisterRequest req)
     {
         if (string.IsNullOrWhiteSpace(req.Email) || string.IsNullOrWhiteSpace(req.Password) || string.IsNullOrWhiteSpace(req.DisplayName))
         {
@@ -41,9 +53,9 @@ public static class AuthWebService
             return new AuthResultDto(false, "Địa chỉ email không đúng định dạng.");
         }
 
-        if (req.Password.Length < 6)
+        if (req.Password.Length < 8)
         {
-            return new AuthResultDto(false, "Mật khẩu phải có độ dài tối thiểu 6 ký tự.");
+            return new AuthResultDto(false, "Mật khẩu phải có độ dài tối thiểu 8 ký tự.");
         }
 
         try
@@ -54,14 +66,12 @@ public static class AuthWebService
                 return new AuthResultDto(false, "Email này đã được sử dụng. Vui lòng đăng nhập hoặc chọn email khác.");
             }
 
-            var passwordHash = BCrypt.Net.BCrypt.HashPassword(req.Password);
-
             var user = new AppUser
             {
                 Id = Guid.NewGuid(),
                 Email = normalizedEmail,
                 DisplayName = req.DisplayName.Trim(),
-                PasswordHash = passwordHash,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(req.Password),
                 Tier = UserTier.Free,
                 Role = UserRole.Visitor,
                 CurrentLevel = SFIALevel.L1,
@@ -69,18 +79,22 @@ public static class AuthWebService
                 AiTokenQuota = 100_000,
                 AiTokenUsed = 0,
                 IsActive = true,
+                ApprovalStatus = AccountApprovalStatus.Pending,
                 CreatedAt = DateTime.UtcNow
             };
 
             db.Users.Add(user);
             await db.SaveChangesAsync();
 
-            var token = GenerateJwtToken(user, config);
-            return new AuthResultDto(true, "Đăng ký tài khoản thành công!", token, MapToProfile(user));
+            // Không cấp token: người dùng chỉ đăng nhập được sau khi quản trị viên duyệt.
+            return new AuthResultDto(
+                true,
+                "Đăng ký thành công! Tài khoản đang chờ quản trị viên duyệt, bạn sẽ đăng nhập được sau khi được duyệt.",
+                ApprovalStatus: AccountApprovalStatus.Pending.ToString());
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return new AuthResultDto(false, $"Lỗi xử lý đăng ký: {ex.Message}");
+            return new AuthResultDto(false, "Không thể xử lý đăng ký lúc này. Vui lòng thử lại sau.");
         }
     }
 
@@ -96,28 +110,23 @@ public static class AuthWebService
         try
         {
             var user = await db.Users.FirstOrDefaultAsync(u => u.Email.ToLower() == normalizedEmail);
-            if (user == null || string.IsNullOrEmpty(user.PasswordHash))
+            if (user == null || string.IsNullOrEmpty(user.PasswordHash) || !BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash))
             {
                 return new AuthResultDto(false, "Email hoặc mật khẩu không chính xác.");
             }
 
-            bool isPasswordValid = BCrypt.Net.BCrypt.Verify(req.Password, user.PasswordHash);
-            if (!isPasswordValid)
+            var blocked = GetLoginBlockReason(user);
+            if (blocked != null)
             {
-                return new AuthResultDto(false, "Email hoặc mật khẩu không chính xác.");
-            }
-
-            if (!user.IsActive)
-            {
-                return new AuthResultDto(false, "Tài khoản của bạn đã bị tạm khóa. Vui lòng liên hệ hỗ trợ.");
+                return new AuthResultDto(false, blocked, ApprovalStatus: user.ApprovalStatus.ToString());
             }
 
             var token = GenerateJwtToken(user, config);
-            return new AuthResultDto(true, "Đăng nhập thành công!", token, MapToProfile(user));
+            return new AuthResultDto(true, "Đăng nhập thành công!", token, MapToProfile(user), user.ApprovalStatus.ToString());
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return new AuthResultDto(false, $"Lỗi xử lý đăng nhập: {ex.Message}");
+            return new AuthResultDto(false, "Không thể xử lý đăng nhập lúc này. Vui lòng thử lại sau.");
         }
     }
 
@@ -129,8 +138,8 @@ public static class AuthWebService
         }
 
         var normalizedEmail = req.Email.Trim().ToLowerInvariant();
-        var displayName = !string.IsNullOrWhiteSpace(req.DisplayName) 
-            ? req.DisplayName.Trim() 
+        var displayName = !string.IsNullOrWhiteSpace(req.DisplayName)
+            ? req.DisplayName.Trim()
             : req.Email.Split('@')[0];
 
         try
@@ -153,6 +162,7 @@ public static class AuthWebService
                     AiTokenQuota = 100_000,
                     AiTokenUsed = 0,
                     IsActive = true,
+                    ApprovalStatus = AccountApprovalStatus.Pending,
                     CreatedAt = DateTime.UtcNow
                 };
 
@@ -169,29 +179,59 @@ public static class AuthWebService
 
             await db.SaveChangesAsync();
 
+            var blocked = GetLoginBlockReason(user);
+            if (blocked != null)
+            {
+                return new AuthResultDto(false, blocked, ApprovalStatus: user.ApprovalStatus.ToString());
+            }
+
             var token = GenerateJwtToken(user, config);
-            return new AuthResultDto(true, "Đăng nhập OAuth thành công!", token, MapToProfile(user));
+            return new AuthResultDto(true, "Đăng nhập OAuth thành công!", token, MapToProfile(user), user.ApprovalStatus.ToString());
         }
-        catch (Exception ex)
+        catch (Exception)
         {
-            return new AuthResultDto(false, $"Lỗi đồng bộ tài khoản OAuth: {ex.Message}");
+            return new AuthResultDto(false, "Không thể đồng bộ tài khoản OAuth lúc này. Vui lòng thử lại sau.");
         }
     }
 
-    public static async Task<UserProfileDto?> GetMeAsync(ApplicationDbContext db, Guid userId)
+    public static async Task<AppUser?> GetActiveApprovedUserAsync(ApplicationDbContext db, Guid userId)
     {
-        var user = await db.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        return user != null ? MapToProfile(user) : null;
+        var user = await db.Users.AsNoTracking().FirstOrDefaultAsync(u => u.Id == userId);
+        return user != null && GetLoginBlockReason(user) == null ? user : null;
+    }
+
+    public static string? GetLoginBlockReason(AppUser user)
+    {
+        if (!user.IsActive)
+        {
+            return "Tài khoản của bạn đã bị tạm khóa. Vui lòng liên hệ hỗ trợ.";
+        }
+
+        return user.ApprovalStatus switch
+        {
+            AccountApprovalStatus.Approved => null,
+            AccountApprovalStatus.Rejected => RejectedMessage,
+            _ => PendingMessage
+        };
+    }
+
+    public static string GetJwtSecret(IConfiguration config)
+    {
+        var secret = config["Jwt:Secret"];
+        if (string.IsNullOrWhiteSpace(secret) || secret.Length < 32)
+        {
+            throw new InvalidOperationException("Thiếu cấu hình Jwt:Secret (tối thiểu 32 ký tự). Đặt biến môi trường Jwt__Secret.");
+        }
+        return secret;
     }
 
     public static string GenerateJwtToken(AppUser user, IConfiguration config)
     {
-        var secret = config["Jwt:Secret"] ?? "AIIA_SUPER_SECURE_ENTERPRISE_KEY_2026_JWT_TOKEN_SECRET_KEY_MIN_32_CHARS";
         var issuer = config["Jwt:Issuer"] ?? "AIIANotebookBackend";
         var audience = config["Jwt:Audience"] ?? "AIIANotebookFrontend";
-        var expiryMinutes = int.TryParse(config["Jwt:ExpiryMinutes"], out var m) ? m : 10080; // 7 days
+        var expiryMinutes = int.TryParse(config["Jwt:ExpiryMinutes"], out var m) ? m : 10080;
 
-        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetJwtSecret(config)));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
@@ -224,17 +264,15 @@ public static class AuthWebService
         }
 
         var tokenStr = authHeader.Substring("Bearer ".Length).Trim();
-        var secret = config["Jwt:Secret"] ?? "AIIA_SUPER_SECURE_ENTERPRISE_KEY_2026_JWT_TOKEN_SECRET_KEY_MIN_32_CHARS";
         var issuer = config["Jwt:Issuer"] ?? "AIIANotebookBackend";
         var audience = config["Jwt:Audience"] ?? "AIIANotebookFrontend";
 
-        var tokenHandler = new JwtSecurityTokenHandler();
         try
         {
-            var principal = tokenHandler.ValidateToken(tokenStr, new TokenValidationParameters
+            var principal = new JwtSecurityTokenHandler().ValidateToken(tokenStr, new TokenValidationParameters
             {
                 ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret)),
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(GetJwtSecret(config))),
                 ValidateIssuer = true,
                 ValidIssuer = issuer,
                 ValidateAudience = true,
@@ -249,15 +287,19 @@ public static class AuthWebService
                 return userId;
             }
         }
-        catch
+        catch (SecurityTokenException)
         {
-            // Invalid or expired token
+            // Token sai chữ ký hoặc hết hạn: coi như chưa đăng nhập.
+        }
+        catch (ArgumentException)
+        {
+            // Chuỗi không phải JWT hợp lệ.
         }
 
         return null;
     }
 
-    private static UserProfileDto MapToProfile(AppUser user)
+    public static UserProfileDto MapToProfile(AppUser user)
     {
         return new UserProfileDto(
             user.Id,
@@ -269,7 +311,8 @@ public static class AuthWebService
             user.CurrentLevel.ToString(),
             user.TotalStudyHours,
             user.AiTokenQuota,
-            user.AiTokenUsed
+            user.AiTokenUsed,
+            user.ApprovalStatus.ToString()
         );
     }
 }

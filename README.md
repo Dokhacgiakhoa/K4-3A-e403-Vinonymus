@@ -88,7 +88,7 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 | Biết mình không biết | Dưới 30 phút, bài lab lạ hoặc ghi chú mâu thuẫn thì hỏi lại |
 | Không vượt phạm vi | Chỉ hiện link có trong catalog; từ chối các yêu cầu làm hộ, xin đáp án, xin gia hạn, xin điểm |
 
-**Không làm:** tài khoản, thanh toán, chứng chỉ; nộp bài hộ hay đổi deadline; thay AI Tutor VLearn; lưu lịch sử học dài hạn.
+**Không làm:** thanh toán, chứng chỉ; nộp bài hộ hay đổi deadline; thay AI Tutor VLearn; lưu lịch sử học dài hạn.
 
 ## 🧭 Luồng người dùng
 
@@ -189,8 +189,11 @@ Xem thêm:
 | **AI Helpdesk** — chatbox nổi ở mọi trang, gọi `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Ưu tiên trả lời từ FAQ đã xác thực; câu cần tra sâu thì dùng LLM và cần API key. Có eval (`codebase/tests/eval/`). Là tính năng nền, không thuộc phần được chấm |
 | Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi AI. **Không** thuộc phần được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
-| Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
-| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
+| Hạn mức AI Helpdesk cho khách: 10 câu/ngày | ✅ Đã có code, ⚠️ chưa đủ mạnh trên web thật | Khách chưa đăng nhập hỏi tối đa 10 câu/ngày; đăng nhập thì không giới hạn. Khi chưa deploy backend, bộ đếm nằm trong bộ nhớ server nên chỉ chặn được một phần |
+| Đăng ký chờ duyệt, trang `/admin/approvals` | ✅ Đã có code, ⚠️ chưa deploy backend | Đăng ký xong phải chờ quản trị viên duyệt mới đăng nhập được. Cần backend .NET chạy thật |
+| Khoá Lộ trình cá nhân hoá cho người chưa đăng nhập | ✅ Đã có code, tắt cho tới khi có backend | Chỉ bật khi đã cấu hình địa chỉ backend, để web thật không bị khoá |
+| Gói Pro, chứng chỉ, cây kỹ năng, `/admin` (trừ trang duyệt tài khoản) | 🎭 Mock | Không thuộc phạm vi thi |
+| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa deploy | Đã sẵn Dockerfile; tài khoản Railway hết hạn dùng thử nên chưa đưa lên được. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
 
 ## 🗂️ Cấu trúc repo
 

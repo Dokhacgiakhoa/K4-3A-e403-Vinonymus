@@ -67,7 +67,7 @@ Từ thư mục `codebase/`:
 npx tsx ../eval/run-eval.ts baseline
 ```
 
-Sau khi chạy `npm run dev` và có ít nhất một API key hợp lệ:
+Sau khi chạy `npm run dev` và có ít nhất một API key hợp lệ. Nếu máy đã cấu hình `NEXT_PUBLIC_BACKEND_CORE_URL`/`BACKEND_CORE_URL`, route `/api/roadmap` sẽ bắt đăng nhập: khởi động dev server với `ALLOW_ANON_AI_MENTOR=true` để runner gọi được.
 
 ```bash
 npx tsx ../eval/run-eval.ts ai

@@ -4,9 +4,19 @@
 
 > **Trạng thái:** đã build cho CP3; FE tại `/personalized-path` gọi LLM thật qua router đa nhà cung cấp, có fallback baseline. Người phụ trách: Minh.
 
+### Đăng nhập
+
+Khi đã cấu hình backend (`BACKEND_CORE_URL` hoặc `NEXT_PUBLIC_BACKEND_CORE_URL`), route yêu cầu header `Authorization: Bearer <token>` của tài khoản **đã được duyệt**. Server kiểm tra token bằng cách gọi `GET /api/v1/auth/me` của backend (kết quả được nhớ 60 giây).
+
+| Tình huống | Kết quả |
+|---|---|
+| Chưa cấu hình backend | Không bắt đăng nhập |
+| Thiếu token, token sai, tài khoản chờ duyệt hoặc bị từ chối | `401` `{ "error": "…", "code": "LOGIN_REQUIRED" }` |
+| `ALLOW_ANON_AI_MENTOR=true` (chỉ dùng khi chạy eval ở máy) | Không bắt đăng nhập |
+
 ### Request
 
-Header (tuỳ chọn, không lưu, không log). Thiếu header của provider nào thì server dùng biến môi trường tương ứng nếu có. Không có key nào thì trả kế hoạch baseline.
+Header API key (tuỳ chọn, không lưu, không log). Thiếu header của provider nào thì server dùng biến môi trường tương ứng nếu có. Không có key nào thì trả kế hoạch baseline.
 
 | Header | Biến môi trường dự phòng | Provider |
 |---|---|---|
@@ -96,6 +106,15 @@ FE cho tick, bỏ, đổi thứ tự việc và lưu kế hoạch/checklist tron
 
 ## 2. `POST /api/chat` — AI Helpdesk (trước gọi Chat K.AI)
 
+**Hạn mức cho khách:** người chưa đăng nhập (hoặc tài khoản chưa được duyệt) được hỏi **10 câu mỗi ngày** (theo giờ Việt Nam), đếm theo mã phiên ẩn danh `x-client-session-id`. Ngoài ra có trần 200 câu/ngày cho mỗi IP, vì cả lớp có thể dùng chung một IP. Người đã đăng nhập không bị giới hạn.
+
+| Tình huống | Kết quả |
+|---|---|
+| Khách còn lượt | `200` SSE như bình thường, kèm header `x-guest-quota-limit`, `x-guest-quota-remaining` |
+| Khách hết lượt | `429` `{ "error": "…", "code": "GUEST_QUOTA_EXCEEDED", "limit": 10 }`; lượt bị từ chối không bị trừ |
+
+Bộ đếm lưu ở backend .NET (`POST /api/v1/quota/helpdesk/consume`, chỉ nhận mã băm SHA-256 của mã phiên và IP). Chưa có backend hoặc backend lỗi thì đếm trong bộ nhớ server; trên Vercel cách này chỉ chặn được một phần.
+
 Chatbox AI Helpdesk (widget nổi `components/chat/floating-ai-widget.tsx`, bên trong dùng `chat-box.tsx`) gọi API này với `question`, `history` và các header key hiện có. SSE stream có các sự kiện `status`, `token`, `citations`, `done`, `need_key`, `error`. Pipeline ưu tiên FAQ; khi cần LLM thì dùng cùng router ở trên. Đặc tả gốc của dự án nền: [`legacy/aiia-docs/04-API-SPEC.md`](legacy/aiia-docs/04-API-SPEC.md). Không thuộc lát cắt dự thi.
 
 Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") cũng **chưa có API riêng**; wizard chạy quy tắc trong trình duyệt và lưu `localStorage`. Wizard này không dùng `/api/roadmap`.
@@ -128,3 +147,17 @@ Tách lớp trong `codebase/src/backend/`: route → controller → service → 
 | 500 | Lỗi lưu | Thông báo chung, không trả lỗi nội bộ database |
 
 Kiểm thử: `codebase/tests/unit/backend-feedback.test.ts` (8 test).
+
+## 4. Backend .NET (`codebase/backend-core`)
+
+| Endpoint | Ai gọi | Mục đích |
+|---|---|---|
+| `POST /api/v1/auth/register` | Trình duyệt | Tạo tài khoản ở trạng thái **chờ duyệt**; **không** trả token |
+| `POST /api/v1/auth/login` | Trình duyệt | Trả token chỉ khi tài khoản đã được duyệt; chờ duyệt/bị từ chối trả `400` kèm thông báo và `approvalStatus` |
+| `GET /api/v1/auth/me` | Next.js server, trình duyệt | `401` nếu token sai hoặc tài khoản chưa được duyệt |
+| `POST /api/v1/auth/oauth-sync` | Chỉ Next.js server | Bắt buộc header `X-Internal-Key` trùng `Backend__InternalApiKey`; thiếu khoá thì `403` (OAuth bị tắt) |
+| `GET /api/v1/admin/users?status=Pending|Approved|Rejected` | Trang `/admin/approvals` | Chỉ tài khoản SuperAdmin; khác thì `403` |
+| `POST /api/v1/admin/users/{id}/approval` | Trang `/admin/approvals` | Body `{ "status": "Approved" | "Rejected" }`; chỉ SuperAdmin |
+| `POST /api/v1/quota/helpdesk/consume` | Next.js server | Body `{ sessionHash, ipHash }` (SHA-256 hex); trả `{ allowed, limit, remaining }` |
+
+Biến môi trường bắt buộc khi deploy: `Jwt__Secret` (≥ 32 ký tự, không dùng lại giá trị cũ từng nằm trong repo), `ConnectionStrings__DefaultConnection` hoặc `DATABASE_URL`, `Cors__AllowedOrigins__0…`. Tuỳ chọn: `Backend__InternalApiKey`, `GuestQuota__SessionDailyLimit`, `GuestQuota__IpDailyLimit`. Schema: chạy lần lượt các file trong `codebase/database/migrations/`.

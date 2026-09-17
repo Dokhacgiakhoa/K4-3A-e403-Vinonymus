@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { X, Mail, Lock, User, Github, Sparkles, CheckCircle2, ArrowRight, UserCircle, AlertCircle, Crown } from 'lucide-react';
+import { X, Mail, Lock, User, Github, Sparkles, CheckCircle2, ArrowRight, UserCircle, AlertCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { authBackendClient } from '@/lib/api/auth-backend-client';
@@ -78,18 +78,6 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
             currentLevel: res.user.currentLevel || 'L1',
             totalStudyHours: res.user.totalStudyHours || 0
           };
-        } else if (email.trim().toLowerCase() === 'pro@ai-thuc-chien.vn' && (password === 'password123' || password === '123456')) {
-          // Dev / Demo Pro VIP fallback
-          loggedUser = {
-            id: '140ad878-b6de-4861-be09-fc082985001c',
-            name: 'Hoang Nam Pro VIP',
-            email: 'pro@ai-thuc-chien.vn',
-            tier: 'Pro',
-            plan: 'pro',
-            role: 'student',
-            currentLevel: 'L3',
-            totalStudyHours: 120
-          };
         } else {
           setErrorMessage(res.message || 'Đăng nhập thất bại.');
           return;
@@ -110,31 +98,15 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
         const res = await authBackendClient.register(email.trim(), password, displayName);
         setIsLoading(false);
 
-        if (!res.success || !res.user) {
+        if (!res.success) {
           setErrorMessage(res.message || 'Đăng ký tài khoản thất bại.');
           return;
         }
 
-        const loggedUser: StoredUser = {
-          id: res.user.id,
-          name: res.user.displayName || displayName,
-          email: res.user.email,
-          tier: (res.user.tier as 'Free' | 'Pro' | 'Admin') || 'Free',
-          role: 'student',
-          currentLevel: res.user.currentLevel || 'L1',
-          totalStudyHours: res.user.totalStudyHours || 0
-        };
-
-        clientStorage.saveUser(loggedUser);
-        setSuccessMessage(res.message || 'Đăng ký thành công!');
-
-        if (onLoginSuccess) onLoginSuccess(loggedUser);
-        if (onSuccess) onSuccess();
-
-        setTimeout(() => {
-          setSuccessMessage('');
-          onClose();
-        }, 900);
+        // Tài khoản mới phải chờ quản trị viên duyệt: không lưu phiên, chỉ báo kết quả và chuyển về màn đăng nhập.
+        setSuccessMessage(res.message || 'Đăng ký thành công! Tài khoản đang chờ quản trị viên duyệt.');
+        setPassword('');
+        setIsLogin(true);
       }
     } catch (err: any) {
       setIsLoading(false);
@@ -228,21 +200,6 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
           <span>hoặc dùng Email</span>
           <div className="flex-1 h-px bg-slate-800"></div>
         </div>
-
-        {/* Quick Demo Pro VIP Fill Button */}
-        {isLogin && (
-          <button
-            type="button"
-            onClick={() => {
-              setEmail('pro@ai-thuc-chien.vn');
-              setPassword('password123');
-            }}
-            className="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-amber-500/15 hover:from-amber-500/25 hover:to-orange-500/25 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:scale-[1.01]"
-          >
-            <Crown className="w-4 h-4 text-amber-400" />
-            <span>⚡ Điền Nhanh Tài Khoản Pro VIP (pro@ai-thuc-chien.vn)</span>
-          </button>
-        )}
 
         {/* Form Inputs */}
         <form onSubmit={handleSubmit} className="space-y-4">

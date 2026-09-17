@@ -174,7 +174,9 @@ export async function GET(
     const backendRes = await fetch(`${backendUrl}/api/v1/auth/oauth-sync`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        // Backend chỉ nhận oauth-sync kèm khoá nội bộ; thiếu khoá thì OAuth bị tắt.
+        'X-Internal-Key': process.env.BACKEND_INTERNAL_API_KEY || ''
       },
       body: JSON.stringify(oauthUser)
     });
