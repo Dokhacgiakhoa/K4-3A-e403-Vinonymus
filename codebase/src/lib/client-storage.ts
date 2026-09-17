@@ -48,6 +48,7 @@ export interface StoredApiKeys {
   deepseek?: string;
   groq?: string;
   cerebras?: string;
+  fpt?: string;
 }
 
 const CONVERSATIONS_KEY = 'aiia_conversations';

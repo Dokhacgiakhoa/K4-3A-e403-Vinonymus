@@ -23,6 +23,7 @@ function readApiKeys(req: NextRequest): ChatApiHeaderKeys {
     deepseek: req.headers.get('x-deepseek-key') || process.env.DEEPSEEK_API_KEY,
     groq: req.headers.get('x-groq-key') || process.env.GROQ_API_KEY,
     cerebras: req.headers.get('x-cerebras-key') || process.env.CEREBRAS_API_KEY,
+    fpt: req.headers.get('x-fpt-key') || process.env.FPT_API_KEY,
   };
 }
 

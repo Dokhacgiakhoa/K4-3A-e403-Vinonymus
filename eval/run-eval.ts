@@ -52,6 +52,7 @@ function aiHeaders(): Record<string, string> {
     ['DEEPSEEK_API_KEY', 'x-deepseek-key'],
     ['GROQ_API_KEY', 'x-groq-key'],
     ['CEREBRAS_API_KEY', 'x-cerebras-key'],
+    ['FPT_API_KEY', 'x-fpt-key'],
   ] as const;
   for (const [envName, headerName] of mappings) {
     const value = process.env[envName];

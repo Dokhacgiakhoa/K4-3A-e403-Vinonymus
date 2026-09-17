@@ -28,6 +28,9 @@ export const MODEL_CATALOG: Record<string, ModelSpec[]> = {
   cerebras: [
     { model: 'llama-3.3-70b', tasks: ['chat'], contextWindow: 8_192 },
   ],
+  fpt: [
+    { model: 'gpt-oss-120b', tasks: ['chat'], contextWindow: 131_072 },
+  ],
 };
 
 export interface RouteResult {

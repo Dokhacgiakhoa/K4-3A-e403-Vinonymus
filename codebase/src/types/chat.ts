@@ -34,6 +34,7 @@ export interface ChatApiHeaderKeys {
   deepseek?: string;
   groq?: string;
   cerebras?: string;
+  fpt?: string;
 }
 
 export interface ChatApiRequestBody {

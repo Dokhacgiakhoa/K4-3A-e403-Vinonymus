@@ -195,6 +195,34 @@ export function ApiKeyManager() {
           />
         </div>
 
+        {/* 6. FPT AI Factory */}
+        <div className="space-y-1.5 p-3 rounded-xl bg-slate-950/80 border border-slate-800">
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-200">
+              6. FPT AI Factory API Key (Trả phí)
+            </label>
+            <a
+              href="https://marketplace.fptcloud.com/en/my-account?tab=my-api-key"
+              target="_blank"
+              rel="noopener noreferrer external"
+              onClick={(e) => {
+                e.preventDefault();
+                handleOpenExternal('https://marketplace.fptcloud.com/en/my-account?tab=my-api-key');
+              }}
+              className="text-xs text-cyan-400 hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              Lấy key FPT <ExternalLink className="w-3 h-3" />
+            </a>
+          </div>
+          <input
+            type="password"
+            value={keys.fpt || ''}
+            onChange={(e) => handleChange('fpt', e.target.value)}
+            placeholder="sk-..."
+            className="w-full bg-slate-900 border border-slate-700/80 rounded-xl px-3 py-2 text-xs text-slate-100 focus:outline-none focus:border-cyan-500 font-mono"
+          />
+        </div>
+
         {savedSuccess && (
           <div className="flex items-center gap-1.5 text-xs text-emerald-400 font-medium bg-emerald-950/60 p-2.5 rounded-lg border border-emerald-800/40">
             <Check className="w-4 h-4" />

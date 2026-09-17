@@ -107,6 +107,7 @@ Golden set có 20/20 case gắn với 20 mã nguồn thực khác nhau trong dat
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
 | 17/9 13:27 (CP3) | Chạy 20 Golden cases qua Gemini 3.5 Flash-Lite, đạt 18/20 (90%) | Ghi số thật; hai lỗi đều do mô hình thận trọng quá mức, không bịa link |
 | 17/9 14:31 (CP3) | Sửa prompt nguồn-catalog, nhận output dài an toàn và chạy lại, đạt 19/20 (95%) | G09, G10, G14 đã đạt; G02 còn sai do thứ tự item làm vượt quỹ thời gian |
+| 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi và quay thưởng tri ân tại `/contact` | Phục vụ mở rộng khảo sát lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 |
 
 ---
 

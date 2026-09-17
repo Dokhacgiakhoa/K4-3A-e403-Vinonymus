@@ -36,6 +36,7 @@ export async function POST(req: NextRequest) {
       deepseek: req.headers.get('x-deepseek-key') || undefined,
       groq: req.headers.get('x-groq-key') || undefined,
       cerebras: req.headers.get('x-cerebras-key') || undefined,
+      fpt: req.headers.get('x-fpt-key') || undefined,
     };
 
     const legacyProvider = req.headers.get('x-llm-provider');
