@@ -35,3 +35,6 @@ codebase/.windsurfrules
 
 # Private interview records with real names — local only
 docs/research/private/
+
+# Báo cáo sinh ra mỗi lần chạy npm run audit
+codebase/docs/reports/

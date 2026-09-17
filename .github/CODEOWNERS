@@ -1,0 +1,27 @@
+# Người review mặc định theo thư mục — dòng sau ghi đè dòng trước.
+*                                       @Dokhacgiakhoa
+
+# BE — API, LLM router, CI
+/codebase/src/app/api/                  @minh-tran-2611
+/codebase/src/lib/llm/                  @minh-tran-2611
+/codebase/supabase/                     @minh-tran-2611
+/.github/                               @minh-tran-2611
+/docs/02-kien-truc.md                   @minh-tran-2611
+/docs/03-api.md                         @minh-tran-2611
+
+# AI — prompt, catalog, eval
+/codebase/src/lib/prompts/              @dinhngocduc1311
+/codebase/src/data/planner-catalog.ts   @dinhngocduc1311
+/codebase/scripts/run-eval.ts           @dinhngocduc1311
+/eval/                                  @dinhngocduc1311
+/docs/04-ai-pipeline.md                 @dinhngocduc1311
+
+# FE — giao diện Planner
+/codebase/src/app/planner/              @thanhnvhust514
+/codebase/src/components/planner/       @thanhnvhust514
+/docs/05-ui-flow.md                     @thanhnvhust514
+
+# PM — spec, nghiên cứu, validation (đặt cuối để luôn thuộc Khoa)
+/spec.md                                @Dokhacgiakhoa
+/docs/research/                         @Dokhacgiakhoa
+/validation/                            @Dokhacgiakhoa

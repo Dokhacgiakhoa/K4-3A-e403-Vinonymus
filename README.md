@@ -43,7 +43,7 @@ Chi tiết quyết định sản phẩm: [`spec.md`](spec.md) · Yêu cầu hệ
 | AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · OpenRouter · embedding Gemini 768 chiều | Chat: chạy thật · Planner: đang build |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
-| Kiểm thử & CI | Vitest · Husky pre-push · GitHub Actions (sync-content, keepalive) | Đang chạy |
+| Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR vào `main` | Đang chạy |
 | Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
 
 Kiến trúc chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md)

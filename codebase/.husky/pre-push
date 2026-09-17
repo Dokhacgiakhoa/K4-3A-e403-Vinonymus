@@ -1,1 +1,2 @@
-npm run verify
+# Git chạy hook từ gốc repo, còn app nằm trong codebase/
+cd codebase && npm run verify
