@@ -190,14 +190,16 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 
 ## 📅 Tiến độ checkpoint
 
-| Mốc | Hạn | Trạng thái | Việc |
-|---|---|---|---|
-| CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
-| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
-| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
-| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
-| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
-| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
+> "Đã nộp" = đã nộp form checkpoint đúng hạn (điều kiện lấy điểm mốc, xem `04-rubric.md`). "% Issue" = tỷ lệ issue đã đóng trong milestone tương ứng — số này **không tự lên 100% khi nộp form**, chỉ tăng khi các task con thực sự đóng. Cập nhật tay khi đóng issue, xem số hiện tại tại [Milestones](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones).
+
+| Mốc | Hạn | Trạng thái nộp | % Issue | Việc |
+|---|---|---|---:|---|
+| CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | 100% (1/1) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
+| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 50% (3/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | 82% (9/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
+| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | 0% (0/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
+| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
+| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
 
 Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md) · Phân công: [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) · Kế hoạch sửa repo: [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md)
 
