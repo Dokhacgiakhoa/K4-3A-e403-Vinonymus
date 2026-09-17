@@ -132,6 +132,7 @@ export function StudyPlanner() {
       if (keys.groq) headers['x-groq-key'] = keys.groq;
       if (keys.cerebras) headers['x-cerebras-key'] = keys.cerebras;
       if (keys.openrouter) headers['x-openrouter-key'] = keys.openrouter;
+      if (keys.fpt) headers['x-fpt-key'] = keys.fpt;
 
       const res = await fetch('/api/roadmap', {
         method: 'POST',
