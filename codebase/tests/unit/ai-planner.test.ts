@@ -1,0 +1,70 @@
+import { describe, expect, it } from 'vitest';
+import { findLab } from '@/data/planner-catalog';
+import { materializePlannerResult } from '@/lib/planner/ai-planner';
+import type { PlannerInput } from '@/types/planner';
+
+const input: PlannerInput = {
+  background: 'tech_base',
+  availableMinutes: 45,
+  labId: 'lab-prompt-tool-calling',
+  note: '',
+};
+
+const lab = findLab(input.labId);
+if (!lab) throw new Error('missing fixture lab');
+
+describe('materializePlannerResult', () => {
+  it('lọc item bịa, trùng và vượt quỹ thời gian; ghép URL từ catalog', () => {
+    const result = materializePlannerResult(
+      {
+        status: 'plan',
+        diagnosis: { confidence: 'high', summary: 'Đã biết code, mới với AI.' },
+        tasks: [
+          { item_id: 'ptc-function-calling', reason: 'Phần thực hành chính.' },
+          { item_id: 'khong-ton-tai', reason: 'Item bịa.' },
+          { item_id: 'ptc-function-calling', reason: 'Bị trùng.' },
+        ],
+        message: 'Không tin message này.',
+      },
+      input,
+      lab,
+    );
+    expect(result.status).toBe('plan');
+    if (result.status !== 'plan') return;
+    expect(result.source).toBe('ai');
+    expect(result.tasks).toHaveLength(1);
+    expect(result.tasks[0]?.url).toBe('https://ai.google.dev/gemini-api/docs/function-calling');
+    expect(result.message).toContain('30/45');
+  });
+
+  it('hỏi lại khi model báo độ tin cậy thấp', () => {
+    const result = materializePlannerResult(
+      {
+        status: 'plan',
+        diagnosis: { confidence: 'low', summary: 'Mâu thuẫn.' },
+        tasks: [{ item_id: 'ptc-prompt-basics', reason: 'Cần làm rõ.' }],
+        message: 'Làm rõ.',
+      },
+      input,
+      lab,
+    );
+    expect(result.status).toBe('clarify');
+  });
+
+  it('cắt nội dung dài về giới hạn hiển thị', () => {
+    const result = materializePlannerResult(
+      {
+        status: 'plan',
+        diagnosis: { confidence: 'high', summary: 'S'.repeat(300) },
+        tasks: [{ item_id: 'ptc-function-calling', reason: 'R'.repeat(300) }],
+        message: 'M'.repeat(300),
+      },
+      input,
+      lab,
+    );
+    expect(result.status).toBe('plan');
+    if (result.status !== 'plan') return;
+    expect(result.diagnosis.summary).toHaveLength(240);
+    expect(result.tasks[0]?.reason).toHaveLength(160);
+  });
+});

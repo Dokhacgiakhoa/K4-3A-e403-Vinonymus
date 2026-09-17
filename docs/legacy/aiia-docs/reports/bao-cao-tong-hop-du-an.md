@@ -11,7 +11,7 @@
 
 1. **Mô hình Không Tài Khoản (No-Auth Model)**: Không sử dụng đăng nhập, không vai trò user/admin, không Supabase Auth/Storage. Dữ liệu môn học công khai.
 2. **Git-as-CMS**: Nguồn sự thật duy nhất nằm tại thư mục `data/` trong Git repository. Cập nhật nội dung môn học bằng `git push`, GitHub Action (`sync-content.yml`) tự động đồng bộ vào Supabase Postgres.
-3. **Mô hình BYOK Bắt Buộc (Bring Your Own Key)**: Học viên tự mang API Key cá nhân (Gemini, Groq, Cerebras, OpenRouter) lưu vĩnh viễn ở `localStorage` client. API key **tuyệt đối không bao giờ được lưu ở server** hay bị log.
+3. **Mô hình BYOK Bắt Buộc (Bring Your Own Key)**: Học viên tự mang API Key cá nhân (Gemini, Groq, Cerebras) lưu vĩnh viễn ở `localStorage` client. API key **tuyệt đối không bao giờ được lưu ở server** hay bị log.
 4. **Trải nghiệm PWA Standalone**: Web app hỗ trợ cài đặt màn hình chính điện thoại/máy tính full-screen, Service Worker chỉ cache App Shell, không cache API responses.
 
 ---
@@ -28,7 +28,7 @@
 ### Phase 2: Vòng lặp cốt lõi (`docs/reports/phase-2-vong-lap-cot-loi.md`)
 - Đường nhanh FAQ (F02): So khớp 3 tầng (exact, trigram, vector) trong `lib/rag/faq-match.ts`, trả câu trả lời nguyên văn từ `.md`, < 500ms, không cần API Key.
 - Đường sâu RAG (F03): Truy xuất lai RRF Top-8 trong `lib/rag/retrieve.ts`, prompt bọc kho tri thức trong `<knowledge_base>`, chip trích dẫn `[1]`, `[2]`.
-- LLM Router Engine (F13): Điều phối 4 nhà cung cấp (`gemini`, `groq`, `cerebras`, `openrouter`) trong `lib/llm/router.ts` theo API key người dùng gửi lên.
+- LLM Router Engine (F13): Điều phối 3 nhà cung cấp (`gemini`, `groq`, `cerebras`) trong `lib/llm/router.ts` theo API key người dùng gửi lên.
 - API SSE Stream: `POST /api/chat` stream events `status`, `token`, `citations`, `done`, `need_key`, `error`.
 - UI Chat Component: `ChatContainer`, `MessageBubble`, `Composer`, `MarkdownRenderer` (`rehype-sanitize`), `CitationPanel`, `NeedKeyPrompt`.
 

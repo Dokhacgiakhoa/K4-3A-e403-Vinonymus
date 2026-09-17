@@ -6,7 +6,6 @@ import { claudeAdapter } from './providers/claude';
 import { deepseekAdapter } from './providers/deepseek';
 import { groqAdapter } from './providers/groq';
 import { cerebrasAdapter } from './providers/cerebras';
-import { openrouterAdapter } from './providers/openrouter';
 import { fptAdapter } from './providers/fpt';
 
 const ADAPTERS: Record<string, LLMProviderAdapter> = {
@@ -16,13 +15,12 @@ const ADAPTERS: Record<string, LLMProviderAdapter> = {
   deepseek: deepseekAdapter,
   groq: groqAdapter,
   cerebras: cerebrasAdapter,
-  openrouter: openrouterAdapter,
   fpt: fptAdapter,
 };
 
 // FPT AI Factory là tài khoản trả phí của nhóm — đặt ưu tiên cao hơn các provider free-tier
 // hay bị giới hạn quota (Gemini free tier chỉ ~20 request/ngày cho model flash mới nhất).
-const DEFAULT_PRIORITY = ['fpt', 'gemini', 'openai', 'claude', 'deepseek', 'groq', 'cerebras', 'openrouter'];
+const DEFAULT_PRIORITY = ['fpt', 'gemini', 'openai', 'claude', 'deepseek', 'groq', 'cerebras'];
 
 export class LLMRouterError extends Error {
   constructor(
@@ -112,18 +110,16 @@ export async function routeLLMRequest(
             providerId === 'fpt'
               ? 'gpt-oss-120b'
               : providerId === 'gemini'
-              ? 'gemini-flash-latest'
+              ? 'gemini-3.5-flash-lite'
               : providerId === 'openai'
-              ? 'gpt-5-mini'
+              ? 'gpt-4o-mini'
               : providerId === 'claude'
-              ? 'claude-sonnet-5'
+              ? 'claude-haiku-4-5-20251001'
               : providerId === 'deepseek'
               ? 'deepseek-chat'
               : providerId === 'groq'
-              ? 'openai/gpt-oss-20b'
-              : providerId === 'cerebras'
-              ? 'gpt-oss-120b'
-              : 'openrouter/free',
+              ? 'llama-3.3-70b-versatile'
+              : 'llama-3.3-70b',
         };
       } catch (err: unknown) {
         const errorMsg = err instanceof Error ? err.message : String(err);

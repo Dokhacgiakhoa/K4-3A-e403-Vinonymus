@@ -93,7 +93,7 @@ flowchart LR
     D -- đỏ / cần sửa --> B
     D -- xanh + duyệt --> E[Merge vào main]
     E --> F[Vercel tự deploy]
-    E --> G[Chạy lại golden set<br/>ghi eval/results.md]
+    E --> G[Chạy lại golden set<br/>ghi eval/run_results.md]
     H[Phản hồi người dùng thử] --> I[Ghi validation/log.md<br/>+ spec.md §9] --> B
 ```
 
@@ -101,7 +101,7 @@ flowchart LR
 |---|---|---|
 | Thêm hoặc sửa tài liệu lab (**chỉ link công khai**) | Đức (Minh hỗ trợ) | [`codebase/src/data/planner-catalog.ts`](codebase/src/data/planner-catalog.ts) |
 | Sửa prompt, guardrail | Đức | `codebase/src/lib/prompts/`, [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
-| Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/results.md`](eval/results.md) |
+| Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/run_results.md`](eval/run_results.md) |
 | Ghi nhận phản hồi, quyết định thay đổi | Khoa | [`validation/log.md`](validation/log.md), [`spec.md`](spec.md) §9 |
 | Deploy | Tự động khi merge `main` | Vercel, Root Directory = `codebase` |
 
@@ -127,7 +127,7 @@ flowchart LR
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · OpenRouter · embedding Gemini 768 chiều | Chat: chạy thật · Planner: đang build |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | Chat + Planner: chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR vào `main` | Đang chạy |
@@ -139,7 +139,7 @@ Chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md) · API: [`docs/03-api
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | 🔧 CP3: đang nối AI | Luồng 4 bước và checklist đã chạy thật, kết quả hiện lấy từ luật tĩnh ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)). CP3 thay bằng lời gọi LLM thật qua `/api/roadmap`; luật tĩnh giữ lại làm baseline và fallback |
+| **AI Diagnostic Study Planner** (lát cắt dự thi), trang `/planner` | ✅ AI chạy thật | Luồng 4 bước gọi Gemini qua `/api/roadmap`; Golden set đạt **19/20 = 95%**. Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
 | Chat K.AI (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
 | Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
 | Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
@@ -184,7 +184,7 @@ npm run dev                  # http://localhost:3000/planner
 2. **Làm trên branch riêng:** `feat/…`, `fix/…`, `docs/…`, `chore/…`. Không push thẳng vào `main`.
 3. **Mở PR** theo mẫu có sẵn, ghi `Closes #<số issue>`. CODEOWNERS tự gán người review theo thư mục.
 4. **CI `verify`** (lint, typecheck, test, audit, build) phải xanh thì mới merge. Hook pre-push cũng chạy verify ngay trên máy.
-5. Đổi prompt thì chạy lại golden set và ghi vào `eval/results.md`. Đổi theo phản hồi người dùng thì ghi vào `spec.md` §9.
+5. Đổi prompt thì chạy lại golden set và ghi vào `eval/run_results.md`. Đổi theo phản hồi người dùng thì ghi vào `spec.md` §9.
 
 Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 
@@ -194,7 +194,7 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 |---|---|---|---|
 | CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
 | CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
-| CP3 · Video thao tác + số đo | 16:00 · 17/9 | 🔄 Đang làm | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
 | CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
 | CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
 | CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
@@ -215,7 +215,7 @@ Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkp
 | Kế hoạch sửa cấu trúc repo & quy trình | [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
 | Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
-| Kết quả kiểm thử | [`eval/results.md`](eval/results.md) |
+| Kết quả kiểm thử | [`eval/run_results.md`](eval/run_results.md) |
 | Nhật ký người dùng thử | [`validation/log.md`](validation/log.md) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
 | Tài liệu cũ của dự án nền (không phản ánh lát cắt thi) | [`docs/legacy/`](docs/legacy/) |

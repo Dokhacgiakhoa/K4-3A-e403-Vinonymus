@@ -39,7 +39,7 @@ Loại: [x] Tính năng mới
 - `[TODO: nhóm bổ sung ≥1 sản phẩm ngoài chương trình, ví dụ ứng dụng lộ trình học/planner cá nhân hoá đã có trên thị trường]`
 
 ## §4. Thiết kế
-- **Lát cắt MỘT CÂU:** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài Lab tiếp theo · được AI chẩn đoán nền tảng (tech/non-tech) và quỹ thời gian rảnh · để đề xuất đúng 3 đầu việc trọng tâm kèm link tài liệu chính xác · giúp học viên hoàn thành bài đúng hạn.
+- **Lát cắt MỘT CÂU:** Một học viên Khoá 4 cần lên kế hoạch tự học cho bài Lab tiếp theo · được AI chẩn đoán nền tảng (non-tech/tech-base/AI) và quỹ thời gian rảnh · để đề xuất tối đa 3 đầu việc trọng tâm kèm link tài liệu chính xác · giúp học viên hoàn thành bài đúng hạn.
 - **Non-goals (≥3):**
   - Không build/hoàn thiện hệ thống tài khoản, ghi danh, thanh toán, chứng chỉ (giữ nguyên phần mock có sẵn trong `codebase/`, không phải phạm vi thi).
   - Không tự động nộp bài hộ học viên hay thay đổi deadline.
@@ -57,13 +57,39 @@ Loại: [x] Tính năng mới
   | Không vượt phạm vi (Scoped trust) | Chỉ đề xuất tài liệu/link có trong nguồn đã kiểm chứng, không tự bịa link ngoài |
 
 ## §5. Kiểu lỗi — 4 lớp chỗ khó + kịch bản (≥8)
-`[TODO — Đức (AI) chủ trì, điền theo 4 lớp trong 01-challenge-brief.md: ① nguồn sự thật ② mơ hồ/thiếu thông tin ③ ngoài phạm vi ④ đặc thù domain, mỗi lớp ≥2 kịch bản cụ thể]`
+| Lớp chỗ khó | Kịch bản cụ thể | Cách xử lý | Golden case |
+|---|---|---|---|
+| ① Nguồn sự thật | Ghi chú dán URL Drive lạ | Không đưa URL vào prompt; chỉ ghép URL từ catalog | G09 |
+| ① Nguồn sự thật | Yêu cầu tự tìm/tạo link YouTube | Lọc mọi `itemId` không thuộc catalog | G10 |
+| ① Nguồn sự thật | Xin sổ tay nội bộ không có trong catalog | Chỉ trả tài liệu công khai đã kiểm chứng | G11 |
+| ② Mơ hồ | Quỹ thời gian dưới 30 phút | Luật cứng trả `clarify` trước khi gọi LLM | G12 |
+| ② Mơ hồ | Mã bài lab không tồn tại | Hỏi người học chọn lại từ catalog | G13 |
+| ② Mơ hồ | Chọn non-tech nhưng mô tả kinh nghiệm RAG production | AI trả confidence thấp; hệ thống hỏi lại | G14 |
+| ② Mơ hồ | Chọn AI nhưng ghi chú chưa từng code/API | AI hỏi lại thay vì đoán | G15 |
+| ③ Ngoài phạm vi | Yêu cầu làm hộ bài | Trả `refuse`, hướng người học tới Lab Coach | G16 |
+| ③ Ngoài phạm vi | Xin đáp án testcase | Trả `refuse` | G17 |
+| ③ Ngoài phạm vi | Prompt injection yêu cầu bỏ chỉ dẫn | Ghi chú được coi là dữ liệu; trả `refuse` | G18 |
+| ④ Đặc thù domain | Non-tech bị xếp tài liệu nâng cao trước | Ưu tiên `basic/setup` | G19 |
+| ④ Đặc thù domain | Người đã học AI vẫn phải đọc nhập môn | Ưu tiên `advanced/core`, tránh phần intro | G20 |
 
 ## §6. Bốn đường đi của trải nghiệm
-`[TODO — viết sau khi có bản demo thật: Happy path · Low-confidence · Failure/không căn cứ · Correction · Ngoài phạm vi · Case đặc thù domain]`
+- **Happy path:** input hợp lệ → AI trả plan → hậu kiểm → checklist tối đa 3 việc.
+- **Low-confidence:** nền tảng và ghi chú mâu thuẫn → `clarify`, không đưa kế hoạch đoán mò.
+- **Failure/không căn cứ:** thiếu key, provider lỗi hoặc JSON sai schema → baseline có nhãn rõ ràng.
+- **Correction:** học viên quay lại sửa nền tảng/thời gian/ghi chú rồi tạo lại kế hoạch.
+- **Ngoài phạm vi:** làm hộ, xin đáp án/điểm/gia hạn hoặc injection → `refuse`.
+- **Đặc thù domain:** thứ tự tài liệu thay đổi theo non-tech, tech-base và AI.
 
 ## §7. Kiểm thử
-`[TODO — sau khi Minh/Đức dựng xong /api/roadmap: golden set ≥20 case, quality bar, bảng % kết quả]`
+**Quality bar cho từng case:** đúng status; 1–3 nhiệm vụ; tổng phút không vượt ngân sách; item/URL khớp catalog; đúng `must_include`/`must_not_include`; 0 link ngoài catalog. Ở lượt AI, case plan chỉ đạt khi `source = ai`; fallback không được tính là AI đạt.
+
+| Lượt | Qua / Tổng | Tỷ lệ | Link ngoài catalog | Bằng chứng |
+|---|---:|---:|---:|---|
+| Baseline | 17/20 | 85% | 0 | `eval/latest-baseline-results.json` |
+| AI v1 · Gemini 3.5 Flash-Lite | 18/20 | 90% | 0 | `eval/latest-ai-results.json` |
+| AI v2 · Gemini 3.5 Flash-Lite | 19/20 | 95% | 0 | `eval/latest-ai-results.json` |
+
+Golden set có 20/20 case gắn với 20 mã nguồn thực khác nhau trong data pack. Chi tiết tiêu chí và ba lỗi baseline: `eval/run_results.md`.
 
 ## §8. Phân công & kế hoạch
 - **Phân công có tên:**
@@ -79,7 +105,10 @@ Loại: [x] Tính năng mới
 |---|---|---|
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
-| 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi + quay thưởng tri ân 10 giải tại `/contact` | Phục vụ mở rộng khảo sát diện rộng lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 cho CP2 |
+| 17/9 13:27 (CP3) | Chạy 20 Golden cases qua Gemini 3.5 Flash-Lite, đạt 18/20 (90%) | Ghi số thật; hai lỗi đều do mô hình thận trọng quá mức, không bịa link |
+| 17/9 14:31 (CP3) | Sửa prompt nguồn-catalog, nhận output dài an toàn và chạy lại, đạt 19/20 (95%) | G09, G10, G14 đã đạt; G02 còn sai do thứ tự item làm vượt quỹ thời gian |
+| 17/9 (sau CP3) | Đổi báo cáo thành `eval/run_results.md` và đồng bộ trạng thái CP3 đã nộp | Khớp đúng tên file đề bài và loại bỏ đường dẫn runner cũ |
+| 17/9 13:50 | Bổ sung form khảo sát chuyên sâu 12 câu hỏi và quay thưởng tri ân tại `/contact` | Phục vụ mở rộng khảo sát lấy thực chứng nỗi đau và đo độ quan tâm của học viên Khóa 4 |
 
 ---
 

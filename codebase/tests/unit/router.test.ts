@@ -45,12 +45,24 @@ describe('LLM Router Engine', () => {
     );
 
     expect(res.provider).toBe('gemini');
-    expect(res.model).toBe('gemini-flash-latest');
+    expect(res.model).toBe('gemini-3.5-flash-lite');
     expect(res.stream).toBeDefined();
 
     let text = '';
     for await (const chunk of res.stream) text += chunk;
     expect(text).toBe('Chào bạn');
+  });
+
+  it('ưu tiên Gemini khi có cả Gemini và Claude key', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => mockGeminiStreamResponse('Chào bạn')));
+
+    const res = await routeLLMRequest(
+      { systemPrompt: 'test', userPrompt: 'hello' },
+      { gemini: 'gemini-key', claude: 'claude-key' }
+    );
+
+    expect(res.provider).toBe('gemini');
+    expect(res.model).toBe('gemini-3.5-flash-lite');
   });
 
   it('ném LLMRouterError khi API key không hợp lệ (401/403)', async () => {

@@ -496,7 +496,7 @@ export function AlumniInsightsSection() {
       title: "1 LLM Provider hoặc Ollama Local",
       icon: Cpu,
       color: "text-purple-400",
-      desc: "Chuẩn bị 1 Provider chính (OpenAI, Gemini, Anthropic, OpenRouter) hoặc cài Ollama chạy local (DeepSeek R1, Llama 3.2)."
+      desc: "Chuẩn bị 1 Provider chính (OpenAI, Gemini, Anthropic) hoặc cài Ollama chạy local (DeepSeek R1, Llama 3.2)."
     },
     {
       title: ".env • Không Commit Secret",

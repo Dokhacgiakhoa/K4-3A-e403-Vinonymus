@@ -101,7 +101,7 @@ Tài liệu này dành cho **agent/lập trình viên thực thi**. Làm tuần 
 - [x] `lib/prompts/*` — chép nguyên văn từ `06-AI-PIPELINE.md` mục 6
 - [x] `lib/rag/pipeline.ts` — điều phối theo sơ đồ mục 1, **trả `need_key` đúng lúc** thay vì cố chạy tiếp mà không có key
 - [x] `lib/llm/router.ts` — theo pseudo-code `06-AI-PIPELINE.md` mục 3 (đã đơn giản hoá, không có bảng quota)
-- [x] Adapter provider: `gemini.ts` `groq.ts` `cerebras.ts` `openrouter.ts` — mỗi hàm nhận `apiKey` làm tham số
+- [x] Adapter provider: `gemini.ts` `groq.ts` `cerebras.ts` — mỗi hàm nhận `apiKey` làm tham số
 - [x] `POST /api/chat` — đọc header `X-LLM-Provider`/`X-LLM-Key`, trả SSE đúng định dạng `04-API-SPEC.md`
 - [x] **Xác nhận key không rò rỉ:** không gán vào biến module-level, không log, không đưa vào `query_logs`
 - [x] Luồng từ chối + `record_unanswered()`

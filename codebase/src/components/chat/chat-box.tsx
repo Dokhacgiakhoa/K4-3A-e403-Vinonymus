@@ -91,7 +91,6 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
       if (storedKeys.deepseek) headers['x-deepseek-key'] = storedKeys.deepseek;
       if (storedKeys.groq) headers['x-groq-key'] = storedKeys.groq;
       if (storedKeys.cerebras) headers['x-cerebras-key'] = storedKeys.cerebras;
-      if (storedKeys.openrouter) headers['x-openrouter-key'] = storedKeys.openrouter;
       if (storedKeys.fpt) headers['x-fpt-key'] = storedKeys.fpt;
 
       const response = await fetch('/api/chat', {

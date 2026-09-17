@@ -108,8 +108,7 @@ export async function processChatPipeline(
         keys.claude ||
         keys.deepseek ||
         keys.groq ||
-        keys.cerebras ||
-        keys.openrouter
+        keys.cerebras
     );
     return {
       type: 'faq',
@@ -128,8 +127,7 @@ export async function processChatPipeline(
       keys.claude ||
       keys.deepseek ||
       keys.groq ||
-      keys.cerebras ||
-      keys.openrouter
+      keys.cerebras
   );
   if (!hasAnyKey) {
     return { type: 'need_key' };

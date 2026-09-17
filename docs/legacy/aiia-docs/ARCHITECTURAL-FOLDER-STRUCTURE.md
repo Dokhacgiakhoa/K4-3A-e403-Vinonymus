@@ -19,7 +19,7 @@ graph TD
     DomainLayer["🏛️ Domain Layer (Entities, Enums, Business Rules)"]
     InfraLayer["💾 Infrastructure Layer (EF Core + Npgsql)"]
     PostgresDB[("🐘 PostgreSQL 16 + pgvector Database")]
-    AIServices["🤖 External AI Inference (Gemini, Groq, Cerebras, OpenRouter)"]
+    AIServices["🤖 External AI Inference (Gemini, Groq, Cerebras)"]
 
     Client -->|REST API / SSE Streaming| ApiGateway
     ApiGateway --> AppLayer
@@ -138,7 +138,6 @@ src/
 │       ├── deepseek.ts
 │       ├── groq.ts
 │       ├── openai.ts
-│       └── openrouter.ts
 │
 └── types/                                  # TypeScript Type Definitions
     ├── chat.ts

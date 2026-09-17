@@ -3,7 +3,7 @@ import type { ChatPayload, LLMProviderAdapter } from '../types';
 export const geminiAdapter: LLMProviderAdapter = {
   id: 'gemini',
   async *chatStream(payload: ChatPayload, apiKey: string): AsyncIterable<string> {
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:streamGenerateContent?alt=sse&key=${apiKey}`;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:streamGenerateContent?alt=sse&key=${apiKey}`;
 
     const response = await fetch(url, {
       method: 'POST',
