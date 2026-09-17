@@ -14,7 +14,8 @@
     "audit": "npx tsx scripts/audit-faqs.ts",
     "seed:lectures": "npx tsx scripts/seed-lecture-documents.ts",
     "ocr": "npx tsx scripts/ocr-image.ts",
-    "prepare": "husky"
+    "prepare": "cd .. && husky codebase/.husky",
+    "eval": "npx tsx ../eval/run-eval.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

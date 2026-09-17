@@ -44,7 +44,7 @@ Trang riêng **`/planner`** — không cần đăng nhập, không cần gói Pr
 | `codebase/src/data/planner-catalog.ts` | Catalog mẫu 2 bài lab, chỉ link công khai |
 | `codebase/tests/unit/baseline-planner.test.ts` | 9 test cho luật trên |
 
-**Trạng thái:** kết quả hiện từ luật tĩnh, giao diện ghi rõ "Bản mô phỏng CP2 · chưa gọi AI". CP3 thay bằng lời gọi `/api/roadmap`; luật tĩnh giữ làm baseline và fallback (SRS FR-P09).
+**Trạng thái:** CP3 đã nối `/api/roadmap` gọi LLM thật. Luật tĩnh vẫn được giữ làm baseline và fallback có nhãn rõ ràng (SRS FR-P09).
 
 ## 4. Nộp CP2
 

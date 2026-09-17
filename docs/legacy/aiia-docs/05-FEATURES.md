@@ -381,7 +381,7 @@ Không có form. Bạn có thể vẫn dùng AI để **gợi ý** biến thể 
 **Actor:** Bất kỳ ai muốn dùng tính năng AI
 
 ### Luồng chính
-1. Vào `/settings` — có **7 ô nhập**: Gemini (khuyến nghị, dễ lấy nhất), OpenAI, Claude, DeepSeek, Groq, Cerebras, OpenRouter. Mỗi ô kèm link lấy key.
+1. Vào `/settings` — có **6 ô nhập**: Gemini (khuyến nghị, dễ lấy nhất), OpenAI, Claude, DeepSeek, Groq, Cerebras. Mỗi ô kèm link lấy key.
 2. Lưu vào `localStorage`. **Không gửi lên server để lưu.** 🚧 *Bước validate key bằng một request thử chưa làm — key sai chỉ lộ ra ở lần hỏi đầu tiên, khi badge trạng thái ở header chuyển sang màu hổ phách "Cài đặt Key (Lỗi)".*
 3. Khuyến nghị nhập **≥ 2 provider**: free-tier rất chặt (key Gemini đo được chỉ ~20 request/ngày), có provider dự phòng thì router tự chuyển khi một cái hết quota — xem F13.
 
@@ -423,7 +423,7 @@ Không có form. Bạn có thể vẫn dùng AI để **gợi ý** biến thể 
 Pseudo-code đầy đủ (kèm cơ chế peek chunk đầu và xử lý quota-theo-ngày) ở `06-AI-PIPELINE.md` mục 3 — đó là nguồn sự thật. Tóm tắt:
 
 ```
-ứngViên = 7 provider [gemini, openai, claude, deepseek, groq, cerebras, openrouter]
+ứngViên = 6 provider [gemini, openai, claude, deepseek, groq, cerebras]
           LỌC những cái người dùng CÓ key
 NẾU rỗng: need_key
 
@@ -452,7 +452,7 @@ Khác biệt lớn nhất so với thiết kế gốc: **không có bảng theo 
 | Model context không đủ cho 8 chunk | Giảm xuống 3–5 chunk tuỳ context window của model đang gọi |
 
 ### Nghiệm thu
-- [ ] Chỉ gửi key Gemini → chat hoạt động, không đụng gì tới Groq/Cerebras/OpenRouter
+- [ ] Chỉ gửi key Gemini → chat hoạt động, không đụng gì tới Groq/Cerebras
 - [ ] Gửi key Gemini + Groq, giả lập Gemini 429 → tự chuyển Groq trong cùng request
 - [ ] Không gửi key nào → `need_key`, không phải lỗi 500
 

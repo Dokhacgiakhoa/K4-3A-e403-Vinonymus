@@ -26,6 +26,7 @@ import {
   AlertCircle,
   Hash,
   HelpCircle,
+  QrCode,
 } from 'lucide-react';
 
 const surveyClientSchema = z.object({
@@ -115,10 +116,10 @@ const PAIN_POINT_OPTIONS = [
 ];
 
 const TIME_WASTED_OPTIONS = [
-  'Dưới 15 phút (Tôi tìm rất nhanh)',
-  'Từ 15 đến 30 phút',
-  'Từ 30 đến 45 phút',
-  'Trên 45 phút (Mất gần hết thời gian rảnh làm bài)',
+  'Dưới 15 phút',
+  '15 – 30 phút',
+  '30 – 45 phút',
+  'Trên 45 phút',
 ];
 
 const WORKAROUND_OPTIONS = [
@@ -202,7 +203,7 @@ export function ContactSurveyForm() {
         'Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link',
         'Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm',
       ],
-      timeWasted: 'Từ 15 đến 30 phút',
+      timeWasted: '15 – 30 phút',
       currentWorkarounds: ['Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài'],
       solutionFeasibility: 'Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian',
       wantPersonalizedRoadmap: 'Có, rất muốn — Đỡ mất công tự lên lịch học',
@@ -352,105 +353,170 @@ export function ContactSurveyForm() {
   return (
     <div className="relative overflow-hidden rounded-3xl bg-[#0f172a]/95 border border-slate-700/80 p-6 sm:p-10 shadow-2xl backdrop-blur-xl space-y-8 font-sans">
       {/* LUCKY DRAW BANNER & RULES */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0c1a2f] via-[#092231] to-[#071926] border border-teal-500/40 p-6 sm:p-8 shadow-2xl space-y-6">
-        {/* Header banner */}
-        <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 pb-4 border-b border-teal-500/20">
-          <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-teal-500/20 to-cyan-500/10 border border-teal-400/40 flex items-center justify-center shrink-0 shadow-lg shadow-teal-500/20 text-teal-300">
-            <Gift className="w-7 h-7" />
+      <div className="relative overflow-hidden rounded-2xl bg-[#0b1329] border border-slate-800/80 p-5 sm:p-8 space-y-6">
+        {/* BANNER ẢNH TRI ÂN */}
+        <div className="relative w-full h-44 sm:h-64 rounded-xl overflow-hidden">
+          <img
+            src="/images/survey-reward-banner.jpg"
+            alt="Quay Thưởng Tri Ân Học Viên Khóa 4"
+            className="w-full h-full object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b1329] via-[#0b1329]/65 to-transparent" />
+
+          {/* MÃ QR KHẢO SÁT */}
+          <div className="absolute top-3 right-3 sm:top-4 sm:right-4 z-10">
+            <a
+              href="https://k4-3a-e403-vinonymus.kailabs.io.vn/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2.5 p-2 sm:p-2.5 rounded-xl bg-slate-950/85 backdrop-blur-md border border-teal-500/40 shadow-2xl shadow-black/60 transition hover:border-teal-400 group"
+              title="Quét hoặc bấm mở link khảo sát"
+            >
+              <div className="w-14 h-14 sm:w-20 sm:h-20 bg-white rounded-lg p-1 shadow shrink-0 flex items-center justify-center group-hover:scale-105 transition">
+                <img
+                  src="/images/survey-qr.svg"
+                  alt="QR Code Khảo Sát Vinonymus"
+                  className="w-full h-full object-contain"
+                />
+              </div>
+              <div className="hidden sm:block text-left pr-1.5">
+                <div className="flex items-center gap-1.5 text-[11px] font-bold text-teal-300 uppercase tracking-wider">
+                  <QrCode className="w-3.5 h-3.5 text-teal-400" />
+                  <span>Quét Mã QR</span>
+                </div>
+                <p className="text-xs text-slate-200 font-medium leading-snug mt-0.5">
+                  Làm khảo sát<br />trên điện thoại
+                </p>
+                <span className="text-[10px] text-teal-400/80 font-mono">kailabs.io.vn/contact</span>
+              </div>
+            </a>
           </div>
-          <div className="space-y-1 text-center sm:text-left">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-teal-500/15 border border-teal-400/30 text-teal-300 text-xs font-bold uppercase tracking-wider">
-              <Award className="w-4 h-4 text-teal-400" />
-              <span>Chương Trình Tri Ân Học Viên Khóa 4 · Quay Thưởng 10 Giải</span>
+
+          <div className="absolute inset-x-4 bottom-4 sm:inset-x-6 sm:bottom-6 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+            <div className="space-y-1.5">
+              <div className="inline-flex items-center gap-1.5 text-teal-300 text-[11px] font-medium tracking-wide">
+                <Gift className="w-3.5 h-3.5" />
+                <span>Tri ân học viên làm khảo sát</span>
+              </div>
+              <h3 className="text-lg sm:text-2xl font-bold text-white tracking-tight">
+                Quay thưởng may mắn · 10 phần quà
+              </h3>
             </div>
-            <h3 className="text-lg sm:text-xl font-bold text-white tracking-wide">
-              Cơ Cấu Giải Thưởng & Thể Lệ Quay Thưởng May Mắn
-            </h3>
-            <p className="text-xs sm:text-sm text-slate-300">
-              Nhằm cảm ơn những chia sẻ thực chất của các bạn về nỗi đau khi tự học và làm bài lab, đội thi Vinonymus tổ chức quay thưởng tri ân dành riêng cho người tham gia khảo sát.
-            </p>
+            <div className="inline-flex items-center gap-1.5 text-xs text-slate-300">
+              <Clock className="w-3.5 h-3.5 text-teal-400" />
+              <span>Quay số 17h20 · 18/09/2026</span>
+            </div>
           </div>
         </div>
 
-        {/* 2 Blocks: CƠ CẤU GIẢI THƯỞNG (1 GIẢI 1 DÒNG) & THỂ LỆ QUAY THƯỞNG */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
-          {/* CỘT 1: CƠ CẤU GIẢI THƯỞNG (1 GIẢI 1 DÒNG) */}
-          <div className="rounded-2xl bg-[#0b1329]/80 border border-teal-500/30 p-4 sm:p-5 space-y-3">
-            <div className="flex items-center gap-2 text-teal-300 text-xs sm:text-sm font-bold uppercase tracking-wider">
-              <Coins className="w-4 h-4 text-teal-400" />
-              <span>Cơ Cấu 10 Giải Thưởng (Chuyển Khoản Trực Tiếp)</span>
+        {/* THÔNG ĐIỆP TRI ÂN */}
+        <p className="text-xs sm:text-sm text-slate-400 leading-relaxed max-w-3xl">
+          Toàn bộ 10 phần quà dưới đây do đội thi{' '}
+          <span className="text-slate-200 font-medium">Vinonymus (Phòng E403)</span> tổ chức để tri ân
+          những chia sẻ thực chất của các bạn về khó khăn khi tự học trên VLearn và chuẩn bị bài lab —
+          mỗi phản hồi là cơ sở giúp nhóm hoàn thiện sản phẩm.
+        </p>
+
+        {/* CƠ CẤU GIẢI THƯỞNG & THỂ LỆ */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-x-10 gap-y-6 pt-6 border-t border-slate-800/80">
+          {/* CƠ CẤU GIẢI THƯỞNG */}
+          <div className="space-y-1">
+            <div className="flex items-center justify-between pb-3">
+              <div className="flex items-center gap-2 text-slate-300 text-xs font-semibold uppercase tracking-wide">
+                <Award className="w-4 h-4 text-teal-400" />
+                <span>Cơ cấu giải thưởng</span>
+              </div>
+              <span className="text-[11px] text-slate-500">10 giải riêng biệt</span>
             </div>
 
-            <div className="space-y-2 text-xs sm:text-sm">
-              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🥇</span>
-                  <span className="font-semibold text-white">1 Giải Nhất</span>
+            <div className="divide-y divide-slate-800/80">
+              {[
+                { rank: 1, label: '1 Giải Nhất', amount: '100.000 VNĐ' },
+                { rank: 2, label: '2 Giải Nhì', amount: '50.000 VNĐ / giải' },
+                { rank: 3, label: '3 Giải Ba', amount: '20.000 VNĐ / giải' },
+                { rank: 4, label: '4 Giải Tư', amount: '10.000 VNĐ / giải' },
+              ].map((prize) => (
+                <div key={prize.rank} className="flex items-center justify-between gap-3 py-2.5">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className={`flex items-center justify-center w-6 h-6 rounded-full text-[11px] font-bold shrink-0 ${
+                        prize.rank === 1
+                          ? 'bg-amber-400/15 text-amber-300'
+                          : 'bg-slate-800 text-slate-400'
+                      }`}
+                    >
+                      {prize.rank}
+                    </span>
+                    <span className="text-xs sm:text-sm text-slate-200 font-medium">{prize.label}</span>
+                  </div>
+                  <span className="text-xs sm:text-sm font-mono font-semibold text-amber-300">
+                    {prize.amount}
+                  </span>
                 </div>
-                <span className="font-mono font-bold text-teal-300 text-sm sm:text-base">100.000 VNĐ</span>
-              </div>
-
-              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🥈</span>
-                  <span className="font-semibold text-white">2 Giải Nhì</span>
-                </div>
-                <span className="font-mono font-bold text-teal-300 text-xs sm:text-sm">Mỗi giải 50.000 VNĐ <span className="text-[11px] text-slate-400 font-normal">(tổng 100k)</span></span>
-              </div>
-
-              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🥉</span>
-                  <span className="font-semibold text-white">3 Giải Ba</span>
-                </div>
-                <span className="font-mono font-bold text-teal-300 text-xs sm:text-sm">Mỗi giải 20.000 VNĐ <span className="text-[11px] text-slate-400 font-normal">(tổng 60k)</span></span>
-              </div>
-
-              <div className="p-3 rounded-xl bg-teal-500/10 border border-teal-400/30 flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
-                  <span className="text-base">🎖️</span>
-                  <span className="font-semibold text-white">4 Giải Tư</span>
-                </div>
-                <span className="font-mono font-bold text-teal-300 text-xs sm:text-sm">Mỗi giải 10.000 VNĐ <span className="text-[11px] text-slate-400 font-normal">(tổng 40k)</span></span>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* CỘT 2: THỂ LỆ THAM GIA & QUAY THƯỞNG */}
-          <div className="rounded-2xl bg-[#0b1329]/80 border border-teal-500/30 p-4 sm:p-5 space-y-3">
-            <div className="flex items-center gap-2 text-teal-300 text-xs sm:text-sm font-bold uppercase tracking-wider">
+          {/* THỂ LỆ THAM GIA & CÁCH NHẬN THƯỞNG */}
+          <div className="space-y-3 lg:border-l lg:border-slate-800/80 lg:pl-10">
+            <div className="flex items-center gap-2 text-slate-300 text-xs font-semibold uppercase tracking-wide pb-1">
               <Clock className="w-4 h-4 text-teal-400" />
-              <span>Thể Lệ & Cách Thức Tham Gia</span>
+              <span>Thể lệ & cách nhận thưởng</span>
             </div>
 
-            <ul className="space-y-2 text-xs sm:text-sm text-slate-200">
-              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                <Hash className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span>
-                  <strong>Mã dự thưởng:</strong> Chính là <strong>Mã Học Viên</strong> duy nhất của bạn. Mỗi học viên chỉ có 1 mã dự thưởng để đảm bảo công bằng.
-                </span>
-              </li>
-
-              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                <Clock className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span>
-                  <strong>Thời gian quay số:</strong> Đúng <strong>17h20 · Ngày 18/09/2026</strong>.
-                </span>
-              </li>
-
-              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                <Wallet className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span>
-                  <strong>Hình thức nhận thưởng:</strong> Chuyển khoản trực tiếp ngay sau khi có kết quả qua ví <strong>MoMo</strong> hoặc <strong>STK Ngân Hàng</strong> bạn cung cấp.
-                </span>
-              </li>
-
-              <li className="flex items-start gap-2.5 p-2.5 rounded-xl bg-slate-900/60 border border-slate-800">
-                <Mail className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
-                <span>
-                  <strong>Xác nhận tự động:</strong> Ngay sau khi gửi khảo sát, hệ thống sẽ gửi 1 email xác nhận kèm mã học viên để bạn lưu lại đối chiếu.
-                </span>
-              </li>
+            <ul className="space-y-3">
+              {[
+                {
+                  icon: Hash,
+                  title: 'Mã dự thưởng',
+                  body: (
+                    <>
+                      Chính là <strong className="text-slate-200">mã học viên</strong> duy nhất của bạn
+                      (ví dụ: <span className="font-mono text-teal-300">02733</span>). Mỗi học viên chỉ có
+                      1 mã duy nhất để đảm bảo minh bạch và công bằng.
+                    </>
+                  ),
+                },
+                {
+                  icon: Clock,
+                  title: 'Thời gian quay số',
+                  body: (
+                    <>
+                      Tiến hành quay ngẫu nhiên vào đúng{' '}
+                      <strong className="text-slate-200">17h20 · ngày 18/09/2026</strong>.
+                    </>
+                  ),
+                },
+                {
+                  icon: Wallet,
+                  title: 'Hình thức nhận giải',
+                  body: (
+                    <>
+                      Tiền thưởng được chuyển khoản trực tiếp ngay sau khi có kết quả qua số{' '}
+                      <strong className="text-slate-200">MoMo</strong> hoặc{' '}
+                      <strong className="text-slate-200">STK ngân hàng</strong> bạn đã điền.
+                    </>
+                  ),
+                },
+                {
+                  icon: Mail,
+                  title: 'Email xác nhận',
+                  body: (
+                    <>
+                      Ngay sau khi gửi biểu mẫu, hệ thống sẽ tự động gửi một email xác nhận kèm mã học
+                      viên để bạn lưu lại đối chiếu kết quả quay thưởng.
+                    </>
+                  ),
+                },
+              ].map((rule) => (
+                <li key={rule.title} className="flex items-start gap-3">
+                  <rule.icon className="w-4 h-4 text-teal-400 shrink-0 mt-0.5" />
+                  <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    <span className="text-slate-200 font-medium">{rule.title}: </span>
+                    {rule.body}
+                  </p>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
@@ -466,7 +532,7 @@ export function ContactSurveyForm() {
           Bản Khảo Sát Thực Nghiệm: Hệ Thống Adaptive Learning (AI Mentor & AI Helpdesk)
         </h2>
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed max-w-3xl">
-          Ý kiến khách quan của bạn là cơ sở thực chứng quan trọng để nhóm Vinonymus (Phòng E403) chứng minh nỗi đau và hoàn thiện giải pháp tại Mini Hackathon AI Batch 04.
+          Ý kiến khách quan của bạn là cơ sở thực chứng quan trọng để nhóm Vinonymus (Phòng E403) chứng minh nỗi đau và hoàn thiện giải pháp tại Mini Hackathon · K4 · Lab 3A · Track E.
         </p>
       </div>
 
@@ -916,11 +982,11 @@ export function ContactSurveyForm() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {/* Câu 9: Đánh giá tổng thể ý tưởng (Star Rating) */}
-            <div className="p-4 rounded-2xl bg-[#0b1329]/70 border border-slate-800 space-y-2.5">
+            <div className="space-y-2">
               <label className="block text-xs font-semibold text-white">
                 Câu 9: Đánh giá tổng thể ý tưởng sản phẩm (1 - 5 sao) <span className="text-rose-400">*</span>
               </label>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 p-2.5 rounded-xl bg-[#0b1329]/70 border border-slate-700/80 w-fit">
                 {[1, 2, 3, 4, 5].map((star) => {
                   const isFilled =
                     (hoveredOverall !== null ? hoveredOverall : overallRating) >= star;

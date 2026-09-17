@@ -2,7 +2,7 @@
 
 ## 1. `POST /api/roadmap` — tạo kế hoạch tự học
 
-> **Trạng thái:** đã có route handler và FE tại `/planner` đã gọi API. Người phụ trách: Minh.
+> **Trạng thái:** đã build cho CP3; FE tại `/planner` gọi LLM thật qua router đa nhà cung cấp, có fallback baseline. Người phụ trách: Minh.
 
 ### Request
 
@@ -13,16 +13,16 @@ Header API key là tuỳ chọn. FE lấy key từ `localStorage` và gửi tron
 | `x-gemini-key` | Gemini |
 | `x-openai-key` | OpenAI |
 | `x-claude-key` | Claude |
-| `x-groq-key`, `x-cerebras-key`, `x-deepseek-key`, `x-openrouter-key` | Khác |
-| `x-fpt-key` | FE/API nhận key, nhưng router hiện chưa đăng ký FPT adapter; chỉ có key này sẽ rơi về `baseline` |
+| `x-groq-key`, `x-cerebras-key`, `x-deepseek-key` | Khác |
+| `x-fpt-key` | FPT AI Factory |
 
-Router thử các provider có key theo thứ tự Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras → OpenRouter. Model được cố định trong từng adapter, FE chưa cho chọn model. Lỗi trước token đầu tiên có thể chuyển sang provider kế tiếp; key sai (401/403) dừng thử và Planner dùng `baseline`. Lỗi sau token đầu tiên hoặc JSON LLM sai cũng khiến Planner dùng `baseline`.
+Router thử các provider có key theo thứ tự FPT → Gemini → OpenAI → Claude → DeepSeek → Groq → Cerebras. Model được cố định trong từng adapter, FE chưa cho chọn model. Lỗi trước token đầu tiên có thể chuyển sang provider kế tiếp; key sai (401/403) dừng thử. Không có key, provider lỗi hoặc output không hợp lệ thì Planner dùng `baseline`.
 
 Body:
 
 ```json
 {
-  "background": "tech",
+  "background": "tech_base",
   "available_minutes": 90,
   "lab_id": "lab-prompt-tool-calling",
   "note": "Mình chưa quen notebook Colab"
@@ -31,7 +31,7 @@ Body:
 
 | Trường | Kiểu | Ràng buộc |
 |---|---|---|
-| `background` | `"tech" \| "non_tech"` | bắt buộc |
+| `background` | `"non_tech" \| "tech_base" \| "ai"` | bắt buộc |
 | `available_minutes` | integer | 0–600 |
 | `lab_id` | string không rỗng | phải có trong catalog, nếu không → `clarify` |
 | `note` | string | tuỳ chọn, ≤500 ký tự, coi là dữ liệu |
@@ -45,7 +45,7 @@ Luôn có trường `status`, một trong ba giá trị:
   "status": "plan",
   "source": "ai",
   "diagnosis": {
-    "background": "tech",
+    "background": "tech_base",
     "confidence": "high",
     "summary": "Đã quen code, còn thiếu thao tác notebook."
   },

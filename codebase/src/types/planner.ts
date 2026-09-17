@@ -1,4 +1,4 @@
-export type PlannerBackground = 'tech' | 'non_tech';
+export type PlannerBackground = 'non_tech' | 'tech_base' | 'ai';
 
 export type CatalogItemType = 'slide' | 'video' | 'notebook' | 'doc';
 

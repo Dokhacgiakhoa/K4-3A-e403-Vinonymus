@@ -1,7 +1,7 @@
 # Báo cáo: Phase 3 & 4 — Trải nghiệm đầy đủ & Sẵn sàng Production
 
 ## 1. Đối chiếu checklist
-- [x] **Cài đặt & BYOK (F12)** — Trang [`/settings`](file:///d:/Github/AIIA-Notebook/src/app/settings/page.tsx) tích hợp `<ApiKeyManager>` quản lý API Key Gemini, Groq, Cerebras, OpenRouter, lưu vĩnh viễn ở `localStorage` client, không có API endpoint nào lưu key phía server.
+- [x] **Cài đặt & BYOK (F12)** — Trang [`/settings`](file:///d:/Github/AIIA-Notebook/src/app/settings/page.tsx) tích hợp `<ApiKeyManager>` quản lý API Key Gemini, Groq, Cerebras, lưu vĩnh viễn ở `localStorage` client, không có API endpoint nào lưu key phía server.
 - [x] **Lịch sử hội thoại (F05)** — Module [`src/lib/client-storage.ts`](file:///d:/Github/AIIA-Notebook/src/lib/client-storage.ts) quản lý hội thoại tại `localStorage`, sidebar `<ChatSidebar>` hỗ trợ "Cuộc trò chuyện mới", client tự gửi 6 lượt ngữ cảnh gần nhất.
 - [x] **Đánh giá câu trả lời (F06)** — `<FeedbackButtons>` hỗ trợ 👍/👎 kèm lý do, gửi tới `POST /api/chat/feedback` ([`src/app/api/chat/feedback/route.ts`](file:///d:/Github/AIIA-Notebook/src/app/api/chat/feedback/route.ts)) kèm `clientSessionId` ẩn danh.
 - [x] **Bộ nhớ đệm ngữ nghĩa (F04)** — Module [`src/lib/rag/cache.ts`](file:///d:/Github/AIIA-Notebook/src/lib/rag/cache.ts) tra cứu `semantic_cache` qua hash câu hỏi (không cần key để đọc), lưu cache tự động với TTL 7 ngày.

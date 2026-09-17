@@ -20,7 +20,7 @@
 | V4 | Workflow nằm ở `codebase/.github/` → **GitHub không chạy** | GitHub chỉ đọc `.github/` ở gốc repo; PR #41 chỉ có 2 check của Vercel | Không có CI verify; README ghi "GitHub Actions — Đang chạy" là sai |
 | V5 | Husky pre-push **không được cài** | `git config core.hooksPath` rỗng; `.husky/` nằm trong `codebase/` còn `.git` ở gốc | Quy ước "verify trước khi push" trong AGENTS.md không được ép |
 | V6 | `tasks.md` và GitHub Issues lệch nhau | T2-01, T2-02 ✅ trong file nhưng issue #2, #3 còn mở | Hai nguồn sự thật, không biết tin bên nào |
-| V7 | Kế hoạch đặt `eval/run-eval.ts` ở gốc | `tasks.md` T3-07 | Từ gốc không resolve được alias `@/` của `codebase/tsconfig.json` → script không import được planner |
+| V7 | Runner eval cần chạy từ thư mục gốc `eval/` | `eval/run-eval.ts` dùng import tương đối vào `codebase/`; `npm run eval` trỏ đúng runner | ✅ Đã giải quyết |
 | V8 | `npm run audit` sinh `codebase/docs/reports/` mà không bị ignore | `git status` sau `npm run verify` | Dễ commit nhầm file báo cáo |
 | V9 | Code/tài liệu dự án nền chiếm phần lớn repo | 632 file tracked; `docs/legacy/` 255 file; .NET (`backend-core`, `backend-services`, `database`) 55 file | Giám khảo khó tìm lát cắt dự thi |
 | V10 | `codebase/CLAUDE.md`, `codebase/AGENTS.md` (bị gitignore, chỉ có trên máy Khoa) còn quy ước của "AIIA Notebook" | trỏ tới `docs/06-AI-PIPELINE.md`, `docs/09-...` không tồn tại | AI agent trên máy Khoa đọc hai bộ quy ước mâu thuẫn |
@@ -43,8 +43,8 @@ Tên thư mục ở gốc giữ đúng khung BTC (R7 chấm theo tên). Chỉ d�
 │   ├── src/app/planner · src/app/api/roadmap
 │   ├── src/lib/{llm,planner,prompts}
 │   ├── src/data/planner-catalog.ts
-│   └── scripts/run-eval.ts         ← runner eval (import được "@/…")
-├── eval/                           ← chỉ dữ liệu: golden-set.json, results.md
+│   └── scripts/                     ← script vận hành app
+├── eval/                           ← CP3: golden-set.json, run-eval.ts, run_results.md
 ├── validation/ · reflection/
 └── docs/                           ← SRS, kiến trúc, API, AI pipeline, UI flow, research/, hackathon/
 ```
@@ -77,7 +77,7 @@ for n in 1 26 37 39; do gh issue edit $n --add-assignee minh-tran-2611,dinhngocd
 
 | ID | Việc | Phụ trách | Hỗ trợ | Hoàn thành khi |
 |---|---|---|---|---|
-| F1-1 | Báo Đức: runner eval đặt ở `codebase/scripts/run-eval.ts`, đọc `../eval/golden-set.json`, ghi kết quả ra `../eval/` (V7). Sửa dòng T3-07 trong `tasks.md` | `@Khoa` | `@Duc` | Đức xác nhận trước khi bắt đầu T3-07 |
+| F1-1 | Chuyển runner về `eval/run-eval.ts`, dùng import tương đối vào `codebase/` và cập nhật T3-07 | `@Khoa` | `@Duc` | ✅ Runner chạy được qua `npm run eval` |
 | F1-2 | Thêm `codebase/docs/reports/` vào `.gitignore` (V8) | `@Minh` | — | `git status` sạch sau `npm run verify` |
 | F1-3 | Tạo `.github/workflows/verify.yml` ở gốc: Node 22, `working-directory: codebase`, `npm ci`, `npm run verify` (V4) | `@Minh` | `@Khoa` | Check "verify" hiện trên PR và xanh |
 | F1-4 | Chuyển `keepalive.yml`, `sync-content.yml` lên `.github/workflows/`, sửa `paths`/`working-directory` cho đúng `codebase/`; nếu không cần thì xoá | `@Minh` | — | Không còn `codebase/.github/` |
@@ -100,7 +100,7 @@ Mẫu `CODEOWNERS` (điền sau F0-1):
 /codebase/src/lib/prompts/          @dinhngocduc1311
 /codebase/src/data/planner-catalog.ts @dinhngocduc1311
 /eval/                              @dinhngocduc1311
-/codebase/scripts/run-eval.ts       @dinhngocduc1311
+/eval/run-eval.ts                      @dinhngocduc1311
 /codebase/src/components/planner/   @thanhnvhust514
 /codebase/src/app/planner/          @thanhnvhust514
 /docs/05-ui-flow.md                 @thanhnvhust514

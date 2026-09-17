@@ -199,8 +199,8 @@ Chỉ còn một mục duy nhất: **API key**. Đây là màn hình onboarding 
 │                                              │
 │ ┌─ Thêm provider khác (tuỳ chọn) ▾ ────────┐ │
 │ │ OpenAI · Claude · DeepSeek                │ │
-│ │ Groq · Cerebras · OpenRouter              │ │
-│ │ (7 ô nhập tất cả, mỗi ô có link lấy key)  │ │
+│ │ Groq · Cerebras                           │ │
+│ │ (6 ô nhập tất cả, mỗi ô có link lấy key)  │ │
 │ │ Thêm nhiều hơn 1 để AI tự chuyển nếu một  │ │
 │ │ provider bị giới hạn tạm thời.            │ │
 │ └────────────────────────────────────────────┘│
