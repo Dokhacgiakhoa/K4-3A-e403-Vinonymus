@@ -145,46 +145,69 @@ app.MapPost("/api/v1/admin/users/{id:guid}/approval", async (ApplicationDbContex
         : Results.Ok(new { success = true, data = profile });
 });
 
-// 1. Curriculum Modules (SFIA L0 - L4) - Hỗ trợ lọc theo Track (NonTech, TechBase, AiBase, Universal)
-app.MapGet("/api/v1/curriculum/modules", async (ApplicationDbContext db, Guid? userId, string? track) =>
+// Người dùng luôn lấy từ token (tài khoản đang hoạt động và đã duyệt), không lấy userId do trình duyệt gửi lên.
+static async Task<Guid?> CurrentUserIdAsync(ApplicationDbContext db, HttpContext http, IConfiguration config)
 {
+    var userId = AuthWebService.ValidateAndExtractUserId(http.Request.Headers["Authorization"].FirstOrDefault(), config);
+    if (!userId.HasValue) return null;
+    var user = await AuthWebService.GetActiveApprovedUserAsync(db, userId.Value);
+    return user?.Id;
+}
+
+static IResult LoginRequired() =>
+    Results.Json(new { success = false, message = "Bạn cần đăng nhập bằng tài khoản đã được duyệt." }, statusCode: StatusCodes.Status401Unauthorized);
+
+// 1. Curriculum Modules (SFIA L0 - L4) - Hỗ trợ lọc theo Track (NonTech, TechBase, AiBase, Universal)
+// Không đăng nhập vẫn xem được danh sách; đăng nhập thì kèm tiến độ của chính mình.
+app.MapGet("/api/v1/curriculum/modules", async (ApplicationDbContext db, HttpContext http, IConfiguration config, string? track) =>
+{
+    var userId = await CurrentUserIdAsync(db, http, config);
     var modules = await CurriculumWebService.GetModulesAsync(db, userId, track);
     return Results.Ok(new { success = true, data = modules });
 });
 
 // 1.1 Curriculum Module Detail & Topics (Coursera Standard)
-app.MapGet("/api/v1/curriculum/modules/{id:guid}", async (ApplicationDbContext db, Guid id, Guid? userId) =>
+app.MapGet("/api/v1/curriculum/modules/{id:guid}", async (ApplicationDbContext db, HttpContext http, IConfiguration config, Guid id) =>
 {
+    var userId = await CurrentUserIdAsync(db, http, config);
     var detail = await CurriculumWebService.GetModuleDetailAsync(db, id, userId);
     if (detail == null) return Results.NotFound(new { success = false, message = "Không tìm thấy chuyên đề." });
     return Results.Ok(new { success = true, data = detail });
 });
 
 // 1.2 Enroll Course (0đ)
-app.MapPost("/api/v1/curriculum/enroll", async (ApplicationDbContext db, EnrollCourseRequest req) =>
+app.MapPost("/api/v1/curriculum/enroll", async (ApplicationDbContext db, HttpContext http, IConfiguration config, EnrollCourseRequest req) =>
 {
-    var success = await CurriculumWebService.EnrollCourseAsync(db, req.UserId, req.ModuleId);
+    var userId = await CurrentUserIdAsync(db, http, config);
+    if (!userId.HasValue) return LoginRequired();
+    var success = await CurriculumWebService.EnrollCourseAsync(db, userId.Value, req.ModuleId);
     return Results.Ok(new { success, message = "Ghi danh khóa học thành công." });
 });
 
 // 1.3 Unenroll Course
-app.MapPost("/api/v1/curriculum/unenroll", async (ApplicationDbContext db, EnrollCourseRequest req) =>
+app.MapPost("/api/v1/curriculum/unenroll", async (ApplicationDbContext db, HttpContext http, IConfiguration config, EnrollCourseRequest req) =>
 {
-    var success = await CurriculumWebService.UnenrollCourseAsync(db, req.UserId, req.ModuleId);
+    var userId = await CurrentUserIdAsync(db, http, config);
+    if (!userId.HasValue) return LoginRequired();
+    var success = await CurriculumWebService.UnenrollCourseAsync(db, userId.Value, req.ModuleId);
     return Results.Ok(new { success, message = "Đã hủy ghi danh khóa học." });
 });
 
 // 1.4 Toggle Topic Progress
-app.MapPost("/api/v1/curriculum/progress/toggle", async (ApplicationDbContext db, ToggleTopicProgressRequest req) =>
+app.MapPost("/api/v1/curriculum/progress/toggle", async (ApplicationDbContext db, HttpContext http, IConfiguration config, ToggleTopicProgressRequest req) =>
 {
-    var success = await CurriculumWebService.ToggleTopicProgressAsync(db, req.UserId, req.ModuleId, req.TopicId);
+    var userId = await CurrentUserIdAsync(db, http, config);
+    if (!userId.HasValue) return LoginRequired();
+    var success = await CurriculumWebService.ToggleTopicProgressAsync(db, userId.Value, req.ModuleId, req.TopicId);
     return Results.Ok(new { success, message = "Cập nhật tiến độ bài học thành công." });
 });
 
 // 1.5 Get Certificate
-app.MapGet("/api/v1/curriculum/certificates", async (ApplicationDbContext db, Guid userId, Guid moduleId) =>
+app.MapGet("/api/v1/curriculum/certificates", async (ApplicationDbContext db, HttpContext http, IConfiguration config, Guid moduleId) =>
 {
-    var cert = await CurriculumWebService.GetCertificateAsync(db, userId, moduleId);
+    var userId = await CurrentUserIdAsync(db, http, config);
+    if (!userId.HasValue) return LoginRequired();
+    var cert = await CurriculumWebService.GetCertificateAsync(db, userId.Value, moduleId);
     if (cert == null) return Results.NotFound(new { success = false, message = "Chưa có chứng chỉ cho chuyên đề này." });
     return Results.Ok(new { success = true, data = cert });
 });
@@ -209,15 +232,17 @@ app.MapPost("/api/v1/quizzes/submit", (SubmitQuizRequest request) =>
 });
 
 // 4. Payments VietQR Invoice (Pro Upgrade)
-app.MapPost("/api/v1/payments/vietqr", (CreatePaymentDto dto) =>
+app.MapPost("/api/v1/payments/vietqr", async (ApplicationDbContext db, HttpContext http, IConfiguration config, CreatePaymentDto dto) =>
 {
-    var invoice = PaymentService.GenerateVietQrInvoice(dto.UserId, dto.AmountVnd, dto.PlanName);
+    var userId = await CurrentUserIdAsync(db, http, config);
+    if (!userId.HasValue) return LoginRequired();
+    var invoice = PaymentService.GenerateVietQrInvoice(userId.Value, dto.AmountVnd, dto.PlanName);
     return Results.Ok(new { success = true, data = invoice });
 });
 
 app.Run();
 
-public record CreatePaymentDto(Guid UserId, decimal AmountVnd, string PlanName);
+public record CreatePaymentDto(decimal AmountVnd, string PlanName);
 public record SetApprovalRequest(string Status);
 
 public partial class Program
