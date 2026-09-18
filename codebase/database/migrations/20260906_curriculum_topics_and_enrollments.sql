@@ -3,6 +3,8 @@
 -- HỆ THỐNG QUẢN LÝ BÀI HỌC, GHI DANH KHÓA HỌC & CHỨNG CHỈ SỐ SFIA
 -- =========================================================================
 
+SET search_path TO app, public;
+
 -- 1. BẢNG CHI TIẾT BÀI HỌC LÝ THUYẾT (CURRICULUM TOPICS)
 CREATE TABLE IF NOT EXISTS curriculum_topics (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

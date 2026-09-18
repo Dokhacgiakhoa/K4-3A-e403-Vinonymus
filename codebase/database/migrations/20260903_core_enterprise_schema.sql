@@ -6,6 +6,10 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "vector";
 
+-- Phần FAQ/RAG cũ tiếp tục ở public. Toàn bộ dữ liệu nghiệp vụ .NET ở app.
+CREATE SCHEMA IF NOT EXISTS app;
+SET search_path TO app, public;
+
 -- 1. BẢNG NGƯỜI DÙNG & HẠN MỨC (USERS & QUOTAS)
 CREATE TABLE IF NOT EXISTS users (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),

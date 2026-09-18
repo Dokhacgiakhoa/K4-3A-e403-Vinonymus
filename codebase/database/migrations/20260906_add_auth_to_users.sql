@@ -3,6 +3,8 @@
 -- BỔ SUNG CỘT BẢO MẬT & PHÂN QUYỀN VÀO BẢNG USERS
 -- =========================================================================
 
+SET search_path TO app, public;
+
 -- 1. Thêm cột password_hash để lưu chuỗi băm BCrypt
 ALTER TABLE users ADD COLUMN IF NOT EXISTS password_hash VARCHAR(255);
 

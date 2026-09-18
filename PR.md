@@ -1,40 +1,46 @@
-# PR: Tích hợp báo cáo phân tích khảo sát học viên sạch và ẩn danh hóa vào Admin Cockpit
+# PR: Prepare isolated Supabase database for .NET backend
 
-> **Task:** Admin Survey Analytics · **Issue:** — · **Branch:** `feat/admin-survey-analytics`
-> **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) · **Hỗ trợ:** Antigravity AI
+> **Task:** D-01 · **Issue:** #84 · **Branch:** `feat/D-01-supabase-dotnet-database`
+> **Người thực hiện:** Trần Nhật Minh (`@Minh`) · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-Nâng cấp bảng điều khiển Admin Cockpit (`/admin`) để trực quan hóa toàn bộ kết quả phân tích thực nghiệm từ khảo sát học viên Khóa 4 (Track E Evidence). Tích hợp engine làm sạch dữ liệu (Data Cleansing Engine), khử trùng lặp, lọc các bản ghi thử nghiệm, và đóng gói tập dữ liệu mẫu đã ẩn danh hóa 100% thông tin cá nhân (PII) theo đúng Bất biến #1 của repo.
+
+Tách bảng nghiệp vụ của backend .NET vào schema `app`, không lẫn với FAQ/RAG
+hiện có ở `public`. Chuẩn bị quy trình tạo role `aiia_backend` theo nguyên tắc
+ít quyền và kết nối backend mà không đưa secret vào repo.
 
 ## 2. Truy vết
+
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Giao diện phân tích khảo sát Admin | `spec.md` §1 (Evidence khảo sát học viên n = 82, n = 51 sạch) |
-| Engine làm sạch và ẩn danh hóa PII | `AGENTS.md` Bất biến #1 (Không commit PII, email, số tài khoản) |
-| Tích hợp vào Admin Cockpit View | `codebase/src/components/views/admin/admin-cockpit-dashboard-view.tsx` |
+| Schema `app`, migration và role backend | D-01 / #84 |
 
 ## 3. File thay đổi
+
 | File | Thay đổi |
 |---|---|
-| `codebase/src/components/views/admin/admin-cockpit-dashboard-view.tsx` | Chuyển đổi khu vực mock thanh toán sang nhúng component `<SurveyAnalyticsView />` và cập nhật 4 thẻ KPI khảo sát thực tế |
-| `codebase/src/components/admin/survey-analytics-view.tsx` | Component hiển thị báo cáo khảo sát (chỉ số làm sạch, biểu đồ phân phối, xếp hạng nỗi đau & tính năng, xuất CSV) |
-| `codebase/src/data/survey-cleaned-sample.json` | Bộ dữ liệu khảo sát mẫu đã làm sạch và ẩn danh hóa 100% PII |
-| `codebase/src/lib/survey/data-cleaner.ts` | Engine làm sạch dữ liệu, khử trùng lặp, tính toán KPI và biểu đồ phân phối |
-| `codebase/tests/unit/data-cleaner.test.ts` | 5 unit test kiểm thử logic làm sạch dữ liệu và ẩn danh hóa an toàn |
-| `.claude/launch.json` | Cấu hình chạy local dev server |
-| `PR.md` | Bản mô tả PR theo quy ước repo |
+| `codebase/database/migrations/*.sql` | Đặt migration .NET vào schema `app`. |
+| `codebase/backend-core/src/Infrastructure/Data/*` | EF Core mặc định dùng `app`; quota SQL chỉ rõ schema. |
+| `docs/supabase-dotnet-setup.md` | Đề xuất, lệnh vận hành và kiểm thử bàn giao. |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-01. |
 
 ## 4. Kiểm thử
-- `npm run verify` chạy trong `codebase/`:
-  - `next lint`: Hoàn thành, 0 lỗi.
-  - `tsc --noEmit`: Typecheck sạch 100%.
-  - `vitest run`: 17/17 test files passed, 94/94 tests passed (bao gồm cả 5 test mới trong `data-cleaner.test.ts`).
-  - `audit`: Đã rà soát 53 file FAQ, 0 lỗi.
-  - `next build`: Biên dịch production thành công, 24/24 static pages generated.
-- Kiểm thử hiển thị không phụ thuộc file gitignored `survey-responses-raw.json`.
+
+- Chưa chạy migration/kết nối Supabase: workspace không có Supabase CLI, project
+  Supabase đang đăng nhập hoặc connection string cho role backend.
+- `dotnet test --no-restore` đã thử chạy nhưng máy hiện không cài .NET SDK
+  (`dotnet` không được nhận diện), nên chưa có kết quả test .NET.
+- Guard tĩnh cho 5 migration và wiring EF Core: pass. `git diff --check` toàn
+  repo bị chặn bởi các đường dẫn legacy vượt giới hạn Windows, không liên quan
+  đến thay đổi D-01.
 
 ## 5. Tài liệu & changelog
-- Dữ liệu và phương pháp làm sạch khớp với ghi chú trong `docs/research/survey-data-review.md` và `spec.md` §1.
+
+- Thêm `docs/supabase-dotnet-setup.md`.
 
 ## 6. Rủi ro / việc còn lại
-- Không có. File raw JSON chứa PII vẫn được giữ nguyên trong `.gitignore` không bị rò rỉ.
+
+- Cần @Khoa duyệt schema `app`, quyền quản trị project Supabase để chạy migration
+  và tạo role, sau đó kiểm thử backend đọc `app.users`.
+
+Closes #84
