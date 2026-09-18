@@ -42,5 +42,8 @@ Supabase Auth; role backend chỉ được đọc và thêm log, không được
 
 - API gọi audit log sẽ được tích hợp trong các task backend duyệt tài khoản/tài liệu.
 - Log được thiết kế append-only ở quyền ứng dụng; thao tác xoá khẩn cấp cần DBA.
+- Khi review (Khoa) đã thêm `REVOKE UPDATE, DELETE, TRUNCATE` vì default privileges
+  của schema `app` từ D-01 tự cấp quyền sửa/xoá cho `aiia_backend`. Database
+  Supabase đã chạy migration bản cũ cần chạy lại lệnh REVOKE này.
 
 Closes #87
