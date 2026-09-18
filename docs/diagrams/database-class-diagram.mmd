@@ -145,6 +145,18 @@ classDiagram
         +DateTime createdAt
     }
 
+    class LectureDocumentChunk {
+        +UUID id PK
+        +UUID documentId <<required FK>>
+        +int revision
+        +int ordinal
+        +string content
+        +string headingPath
+        +int tokenCount
+        +vector embedding768
+        +DateTime createdAt
+    }
+
     class ReviewDecision {
         <<enumeration>>
         approved
@@ -237,5 +249,6 @@ classDiagram
     AppUser "1" --> "0..*" LectureDocument : owns
     LectureDocument "1" --> "0..*" LectureDocumentVersion : versions
     LectureDocument "1" --> "0..*" LectureDocumentReview : reviews
+    LectureDocument "1" --> "0..*" LectureDocumentChunk : chunks
     AppUser "1" --> "0..*" LectureDocumentReview : reviews
     AppUser "1" --> "0..*" LectureDocumentVersion : creates
