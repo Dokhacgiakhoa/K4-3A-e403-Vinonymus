@@ -1,46 +1,25 @@
-# PR: Add lecturer document versions and approval history
+# PR: Cập nhật sơ đồ database theo migration (D-06)
 
-> **Task:** D-02 · **Issue:** #85 · **Branch:** `feat/D-02-lecture-documents`
-> **Người thực hiện:** Trần Nhật Minh (`@Minh`) · **Hỗ trợ:** —
+> **Task:** D-06 · **Issue:** #89 · **Branch:** `feat/D-06-database-diagram`
 
-## 1. Mục tiêu
+## Tóm tắt
 
-Thêm ba bảng PostgreSQL thuần cho quy trình tài liệu giảng viên trong schema
-`app`: tài liệu, snapshot phiên bản và lịch sử duyệt. Thiết kế dùng `app.users`
-thay cho Supabase Auth/profiles của PR cũ.
+Cập nhật `docs/diagrams/database-class-diagram.mmd` để phản ánh đúng schema
+`app` hiện tại. Sơ đồ gồm toàn bộ bảng từ D-01 đến D-04, các cột chính, khóa
+chính/duy nhất, quan hệ khóa ngoại và vector `embedding(768)` của D-03.
 
-## 2. Truy vết
+## Kiểm tra thật
 
-| Thay đổi | Yêu cầu liên quan |
-|---|---|
-| `lecture_documents`, versions, reviews | D-02 / #85; thiết kế nền từ PR #69 |
-| Sơ đồ quan hệ và FK tới `app.users` | D-02 / D-01 |
+- Đối chiếu trực tiếp với Supabase `information_schema`: đủ **16/16 bảng**,
+  không có bảng thừa hoặc thiếu.
+- Xác nhận database có **17 khóa ngoại**; các quan hệ FK tương ứng đã được thể
+  hiện trong sơ đồ.
+- Kiểm tra cú pháp Mermaid cơ bản: **16 class**, tên class duy nhất, dấu `{}` cân
+  bằng (`16/16`), `git diff --check` không có lỗi trong các file D-06.
 
-## 3. File thay đổi
+Không thay đổi dữ liệu hoặc migration; chỉ cập nhật tài liệu sơ đồ và trạng thái
+task.
 
-| File | Thay đổi |
-|---|---|
-| `codebase/database/migrations/20260918_lecture_documents_review.sql` | Tạo bảng tài liệu, phiên bản, lịch sử duyệt; index, CHECK, FK và quyền role backend. |
-| `docs/diagrams/database-class-diagram.mmd` | Bổ sung quan hệ tài liệu–phiên bản–duyệt và `AppUser`. |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-02. |
-| `PR.md` | Ghi kiểm thử thật của PR này. |
+## Issue liên quan
 
-## 4. Kiểm thử
-
-- Migration chạy thành công trên Supabase: `20260918_lecture_documents_review.sql`.
-- Chạy lại lần hai thành công (idempotent).
-- Kiểm tra schema: đủ 3 bảng; tổng `41` constraint (FK/CHECK/UNIQUE).
-- Kết nối bằng role `aiia_backend`: đọc thành công cả ba bảng; dữ liệu ban đầu
-  `documents=0`, `versions=0`, `reviews=0`.
-- Không ghi connection string hoặc secret vào repository/log.
-
-## 5. Tài liệu & changelog
-
-- Cập nhật `docs/diagrams/database-class-diagram.mmd` theo đúng migration.
-
-## 6. Rủi ro / việc còn lại
-
-- API tạo phiên bản, gửi duyệt và duyệt tài liệu thuộc các task backend tiếp theo.
-- Cần @Khoa review schema trước khi merge.
-
-Closes #85
+Closes #89
