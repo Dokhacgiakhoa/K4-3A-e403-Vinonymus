@@ -21,6 +21,7 @@ Nộp slide 6 trang PDF cho CP5 (hạn 13:00 · 18/9) theo `02-guide.md` §5.1: 
 |---|---|
 | `demo-slides.pdf` | Slide 6 trang (vị trí README đã hẹn) |
 | `docs/hackathon/cp5/demo-slides.html` | Bản nguồn để sửa và xuất lại PDF |
+| `docs/hackathon/cp5/slide-content.md` | Nội dung 6 slide (tiêu đề, nội dung, nguồn, lời nói) để đưa vào NotebookLM tạo PDF |
 | `PR.md` | Mô tả PR này |
 
 ## 4. Kiểm thử
