@@ -9,10 +9,10 @@
 
 | Tag | Họ tên | Vai trò | GitHub |
 |---|---|---|---|
-| `@Khoa` | Đỗ Khắc Gia Khoa (đội trưởng) | PM · Backend (từ 18/9) | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) |
+| `@Khoa` | Đỗ Khắc Gia Khoa (đội trưởng) | PM · Backend · giao diện Student, Viewer (từ 18/9) | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) |
 | `@Minh` | Trần Nhật Minh | Database (từ 18/9; trước đó BE) | [@minh-tran-2611](https://github.com/minh-tran-2611) |
-| `@Duc` | Đinh Ngọc Đức | AI · Giao diện | [@dinhngocduc1311](https://github.com/dinhngocduc1311) |
-| `@Thanh` | Nguyễn Việt Thành | Giao diện · AI | [@thanhnvhust514](https://github.com/thanhnvhust514) |
+| `@Duc` | Đinh Ngọc Đức | AI Helpdesk · giao diện Admin, Lecturer | [@dinhngocduc1311](https://github.com/dinhngocduc1311) |
+| `@Thanh` | Nguyễn Việt Thành | AI Mentor | [@thanhnvhust514](https://github.com/thanhnvhust514) |
 
 **Quy tắc:** mỗi việc có đúng **1 người phụ trách** (chịu trách nhiệm cuối và phải giải thích được khi giám khảo hỏi). Người hỗ trợ giúp làm, không thay người phụ trách. Việc nộp form luôn do `@Khoa` làm bằng mã 02733.
 
