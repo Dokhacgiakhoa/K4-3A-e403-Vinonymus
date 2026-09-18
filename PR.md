@@ -1,49 +1,43 @@
-# PR: Add audit log for account and document actions
+# PR: Prioritize direct learner notes in AI planner
 
-> **Task:** D-04 · **Issue:** #87 · **Branch:** `feat/D-04-audit-log`
-> **Người thực hiện:** Trần Nhật Minh (`@Minh`) · **Hỗ trợ:** —
+> **Task:** AI Mentor golden set · **Issue:** #98 · **Branch:** `fix/mentor-golden-g02`
+> **Người thực hiện:** Thành với Codex · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
+Sửa case G02 của AI golden set: học viên tech-base đã biết code nhưng ghi rõ chưa hiểu tool calling/function calling thì tài liệu `ptc-function-calling` phải được ưu tiên trước khi lọc theo quỹ thời gian.
 
-Thêm bảng audit append-only trong schema `app` để ghi ai thực hiện thao tác gì,
-lên tài nguyên nào và lúc nào. Thiết kế dùng `app.users`, không phụ thuộc
-Supabase Auth; role backend chỉ được đọc và thêm log, không được sửa/xoá.
+Thay đổi chỉ nằm ở bước materialize output LLM về catalog đã kiểm chứng. Link, title, minutes vẫn lấy từ catalog, không tin trực tiếp vào dữ liệu model sinh ra.
 
 ## 2. Truy vết
-
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| `app.platform_audit` và index thời gian | D-04 / #87; D-01 / #84 |
-| Actor FK và loại tài nguyên account/document | D-02 / #85 |
+| Ưu tiên item khớp trực tiếp ghi chú học viên trước khi lọc thời lượng | `spec.md` §7 quality bar; `docs/04-ai-pipeline.md` guardrail catalog |
+| Thêm regression test cho G02 khi model xếp `ptc-function-calling` ở vị trí muộn | Golden set G02 trong `eval/golden-set.json` |
 
 ## 3. File thay đổi
-
 | File | Thay đổi |
 |---|---|
-| `codebase/database/migrations/20260918_platform_audit.sql` | Tạo audit log, CHECK/FK, index thời gian/resource/actor và quyền append-only. |
-| `docs/diagrams/database-class-diagram.mmd` | Bổ sung `PlatformAudit` và `AuditResourceType`. |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-04. |
-| `PR.md` | Ghi kiểm thử thật của PR này. |
+| `codebase/src/lib/planner/ai-planner.ts` | Thêm ranking hậu xử lý cho các item LLM chọn: khớp ghi chú học viên, ưu tiên `core`, giữ fallback an toàn qua catalog |
+| `codebase/tests/unit/ai-planner.test.ts` | Thêm test đảm bảo `ptc-function-calling` được đưa lên trước khi tổng thời lượng bị cắt |
+| `eval/latest-baseline-results.json` | Artifact sau khi chạy baseline eval |
+| `eval/latest-ai-results.json` | Artifact sau khi chạy AI eval thật |
+| `eval/run_results.md` | Ghi kết quả eval mới |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Đánh dấu A-01 #98 đã hoàn thành theo điều kiện issue |
+| `PR.md` | Mô tả PR hiện tại |
 
 ## 4. Kiểm thử
+- `npx.cmd vitest run tests/unit/ai-planner.test.ts tests/unit/baseline-planner.test.ts` → pass, 14/14 tests.
+- `npx.cmd tsx ../eval/run-eval.ts baseline` → pass, 50/50 = 100%.
+- `npx.cmd tsx ../eval/run-eval.ts ai` → fail tổng bộ theo chuẩn runner, 44/50 = 88%. G02 đã pass với `source = ai`.
+- Test thủ công route `/api/roadmap` trên máy local → `source = ai`, task đầu là `ptc-function-calling`, tiếp theo `ptc-structured-output`.
 
-- Migration chạy thành công 2 lần liên tiếp trên Supabase.
-- Bảng `app.platform_audit` và index `idx_platform_audit_created_at` tồn tại.
-- Kết nối bằng role `aiia_backend`: ghi 2 log mẫu (`account.approve`,
-  `document.submit`) và đọc đúng thứ tự thời gian mới nhất trước.
-- Dữ liệu kiểm thử đã được xoá bằng admin sau khi xác minh; không ghi secret vào
-  repository/log.
+Các case AI còn fail trong lượt này: G01, G19, G27, G28, G29, G47. Đây là việc còn lại ngoài phạm vi fix G02.
 
 ## 5. Tài liệu & changelog
-
-- Sơ đồ database khớp migration mới.
+Đã cập nhật `eval/run_results.md` bằng số chạy thật. Không cập nhật `spec.md` §9 vì không đổi yêu cầu sản phẩm.
 
 ## 6. Rủi ro / việc còn lại
+- AI eval toàn bộ chưa đạt quality bar 90%: đang 44/50 = 88%.
+- Cần xử lý tiếp nhóm fail còn lại bằng ranking theo level `basic`/`advanced`, giảm fallback baseline ở route AI, và chặn item cấm theo `must_not_include`.
 
-- API gọi audit log sẽ được tích hợp trong các task backend duyệt tài khoản/tài liệu.
-- Log được thiết kế append-only ở quyền ứng dụng; thao tác xoá khẩn cấp cần DBA.
-- Khi review (Khoa) đã thêm `REVOKE UPDATE, DELETE, TRUNCATE` vì default privileges
-  của schema `app` từ D-01 tự cấp quyền sửa/xoá cho `aiia_backend`. Database
-  Supabase đã chạy migration bản cũ cần chạy lại lệnh REVOKE này.
-
-Closes #87
+Closes #98
