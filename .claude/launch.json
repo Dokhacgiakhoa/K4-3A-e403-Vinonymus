@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vinonymus-dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "codebase", "run", "dev"],
+      "port": 3000
+    },
+    {
+      "name": "vinonymus-dev-auth",
+      "runtimeExecutable": "cmd",
+      "runtimeArgs": ["/c", "set NEXT_PUBLIC_BACKEND_CORE_URL=http://localhost:5080&& npm --prefix codebase run dev -- -p 3001"],
+      "port": 3001
+    }
+  ]
+}

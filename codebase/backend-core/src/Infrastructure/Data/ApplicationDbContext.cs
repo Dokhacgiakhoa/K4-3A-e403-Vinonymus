@@ -28,6 +28,8 @@ public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        // Tách dữ liệu nghiệp vụ khỏi public (FAQ/RAG) trên cùng project Supabase.
+        modelBuilder.HasDefaultSchema("app");
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
     }
 }
