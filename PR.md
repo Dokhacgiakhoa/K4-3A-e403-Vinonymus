@@ -1,37 +1,37 @@
-# PR: Slide CP5 (6 trang PDF)
+# PR: Kịch bản pitch 15 slide (Mở – Thân – Kết)
 
-> **Task:** T5-06 (#33) · **Issue:** #33 · **Branch:** `docs/cp5-slides`
+> **Task:** T6-01 (#36) kịch bản pitch · **Issue:** #36 · **Branch:** `docs/pitch-deck-script`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-Nộp slide 6 trang PDF cho CP5 (hạn 13:00 · 18/9) theo `02-guide.md` §5.1: mỗi trang có ≥1 con số / quote có nguồn.
+Làm lại slide pitch theo cấu trúc Mở – Thân – Kết, có mục lục, kịch bản nói khoảng 10 phút. Làm đủ yêu cầu đề trước (`02-guide.md` §5.1: 6 mục slide; `04-rubric.md` CP6: case lỗi live, % so với quality bar, mỗi thành viên nói ≥1 phần), rồi mở rộng về dự án. Phần chưa làm xong ghi "Ý tưởng · đang triển khai", không demo.
 
 ## 2. Truy vết
-| Slide | Nguồn số liệu |
-|---|---|
-| 1 User & Job | `spec.md` §1 (khảo sát n = 82, vlearn-pack, phỏng vấn P02) |
-| 2 Vì sao chọn | `spec.md` §2 |
-| 3 Giải pháp & demo | `docs/05-ui-flow.md`, golden case G16, G14 |
-| 4 Kết quả đo | `eval/run_results.md`, `spec.md` §7 |
-| 5 User thật nói gì | Quote P01, P02 (`docs/research/survey-log.md`) + kết quả golden set (validation chưa đủ 5 người) |
-| 6 Thêm 1 tuần | Lỗ hổng còn lại + `spec.md` §2 (90% muốn bài test chẩn đoán) |
+| Phần | Slide | Nguồn |
+|---|---|---|
+| Mở đầu | 1–3 | README mục Sản phẩm, `spec.md` §1 |
+| Thân A (6 mục đề yêu cầu) | 4–9 | `spec.md` §1, §2, §4, §6, §7 · `eval/run_results.md` |
+| Thân B (mở rộng) | 10–13 | `docs/06-backend-dotnet.md`, `scripts/audit-faqs.ts`, `docs/hackathon/tasks-he-thong-4-vai-tro.md` |
+| Kết | 14–15 | `spec.md` §2, `validation/log.md` |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `demo-slides.pdf` | Slide 6 trang (vị trí README đã hẹn) |
-| `docs/hackathon/cp5/demo-slides.html` | Bản nguồn để sửa và xuất lại PDF |
-| `docs/hackathon/cp5/slide-content.md` | Nội dung 6 slide (tiêu đề, nội dung, nguồn, lời nói) để đưa vào NotebookLM tạo PDF |
+| `docs/hackathon/cp5/slide-content.md` | Viết lại theo deck 15 slide: nội dung từng slide, lời nói, người nói, thời lượng; bảng bản đủ / 7 phút / 6 phút |
 | `PR.md` | Mô tả PR này |
 
+Slide web (ngoài repo): https://claude.ai/artifact/TB2Lhp6t1rH7eqReAVZWFV
+
 ## 4. Kiểm thử
-- Xuất PDF bằng Edge headless: đúng 6 trang, khổ 1280×720; chụp ảnh cả 6 trang kiểm tra bằng mắt, không tràn chữ.
-- Đối chiếu từng con số với `spec.md` §1, §2, §7 và `eval/run_results.md`.
-- Slide 4 ghi rõ bộ 50 case chỉ chạy baseline luật tĩnh (luật đã chỉnh theo chính các case) nên không dùng làm bằng chứng chất lượng AI; Quality Bar đo trên AI v2 19/20.
+- Thời lượng cộng từ ghi chú từng slide: bản đủ khoảng 9'55", bản 7 phút khoảng 7'15", bản 6 phút khoảng 5'55".
+- Kiểm tra trạng thái "Đã chạy" với code thật: nhánh `production` đang ở PR #61; trang chat gọi `/api/chat` thật đã có trên `production`; widget chat nổi và hạn mức khách mới có trên `main` (51 commit chưa lên `production`) → ghi "Code xong · chưa lên web".
+- Số liệu giữ nguyên như slide CP5 (đã đối chiếu `spec.md`, `eval/`).
+- `npm run verify` chạy qua hook pre-push khi push nhánh này.
 
 ## 5. Tài liệu & changelog
 Không ghi `spec.md` §9.
 
 ## 6. Rủi ro / việc còn lại
-- Slide 5 ghi **chưa đủ 5 buổi người ngoài dùng thử** vì `validation/log.md` còn trống. Nếu đã có buổi dùng thử nhưng chưa ghi, cần điền log và sửa slide 5.
-- Video demo dự phòng (T5-07, Thành) không nằm trong PR này.
+- Đề cho E403 **6 phút** ở vòng cụm, **7 phút** trình bày ở chung kết — bản đủ 10 phút dùng để tập; khi thi dùng bản cắt.
+- Slide 9 ghi chưa đủ 5 buổi người dùng thử (theo `validation/log.md`); có buổi thật thì sửa lại.
+- `demo-slides.pdf` (CP5) vẫn là bản 6 trang cũ, không đổi trong PR này.
