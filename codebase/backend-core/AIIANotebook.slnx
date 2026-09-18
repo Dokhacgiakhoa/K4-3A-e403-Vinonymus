@@ -20,4 +20,7 @@
   <Folder Name="/tests/Domain.UnitTests/">
     <Project Path="tests/Domain.UnitTests/AIIANotebook.Domain.UnitTests.csproj" />
   </Folder>
+  <Folder Name="/tests/WebApi.IntegrationTests/">
+    <Project Path="tests/WebApi.IntegrationTests/AIIANotebook.WebApi.IntegrationTests.csproj" />
+  </Folder>
 </Solution>
