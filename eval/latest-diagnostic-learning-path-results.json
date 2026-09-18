@@ -1,0 +1,59 @@
+{
+  "mode": "diagnostic-learning-path-rules",
+  "run_at": "2026-09-18T07:19:50.934Z",
+  "passed": 5,
+  "failed": 0,
+  "total": 5,
+  "pass_rate": 100,
+  "cases": [
+    {
+      "id": "PATH01",
+      "title": "Student sai function-calling được giao tài liệu function calling",
+      "passed": true,
+      "reasons": [],
+      "actual_status": "plan",
+      "actual_task_ids": [
+        "ptc-function-calling",
+        "ptc-structured-output"
+      ]
+    },
+    {
+      "id": "PATH02",
+      "title": "Student yếu embedding retrieval được giao tài liệu RAG",
+      "passed": true,
+      "reasons": [],
+      "actual_status": "plan",
+      "actual_task_ids": [
+        "rag-overview",
+        "rag-embeddings"
+      ]
+    },
+    {
+      "id": "PATH03",
+      "title": "Student yếu guardrails trong AI Spec được giao HAX",
+      "passed": true,
+      "reasons": [],
+      "actual_status": "plan",
+      "actual_task_ids": [
+        "aps-pair",
+        "aps-hax"
+      ]
+    },
+    {
+      "id": "PATH04",
+      "title": "Lecturer không được tạo lộ trình Student",
+      "passed": true,
+      "reasons": [],
+      "actual_status": "refuse",
+      "actual_task_ids": []
+    },
+    {
+      "id": "PATH05",
+      "title": "Student thiếu thời gian cần hỏi lại",
+      "passed": true,
+      "reasons": [],
+      "actual_status": "clarify",
+      "actual_task_ids": []
+    }
+  ]
+}

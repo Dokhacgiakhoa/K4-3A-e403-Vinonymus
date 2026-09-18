@@ -129,3 +129,11 @@ Các case AI còn fail ở lượt 5: `G01`, `G19`, `G27`, `G28`, `G29`, `G47`.
 | 6 | 18/09/2026 14:03 | CV → bài test năng lực · rule fallback + schema AI | **5/5** | **100%** | Đã có 5 case eval riêng cho A-02 |
 
 Artifact máy đọc được: `eval/latest-cv-diagnostic-results.json`.
+
+## 11. Lượt chạy A-03 diagnostic score → student path
+
+| Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Trạng thái |
+|---|---|---|---:|---:|---|
+| 7 | 18/09/2026 14:19 | Điểm diagnostic → lộ trình Student từ thư viện | **5/5** | **100%** | Đã có 5 case eval riêng cho A-03; role khác Student bị từ chối |
+
+Artifact máy đọc được: `eval/latest-diagnostic-learning-path-results.json`.
