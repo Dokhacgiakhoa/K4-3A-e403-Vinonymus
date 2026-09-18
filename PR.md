@@ -1,36 +1,57 @@
-# PR: Giao việc xây hệ thống 4 vai trò
+# PR: Chuyển backend .NET về đúng Clean Architecture + CQRS
 
-> **Task:** giao việc sau CP4 · **Issue:** — · **Branch:** `docs/team-task-assignment`
+> **Task:** B-01, B-02 trong [`docs/hackathon/tasks-he-thong-4-vai-tro.md`](docs/hackathon/tasks-he-thong-4-vai-tro.md) · **Issue:** — · **Branch:** `refactor/backend-clean-architecture`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-PM phân vai lại từ 18/9: **Khoa** làm backend .NET, **Minh** chỉ làm database, **Đức và Thành** làm giao diện và AI. PR này tạo danh sách task nhỏ cho từng mảng, kèm điều kiện "xong khi" và thứ tự phụ thuộc, và đưa quy tắc "xong task nào commit task đó" vào quy ước chung.
+Backend .NET có đủ 4 project (Domain, Application, Infrastructure, WebApi) nhưng **nghiệp vụ lại nằm ở WebApi** (`WebApi/Services/*WebService.cs`), gọi thẳng `ApplicationDbContext` và tự đọc header `Authorization` bằng tay. PR này đưa mọi thứ về đúng tầng theo Clean Architecture, như PM đã chốt từ đầu, **không đổi** đường dẫn, mã trạng thái hay tên trường JSON mà giao diện Next.js đang dùng.
 
 ## 2. Truy vết
 | Thay đổi | Liên quan |
 |---|---|
-| Task backend B-01, B-02 | PR refactor backend Clean Architecture (nhánh `refactor/backend-clean-architecture`, đang làm) |
-| Task database D-02 → D-04 | Phần thiết kế database trong PR #69 (không merge nguyên trạng vì dựng backend TypeScript + Supabase Auth song song với .NET) |
-| Task U-01 → U-04 | Lỗ hổng đã ghi trong README mục "Luồng người dùng" (4 vai trò) |
-| Task A-02, A-03 | 4 nhiệm vụ của AI Mentor trong README |
+| Luật "ai được đăng nhập" chuyển vào Domain | Yêu cầu đăng ký phải chờ admin duyệt (README mục Luồng người dùng) |
+| CQRS, validator, policy phân quyền | Task B-01 |
+| 60 test tự động | Task B-02 |
+| Không nhận `userId` từ request | Bản vá lỗ hổng curriculum/payments trước đó (PR #65) — giữ nguyên |
 
-## 3. File thay đổi
-| File | Thay đổi |
-|---|---|
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Mới: phân vai, cách làm việc, 30 task (B-01 → B-10, D-01 → D-06, U-01 → U-08, A-01 → A-06), sơ đồ thứ tự |
-| `docs/hackathon/tasks.md` | Thêm link sang file mới; cập nhật vai trò trong bảng thành viên |
-| `README.md` | Cập nhật cột "Vai trò chính" trong bảng thành viên; thêm link file giao việc |
-| `AGENTS.md` | Thêm quy tắc: xong task nào commit task đó, không dồn commit/PR lớn |
-| `PR.md` | Mô tả PR này |
+## 3. Thay đổi theo commit (review lần lượt từng commit)
+| Commit | Nội dung | Build riêng |
+|---|---|---|
+| `refactor(domain)` | `AppUser.SignInBlock`, `CanSignIn`, `SetApproval()`; hằng `EnrollmentStatus` | ✅ cả solution |
+| `refactor(application)` × 5 | Phần khung (interface, `ValidationBehavior`, `LoggingBehavior`, DI) → Auth + Admin → hạn mức khách → Curriculum → Quiz + Payment | ✅ project Application; ⚠️ cả solution **chưa build** cho tới commit WebApi (WebApi cũ còn gọi class đã bỏ) |
+| `refactor(infrastructure)` | `Persistence/` → `Data/`, mỗi bảng một `IEntityTypeConfiguration`; `Identity/` (JWT, BCrypt); `GuestQuotaStore`; `AddInfrastructureServices()` | ✅ project Infrastructure |
+| `refactor(webapi)` | `Endpoints/` mỏng gửi MediatR; `AddJwtBearer` + policy `SignedInUser`/`SuperAdmin`; `GlobalExceptionHandler` (ProblemDetails) | ✅ cả solution |
+| `test(application)` | 41 test qua đúng pipeline MediatR | ✅ |
+| `test(webapi)` | 13 test HTTP bằng `WebApplicationFactory` | ✅ |
+| `docs` × 2 | Viết lại `docs/06-backend-dotnet.md` theo thực tế; đánh dấu B-01, B-02 xong | — |
 
-## 4. Kiểm thử
-- Sơ đồ Mermaid thứ tự task: render kiểm tra, `valid: true`.
-- Đối chiếu tên file/đường dẫn nhắc trong task với code thật trên `main`: `app-sidebar.tsx` (mục "Lộ Trình AI Mentor" → `/learning?mode=ai_roadmap`), `lib/client-storage.ts` (`tier`, `plan`), `backend-core/.../UserRole.cs` (`Visitor`/`Member`/`Lecture`/`SuperAdmin`), `codebase/database/migrations/` (mẫu tên `YYYYMMDD_*.sql`).
-- `npm run verify` chạy tay trên nhánh này (hook pre-push không chạy trong worktree phụ vì thiếu thư mục husky): lint, typecheck, 89/89 test, audit FAQ 53 file, build — tất cả qua.
+### Hành vi thay đổi (có chủ đích)
+| Trước | Sau | Vì sao |
+|---|---|---|
+| Ghi danh / đánh dấu bài với `moduleId`/`topicId` không tồn tại → lỗi khoá ngoại → 500 | 404 kèm câu thông báo | Lỗi của người gọi không phải lỗi hệ thống |
+| Đánh dấu được bài của chuyên đề khác | Bị chặn | Tránh "hoàn thành" chuyên đề bằng bài không thuộc về nó |
+| `GET /quizzes/simulation` trả luôn đáp án và lời giải | Không trả đáp án trước khi nộp | Chống xem đáp án. Giao diện hiện không gọi endpoint này |
+| Xem chi tiết được chuyên đề chưa xuất bản | Bị ẩn như trong danh sách | Nhất quán |
+| Tài khoản ngân hàng VietQR viết cứng trong code | Đọc từ cấu hình `Payments__*` (mặc định giữ giá trị cũ) | Không sửa code khi đổi tài khoản |
+| Lỗi 401/403 và lỗi hệ thống có lúc trả body rỗng | Luôn có JSON `{ success, message }`; lỗi theo chuẩn ProblemDetails | Giao diện hiện được câu thông báo |
+| JSON sai dạng ở Production → 400 body rỗng | 400 kèm câu "Dữ liệu gửi lên không đúng định dạng…" | Như trên |
+| Mã chứng chỉ, mã đơn dùng `Random` | `RandomNumberGenerator` | Mã tra cứu công khai không nên đoán được |
+
+## 4. Kiểm thử (đã chạy thật)
+- `dotnet build`: 0 lỗi, 0 cảnh báo.
+- `dotnet test`: **60/60 qua** — Domain 6, Application 41, tích hợp HTTP 13. Lần chạy đầu 40/41 do **test viết sai** (tìm cụm "Nội dung bài" trong khi câu khoá nội dung cũng chứa cụm này); đã sửa test cho so khớp chính xác, không sửa code.
+- Build lại trên bản sạch (worktree riêng) ở commit Domain và commit WebApi để chắc từng mốc build được như bảng mục 3.
+- Chạy thử bản `dotnet publish` Release:
+  - Không đặt `Jwt__Secret` → API dừng ngay: `OptionsValidationException: Thiếu cấu hình Jwt:Secret (tối thiểu 32 ký tự)…`.
+  - Đủ cấu hình: `GET /api/v1/health` → `healthy`; `GET /api/v1/auth/me` không token → 401 + `WWW-Authenticate: Bearer` + JSON; database không kết nối được → 500 ProblemDetails, không lộ chi tiết lỗi.
+- **Chưa** chạy với Postgres thật (Docker trên máy không khởi động được). Câu SQL đếm hạn mức khách giữ nguyên như trước, chưa có test trên Postgres.
+- `npm run verify` chạy qua hook pre-push khi push nhánh này.
 
 ## 5. Tài liệu & changelog
-Không ghi `spec.md` §9: không đổi sản phẩm hay chuẩn đạt, chỉ phân việc.
+- `docs/06-backend-dotnet.md` viết lại: bỏ các "trụ cột" chưa có trong code (SignalR, ASP.NET Core Identity, refresh token, microservice, Docker Swarm), thay bằng sơ đồ tầng, luồng một request, bảng mã lỗi, cấu hình, bộ test, bảng "đã có / chưa có".
+- Không ghi `spec.md` §9: không đổi tính năng hay chuẩn đạt.
 
 ## 6. Rủi ro / việc còn lại
-- Chưa tạo GitHub Issue cho từng task mới (file `tasks.md` cũ có issue cho từng việc). Tạo issue sẽ gửi thông báo tới cả nhóm — để PM quyết.
-- Cột hạn chưa có: PM đặt hạn theo lịch CP5/CP6.
+- Thư viện mới: MediatR **12.5.0** (bản cuối giấy phép Apache-2.0; từ 13.x cần license thương mại), FluentValidation 12, JwtBearer 10. Không dùng AutoMapper (bản mới cũng cần license) — ánh xạ DTO viết tay.
+- `Application` tham chiếu EF Core để dùng `DbSet` qua `IApplicationDbContext` — cách làm phổ biến trong Clean Architecture .NET; nếu muốn tách hẳn thì thay bằng repository.
+- Chưa deploy (task B-03), chưa giới hạn số lần đăng nhập (B-06), chưa có Swagger (B-10).
