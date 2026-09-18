@@ -20,7 +20,7 @@ CI trên GitHub (`verify.yml`) mới chỉ chạy `npm run verify` cho Next.js. 
 
 ## 4. Kiểm thử
 - Chạy đúng các lệnh của job trên máy: build Release với `-warnaserror` 0 cảnh báo 0 lỗi; `dotnet test` 60/60 qua (Domain 6 · Application 41 · tích hợp HTTP 13).
-- Kết quả job trên GitHub: xem tab Checks của PR này (ghi lại sau khi chạy xong).
+- Job `backend-test` trên GitHub (run 35308415206): xanh sau 39 giây — build 0 cảnh báo 0 lỗi; test Domain 6/6, Application 41/41, tích hợp 13/13.
 
 ## 5. Tài liệu & changelog
 Không ghi `spec.md` §9.
