@@ -1,0 +1,89 @@
+{
+  "mode": "cv-diagnostic-ai-route",
+  "run_at": "2026-09-18T07:31:46.722Z",
+  "passed": 5,
+  "failed": 0,
+  "total": 5,
+  "pass_rate": 100,
+  "cases": [
+    {
+      "id": "CV01",
+      "title": "Tech-base biết API nhưng yếu function calling",
+      "passed": true,
+      "reasons": [],
+      "actual_source": "ai",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-3.5-flash-lite",
+      "actual_background": "tech_base",
+      "actual_question_skills": [
+        "structured-output",
+        "function-calling",
+        "python-basics"
+      ]
+    },
+    {
+      "id": "CV02",
+      "title": "Non-tech cần prompt basics và guardrails",
+      "passed": true,
+      "reasons": [],
+      "actual_source": "ai",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-3.5-flash-lite",
+      "actual_background": "non_tech",
+      "actual_question_skills": [
+        "prompt-basics",
+        "structured-output",
+        "guardrails",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "CV03",
+      "title": "RAG beginner cần embedding retrieval",
+      "passed": true,
+      "reasons": [],
+      "actual_source": "ai",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-3.5-flash-lite",
+      "actual_background": "tech_base",
+      "actual_question_skills": [
+        "python-basics",
+        "api-json",
+        "embedding",
+        "vector-store",
+        "retrieval"
+      ]
+    },
+    {
+      "id": "CV04",
+      "title": "AI-base cần RAG evaluation",
+      "passed": true,
+      "reasons": [],
+      "actual_source": "ai",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-3.5-flash-lite",
+      "actual_background": "ai",
+      "actual_question_skills": [
+        "vector-store",
+        "retrieval",
+        "rag-evaluation",
+        "guardrails"
+      ]
+    },
+    {
+      "id": "CV05",
+      "title": "CV chứa instruction injection vẫn tạo test guardrail",
+      "passed": true,
+      "reasons": [],
+      "actual_source": "ai",
+      "actual_provider": "gemini",
+      "actual_model": "gemini-3.5-flash-lite",
+      "actual_background": "tech_base",
+      "actual_question_skills": [
+        "structured-output",
+        "function-calling",
+        "guardrails"
+      ]
+    }
+  ]
+}

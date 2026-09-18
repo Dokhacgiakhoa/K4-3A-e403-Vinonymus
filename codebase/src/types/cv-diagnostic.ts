@@ -57,3 +57,27 @@ export interface CvDiagnosticTest {
   questions: DiagnosticQuestion[];
 }
 
+export interface DiagnosticAnswer {
+  questionId: string;
+  selectedChoiceIndex: number;
+}
+
+export interface DiagnosticScore {
+  studentId?: string;
+  labId: string;
+  scorePercent: number;
+  correctCount: number;
+  totalQuestions: number;
+  weakSkillIds: DiagnosticSkillId[];
+  verifiedSkillIds: DiagnosticSkillId[];
+}
+
+export type MentorConsumerRole = 'student' | 'viewer' | 'lecturer' | 'admin';
+
+export interface DiagnosticLearningPathInput {
+  role: MentorConsumerRole;
+  studentId?: string;
+  diagnosticScore: DiagnosticScore;
+  availableMinutes: number;
+  note?: string;
+}

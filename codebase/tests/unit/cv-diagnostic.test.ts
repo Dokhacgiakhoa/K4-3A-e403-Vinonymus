@@ -31,7 +31,7 @@ describe('cv diagnostic mentor', () => {
     expect(analysis.weakSkillIds).toContain('retrieval');
   });
 
-  it('lọc output AI sai schema nghiệp vụ về skill hợp lệ và fallback khi thiếu câu hỏi', () => {
+  it('lọc output AI sai schema nghiệp vụ và bù câu hỏi từ bank khi thiếu', () => {
     const result = materializeCvDiagnosticTest(
       {
         source: 'ai',
@@ -57,8 +57,8 @@ describe('cv diagnostic mentor', () => {
       },
     );
 
-    expect(result.source).toBe('rules');
+    expect(result.source).toBe('ai');
     expect(result.questions.length).toBeGreaterThanOrEqual(3);
+    expect(result.questions.some((question) => question.skillId === 'function-calling')).toBe(true);
   });
 });
-

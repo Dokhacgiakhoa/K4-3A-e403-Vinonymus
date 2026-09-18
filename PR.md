@@ -1,51 +1,56 @@
-# PR: Add CV-based diagnostic test for AI Mentor
+# PR: Create student learning path from diagnostic score
 
-> **Task:** A-02 · **Issue:** #99 · **Branch:** `feat/A-02-cv-diagnostic-test`
+> **Task:** A-03 · **Issue:** #100 · **Branch:** `feat/A-03-diagnostic-learning-path`
 > **Người thực hiện:** Thành với Codex · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-Hoàn thiện nhiệm vụ AI Mentor: đọc nội dung CV hoặc mô tả năng lực của học viên, trích xuất kỹ năng, xác định lỗ hổng và sinh bài test năng lực online.
+Hoàn thiện nhiệm vụ AI Mentor: sau khi học viên làm bài test năng lực, hệ thống chấm điểm, xác định kỹ năng yếu và tạo lộ trình học chỉ từ thư viện tài liệu đã kiểm chứng.
 
-Luồng mới có schema đầu ra rõ ràng, prompt contract cho LLM, validate bằng zod và fallback rule-based khi model lỗi hoặc không có API key.
+Luồng này chỉ phục vụ vai trò Student. Nếu role là Viewer, Lecturer hoặc Admin thì API từ chối, tránh việc AI Mentor sinh nội dung không phù hợp với giao diện/vai trò học viên.
 
 ## 2. Truy vết
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Thêm API `POST /api/ai-mentor/cv-diagnostic` gọi LLM qua `lib/llm/router.ts` | A-02 #99; AGENTS bất biến #5 |
-| Thêm prompt/schema cho CV diagnostic, coi CV là dữ liệu không phải lệnh | `docs/04-ai-pipeline.md`; A-06 chuẩn bị chống instruction trong dữ liệu |
-| Thêm 5 case eval riêng cho CV → bài test | Điều kiện xong của A-02 trong `docs/hackathon/tasks-he-thong-4-vai-tro.md` |
-| UI hồ sơ gọi API để lấy câu hỏi test sinh từ CV, fallback về câu hỏi mẫu khi lỗi | Yêu cầu bỏ rule cố định trong màn hình mẫu |
+| Chấm bài diagnostic thành `scorePercent`, `weakSkillIds`, `verifiedSkillIds` | A-03 #100; phụ thuộc A-02 |
+| Map weak skills sang item trong `planner-catalog.ts` | Bất biến: link hiển thị cho học viên chỉ lấy từ catalog |
+| API `POST /api/ai-mentor/diagnostic-learning-path` chỉ nhận role Student để tạo plan | Yêu cầu role Student; `docs/hackathon/tasks-he-thong-4-vai-tro.md` |
+| Thêm 5 case eval cho điểm test → lộ trình | Điều kiện xong của A-03 |
+| Thêm eval gọi thẳng route `POST /api/ai-mentor/cv-diagnostic` bằng Gemini thật | Bổ sung bằng chứng A-02 tạo bài test bằng agent thật, không chỉ rule fallback |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `codebase/src/types/cv-diagnostic.ts` | Kiểu dữ liệu analysis/test/question cho CV diagnostic |
-| `codebase/src/data/cv-diagnostic-question-bank.ts` | Ngân hàng skill và câu hỏi kiểm chứng được dùng làm fallback an toàn |
-| `codebase/src/lib/ai-mentor/cv-diagnostic.ts` | Rule fallback, phân tích CV, materialize output AI đã validate |
-| `codebase/src/lib/prompts/cv-diagnostic.ts` | Prompt contract, input schema, output schema và parser JSON |
-| `codebase/src/app/api/ai-mentor/cv-diagnostic/route.ts` | Route API thật cho AI Mentor đọc CV và sinh bài test |
-| `codebase/src/components/settings/user-profile-editor.tsx` | Gọi route CV diagnostic để modal bài test dùng câu hỏi sinh từ CV |
-| `codebase/tests/unit/cv-diagnostic.test.ts` | Unit test cho phân tích CV, RAG skills và fallback output AI |
-| `eval/cv-diagnostic-set.json` | 5 case eval cho A-02 |
-| `eval/run-cv-diagnostic-eval.ts` | Runner eval riêng cho CV diagnostic |
-| `eval/latest-cv-diagnostic-results.json` | Artifact kết quả eval mới |
-| `eval/run_results.md` | Ghi kết quả 5/5 cho A-02 |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Đánh dấu A-02 #99 hoàn thành |
+| `codebase/src/types/cv-diagnostic.ts` | Thêm kiểu answer, score, role và input tạo lộ trình |
+| `codebase/src/lib/ai-mentor/diagnostic-learning-path.ts` | Chấm bài test và tạo Student learning path từ điểm diagnostic |
+| `codebase/src/lib/prompts/diagnostic-learning-path.ts` | Zod schema cho API submit điểm test |
+| `codebase/src/app/api/ai-mentor/diagnostic-learning-path/route.ts` | Route API tạo lộ trình từ điểm test |
+| `codebase/src/lib/prompts/cv-diagnostic.ts` | Chuẩn hóa alias output LLM trước khi validate schema |
+| `codebase/src/lib/ai-mentor/cv-diagnostic.ts` | Bù câu hỏi từ question bank khi AI parse được analysis nhưng thiếu câu hỏi hợp lệ |
+| `codebase/tests/unit/diagnostic-learning-path.test.ts` | Unit test chấm điểm, tạo plan Student, từ chối role khác |
+| `codebase/tests/unit/cv-diagnostic.test.ts` | Unit test repair câu hỏi CV diagnostic |
+| `eval/diagnostic-learning-path-set.json` | 5 case eval cho A-03 |
+| `eval/run-diagnostic-learning-path-eval.ts` | Runner eval A-03 |
+| `eval/run-cv-diagnostic-ai-eval.ts` | Runner gọi API route CV diagnostic thật qua Gemini |
+| `eval/latest-diagnostic-learning-path-results.json` | Artifact kết quả eval A-03 |
+| `eval/latest-cv-diagnostic-ai-results.json` | Artifact kết quả eval route AI thật |
+| `eval/run_results.md` | Ghi kết quả eval A-03 và AI route CV diagnostic |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Đánh dấu A-03 #100 hoàn thành |
 | `PR.md` | Mô tả PR hiện tại |
 
 ## 4. Kiểm thử
-- `npx.cmd vitest run tests/unit/cv-diagnostic.test.ts` → pass, 3/3 tests.
-- `npx.cmd tsx ../eval/run-cv-diagnostic-eval.ts` → pass, 5/5 = 100%.
+- `npx.cmd vitest run tests/unit/diagnostic-learning-path.test.ts tests/unit/cv-diagnostic.test.ts` → pass, 6/6 tests.
+- `npx.cmd tsx ../eval/run-diagnostic-learning-path-eval.ts` → pass, 5/5 = 100%.
+- `npx.cmd tsx ../eval/run-cv-diagnostic-ai-eval.ts` → pass, 5/5 = 100%, cả 5 case trả `source = ai` qua Gemini.
 - `npx.cmd tsc --noEmit` → pass.
 
-Chưa chạy `npm run verify` toàn bộ vì task hiện tại chỉ đổi module AI Mentor, API route và UI nhỏ; các lệnh trọng tâm phía trên đã chạy thật.
+Chưa chạy `npm run verify` toàn bộ vì PR này tập trung vào AI Mentor domain/API/eval; các lệnh trọng tâm phía trên đã chạy thật.
 
 ## 5. Tài liệu & changelog
-Đã cập nhật `eval/run_results.md` và trạng thái A-02 trong `docs/hackathon/tasks-he-thong-4-vai-tro.md`. Không cập nhật `spec.md` §9 vì không đổi chuẩn đạt.
+Đã cập nhật `eval/run_results.md` và trạng thái A-03 trong `docs/hackathon/tasks-he-thong-4-vai-tro.md`. Không cập nhật `spec.md` §9 vì không đổi chuẩn đạt.
 
 ## 6. Rủi ro / việc còn lại
-- Nếu #98 chưa merge, PR này nên base vào `fix/mentor-golden-g02`; sau khi #98 merge thì có thể retarget về `main`.
-- Route đã có fallback rule-based, nhưng chất lượng câu hỏi AI thật còn cần kiểm thử thêm bằng API key ở nhiều CV dài/PDF OCR.
-- Phần đọc PDF thật vẫn cần backend/OCR; hiện route nhận `cv_text` đã extract hoặc mô tả văn bản.
+- PR này nằm trên nền A-02. Nếu A-02 chưa merge, base PR vào `feat/A-02-cv-diagnostic-test`; sau khi A-02 merge thì retarget về `main`.
+- Lộ trình hiện lấy từ catalog tĩnh. Khi backend/thư viện lecturer thật sẵn sàng, cần thay nguồn catalog bằng API thư viện đã duyệt nhưng vẫn giữ rule catalog-only.
+- UI submit điểm test vào route mới chưa nối sâu; phần này đã có API/domain/eval để frontend Student gọi tiếp.
 
-Closes #99
+Closes #100

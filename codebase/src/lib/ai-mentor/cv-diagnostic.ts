@@ -142,6 +142,21 @@ export function materializeCvDiagnosticTest(
       choices: question.choices.slice(0, 4).map((choice) => ({ text: clip(choice.text, 160) })),
     }));
 
+  if (questions.length < MIN_QUESTIONS) {
+    const repairSkillIds = uniqueSkillIds([
+      ...aiAnalysis.weakSkillIds,
+      ...aiAnalysis.knownSkills.map((skill) => skill.skillId),
+      ...fallback.analysis.weakSkillIds,
+      ...DEFAULT_WEAK_SKILLS,
+    ]);
+    for (const skillId of repairSkillIds) {
+      if (questions.length >= MIN_QUESTIONS) break;
+      if (seen.has(skillId)) continue;
+      seen.add(skillId);
+      questions.push(buildQuestion(skillId, questions.length));
+    }
+  }
+
   if (questions.length < MIN_QUESTIONS) return fallback;
 
   return {

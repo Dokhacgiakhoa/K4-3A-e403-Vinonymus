@@ -1,0 +1,109 @@
+[
+  {
+    "id": "PATH01",
+    "title": "Student sai function-calling được giao tài liệu function calling",
+    "input": {
+      "role": "student",
+      "availableMinutes": 60,
+      "diagnosticScore": {
+        "labId": "lab-prompt-tool-calling",
+        "scorePercent": 60,
+        "correctCount": 3,
+        "totalQuestions": 5,
+        "weakSkillIds": ["function-calling", "structured-output"],
+        "verifiedSkillIds": ["api-json"]
+      }
+    },
+    "expect": {
+      "status": "plan",
+      "must_include": ["ptc-function-calling"],
+      "catalog_only": true,
+      "role": "student"
+    }
+  },
+  {
+    "id": "PATH02",
+    "title": "Student yếu embedding retrieval được giao tài liệu RAG",
+    "input": {
+      "role": "student",
+      "availableMinutes": 75,
+      "diagnosticScore": {
+        "labId": "lab-rag-foundations",
+        "scorePercent": 40,
+        "correctCount": 2,
+        "totalQuestions": 5,
+        "weakSkillIds": ["embedding", "retrieval"],
+        "verifiedSkillIds": ["api-json"]
+      }
+    },
+    "expect": {
+      "status": "plan",
+      "must_include": ["rag-embeddings", "rag-overview"],
+      "catalog_only": true,
+      "role": "student"
+    }
+  },
+  {
+    "id": "PATH03",
+    "title": "Student yếu guardrails trong AI Spec được giao HAX",
+    "input": {
+      "role": "student",
+      "availableMinutes": 45,
+      "diagnosticScore": {
+        "labId": "lab-ai-product-spec",
+        "scorePercent": 70,
+        "correctCount": 3,
+        "totalQuestions": 5,
+        "weakSkillIds": ["guardrails"],
+        "verifiedSkillIds": ["prompt-basics"]
+      }
+    },
+    "expect": {
+      "status": "plan",
+      "must_include": ["aps-hax"],
+      "catalog_only": true,
+      "role": "student"
+    }
+  },
+  {
+    "id": "PATH04",
+    "title": "Lecturer không được tạo lộ trình Student",
+    "input": {
+      "role": "lecturer",
+      "availableMinutes": 60,
+      "diagnosticScore": {
+        "labId": "lab-prompt-tool-calling",
+        "scorePercent": 50,
+        "correctCount": 2,
+        "totalQuestions": 5,
+        "weakSkillIds": ["function-calling"],
+        "verifiedSkillIds": []
+      }
+    },
+    "expect": {
+      "status": "refuse",
+      "catalog_only": true
+    }
+  },
+  {
+    "id": "PATH05",
+    "title": "Student thiếu thời gian cần hỏi lại",
+    "input": {
+      "role": "student",
+      "availableMinutes": 15,
+      "diagnosticScore": {
+        "labId": "lab-rag-foundations",
+        "scorePercent": 50,
+        "correctCount": 2,
+        "totalQuestions": 5,
+        "weakSkillIds": ["vector-store"],
+        "verifiedSkillIds": ["embedding"]
+      }
+    },
+    "expect": {
+      "status": "clarify",
+      "catalog_only": true
+    }
+  }
+]
+
