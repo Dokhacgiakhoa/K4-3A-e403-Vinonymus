@@ -98,18 +98,88 @@ classDiagram
 
     class LectureDocument {
         +UUID id PK
-        +string sourcePath UK
-        +string title
+        +UUID ownerId <<required FK>>
+        +string sourcePath
         +string fileName
+        +string title
+        +string summary
         +LectureFileType fileType
         +string mimeType
         +long fileSizeBytes
-        +string storagePath
         +string extractedContent
         +string contentHash
+        +int revision
+        +int approvedRevision
         +LectureDocumentStatus status
+        +string reviewNote
+        +UUID publishedBy <<optional FK>>
+        +DateTime publishedAt
         +DateTime createdAt
         +DateTime updatedAt
+    }
+
+    class AppUser {
+        +UUID id PK
+        +string email UK
+        +string displayName
+        +UserRole role
+        +boolean isActive
+    }
+
+    class LectureDocumentVersion {
+        +UUID id PK
+        +UUID documentId <<required FK>>
+        +int revision
+        +JSON snapshot
+        +UUID createdBy <<required FK>>
+        +DateTime createdAt
+    }
+
+    class LectureDocumentReview {
+        +UUID id PK
+        +UUID documentId <<required FK>>
+        +UUID reviewerId <<required FK>>
+        +int revision
+        +ReviewDecision decision
+        +string note
+        +DateTime createdAt
+    }
+
+    class LectureDocumentChunk {
+        +UUID id PK
+        +UUID documentId <<required FK>>
+        +int revision
+        +int ordinal
+        +string content
+        +string headingPath
+        +int tokenCount
+        +vector embedding768
+        +DateTime createdAt
+    }
+
+    class PlatformAudit {
+        +UUID id PK
+        +UUID actorId <<optional FK>>
+        +string action
+        +AuditResourceType resourceType
+        +UUID resourceId
+        +JSON details
+        +DateTime createdAt <<indexed DESC>>
+    }
+
+    class AuditResourceType {
+        <<enumeration>>
+        account
+        document
+        documentVersion
+        documentReview
+    }
+
+    class ReviewDecision {
+        <<enumeration>>
+        approved
+        rejected
+        needsChanges
     }
 
     class LectureFileType {
@@ -194,3 +264,11 @@ classDiagram
     AgentRun "1" --> "0..1" Message : response
     LearnerProfile "1" --> "0..*" Roadmap : has
     Roadmap "1" --> "1..*" RoadmapMilestone : contains
+    AppUser "1" --> "0..*" LectureDocument : owns
+    LectureDocument "1" --> "0..*" LectureDocumentVersion : versions
+    LectureDocument "1" --> "0..*" LectureDocumentReview : reviews
+    LectureDocument "1" --> "0..*" LectureDocumentChunk : chunks
+    AppUser "0..1" --> "0..*" PlatformAudit : acts
+    PlatformAudit "*" --> "1" AuditResourceType : categorizes
+    AppUser "1" --> "0..*" LectureDocumentReview : reviews
+    AppUser "1" --> "0..*" LectureDocumentVersion : creates

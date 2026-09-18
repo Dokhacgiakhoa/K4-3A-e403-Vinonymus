@@ -1,7 +1,9 @@
-﻿-- =========================================================================
+-- =========================================================================
 -- MIGRATION: 20260906_CURRICULUM_TOPICS_AND_ENROLLMENTS.SQL
 -- HỆ THỐNG QUẢN LÝ BÀI HỌC, GHI DANH KHÓA HỌC & CHỨNG CHỈ SỐ SFIA
 -- =========================================================================
+
+SET search_path TO app, public, extensions;
 
 -- 1. BẢNG CHI TIẾT BÀI HỌC LÝ THUYẾT (CURRICULUM TOPICS)
 CREATE TABLE IF NOT EXISTS curriculum_topics (
