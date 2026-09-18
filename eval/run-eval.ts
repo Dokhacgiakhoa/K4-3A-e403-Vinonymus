@@ -13,6 +13,8 @@ interface GoldenCase {
   group: 'everyday' | 'source_truth' | 'ambiguity' | 'out_of_scope' | 'domain';
   rarity: 'common' | 'edge';
   source_refs: string[];
+  stakeholder?: 'student' | 'vlearn_system';
+  pain_point?: string;
   input: {
     background: PlannerBackground;
     availableMinutes: number;
@@ -34,6 +36,8 @@ interface CaseResult {
   id: string;
   title: string;
   group: GoldenCase['group'];
+  stakeholder?: 'student' | 'vlearn_system';
+  pain_point?: string;
   passed: boolean;
   reasons: string[];
   actual_status: PlannerResult['status'];
@@ -127,6 +131,8 @@ function grade(testCase: GoldenCase, result: PlannerResult, mode: EvalMode): Cas
     id: testCase.id,
     title: testCase.title,
     group: testCase.group,
+    stakeholder: testCase.stakeholder,
+    pain_point: testCase.pain_point,
     passed: reasons.length === 0,
     reasons,
     actual_status: result.status,
@@ -137,7 +143,7 @@ function grade(testCase: GoldenCase, result: PlannerResult, mode: EvalMode): Cas
 async function main() {
   const mode = (process.argv[2] ?? 'baseline') as EvalMode;
   if (mode !== 'baseline' && mode !== 'ai') throw new Error('Mode phải là baseline hoặc ai');
-  if (cases.length < 20) throw new Error(`Golden set chỉ có ${cases.length}/20 case`);
+  if (cases.length < 50) throw new Error(`Golden set chỉ có ${cases.length}/50 case`);
 
   const results: CaseResult[] = [];
   for (const testCase of cases) {
@@ -148,6 +154,8 @@ async function main() {
         id: testCase.id,
         title: testCase.title,
         group: testCase.group,
+        stakeholder: testCase.stakeholder,
+        pain_point: testCase.pain_point,
         passed: false,
         reasons: [error instanceof Error ? error.message : String(error)],
         actual_status: 'clarify',
@@ -156,6 +164,11 @@ async function main() {
   }
 
   const passed = results.filter((result) => result.passed).length;
+  const studentResults = results.filter((r) => r.stakeholder === 'student');
+  const systemResults = results.filter((r) => r.stakeholder === 'vlearn_system');
+  const studentPassed = studentResults.filter((r) => r.passed).length;
+  const systemPassed = systemResults.filter((r) => r.passed).length;
+
   const summary = {
     mode,
     run_at: new Date().toISOString(),
@@ -163,13 +176,30 @@ async function main() {
     failed: results.length - passed,
     total: results.length,
     pass_rate: Number(((passed / results.length) * 100).toFixed(1)),
+    stakeholder_breakdown: {
+      student_pain_points: {
+        passed: studentPassed,
+        total: studentResults.length,
+        pass_rate: studentResults.length ? Number(((studentPassed / studentResults.length) * 100).toFixed(1)) : 100,
+      },
+      vlearn_system_pain_points: {
+        passed: systemPassed,
+        total: systemResults.length,
+        pass_rate: systemResults.length ? Number(((systemPassed / systemResults.length) * 100).toFixed(1)) : 100,
+      },
+    },
     cases: results,
   };
 
   for (const result of results) {
-    console.log(`${result.passed ? 'PASS' : 'FAIL'} ${result.id} · ${result.title}${result.reasons.length ? ` · ${result.reasons.join('; ')}` : ''}`);
+    const roleTag = result.stakeholder === 'vlearn_system' ? '[VLearn/Hệ thống]' : '[Học viên]';
+    console.log(
+      `${result.passed ? 'PASS' : 'FAIL'} ${result.id} · ${roleTag} ${result.title}${result.reasons.length ? ` · ${result.reasons.join('; ')}` : ''}`,
+    );
   }
-  console.log(`KẾT QUẢ ${mode}: ${passed}/${results.length} = ${summary.pass_rate}%`);
+  console.log(`KẾT QUẢ TỔNG ${mode}: ${passed}/${results.length} = ${summary.pass_rate}%`);
+  console.log(`  ├─ 40 case Nỗi đau học viên: ${studentPassed}/${studentResults.length} (${summary.stakeholder_breakdown.student_pain_points.pass_rate}%)`);
+  console.log(`  └─ 10 case Nỗi đau hệ thống VLearn: ${systemPassed}/${systemResults.length} (${summary.stakeholder_breakdown.vlearn_system_pain_points.pass_rate}%)`);
   writeFileSync(join(evalDir, `latest-${mode}-results.json`), `${JSON.stringify(summary, null, 2)}\n`, 'utf8');
   if (passed !== results.length) process.exitCode = 1;
 }

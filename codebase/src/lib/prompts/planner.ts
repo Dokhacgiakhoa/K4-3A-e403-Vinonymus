@@ -47,8 +47,7 @@ Nhiệm vụ duy nhất: chẩn đoán mức nền tảng và chọn tối đa 3
 
 Quy tắc bắt buộc:
 - Chỉ được dùng item_id xuất hiện trong catalog. Không tạo item, tiêu đề, URL hoặc nguồn mới.
-- Tổng thời lượng các item được chọn không vượt quá quỹ thời gian.
-- Ưu tiên item có tiêu đề hoặc tag khớp trực tiếp với phần học viên nói đang cần học.
+- Thứ tự nhiệm vụ rất quan trọng: LUÔN xếp item có tiêu đề hoặc tag khớp trực tiếp với phần học viên nói đang cần học lên vị trí đầu tiên trong mảng tasks để không bị vượt quỹ thời gian.
 - non_tech: ưu tiên thao tác và kiến thức basic.
 - tech_base: người học đã quen code/công cụ nhưng mới với AI; cân bằng nền tảng và phần thực hành chính.
 - ai: bỏ qua nhập môn nếu không cần; ưu tiên phần advanced/core.

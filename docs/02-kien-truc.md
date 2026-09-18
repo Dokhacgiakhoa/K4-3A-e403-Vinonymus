@@ -6,7 +6,7 @@ Prototype là một ứng dụng **Next.js 15 (App Router)** trong `codebase/`. 
 
 ```mermaid
 flowchart LR
-    U[Học viên] -->|chọn nền tảng, thời gian, bài lab| W[Trang Lộ trình cá nhân hoá<br/>/personalized-path]
+    U[Học viên] -->|chọn nền tảng, thời gian, bài lab| W[Trang Lộ trình cá nhân hoá<br/>/learning-path]
     W -->|POST /api/roadmap<br/>header key nếu có| R[Route handler<br/>app/api/roadmap]
     R -->|validate zod| R
     R --> C[(Catalog<br/>planner-catalog.ts)]
@@ -38,10 +38,10 @@ flowchart LR
 codebase/
 ├── src/
 │   ├── app/                  ← trang + route handler (api/chat, api/roadmap)
-│   ├── app/personalized-path/ ← trang Lộ trình cá nhân hoá (không cần đăng nhập)
+│   ├── app/learning-path/ ← trang Lộ trình cá nhân hoá (vai trò Student)
 │   ├── components/planner/   ← study-planner.tsx (UI 4 bước + checklist)
 │   ├── components/learning/  ← wizard lộ trình 4 sprint (quy tắc chạy trên FE, không gọi AI)
-│   ├── components/chat/      ← AI Helpdesk gọi API và widget Helpdesk mô phỏng
+│   ├── components/chat/      ← AI Helpdesk: widget nổi dùng chat-box.tsx gọi /api/chat
 │   ├── lib/
 │   │   ├── llm/              ← router + adapter từng provider
 │   │   ├── rag/              ← pipeline AI Helpdesk
@@ -66,7 +66,7 @@ codebase/
 | Checklist trên trình duyệt | Thật |
 | AI Helpdesk | FE gọi `/api/chat` thật; FAQ/RAG/LLM phụ thuộc key và dịch vụ liên quan |
 | Wizard lộ trình 4 sprint (`/learning`) | Quy tắc chạy tại FE; chưa có API/LLM cho wizard, PDF/DOC mới lấy tên file |
-| Widget AI Helpdesk nổi | Trả lời mẫu theo từ khoá sau `setTimeout`; bộ chọn model chưa tác động đến router |
+| Widget AI Helpdesk nổi | Gọi `/api/chat` thật qua `chat-box.tsx` (có trích dẫn, đánh giá, nhắc nhập key) |
 | Đăng nhập .NET | FE gọi register/login thật khi backend chạy; OAuth cần cấu hình provider |
 | Ghi danh khoá học .NET | Ghi `localStorage` và gọi đồng bộ nền khi có user ID; màn học chưa đọc module/progress từ .NET |
 | Gói Pro, thanh toán, chứng chỉ trên FE | Chưa phải luồng tích hợp đầy đủ |
@@ -85,6 +85,6 @@ AI Helpdesk → app/api/chat → lib/rag → lib/llm/router / Supabase
 
 | Vấn đề | Ảnh hưởng | Xử lý |
 |---|---|---|
-| Tên model cố định trong adapter; widget Helpdesk có bộ chọn model mô phỏng | Người dùng chưa thực sự chọn được model | Nối widget với `/api/chat` nếu đưa vào phạm vi sản phẩm |
+| Tên model cố định trong adapter | Người dùng chưa chọn được model | Thêm lựa chọn model ở Cài đặt nếu cần |
 | `backend-core/appsettings.json` có JWT secret và mật khẩu Postgres dev ghi cứng | Chỉ dùng cho local, nhưng repo công khai | Đổi sang biến môi trường nếu tích hợp .NET |
 | `backend-services/`, `scripts/curriculum/` trỏ tới giáo trình đã chuyển sang `docs/legacy/curriculum/` | Script sinh giáo trình không chạy được | Không dùng trong lát cắt |

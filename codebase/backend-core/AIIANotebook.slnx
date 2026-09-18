@@ -14,7 +14,13 @@
     <Project Path="src/WebApi/AIIANotebook.WebApi.csproj" />
   </Folder>
   <Folder Name="/tests/" />
+  <Folder Name="/tests/Application.UnitTests/">
+    <Project Path="tests/Application.UnitTests/AIIANotebook.Application.UnitTests.csproj" />
+  </Folder>
   <Folder Name="/tests/Domain.UnitTests/">
     <Project Path="tests/Domain.UnitTests/AIIANotebook.Domain.UnitTests.csproj" />
+  </Folder>
+  <Folder Name="/tests/WebApi.IntegrationTests/">
+    <Project Path="tests/WebApi.IntegrationTests/AIIANotebook.WebApi.IntegrationTests.csproj" />
   </Folder>
 </Solution>

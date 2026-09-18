@@ -20,7 +20,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Core\Domain\AIIANotebook.Domain.csproj" />
-    <ProjectReference Include="..\..\src\Core\Application\AIIANotebook.Application.csproj" />
   </ItemGroup>
 
 </Project>

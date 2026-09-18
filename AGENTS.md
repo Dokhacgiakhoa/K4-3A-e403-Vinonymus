@@ -4,7 +4,7 @@
 
 ## Bối cảnh
 
-- Repo nộp bài Mini Hackathon AI, nhóm Vinonymus, Track E. Sản phẩm: **Adaptive Learning System** (AI Mentor & AI Helpdesk); phần được chấm là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`) do AI Mentor thực hiện — xem `README.md`, `spec.md`.
+- Repo nộp bài Mini Hackathon AI, nhóm Vinonymus, Track E. Sản phẩm: **Adaptive Learning System** (AI Mentor: AI thực thi, chạy phía sau · AI Helpdesk: AI trò chuyện ở chatbox); phần được chấm là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`) do AI Mentor thực hiện — xem `README.md`, `spec.md`.
 - Code nằm trong `codebase/` (Next.js). Tài liệu nằm trong `docs/` — mục lục ở `docs/00-muc-luc.md`.
 - `docs/legacy/` là tài liệu của dự án nền, **không** phải đặc tả hiện hành.
 
@@ -51,7 +51,9 @@ Không dùng `git push --no-verify` trừ khi cả nhóm đồng ý.
 
 ## Git
 
+- **Không bao giờ push thẳng vào `main` hoặc `production`**, kể cả khi công cụ hay quyền tài khoản cho phép. Mọi thay đổi đi qua: tạo nhánh mới từ `main` → commit → `git push -u origin <nhánh>` → mở PR (`gh pr create`) → merge PR (`gh pr merge`, có thể tự duyệt vì chủ repo được phép). `main` và `production` có GitHub Ruleset chặn push trực tiếp (`current_user_can_bypass: pull_requests_only`) — nếu lệnh push báo bị từ chối (protected branch / rule violation), đó là đang hoạt động đúng; sửa bằng cách tạo nhánh và PR, không tìm cách vượt qua.
 - Commit message tiếng Anh, dạng mệnh lệnh (`feat: add roadmap api`).
+- **Xong task nào commit task đó**, commit và PR nhỏ, một mục tiêu. Không dồn nhiều task, trăm file, hàng chục nghìn dòng vào một commit hay PR — không review được. Danh sách task: `docs/hackathon/tasks-he-thong-4-vai-tro.md`.
 - Mỗi thay đổi prompt → chạy lại golden set, ghi một dòng vào `eval/run_results.md`.
 - Thay đổi sau phản hồi người dùng → ghi `spec.md` §9.
 - **Mỗi PR bắt buộc có `PR.md` ở gốc repo** mô tả đúng PR đó (mục tiêu, truy vết, file thay đổi, kiểm thử thật, việc còn lại). Không dùng tên `srs.md` — SRS chính thức là `docs/01-SRS.md`. Không xoá `PR.md` khi review; conflict thì giữ bản của PR đang merge. Chi tiết và mẫu:

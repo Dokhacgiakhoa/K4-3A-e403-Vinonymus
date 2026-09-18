@@ -1,19 +1,21 @@
 using AIIANotebook.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace AIIANotebook.Application.Common.Interfaces;
 
+// Application chỉ biết DbSet (trừu tượng của EF Core), không biết Npgsql hay chuỗi kết nối.
 public interface IApplicationDbContext
 {
-    IQueryable<AppUser> Users { get; }
-    IQueryable<CurriculumModule> CurriculumModules { get; }
-    IQueryable<CurriculumTopic> CurriculumTopics { get; }
-    IQueryable<CourseEnrollment> CourseEnrollments { get; }
-    IQueryable<UserTopicProgress> UserTopicProgresses { get; }
-    IQueryable<IssuedCertificate> IssuedCertificates { get; }
-    IQueryable<QuizQuestion> QuizQuestions { get; }
-    IQueryable<QuizSubmission> QuizSubmissions { get; }
-    IQueryable<UserStreak> UserStreaks { get; }
-    IQueryable<PaymentLedger> PaymentLedgers { get; }
+    DbSet<AppUser> Users { get; }
+    DbSet<CurriculumModule> CurriculumModules { get; }
+    DbSet<CurriculumTopic> CurriculumTopics { get; }
+    DbSet<CourseEnrollment> CourseEnrollments { get; }
+    DbSet<UserTopicProgress> UserTopicProgresses { get; }
+    DbSet<IssuedCertificate> IssuedCertificates { get; }
+    DbSet<QuizQuestion> QuizQuestions { get; }
+    DbSet<QuizSubmission> QuizSubmissions { get; }
+    DbSet<UserStreak> UserStreaks { get; }
+    DbSet<PaymentLedger> PaymentLedgers { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

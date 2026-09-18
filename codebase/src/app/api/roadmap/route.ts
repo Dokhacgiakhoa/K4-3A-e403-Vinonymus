@@ -12,6 +12,7 @@ import {
 } from '@/lib/prompts/planner';
 import type { ChatApiHeaderKeys } from '@/types/chat';
 import type { PlannerInput } from '@/types/planner';
+import { getSessionUser, isLoginEnforced } from '@/lib/server/session';
 
 export const runtime = 'nodejs';
 
@@ -40,6 +41,17 @@ export async function POST(req: NextRequest) {
   const requestId = randomUUID();
 
   try {
+    // AI Mentor chỉ dành cho tài khoản đã đăng nhập và đã được duyệt.
+    if (isLoginEnforced() && !(await getSessionUser(req.headers.get('authorization')))) {
+      return NextResponse.json(
+        {
+          error: 'Bạn cần đăng nhập bằng tài khoản đã được duyệt để dùng Lộ trình cá nhân hoá.',
+          code: 'LOGIN_REQUIRED',
+        },
+        { status: 401 },
+      );
+    }
+
     const parsed = plannerApiInputSchema.safeParse(await req.json());
     if (!parsed.success) {
       const issue = parsed.error.issues[0];

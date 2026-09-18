@@ -5,6 +5,8 @@
  * Tuân thủ chuẩn Anti-Crash: Tự động fallback sang LocalStorage nếu Backend Core chưa khởi động
  */
 
+import { authBackendClient } from './auth-backend-client';
+
 export interface BackendModuleDto {
   id: string;
   moduleNumber: number;
@@ -50,15 +52,19 @@ export interface BackendCertificateDto {
 
 const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_CORE_URL || 'http://localhost:5000';
 
+// Backend xác định người dùng từ token, không nhận userId từ trình duyệt.
+function jsonHeaders(): Record<string, string> {
+  return { 'Content-Type': 'application/json', ...authBackendClient.getAuthHeaders() };
+}
+
 export const curriculumBackendClient = {
-  async getModules(userId?: string): Promise<BackendModuleDto[] | null> {
+  async getModules(): Promise<BackendModuleDto[] | null> {
     try {
       const url = new URL(`${BACKEND_URL}/api/v1/curriculum/modules`);
-      if (userId) url.searchParams.set('userId', userId);
 
       const res = await fetch(url.toString(), {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: jsonHeaders(),
         signal: AbortSignal.timeout(3000),
       });
 
@@ -70,14 +76,13 @@ export const curriculumBackendClient = {
     }
   },
 
-  async getModuleDetail(moduleId: string, userId?: string): Promise<BackendModuleDetailDto | null> {
+  async getModuleDetail(moduleId: string): Promise<BackendModuleDetailDto | null> {
     try {
-      const url = new URL(`${BACKEND_URL}/api/v1/curriculum/modules/${moduleId}`);
-      if (userId) url.searchParams.set('userId', userId);
+      const url = new URL(`${BACKEND_URL}/api/v1/curriculum/modules/${encodeURIComponent(moduleId)}`);
 
       const res = await fetch(url.toString(), {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: jsonHeaders(),
         signal: AbortSignal.timeout(3000),
       });
 
@@ -89,12 +94,12 @@ export const curriculumBackendClient = {
     }
   },
 
-  async enrollCourse(userId: string, moduleId: string): Promise<boolean> {
+  async enrollCourse(moduleId: string): Promise<boolean> {
     try {
       const res = await fetch(`${BACKEND_URL}/api/v1/curriculum/enroll`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, moduleId }),
+        headers: jsonHeaders(),
+        body: JSON.stringify({ moduleId }),
         signal: AbortSignal.timeout(4000),
       });
       return res.ok;
@@ -103,12 +108,12 @@ export const curriculumBackendClient = {
     }
   },
 
-  async unenrollCourse(userId: string, moduleId: string): Promise<boolean> {
+  async unenrollCourse(moduleId: string): Promise<boolean> {
     try {
       const res = await fetch(`${BACKEND_URL}/api/v1/curriculum/unenroll`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, moduleId }),
+        headers: jsonHeaders(),
+        body: JSON.stringify({ moduleId }),
         signal: AbortSignal.timeout(4000),
       });
       return res.ok;
@@ -117,12 +122,12 @@ export const curriculumBackendClient = {
     }
   },
 
-  async toggleTopicProgress(userId: string, moduleId: string, topicId: string): Promise<boolean> {
+  async toggleTopicProgress(moduleId: string, topicId: string): Promise<boolean> {
     try {
       const res = await fetch(`${BACKEND_URL}/api/v1/curriculum/progress/toggle`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId, moduleId, topicId }),
+        headers: jsonHeaders(),
+        body: JSON.stringify({ moduleId, topicId }),
         signal: AbortSignal.timeout(4000),
       });
       return res.ok;
@@ -131,15 +136,14 @@ export const curriculumBackendClient = {
     }
   },
 
-  async getCertificate(userId: string, moduleId: string): Promise<BackendCertificateDto | null> {
+  async getCertificate(moduleId: string): Promise<BackendCertificateDto | null> {
     try {
       const url = new URL(`${BACKEND_URL}/api/v1/curriculum/certificates`);
-      url.searchParams.set('userId', userId);
       url.searchParams.set('moduleId', moduleId);
 
       const res = await fetch(url.toString(), {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: jsonHeaders(),
         signal: AbortSignal.timeout(3000),
       });
 

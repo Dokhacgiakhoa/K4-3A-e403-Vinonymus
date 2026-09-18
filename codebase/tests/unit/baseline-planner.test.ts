@@ -52,4 +52,33 @@ describe('planWithRules', () => {
   ])('từ chối yêu cầu ngoài phạm vi: %s', (note) => {
     expect(planWithRules({ ...base, note }).status).toBe('refuse');
   });
+
+  it('hỏi lại khi ghi chú mâu thuẫn rõ với nền tảng', () => {
+    const nonTechExpert = planWithRules({
+      ...base,
+      background: 'non_tech',
+      note: 'Mình đang vận hành RAG production và tối ưu retrieval',
+    });
+    expect(nonTechExpert.status).toBe('clarify');
+
+    const aiBeginner = planWithRules({
+      ...base,
+      background: 'ai',
+      note: 'Mình non-tech chưa từng lập trình bao giờ',
+    });
+    expect(aiBeginner.status).toBe('clarify');
+  });
+
+  it('loại trừ item khi người dùng yêu cầu bỏ qua', () => {
+    const res = planWithRules({
+      background: 'ai',
+      availableMinutes: 75,
+      labId: 'lab-rag-foundations',
+      note: 'Bỏ qua tổng quan, cần làm pgvector và bộ evaluation',
+    });
+    expect(res.status).toBe('plan');
+    if (res.status === 'plan') {
+      expect(res.tasks.map((t) => t.itemId)).not.toContain('rag-overview');
+    }
+  });
 });

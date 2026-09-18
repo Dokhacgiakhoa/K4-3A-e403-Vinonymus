@@ -2,6 +2,8 @@ import { NextRequest } from 'next/server';
 import type { ChatApiHeaderKeys, ChatApiRequestBody } from '@/types/chat';
 import { processChatPipeline } from '@/lib/rag/pipeline';
 import { logQuery } from '@/lib/rag/query-log';
+import { getSessionUser } from '@/lib/server/session';
+import { consumeGuestQuota, getClientIp } from '@/lib/server/guest-quota';
 
 export const runtime = 'nodejs';
 
@@ -49,6 +51,25 @@ export async function POST(req: NextRequest) {
     // KHÔNG định danh cá nhân.
     const clientSessionId = req.headers.get('x-client-session-id') || undefined;
     const startedAt = Date.now();
+
+    // Khách chưa đăng nhập được hỏi giới hạn số câu mỗi ngày; đăng nhập (đã duyệt) thì không giới hạn.
+    const sessionUser = await getSessionUser(req.headers.get('authorization'));
+    const quotaHeaders: Record<string, string> = {};
+    if (!sessionUser) {
+      const quota = await consumeGuestQuota(clientSessionId ?? null, getClientIp(req.headers));
+      if (!quota.allowed) {
+        return new Response(
+          JSON.stringify({
+            error: `Bạn đã dùng hết ${quota.limit} câu hỏi miễn phí hôm nay. Đăng nhập để tiếp tục hỏi AI Helpdesk không giới hạn.`,
+            code: 'GUEST_QUOTA_EXCEEDED',
+            limit: quota.limit,
+          }),
+          { status: 429, headers: { 'Content-Type': 'application/json' } },
+        );
+      }
+      quotaHeaders['x-guest-quota-limit'] = String(quota.limit);
+      quotaHeaders['x-guest-quota-remaining'] = String(quota.remaining);
+    }
 
     const stream = new ReadableStream({
       async start(controller) {
@@ -178,6 +199,7 @@ export async function POST(req: NextRequest) {
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache, no-transform',
         Connection: 'keep-alive',
+        ...quotaHeaders,
       },
     });
   } catch (err: unknown) {

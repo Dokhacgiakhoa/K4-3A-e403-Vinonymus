@@ -2,11 +2,9 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { 
   Home, 
-  Flame, 
-  Bot, 
   GraduationCap, 
   ClipboardCheck, 
   Cpu, 
@@ -16,11 +14,15 @@ import {
   Settings, 
   LogOut, 
   ShieldAlert, 
-  Crown,
   PanelLeftClose,
-  PanelLeftOpen
+  PanelLeftOpen,
+  UserCheck,
+  FileText,
+  FileCheck,
+  type LucideIcon
 } from 'lucide-react';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
+import { DEMO_ACCOUNTS, DEMO_HOME, getUserRole, isDemoUser, ROLE_LABELS, startDemoSession } from '@/lib/demo/demo-accounts';
 import { FocusModeButton } from '@/components/learning/focus-mode-controller';
 import { DisclaimerModal } from '@/components/legal/disclaimer-modal';
 
@@ -28,21 +30,49 @@ interface AppSidebarProps {
   user: StoredUser;
 }
 
+interface NavItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+  isPro?: boolean;
+}
+
 export function AppSidebar({ user }: AppSidebarProps) {
   const pathname = usePathname();
+  const router = useRouter();
   const searchParams = useSearchParams();
   const mode = searchParams.get('mode');
 
   const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
   const [showDisclaimerModal, setShowDisclaimerModal] = useState<boolean>(false);
 
-  const mainNav = [
+  const role = getUserRole(user);
+  const isAdmin = role === 'admin';
+
+  // Mỗi vai trò chỉ thấy tính năng của mình (U-01); mục chung đặt cuối.
+  const roleNav: NavItem[] =
+    role === 'lecturer'
+      ? [
+          { href: '/lecturer/documents', label: 'Tài liệu của tôi', icon: FileText },
+          { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
+        ]
+      : role === 'admin'
+        ? [
+            { href: '/admin/documents', label: 'Duyệt tài liệu', icon: FileCheck },
+            { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
+          ]
+        : [
+            { href: '/learning-path', label: 'Lộ trình cá nhân hoá', icon: GraduationCap },
+            { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
+            { href: '/test', label: 'Khảo Thí SFIA', icon: ClipboardCheck },
+            { href: '/instruction', label: 'Hướng Dẫn Học', icon: Compass },
+          ];
+
+  const mainNav: NavItem[] = [
     { href: '/', label: 'Trang Chủ', icon: Home },
-    { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
-    { href: '/learning?mode=ai_roadmap', label: 'Lộ Trình AI Mentor', icon: Bot, isPro: true },
-    { href: '/test', label: 'Khảo Thí SFIA', icon: ClipboardCheck },
+    ...roleNav,
+    { href: '/about', label: 'Slide Thuyết Trình', icon: BookOpen },
     { href: '/architecture', label: 'Kiến Trúc Kỹ Thuật', icon: Cpu },
-    { href: '/instruction', label: 'Hướng Dẫn Học', icon: Compass },
   ];
 
   const handleLogout = () => {
@@ -57,9 +87,6 @@ export function AppSidebar({ user }: AppSidebarProps) {
     }
     if (href === '/learning') {
       return (pathname === '/learning' || pathname.startsWith('/learning/')) && mode !== 'ai_roadmap' && mode !== 'gamified';
-    }
-    if (href === '/learning?mode=ai_roadmap') {
-      return pathname === '/learning' && (mode === 'ai_roadmap' || mode === 'gamified');
     }
     const baseHref = href.split('?')[0] || href;
     return pathname.startsWith(baseHref);
@@ -176,7 +203,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
         }`}>
           
           {/* Admin Management Link (Chỉ hiển thị cho Admin) */}
-          {((user.role as string) === 'admin' || (user.tier as string) === 'Admin') && (
+          {isAdmin && (
             <Link
               href="/admin"
               className={`flex items-center rounded-xl text-sm transition-colors ${
@@ -192,6 +219,25 @@ export function AppSidebar({ user }: AppSidebarProps) {
             >
               <ShieldAlert className="w-[18px] h-[18px] text-red-400 shrink-0" />
               {!isCollapsed && <span>Quản Trị Hệ Thống</span>}
+            </Link>
+          )}
+
+          {isAdmin && (
+            <Link
+              href="/admin/approvals"
+              className={`flex items-center rounded-xl text-sm transition-colors ${
+                isCollapsed
+                  ? 'w-10 h-10 mx-auto justify-center p-0'
+                  : 'gap-2.5 px-3 py-2.5'
+              } ${
+                pathname === '/admin/approvals'
+                  ? 'bg-red-500/20 text-red-300 font-bold border border-red-500/40'
+                  : 'text-red-400/80 hover:text-red-300 hover:bg-red-950/30 border border-transparent font-medium'
+              }`}
+              title={isCollapsed ? 'Duyệt tài khoản' : undefined}
+            >
+              <UserCheck className="w-[18px] h-[18px] text-red-400 shrink-0" />
+              {!isCollapsed && <span>Duyệt tài khoản</span>}
             </Link>
           )}
 
@@ -233,6 +279,32 @@ export function AppSidebar({ user }: AppSidebarProps) {
             <FocusModeButton isCompact={isCollapsed} />
           </div>
 
+          {/* Chuyển nhanh vai trò demo khi trình bày */}
+          {isDemoUser(user) && !isCollapsed && (
+            <div className="px-1 pt-1">
+              <div className="text-[10px] uppercase font-bold text-amber-300/90 font-mono mb-1">Đổi vai trò demo</div>
+              <div className="grid grid-cols-3 gap-1">
+                {DEMO_ACCOUNTS.map((account) => (
+                  <button
+                    key={account.role}
+                    type="button"
+                    onClick={() => {
+                      startDemoSession(account.role);
+                      router.push(DEMO_HOME[account.role]);
+                    }}
+                    className={`px-1.5 py-1 rounded-lg text-[10px] font-bold border transition cursor-pointer ${
+                      role === account.role
+                        ? 'bg-amber-400 text-slate-950 border-amber-300'
+                        : 'bg-[#0b1329] text-slate-400 hover:text-white border-slate-800'
+                    }`}
+                  >
+                    {account.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
           {/* User Profile Bar */}
           <div className={`pt-2 border-t border-slate-800/60 flex items-center ${
             isCollapsed ? 'flex-col gap-1.5 justify-center' : 'justify-between gap-2 px-1'
@@ -252,12 +324,9 @@ export function AppSidebar({ user }: AppSidebarProps) {
                 <div className="min-w-0 flex-1">
                   <div className="text-sm font-semibold text-slate-200 truncate">{user.name}</div>
                   <div className="text-[11px] text-slate-400 truncate flex items-center gap-1 font-mono">
-                    {(user.role as string) === 'admin' || (user.tier as string) === 'Admin' ? (
-                      <span className="text-red-400 font-bold">ADMIN CONSOLE</span>
-                    ) : user.plan === 'pro' || user.tier === 'Pro' ? (
-                      <span className="text-amber-400 font-medium">PRO MEMBER</span>
-                    ) : (
-                      <span>FREE PLAN</span>
+                    <span className={isAdmin ? 'text-red-400 font-bold' : 'text-slate-400'}>{ROLE_LABELS[role]}</span>
+                    {isDemoUser(user) && (
+                      <span className="px-1 rounded bg-amber-500/20 text-amber-300 border border-amber-500/40 font-bold">DEMO</span>
                     )}
                   </div>
                 </div>

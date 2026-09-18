@@ -26,6 +26,8 @@ import {
 } from 'lucide-react';
 import { PLANNER_CATALOG } from '@/data/planner-catalog';
 import { clientStorage } from '@/lib/client-storage';
+import { authBackendClient } from '@/lib/api/auth-backend-client';
+import { AuthModal } from '@/components/auth/auth-modal';
 import { MIN_MINUTES, planWithRules } from '@/lib/planner/baseline-planner';
 import type {
   CatalogItemType,
@@ -39,6 +41,8 @@ const STORAGE_KEY = 'vinonymus_planner_v2';
 const NOTE_MAX = 500;
 const STEPS = ['Nền tảng', 'Thời gian & bài lab', 'Ghi chú', 'Lộ trình'] as const;
 const MINUTE_PRESETS = [30, 45, 60, 90, 120];
+// Có địa chỉ backend nghĩa là hệ thống tài khoản đang bật: AI Mentor chỉ dành cho người đã đăng nhập.
+const LOGIN_ENFORCED = Boolean(process.env.NEXT_PUBLIC_BACKEND_CORE_URL);
 
 interface ChecklistTask extends PlannedTask {
   done: boolean;
@@ -85,6 +89,15 @@ export function StudyPlanner() {
   const [notice, setNotice] = useState<string | null>(null);
   const [result, setResult] = useState<PlannerResult | null>(null);
   const [checklist, setChecklist] = useState<ChecklistTask[]>([]);
+  const [needLogin, setNeedLogin] = useState(false);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  useEffect(() => {
+    const sync = () => setNeedLogin(LOGIN_ENFORCED && !clientStorage.getUser());
+    sync();
+    window.addEventListener('aiia_auth_changed', sync);
+    return () => window.removeEventListener('aiia_auth_changed', sync);
+  }, []);
 
   useEffect(() => {
     const saved = loadSaved();
@@ -111,6 +124,7 @@ export function StudyPlanner() {
     if (!input) return;
     setLoading(true);
     setNotice(null);
+    let unauthorized = false;
 
     try {
       const storedKeys = clientStorage.getApiKeys();
@@ -122,6 +136,7 @@ export function StudyPlanner() {
       if (storedKeys.groq) headers['x-groq-key'] = storedKeys.groq;
       if (storedKeys.cerebras) headers['x-cerebras-key'] = storedKeys.cerebras;
       if (storedKeys.fpt) headers['x-fpt-key'] = storedKeys.fpt;
+      Object.assign(headers, authBackendClient.getAuthHeaders());
 
       const response = await fetch('/api/roadmap', {
         method: 'POST',
@@ -133,6 +148,11 @@ export function StudyPlanner() {
           note: input.note,
         }),
       });
+      if (response.status === 401) {
+        unauthorized = true;
+        setNeedLogin(true);
+        return;
+      }
       if (!response.ok) throw new Error('API lộ trình cá nhân hoá không phản hồi hợp lệ');
 
       const res = (await response.json()) as PlannerResult;
@@ -162,7 +182,7 @@ export function StudyPlanner() {
       setNotice('Mất kết nối tới API; hệ thống đang dùng gợi ý mặc định an toàn.');
     } finally {
       setLoading(false);
-      setStep(3);
+      if (!unauthorized) setStep(3);
     }
   };
 
@@ -192,6 +212,38 @@ export function StudyPlanner() {
   const doneCount = checklist.filter((t) => t.done).length;
   const totalMinutes = checklist.reduce((sum, t) => sum + t.minutes, 0);
   const selectedLab = PLANNER_CATALOG.find((l) => l.labId === labId);
+
+  if (needLogin) {
+    return (
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="space-y-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">Lộ trình cá nhân hoá</h1>
+          <p className="text-xs font-semibold uppercase tracking-wider text-sky-300">
+            Personalized Learning Path · AI Mentor đề xuất cho bạn
+          </p>
+        </div>
+        <section className="rounded-3xl bg-slate-950/70 border border-slate-800 p-6 sm:p-8 space-y-4 text-center">
+          <h2 className="text-lg font-bold text-white">Tính năng dành cho học viên đã đăng nhập</h2>
+          <p className="text-sm text-slate-300">
+            Đăng nhập bằng tài khoản đã được duyệt để AI Mentor lập lộ trình học riêng cho bạn.
+            Tài khoản mới đăng ký cần chờ quản trị viên duyệt.
+          </p>
+          <button
+            type="button"
+            onClick={() => setShowAuthModal(true)}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl text-sm font-bold bg-sky-500 text-slate-950 hover:bg-sky-400 cursor-pointer"
+          >
+            Đăng nhập / Đăng ký
+          </button>
+        </section>
+        <AuthModal
+          isOpen={showAuthModal}
+          onClose={() => setShowAuthModal(false)}
+          onSuccess={() => setNeedLogin(false)}
+        />
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">

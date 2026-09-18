@@ -1,6 +1,43 @@
 import { planWithRules } from '@/lib/planner/baseline-planner';
 import type { PlannerLLMOutput } from '@/lib/prompts/planner';
-import type { CatalogLab, PlannerInput, PlannerResult, PlannedTask } from '@/types/planner';
+import type { CatalogItem, CatalogLab, PlannerInput, PlannerResult, PlannedTask } from '@/types/planner';
+
+function normalize(text: string): string {
+  return text.toLowerCase().normalize('NFC');
+}
+
+function matchesLearnerNeed(item: CatalogItem, note: string): boolean {
+  const normalizedNote = normalize(note);
+  if (!normalizedNote) return false;
+
+  return [item.title, item.why, ...item.tags].map(normalize).some((value) => normalizedNote.includes(value));
+}
+
+function rankSelectedItems(
+  output: PlannerLLMOutput & { status: 'plan' },
+  input: PlannerInput,
+  lab: CatalogLab,
+): Array<{ item: CatalogItem; reason: string }> {
+  const catalogById = new Map(lab.items.map((item) => [item.itemId, item]));
+  const seen = new Set<string>();
+
+  return output.tasks
+    .map((selected, index) => {
+      const item = catalogById.get(selected.item_id);
+      if (!item || seen.has(item.itemId)) return null;
+      seen.add(item.itemId);
+
+      const score =
+        (matchesLearnerNeed(item, input.note) ? 1000 : 0) +
+        (item.tags.includes('core') ? 20 : 0) -
+        index;
+
+      return { item, reason: selected.reason, index, score };
+    })
+    .filter((entry): entry is { item: CatalogItem; reason: string; index: number; score: number } => Boolean(entry))
+    .sort((a, b) => b.score - a.score || a.index - b.index)
+    .map(({ item, reason }) => ({ item, reason }));
+}
 
 /** Ghép output không đáng tin cậy của LLM với dữ liệu catalog đã kiểm chứng. */
 export function materializePlannerResult(
@@ -18,14 +55,13 @@ export function materializePlannerResult(
     };
   }
 
-  const catalogById = new Map(lab.items.map((item) => [item.itemId, item]));
   const seen = new Set<string>();
   const tasks: PlannedTask[] = [];
   let usedMinutes = 0;
 
-  for (const selected of output.tasks) {
-    const item = catalogById.get(selected.item_id);
-    if (!item || seen.has(item.itemId)) continue;
+  for (const selected of rankSelectedItems(output, input, lab)) {
+    const item = selected.item;
+    if (seen.has(item.itemId)) continue;
     if (usedMinutes + item.minutes > input.availableMinutes) continue;
     tasks.push({
       itemId: item.itemId,

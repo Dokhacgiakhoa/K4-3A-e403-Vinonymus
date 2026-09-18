@@ -15,8 +15,10 @@ export interface StoredUser {
   name: string;
   email: string;
   tier?: 'Free' | 'Pro' | 'Admin';
-  role?: 'student' | 'community' | 'admin';
+  role?: 'student' | 'community' | 'lecturer' | 'admin';
   plan?: 'free' | 'pro' | 'admin';
+  // Phiên dùng thử chỉ sống trên trình duyệt, không có JWT — mọi màn hình phải báo rõ để không bị nhầm là dữ liệu thật.
+  isDemo?: boolean;
   avatar?: string;
   // AI Mentor Ground Truth & Profiling Fields
   backgroundType?: 'non_tech' | 'software_dev' | 'data_analyst' | 'student' | 'other' | 'undetermined';
@@ -240,7 +242,7 @@ export const clientStorage = {
         // Background Sync với C# .NET 10 Backend Core
         const user = this.getUser();
         if (user?.id) {
-          curriculumBackendClient.enrollCourse(user.id, moduleId).catch(() => {});
+          curriculumBackendClient.enrollCourse(moduleId).catch(() => {});
         }
       }
     } catch {
@@ -267,7 +269,7 @@ export const clientStorage = {
       // Background Sync với C# .NET 10 Backend Core
       const user = this.getUser();
       if (user?.id) {
-        curriculumBackendClient.unenrollCourse(user.id, moduleId).catch(() => {});
+        curriculumBackendClient.unenrollCourse(moduleId).catch(() => {});
       }
     } catch {
       // Handle error

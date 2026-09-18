@@ -7,15 +7,16 @@ Quy ước: **FR** = yêu cầu chức năng · **NFR** = phi chức năng · **
 
 ---
 
-## 1. Bối cảnh
+## 1. Bối cảnh (Mô hình Khách hàng kép)
 
 | Mục | Nội dung |
 |---|---|
-| Người dùng | Học viên Khoá 4 AI20K đang tự học trước buổi lab/workshop tiếp theo |
-| Việc cần làm | Biết hôm nay cần học/làm gì với quỹ thời gian rảnh để kịp hạn bài lab |
-| Quyết định AI duy nhất | Từ nền tảng + quỹ thời gian + bài lab → **chọn và sắp thứ tự tối đa 3 tài liệu trong catalog**, kèm lý do; hoặc hỏi lại; hoặc từ chối |
-| Kết quả | Checklist ≤3 việc có link, học viên chỉnh được trước khi làm |
-| Mức tự động hoá | Conditional (xem `spec.md` §4) |
+| **Khách hàng 1 (Học viên)** | Học viên Khoá 4 AI20K đang tự học trước buổi lab/workshop tiếp theo (40 ca kiểm thử) |
+| **Khách hàng 2 (VLearn/LMS)** | Nền tảng VLearn, ban đào tạo & trợ giảng cần giảm tải, bảo vệ an toàn và chống gian lận (10 ca kiểm thử) |
+| **Việc cần làm** | Học viên biết hôm nay học gì trong quỹ thời gian rảnh; VLearn có cơ chế tự động dẫn đường học tập chuẩn hóa |
+| **Quyết định AI duy nhất** | Từ nền tảng + quỹ thời gian + bài lab → **chọn và sắp thứ tự tối đa 3 tài liệu trong catalog**, kèm lý do; hoặc hỏi lại (`clarify`); hoặc từ chối (`refuse`) |
+| **Kết quả** | Checklist ≤3 việc có link, học viên chỉnh được trước khi làm; hệ thống bảo vệ 0 link ngoài catalog |
+| **Mức tự động hoá** | Conditional (xem `spec.md` §4) |
 
 ## 2. Thuật ngữ
 
@@ -109,8 +110,9 @@ Xem `spec.md` §4 Non-goals: không tài khoản/thanh toán/chứng chỉ, khô
 | FR-P06 | §5 lớp ③ ngoài phạm vi | `eval/` — case làm hộ / injection |
 | FR-P07 | §4b Human-in-control, §6 correction | Validation R6 |
 
-## 7. Câu hỏi mở `[TODO]`
+## 7. Câu hỏi mở — Đã chốt tại CP4 (21:00 · 17/9)
 
-1. ~~Quality bar cụ thể (% qua golden set) — nhóm chốt tại CP4.~~ Đã chốt: ≥ 90%, 0 link ngoài catalog và G16–G18 refuse 3/3 (`spec.md` §7).
-2. Catalog phủ bao nhiêu bài lab cho demo — đề xuất 2–3 bài.
-3. Ngưỡng 30 phút ở FR-P05 có hợp lý không — kiểm lại khi có khảo sát.
+1. ~~Quality bar cụ thể (% qua golden set) — nhóm chốt tại CP4.~~ Đã chốt: ≥ 90%, 0 link ngoài catalog và G16–G18 refuse 3/3 (`spec.md` §7). Kết quả thực tế đạt **19/20 = 95%**.
+2. ~~Catalog phủ bao nhiêu bài lab cho demo.~~ Đã chốt: Catalog phủ **3 bài lab trọng tâm** của giai đoạn Build Phase (`lab-01`, `lab-02`, `lab-03`), đủ để đại diện cho toàn bộ các tình huống học tập.
+3. ~~Ngưỡng 30 phút ở FR-P05 có hợp lý không.~~ Đã chốt: Ngưỡng 30 phút hoàn toàn hợp lý dựa trên thực chứng khảo sát n = 82 học viên (87% học viên cần ít nhất 30 phút để chuẩn bị môi trường và nắm trọng tâm; dưới 30 phút hệ thống trả `clarify` để học viên chủ động chọn đọc tóm tắt hay làm thẳng bài).
+

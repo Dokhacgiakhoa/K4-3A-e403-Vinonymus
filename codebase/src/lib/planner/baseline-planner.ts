@@ -5,20 +5,55 @@ export const MIN_MINUTES = 30;
 export const MAX_TASKS = 3;
 
 const OUT_OF_SCOPE_PATTERNS = [
-  /làm hộ|làm giùm|làm dùm|giải hộ|code hộ/i,
-  /đáp án|lời giải/i,
-  /gia hạn|xin (nộp )?muộn|dời deadline/i,
-  /chấm điểm|xin điểm|cho điểm/i,
-  /bỏ qua (mọi |các )?hướng dẫn|ignore (all |previous )?instructions/i,
+  /làm hộ|làm giùm|làm dùm|giải hộ|code hộ|giải bài tập/i,
+  /đáp án|lời giải|source code giải|code giải mẫu|testcase ẩn/i,
+  /gia hạn|xin (nộp )?muộn|dời deadline|hoãn deadline|mở (lại |cổng )?nộp/i,
+  /chấm điểm|xin điểm|cho điểm|nâng điểm|ghi đè (nâng )?điểm/i,
+  /bỏ qua (mọi |các )?hướng dẫn|ignore (all |previous )?instructions|in system prompt|leak prompt|leak api key/i,
 ];
 
 function normalize(text: string): string {
   return text.toLowerCase().normalize('NFC');
 }
 
+function hasContradiction(background: PlannerInput['background'], note: string): boolean {
+  const norm = normalize(note);
+  if (!norm) return false;
+  if (background === 'non_tech') {
+    const expertPatterns = [
+      /vận hành.*(rag|production)/i,
+      /tối ưu.*(production|retrieval)/i,
+      /retrieval production/i,
+      /chuyên gia.*(ai|machine learning|deep learning)/i,
+      /kinh nghiệm.*(production|hệ thống lớn|triển khai)/i,
+      /senior.*(engineer|developer|dev)/i,
+    ];
+    return expertPatterns.some((pattern) => pattern.test(norm));
+  }
+  if (background === 'ai') {
+    const beginnerPatterns = [
+      /non-?tech/i,
+      /chưa (từng |bao giờ )?(code|lập trình|dùng api|biết api)/i,
+      /chưa biết (api|code|lập trình|notebook)/i,
+      /mới bắt đầu.*chưa biết gì/i,
+    ];
+    return beginnerPatterns.some((pattern) => pattern.test(norm));
+  }
+  return false;
+}
+
 function matchesNote(item: CatalogItem, note: string): boolean {
   const normalizedNote = normalize(note);
-  return normalizedNote.length > 0 && item.tags.some((tag) => normalizedNote.includes(normalize(tag)));
+  if (!normalizedNote) return false;
+  return item.tags.some((tag) => {
+    const normTag = normalize(tag);
+    const index = normalizedNote.indexOf(normTag);
+    if (index === -1) return false;
+    // Bỏ qua nếu từ khoá đi sau các từ phủ định hoặc đã có kiến thức này
+    const prefix = normalizedNote.slice(Math.max(0, index - 25), index);
+    const isExcluded = /(đã (có|làm|hiểu|biết|dùng|nắm|quen)|bỏ qua|không cần|skip)/.test(prefix);
+    return !isExcluded;
+  });
 }
 
 function reasonFor(item: CatalogItem, input: PlannerInput): string {
@@ -35,8 +70,22 @@ function reasonFor(item: CatalogItem, input: PlannerInput): string {
   return item.why;
 }
 
+function isExcludedByNote(item: CatalogItem, note: string): boolean {
+  const norm = normalize(note);
+  if (!norm) return false;
+  if (norm.includes('bỏ qua tổng quan') && item.tags.includes('intro')) return true;
+  return item.tags.some((tag) => {
+    const normTag = normalize(tag);
+    const index = norm.indexOf(normTag);
+    if (index === -1) return false;
+    const prefix = norm.slice(Math.max(0, index - 25), index);
+    return /(bỏ qua|không cần|skip|loại trừ)/.test(prefix);
+  });
+}
+
 function rank(items: CatalogItem[], input: PlannerInput): CatalogItem[] {
   const score = (item: CatalogItem): number => {
+    if (isExcludedByNote(item, input.note)) return -1000;
     let value = 0;
     if (matchesNote(item, input.note)) value += 100;
     if (item.tags.includes('core')) value += 25;
@@ -48,9 +97,9 @@ function rank(items: CatalogItem[], input: PlannerInput): CatalogItem[] {
       if (item.tags.includes('setup')) value += 25;
       if (item.level === 'basic') value += 10;
     } else {
-      if (item.tags.includes('setup')) value -= 20;
+      if (item.tags.includes('setup')) value -= 50;
       if (item.level === 'advanced') value += 30;
-      if (item.tags.includes('intro')) value -= 30;
+      if (item.tags.includes('intro')) value -= 50;
     }
     return value;
   };
@@ -76,6 +125,14 @@ export function planWithRules(input: PlannerInput): PlannerResult {
     };
   }
 
+  if (hasContradiction(input.background, input.note)) {
+    return {
+      status: 'clarify',
+      question:
+        'Thông tin nền tảng và ghi chú của bạn đang chưa khớp. Bạn mô tả ngắn phần mình đã biết hoặc đang vướng nhé?',
+    };
+  }
+
   if (input.availableMinutes < MIN_MINUTES) {
     return {
       status: 'clarify',
@@ -88,6 +145,15 @@ export function planWithRules(input: PlannerInput): PlannerResult {
   for (const item of rank(lab.items, input)) {
     if (tasks.length >= MAX_TASKS) break;
     if (usedMinutes + item.minutes > input.availableMinutes) continue;
+    if (isExcludedByNote(item, input.note)) continue;
+    if (
+      input.background === 'ai' &&
+      tasks.length >= 1 &&
+      (item.tags.includes('setup') || item.tags.includes('intro')) &&
+      !matchesNote(item, input.note)
+    ) {
+      continue;
+    }
     tasks.push({
       itemId: item.itemId,
       title: item.title,

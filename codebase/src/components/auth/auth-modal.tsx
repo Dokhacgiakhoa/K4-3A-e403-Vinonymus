@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
-import { X, Mail, Lock, User, Github, Sparkles, CheckCircle2, ArrowRight, UserCircle, AlertCircle, Crown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { X, Mail, Lock, User, Github, Sparkles, CheckCircle2, ArrowRight, UserCircle, AlertCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { authBackendClient } from '@/lib/api/auth-backend-client';
+import { DEMO_ACCOUNTS, DEMO_HOME, startDemoSession, type DemoRole } from '@/lib/demo/demo-accounts';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,6 +16,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthModalProps) {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -78,18 +81,6 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
             currentLevel: res.user.currentLevel || 'L1',
             totalStudyHours: res.user.totalStudyHours || 0
           };
-        } else if (email.trim().toLowerCase() === 'pro@ai-thuc-chien.vn' && (password === 'password123' || password === '123456')) {
-          // Dev / Demo Pro VIP fallback
-          loggedUser = {
-            id: '140ad878-b6de-4861-be09-fc082985001c',
-            name: 'Hoang Nam Pro VIP',
-            email: 'pro@ai-thuc-chien.vn',
-            tier: 'Pro',
-            plan: 'pro',
-            role: 'student',
-            currentLevel: 'L3',
-            totalStudyHours: 120
-          };
         } else {
           setErrorMessage(res.message || 'Đăng nhập thất bại.');
           return;
@@ -110,36 +101,34 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
         const res = await authBackendClient.register(email.trim(), password, displayName);
         setIsLoading(false);
 
-        if (!res.success || !res.user) {
+        if (!res.success) {
           setErrorMessage(res.message || 'Đăng ký tài khoản thất bại.');
           return;
         }
 
-        const loggedUser: StoredUser = {
-          id: res.user.id,
-          name: res.user.displayName || displayName,
-          email: res.user.email,
-          tier: (res.user.tier as 'Free' | 'Pro' | 'Admin') || 'Free',
-          role: 'student',
-          currentLevel: res.user.currentLevel || 'L1',
-          totalStudyHours: res.user.totalStudyHours || 0
-        };
-
-        clientStorage.saveUser(loggedUser);
-        setSuccessMessage(res.message || 'Đăng ký thành công!');
-
-        if (onLoginSuccess) onLoginSuccess(loggedUser);
-        if (onSuccess) onSuccess();
-
-        setTimeout(() => {
-          setSuccessMessage('');
-          onClose();
-        }, 900);
+        // Tài khoản mới phải chờ quản trị viên duyệt: không lưu phiên, chỉ báo kết quả và chuyển về màn đăng nhập.
+        setSuccessMessage(res.message || 'Đăng ký thành công! Tài khoản đang chờ quản trị viên duyệt.');
+        setPassword('');
+        setIsLogin(true);
       }
     } catch (err: any) {
       setIsLoading(false);
       setErrorMessage(err?.message || 'Có lỗi kết nối xảy ra. Vui lòng thử lại.');
     }
+  };
+
+  const handleDemoLogin = (role: DemoRole) => {
+    const user = startDemoSession(role);
+    if (!user) return;
+    setErrorMessage('');
+    setSuccessMessage(`Đã vào bản demo với vai trò ${DEMO_ACCOUNTS.find((a) => a.role === role)?.label ?? role}.`);
+    if (onLoginSuccess) onLoginSuccess(user);
+    if (onSuccess) onSuccess();
+    setTimeout(() => {
+      setSuccessMessage('');
+      onClose();
+      router.push(DEMO_HOME[role]);
+    }, 700);
   };
 
   const handleOAuthLogin = async (provider: string) => {
@@ -229,21 +218,6 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
           <div className="flex-1 h-px bg-slate-800"></div>
         </div>
 
-        {/* Quick Demo Pro VIP Fill Button */}
-        {isLogin && (
-          <button
-            type="button"
-            onClick={() => {
-              setEmail('pro@ai-thuc-chien.vn');
-              setPassword('password123');
-            }}
-            className="w-full py-2.5 px-3 rounded-2xl bg-gradient-to-r from-amber-500/15 via-orange-500/15 to-amber-500/15 hover:from-amber-500/25 hover:to-orange-500/25 border border-amber-500/40 text-amber-300 text-xs font-bold transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md hover:scale-[1.01]"
-          >
-            <Crown className="w-4 h-4 text-amber-400" />
-            <span>⚡ Điền Nhanh Tài Khoản Pro VIP (pro@ai-thuc-chien.vn)</span>
-          </button>
-        )}
-
         {/* Form Inputs */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {!isLogin && (
@@ -309,6 +283,30 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
             )}
           </button>
         </form>
+
+        {isLogin && (
+          <div className="space-y-2 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-3">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
+              Dùng thử nhanh · bản demo giao diện
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {DEMO_ACCOUNTS.map((account) => (
+                <button
+                  key={account.role}
+                  type="button"
+                  onClick={() => handleDemoLogin(account.role)}
+                  className="flex flex-col items-center gap-0.5 rounded-xl border border-slate-700 bg-[#0b1329] px-2 py-2 text-center hover:border-amber-400 transition cursor-pointer"
+                >
+                  <span className="text-xs font-bold text-white">{account.label}</span>
+                  <span className="text-[10px] leading-tight text-slate-400">{account.description}</span>
+                </button>
+              ))}
+            </div>
+            <p className="text-[10px] text-slate-500">
+              Không cần mật khẩu. Dữ liệu mẫu, chỉ lưu trên trình duyệt này — backend chưa đưa lên server.
+            </p>
+          </div>
+        )}
 
         {errorMessage && (
           <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/40 text-red-300 text-xs font-medium flex items-center gap-2.5 animate-fadeIn">

@@ -7,17 +7,22 @@
 
 | | |
 |---|---|
-| **Demo Lộ trình cá nhân hoá** | <https://k4-3a-e403-vinonymus.vercel.app/personalized-path> |
-| **Tên miền riêng** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path> |
-| **Spec (tài liệu chấm)** | [`spec.md`](spec.md) |
+| **Trang chủ hệ thống** | <https://k4-3a-e403-vinonymus.kailabs.io.vn> |
+| **Demo Lộ trình cá nhân hoá (Phần chấm thi)** | <https://k4-3a-e403-vinonymus.kailabs.io.vn/learning-path> |
+| **Bản demo dự phòng (Vercel)** | <https://k4-3a-e403-vinonymus.vercel.app/learning-path> |
+| **AI Spec (Tài liệu chấm chính thức)** | [`spec.md`](spec.md) |
+| **Đặc tả yêu cầu hệ thống (SRS)** | [`docs/01-SRS.md`](docs/01-SRS.md) |
+| **Kiến trúc & Luồng dữ liệu** | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
+| **Kiểm định Eval 50 case (100%)** | [`eval/run_results.md`](eval/run_results.md) |
+| **Tích hợp Discord Activity (+5 XP)** | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | **Việc của nhóm** | [Milestones theo checkpoint](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestones) |
 
 **Adaptive Learning System** cho học viên Khoá 4, gồm 2 AI:
 
-| AI | Làm gì | Tính năng hiển thị | Vai trò trong cuộc thi |
-|---|---|---|---|
-| **AI Mentor** | Đọc thông tin của học viên, đọc tài liệu giảng viên tải lên, phân tích CV để ra bài test năng lực, phân tích điểm test để xây lộ trình học (chi tiết bên dưới) | Tính năng **Lộ trình cá nhân hoá** tại `/personalized-path` | **Phần được chấm** (demo scope) là tính năng này, theo `spec.md` |
-| **AI Helpdesk** | Giải đáp thắc mắc trong chat box, có trích dẫn nguồn | Widget chat nổi | Tính năng nền, không thuộc phần chấm. API chạy thật nhưng widget hiện là mô phỏng (xem [Trạng thái](#-trạng-thái-prototype)) |
+| AI | Người dùng có trò chuyện không? | Làm gì | Hiện ra ở đâu | Vai trò trong cuộc thi |
+|---|---|---|---|---|
+| **AI Mentor** | **Không.** AI thực thi, chạy phía sau | Đọc thông tin của học viên, đọc tài liệu giảng viên tải lên, phân tích CV để ra bài test năng lực, phân tích điểm test để xây lộ trình học (chi tiết bên dưới) | Tính năng **Lộ trình cá nhân hoá** tại `/learning-path` | **Phần được chấm** (demo scope) là tính năng này, theo `spec.md` |
+| **AI Helpdesk** | **Có.** Là AI duy nhất người dùng nói chuyện | Tra cứu, giải đáp về tài liệu và lộ trình học, có trích dẫn nguồn | Chatbox (widget chat nổi) | Tính năng nền, không thuộc phần chấm. Chatbox đã gọi AI thật (xem [Trạng thái](#-trạng-thái-prototype)) |
 
 **AI Mentor làm 4 việc** (trạng thái thật tính đến 17/9):
 
@@ -54,12 +59,14 @@ Với tính năng **Lộ trình cá nhân hoá (Personalized Learning Path)**:
 
 | Họ và Tên | Mã Học Viên | Vai trò chính | GitHub | Phần việc đảm nhiệm trong dự án | Việc được giao |
 |---|---|---|---|---|---|
-| Đỗ Khắc Gia Khoa (đội trưởng) | 02733 | PM | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) | Chốt Canvas & lát cắt, khảo sát nỗi đau, viết `spec.md`, điều phối checkpoint & nộp form, slide + pitch, validation (R6) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3ADokhacgiakhoa) |
-| Trần Nhật Minh | 02483 | BE | [@minh-tran-2611](https://github.com/minh-tran-2611) | Backend/API cho prototype (`/api/roadmap`), tích hợp lời gọi AI qua LLM router, CI, quản lý biến môi trường (không commit key) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Aminh-tran-2611) |
-| Đinh Ngọc Đức | 02935 | AI | [@dinhngocduc1311](https://github.com/dinhngocduc1311) | Thiết kế prompt/pipeline AI, catalog tài liệu, xây golden set & chạy eval (`eval/`), phân tích lỗi và kịch bản rủi ro | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Adinhngocduc1311) |
-| Nguyễn Việt Thành | 02924 | FE | [@thanhnvhust514](https://github.com/thanhnvhust514) | Giao diện & luồng người dùng, mock bấm được (CP2), quay video thao tác CP3 và video demo dự phòng CP5 | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Athanhnvhust514) |
+| Đỗ Khắc Gia Khoa (đội trưởng) | 02733 | PM · Backend · Giao diện Student/Viewer | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) | Chốt Canvas & lát cắt, khảo sát nỗi đau, viết `spec.md`, điều phối checkpoint & nộp form, slide + pitch, validation (R6) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3ADokhacgiakhoa) |
+| Trần Nhật Minh | 02483 | Database | [@minh-tran-2611](https://github.com/minh-tran-2611) | Backend/API cho prototype (`/api/roadmap`), tích hợp lời gọi AI qua LLM router, CI, quản lý biến môi trường (không commit key) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Aminh-tran-2611) |
+| Đinh Ngọc Đức | 02935 | AI Helpdesk · Giao diện Admin/Lecturer | [@dinhngocduc1311](https://github.com/dinhngocduc1311) | Thiết kế prompt/pipeline AI, catalog tài liệu, xây golden set & chạy eval (`eval/`), phân tích lỗi và kịch bản rủi ro | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Adinhngocduc1311) |
+| Nguyễn Việt Thành | 02924 | AI Mentor | [@thanhnvhust514](https://github.com/thanhnvhust514) | Giao diện & luồng người dùng, mock bấm được (CP2), quay video thao tác CP3 và video demo dự phòng CP5 | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Athanhnvhust514) |
 
 Bảng phân công chi tiết theo từng checkpoint (người phụ trách, người hỗ trợ, hạn): [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md).
+
+Từ 18/9 phân vai lại để xây hệ thống 4 vai trò — Khoa làm backend .NET và giao diện Student/Viewer, Minh làm database, Đức làm AI Helpdesk và giao diện Admin/Lecturer, Thành làm AI Mentor. Mỗi vai trò có giao diện riêng. Danh sách task: [`docs/hackathon/tasks-he-thong-4-vai-tro.md`](docs/hackathon/tasks-he-thong-4-vai-tro.md).
 
 ---
 
@@ -88,15 +95,48 @@ Bảng phân công chi tiết theo từng checkpoint (người phụ trách, ng�
 | Biết mình không biết | Dưới 30 phút, bài lab lạ hoặc ghi chú mâu thuẫn thì hỏi lại |
 | Không vượt phạm vi | Chỉ hiện link có trong catalog; từ chối các yêu cầu làm hộ, xin đáp án, xin gia hạn, xin điểm |
 
-**Không làm:** tài khoản, thanh toán, chứng chỉ; nộp bài hộ hay đổi deadline; thay AI Tutor VLearn; lưu lịch sử học dài hạn.
+**Không làm:** thanh toán, chứng chỉ; nộp bài hộ hay đổi deadline; thay AI Tutor VLearn; lưu lịch sử học dài hạn.
 
 ## 🧭 Luồng người dùng
 
-Học viên mở trang **Lộ trình cá nhân hoá** tại `/personalized-path`. Trang này không cần đăng nhập. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
+Hệ thống có **4 vai trò**. Ai đăng nhập bằng tài khoản nào thì thấy luồng của vai trò đó.
+
+| # | Vai trò | Là ai | Vào được gì | Tình trạng |
+|---|---|---|---|---|
+| 1 | **Viewer** — khách chưa đăng nhập | Người lạ vừa mở web | Xem trang giới thiệu, danh mục lab; hỏi **AI Helpdesk** ở chatbox, tối đa **10 câu/ngày**. Không mở được Lộ trình cá nhân hoá | ✅ Đã làm |
+| 2 | **Student** — học viên đã đăng nhập | Học viên Khoá 4, tài khoản đã được duyệt | Hỏi AI Helpdesk không giới hạn + dùng **Lộ trình cá nhân hoá** (`/learning-path`) | ✅ Đã làm (phần được chấm nằm ở đây) |
+| 3 | **Lecturer** — giảng viên | Người soạn giáo trình | Tải tài liệu lên để AI Mentor đọc vào thư viện tài liệu | ❌ **Chưa có giao diện.** Vai trò `Lecture` mới có trong backend; thư viện hiện do nhóm soạn tay trong `planner-catalog.ts` |
+| 4 | **Admin** | Nhóm Vinonymus | **Duyệt tài khoản** đăng ký mới tại `/admin/approvals` (đồng ý / từ chối) | ⚠️ Giao diện xong, chờ deploy backend |
+
+> **Vì sao phải chờ duyệt:** đăng ký xong **không** được đăng nhập ngay. Tài khoản ở trạng thái *chờ duyệt* cho tới khi Admin bấm đồng ý. Mục đích là giữ AI Helpdesk miễn phí làm cửa mở cho người lạ, còn phần tốn tiền gọi AI thì chỉ mở cho người thật.
+>
+> **Lưu ý khi chạy thử:** việc bắt đăng nhập chỉ bật khi đã khai báo địa chỉ backend (`NEXT_PUBLIC_BACKEND_CORE_URL`). Backend .NET chưa deploy, nên **web thật hiện chạy mở** — ai vào cũng dùng được như Student. Xem [Trạng thái prototype](#-trạng-thái-prototype).
 
 ```mermaid
 flowchart TD
-    A([Mở /personalized-path]) --> B[Bước 1 · Chọn nền tảng<br/>non-tech / tech-base / đã học AI]
+    V([Mở web]) --> Q{Đã đăng nhập chưa?}
+    Q -- Chưa --> V1[1 · VIEWER<br/>Xem trang giới thiệu, danh mục lab<br/>Hỏi AI Helpdesk · 10 câu/ngày]
+    V1 --> V2{Muốn dùng Lộ trình cá nhân hoá?}
+    V2 -- Có --> V3[Đăng ký tài khoản] --> V4[Chờ Admin duyệt] --> A2
+    V2 -- Không --> V1
+    Q -- Rồi --> R{Vai trò}
+    R -- Student --> S1[2 · STUDENT<br/>AI Helpdesk không giới hạn<br/>+ Lộ trình cá nhân hoá] --> S2
+    R -- Lecturer --> L1[3 · LECTURER<br/>Tải tài liệu lên<br/>chưa có giao diện] -.- L2[AI Mentor đọc tài liệu<br/>vào thư viện]
+    R -- Admin --> A1[4 · ADMIN<br/>/admin/approvals]
+    A1 --> A2{Duyệt tài khoản mới} -- Đồng ý --> S1
+    A2 -- Từ chối --> X([Không đăng nhập được])
+    L2 -.-> S2[Lộ trình lấy tài liệu từ thư viện]
+```
+
+Sơ đồ chi tiết ở mức API cho cả 4 vai trò: [`role-flow.mmd`](role-flow.mmd).
+
+### Luồng Student — phần được chấm
+
+Đây là luồng được demo và chấm điểm. Học viên mở **Lộ trình cá nhân hoá** tại `/learning-path`. API key LLM của học viên chỉ lưu trên trình duyệt (BYOK) và được gửi kèm từng request.
+
+```mermaid
+flowchart TD
+    A([Mở /learning-path]) --> B[Bước 1 · Chọn nền tảng<br/>non-tech / tech-base / đã học AI]
     B --> C[Bước 2 · Số phút rảnh hôm nay<br/>+ bài lab tiếp theo]
     C --> D[Bước 3 · Ghi chú tuỳ chọn<br/>'Bạn đang vướng gì?']
     D --> F[Bấm Tạo lộ trình<br/>POST /api/roadmap]
@@ -125,7 +165,7 @@ Chi tiết màn hình: [`docs/05-ui-flow.md`](docs/05-ui-flow.md).
 
 ## 🛠️ Luồng vận hành (quản trị)
 
-Lát cắt dự thi **không có giao diện admin** và không có phân quyền quản trị. Trang `/admin` là màn hình tĩnh của dự án nền, không dùng trong demo. Việc "quản trị" do nhóm làm trực tiếp trên repo:
+Ngoài việc duyệt tài khoản ở `/admin/approvals` (xem bảng vai trò bên trên), phần quản trị còn lại — thêm bài lab, sửa link tài liệu, sửa prompt — nhóm làm **trực tiếp trên repo** chứ chưa có giao diện. Các trang `/admin` khác là màn hình tĩnh của dự án nền, không dùng trong demo.
 
 ```mermaid
 flowchart LR
@@ -134,7 +174,8 @@ flowchart LR
     C --> D{CI verify<br/>+ review CODEOWNERS}
     D -- đỏ / cần sửa --> B
     D -- xanh + duyệt --> E[Merge vào main]
-    E --> F[Vercel tự deploy]
+    E --> P[PR main → production]
+    P --> F[Vercel deploy web thật]
     E --> G[Chạy lại golden set<br/>ghi eval/run_results.md]
     H[Phản hồi người dùng thử] --> I[Ghi validation/log.md<br/>+ spec.md §9] --> B
 ```
@@ -145,13 +186,13 @@ flowchart LR
 | Sửa prompt, guardrail | Đức | `codebase/src/lib/prompts/`, [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Chạy eval sau mỗi lần đổi prompt hoặc catalog | Đức | [`eval/run_results.md`](eval/run_results.md) |
 | Ghi nhận phản hồi, quyết định thay đổi | Khoa | [`validation/log.md`](validation/log.md)<br>`spec.md` §9 |
-| Deploy | Tự động khi merge `main` | Vercel, Root Directory = `codebase` |
+| Deploy | Web thật chỉ cập nhật khi merge vào nhánh `production` (mở PR `main` → `production`). Merge vào `main` chỉ tạo bản xem thử | Vercel, Root Directory = `codebase` |
 
 ## 🏗️ Kiến trúc
 
 ```mermaid
 flowchart LR
-    U[Học viên] --> W[Trang Lộ trình cá nhân hoá<br/>/personalized-path]
+    U[Học viên] --> W[Trang Lộ trình cá nhân hoá<br/>/learning-path]
     W -->|POST /api/roadmap<br/>header: key người dùng| R[Route handler]
     R -->|validate zod · luật cứng| R
     R --> C[(Catalog)]
@@ -169,28 +210,33 @@ flowchart LR
 | Lớp | Công nghệ | Trạng thái |
 |---|---|---|
 | Frontend | Next.js 15 (App Router) · React 19 · TypeScript (strict) · Tailwind CSS 3 · lucide-react · GSAP · PWA | Đang chạy |
-| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/personalized-path`) và API của AI Helpdesk (`/api/chat`): chạy thật |
+| AI | LLM router đa nhà cung cấp, người dùng tự mang key (BYOK): FPT AI Factory · Gemini · OpenAI · Claude · DeepSeek · Groq · Cerebras · embedding Gemini 768 chiều | AI Mentor (`/learning-path`) và API của AI Helpdesk (`/api/chat`): chạy thật |
 | Dữ liệu | Supabase Postgres + pgvector · Row Level Security · migration SQL (`codebase/supabase/migrations/`) | Đang chạy (chỉ Chat) |
 | Validate & hiển thị | zod · react-hook-form · react-markdown + rehype-sanitize | Đang chạy |
+| Tích hợp mở rộng | Discord Activity API (`/api/integrations/discord/activity`), hỗ trợ Dual-Mode (Mock Sandbox & Live Webhook) ghi nhận +5 XP | Đang chạy |
 | Kiểm thử & CI | Vitest · Husky pre-push (`npm run verify`) · GitHub Actions `verify` trên mọi PR và push vào `main` | Đang chạy |
 | Backend phụ | .NET 10 Clean Architecture · EF Core · Postgres + Qdrant (docker-compose) | Chưa tích hợp |
 
 Xem thêm:
 - Kiến trúc chi tiết: [`docs/02-kien-truc.md`](docs/02-kien-truc.md)
 - Hợp đồng API: [`docs/03-api.md`](docs/03-api.md)
+- Đặc tả API Discord (+5 XP): [`docs/feature-discord-api.md`](docs/feature-discord-api.md)
 - Prompt & guardrail: [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md)
 
 ## 🚦 Trạng thái prototype
 
 | Phần | Trạng thái | Ghi chú |
 |---|---|---|
-| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/personalized-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`; golden set chạy trên Gemini 3.5 Flash-Lite đạt **19/20 = 95%** (baseline luật tĩnh 17/20). Luật tĩnh được giữ làm baseline và fallback ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
-| **AI Helpdesk** — API `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Pipeline 5 tầng, BYOK, có eval (`codebase/tests/eval/`). Là tính năng nền, không phải lát cắt được chấm |
-| **AI Helpdesk** — widget chat nổi "AI Helpdesk 24/7" | 🎭 Mock | Trả lời mẫu theo từ khoá, **chưa gọi** `/api/chat`; bộ chọn model chưa có tác dụng. Component chat gọi API thật (`components/chat/chat-box.tsx`) có sẵn nhưng chưa được gắn vào trang nào |
+| **Lộ trình cá nhân hoá** (phần được chấm, do AI Mentor thực hiện), trang `/learning-path` | ✅ AI chạy thật | Luồng 4 bước gọi LLM thật qua `/api/roadmap`. Bộ kiểm định mở rộng **50/50 case = 100%** theo mô hình **Khách hàng kép**: **40 case Nỗi đau Học viên** (B2C: non-tech/tech-base/AI, quỹ thời gian thực tế, giải quyết triệt để 52 tin phân mảnh tài liệu E1, 0 link ngoài) và **10 case Nỗi đau Hệ thống VLearn & Ban vận hành** (B2B: chặn leak code mẫu/đáp án/testcase ẩn, chặn bypass deadline LMS, chặn prompt injection, xử lý an toàn Broken Link/Mã lab 404 chống crash 500, chặn DoS token request 0 phút). Xem [`eval/run_results.md`](eval/run_results.md). Baseline luật tĩnh đạt **50/50 (100%)** làm baseline & fallback an toàn ([`baseline-planner.ts`](codebase/src/lib/planner/baseline-planner.ts)) |
+| **AI Helpdesk** — chatbox nổi ở mọi trang, gọi `/api/chat` (RAG có trích dẫn) | ✅ AI chạy thật | Ưu tiên trả lời từ FAQ đã xác thực; câu cần tra sâu thì dùng LLM và cần API key. Có eval (`codebase/tests/eval/`). Là tính năng nền, không thuộc phần được chấm |
 | Wizard lộ trình 4 sprint tại `/learning?mode=ai_roadmap` (menu "Lộ Trình AI Mentor") | 🎭 Mock | Quy tắc chạy trên trình duyệt, không gọi AI. **Không** thuộc phần được chấm |
 | Form khảo sát 12 câu hỏi, trang `/contact` | ✅ Chạy thật | Gửi về Google Sheet qua `/api/contact/survey`; dùng để thu bằng chứng, không thuộc lát cắt được chấm. Phân tích: [`survey-data-review.md`](docs/research/survey-data-review.md) |
-| Tài khoản, gói Pro, chứng chỉ, cây kỹ năng, `/admin` | 🎭 Mock | Không thuộc phạm vi thi |
-| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa tích hợp | App tự fallback khi .NET không chạy, demo không cần. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
+| Hạn mức AI Helpdesk cho khách: 10 câu/ngày | ✅ Đã có code, ⚠️ chưa đủ mạnh trên web thật | Khách chưa đăng nhập hỏi tối đa 10 câu/ngày; đăng nhập thì không giới hạn. Khi chưa deploy backend, bộ đếm nằm trong bộ nhớ server nên chỉ chặn được một phần |
+| Đăng ký chờ duyệt, trang `/admin/approvals` | ✅ Đã có code, ⚠️ chưa deploy backend | Đăng ký xong phải chờ quản trị viên duyệt mới đăng nhập được. Cần backend .NET chạy thật |
+| Khoá Lộ trình cá nhân hoá cho người chưa đăng nhập | ✅ Đã có code, tắt cho tới khi có backend | Chỉ bật khi đã cấu hình địa chỉ backend, để web thật không bị khoá |
+| Gói Pro, chứng chỉ, cây kỹ năng, `/admin` (trừ trang duyệt tài khoản) | 🎭 Mock | Không thuộc phạm vi thi |
+| **Tích hợp Discord Activity (+5 XP)**, API `/api/integrations/discord/activity` | ✅ Chạy thật (Dual-Mode) | Ghi nhận hoạt động tự học (+5 XP/lượt) theo chuẩn kênh `#activity` của server `AI20K Build Phase - Cohort 4`. Mặc định chạy Mock Sandbox (trả về preview payload chuẩn) phục vụ chấm điểm; tự động chuyển Live khi có `DISCORD_WEBHOOK_URL`. 13 unit tests đạt 100%. Chi tiết: [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
+| Backend .NET (`codebase/backend-core/`, `codebase/database/`) | ⚠️ Chưa deploy | Đăng ký/duyệt tài khoản, hạn mức khách, và các endpoint ghi danh/tiến độ/chứng chỉ/thanh toán (lấy người dùng từ token, không nhận `userId` từ request) đã code xong theo Clean Architecture + CQRS, có 60 test tự động. Có Dockerfile; tài khoản Railway hết hạn dùng thử nên chưa đưa lên được. Xem [`docs/06-backend-dotnet.md`](docs/06-backend-dotnet.md) |
 
 ## 🗂️ Cấu trúc repo
 
@@ -209,7 +255,18 @@ K4-3A-e403-Vinonymus/
 
 ## ▶️ Chạy thử
 
-**Bản đã deploy:** <https://k4-3a-e403-vinonymus.vercel.app/personalized-path>
+**Bản đã deploy:**
+- **Trang chủ hệ thống:** <https://k4-3a-e403-vinonymus.kailabs.io.vn>
+- **Lộ trình cá nhân hoá (Phần chấm thi):** <https://k4-3a-e403-vinonymus.kailabs.io.vn/learning-path>
+- **Bản demo dự phòng (Vercel):** <https://k4-3a-e403-vinonymus.vercel.app/learning-path>
+
+**Test nhanh API Discord Activity (+5 XP):**
+```bash
+# Gửi activity học tập (chế độ Sandbox Preview không cần webhook secret)
+curl -X POST https://k4-3a-e403-vinonymus.kailabs.io.vn/api/integrations/discord/activity \
+  -H "Content-Type: application/json" \
+  -d "{\"student_id\":\"HV02733\",\"action_type\":\"generate_path\",\"topic\":\"Lab 02\",\"duration_minutes\":45}"
+```
 
 **Chạy local:** cần Node.js 22+ và một API key LLM miễn phí. Nên dùng Gemini, lấy key ở [Google AI Studio](https://aistudio.google.com/apikey).
 
@@ -217,14 +274,14 @@ K4-3A-e403-Vinonymus/
 cd codebase
 npm install                  # đồng thời cài hook pre-push
 cp .env.example .env.local   # điền Supabase nếu cần dùng Chat; không commit file này
-npm run dev                  # http://localhost:3000/personalized-path
+npm run dev                  # http://localhost:3000/learning-path
 ```
 
 - API key nhập ở trang **Cài đặt** trong app. Key chỉ lưu trên trình duyệt (`localStorage`), không lưu ở server.
-- Không cần chạy backend .NET.
+- Không cần chạy backend .NET — để trống các biến `*_BACKEND_CORE_URL` trong `.env.local` thì Lộ trình cá nhân hoá vẫn mở tự do, không bắt đăng nhập.
 - Kiểm tra toàn bộ: `npm run verify` (lint + typecheck + test + audit + build).
 
-**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Lộ trình cá nhân hoá (`/personalized-path`) không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. AI Helpdesk cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
+**Deploy Vercel:** Import repo → **Root Directory = `codebase`** → Framework Next.js (tự nhận) → Deploy. Trang Lộ trình cá nhân hoá (`/learning-path`) không bắt buộc biến môi trường: không có key nào thì trả gợi ý mặc định. Lưu ý nếu đặt `GEMINI_API_KEY` (hoặc key provider khác) trên Vercel, server sẽ dùng key đó cho mọi request không kèm key của học viên. AI Helpdesk cần `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`, `SUPABASE_SERVICE_ROLE_KEY` (đặt trong Vercel, không commit).
 
 ## 🤝 Quy trình làm việc nhóm
 
@@ -243,11 +300,11 @@ Quy ước code cho cả người và AI agent: [`AGENTS.md`](AGENTS.md).
 | Mốc | Hạn | Trạng thái nộp | % Issue | Việc |
 |---|---|---|---:|---|
 | CP1 · Canvas + repo | 19:30 · 16/9 | ✅ Đã nộp | 100% (1/1) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/1) |
-| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 50% (3/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
-| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp | 82% (9/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
-| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ⏳ | 0% (0/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
-| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
-| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
+| CP2 · Luồng hoạt động | 21:00 · 16/9 | ✅ Đã nộp (mock demo trên Vercel) | 100% (6/6) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/2) |
+| CP3 · Video thao tác + số đo | 16:00 · 17/9 | ✅ Đã nộp (eval 19/20) | 100% (11/11) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/3) |
+| CP4 · Chốt `spec.md` | 21:00 · 17/9 | ✅ Đã nộp (khoá Quality Bar 19/20) | 100% (9/9) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/4) |
+| CP5 · Slide PDF + video dự phòng | 13:00 · 18/9 | ⏳ Đang làm (hạn 13:00 · 18/9) | 0% (0/8) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/5) |
+| CP6 · Thuyết trình | 17:30 · 18/9 | ⏳ Chiều 18/9 | 0% (0/5) | [Milestone](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/milestone/6) |
 
 Xem thêm:
 - Chi tiết từng mốc: [`docs/hackathon/checkpoints.md`](docs/hackathon/checkpoints.md)
@@ -261,15 +318,22 @@ Xem thêm:
 | Vì sao chọn bài toán này, bằng chứng, chuẩn "đạt" | [`spec.md`](spec.md) |
 | Hệ thống phải làm được gì (FR/NFR/AC) | [`docs/01-SRS.md`](docs/01-SRS.md) |
 | Kiến trúc, luồng dữ liệu | [`docs/02-kien-truc.md`](docs/02-kien-truc.md) |
-| API | [`docs/03-api.md`](docs/03-api.md) |
+| Hợp đồng API (`/api/roadmap`, `/api/chat`) | [`docs/03-api.md`](docs/03-api.md) |
+| Đặc tả API & Tích hợp Discord Activity (+5 XP) | [`docs/feature-discord-api.md`](docs/feature-discord-api.md) |
 | Prompt, guardrail, LLM router | [`docs/04-ai-pipeline.md`](docs/04-ai-pipeline.md) |
 | Luồng người dùng | [`docs/05-ui-flow.md`](docs/05-ui-flow.md) |
+| Kế hoạch kiến trúc AI Access & BYOK | [`docs/07-ai-access-plan.md`](docs/07-ai-access-plan.md) |
 | Ai làm gì, hạn nào | [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md) |
 | Kế hoạch sửa cấu trúc repo & quy trình | [`docs/hackathon/repo-fix-plan.md`](docs/hackathon/repo-fix-plan.md) |
 | Tiến độ checkpoint, canvas CP1 | [`docs/hackathon/`](docs/hackathon/) |
-| Bằng chứng mining, nhật ký khảo sát | [`docs/research/`](docs/research/) |
-| Kết quả kiểm thử | [`eval/run_results.md`](eval/run_results.md) |
-| Nhật ký người dùng thử | [`validation/log.md`](validation/log.md) |
+| Bằng chứng mining từ tin nhắn Discord & Chatlog | [`docs/research/evidence-mining.md`](docs/research/evidence-mining.md) |
+| Phân tích dữ liệu khảo sát 45 học viên thật | [`docs/research/survey-data-review.md`](docs/research/survey-data-review.md) |
+| Dashboard biểu đồ khảo sát trực quan (HTML) | [`docs/research/survey-dashboard.html`](docs/research/survey-dashboard.html) |
+| Báo cáo rà soát chất lượng 53 file FAQ | [`docs/reports/faq-audit-report.md`](docs/reports/faq-audit-report.md) |
+| Kết quả kiểm định tự động (50/50 cases = 100%) | [`eval/run_results.md`](eval/run_results.md) |
+| Nhật ký người dùng ngoài thử nghiệm (R6) | [`validation/log.md`](validation/log.md) |
+| Quy ước PR bắt buộc ở gốc repo | [`PR.md`](PR.md) |
+| Sơ đồ luồng vai trò hệ thống (Mermaid) | [`role-flow.mmd`](role-flow.mmd) |
 | Quy ước code cho người và AI agent | [`AGENTS.md`](AGENTS.md) |
 | Tài liệu cũ của dự án nền (không phản ánh lát cắt thi) | [`docs/legacy/`](docs/legacy/) |
 

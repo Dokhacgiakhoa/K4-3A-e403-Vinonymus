@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import { MainHeader } from '@/components/layout/main-header';
 import { MainFooter } from '@/components/layout/main-footer';
 import { AppSidebar } from '@/components/layout/app-sidebar';
@@ -9,8 +10,10 @@ import { GlobalFocusOverlay } from '@/components/learning/focus-mode-controller'
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 
 export function AppShellLayout({ children }: { children: React.ReactNode }) {
+  const pathname = usePathname();
   const [currentUser, setCurrentUser] = useState<StoredUser | null>(null);
   const [mounted, setMounted] = useState<boolean>(false);
+  const isFullWidthPage = pathname === '/about';
 
   useEffect(() => {
     setMounted(true);
@@ -22,12 +25,23 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
     return () => window.removeEventListener('aiia_auth_changed', syncUser);
   }, []);
 
+  // Khi đang xem Slide (/about): bung toàn bộ màn hình, không bị header/footer bóp nghẹt
+  if (isFullWidthPage) {
+    return (
+      <div className="min-h-screen w-full bg-[#070d1e] text-slate-100 font-sans flex flex-col">
+        <main className="flex-1 w-full p-0 m-0 overflow-x-hidden flex flex-col">
+          {children}
+        </main>
+      </div>
+    );
+  }
+
   // 1. KHI CHƯA ĐĂNG NHẬP (GUEST): Dùng Top Header ngang truyền thống
   if (!mounted || !currentUser) {
     return (
       <div className="min-h-screen flex flex-col bg-transparent text-slate-100 font-sans">
         <MainHeader />
-        <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-6">
+        <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-6">
           {children}
         </main>
         <MainFooter />
@@ -45,7 +59,9 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
 
       {/* MAIN WORKSPACE CONTENT */}
       <div className="flex-1 flex flex-col min-w-0 overflow-x-hidden">
-        <main className="flex-1 w-full max-w-screen-2xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-12 space-y-6">
+        <main className={`flex-1 w-full mx-auto space-y-6 ${
+          isFullWidthPage ? 'px-2 sm:px-4 pt-2 pb-8' : 'max-w-screen-2xl px-4 sm:px-6 lg:px-8 pt-4 sm:pt-6 pb-12'
+        }`}>
           {children}
         </main>
         <MainFooter />

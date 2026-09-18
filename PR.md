@@ -1,50 +1,58 @@
-# PR: Đổi trang /planner thành "Lộ trình cá nhân hoá" và dùng đúng tên AI Mentor
+# PR: Tài khoản dùng thử theo vai trò và Lộ trình cá nhân hoá sau đăng nhập
 
-> **Task:** đặt tên sản phẩm · **Issue:** — · **Branch:** `feat/ai-mentor-route`
-> **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
+> **Task:** U-01, U-02 (một phần) · **Issue:** #90, #91 · **Branch:** `feat/demo-role-accounts`
+> **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) · **Hỗ trợ:** Claude Code
 
 ## 1. Mục tiêu
-- **AI Mentor là tên của AI**, không phải tên trang. AI Mentor làm 4 việc:
-  1. đọc thông tin học viên;
-  2. đọc tài liệu giảng viên tải lên để đưa vào thư viện;
-  3. phân tích CV để ra bài test năng lực;
-  4. phân tích điểm test để xây lộ trình học.
-- Trang được chấm đổi tên thành **Lộ trình cá nhân hoá (Personalized Learning Path)**, là điểm khác biệt chính của sản phẩm. Địa chỉ mới: `/personalized-path`.
-- Link cũ `/planner` (đã nộp ở CP2–CP4 và có trong video) tự chuyển sang trang mới. `/ai-mentor` (tên tạm trong nhánh này) cũng tự chuyển.
-- README và spec ghi rõ trạng thái thật của 4 việc; thay từ "lát cắt dự thi" bằng "phần được chấm" cho dễ hiểu.
+
+- Backend .NET chưa deploy (B-03 → B-05), nên thêm **tài khoản dùng thử** Học viên / Giảng viên / Quản trị
+  chạy trên trình duyệt để giám khảo xem được giao diện của từng vai trò. Mọi màn hình demo có dải
+  "Bản demo giao diện — chưa nối backend".
+- Đưa **Lộ trình cá nhân hoá** vào trang chỉ mở cho học viên đã đăng nhập (`/learning-path`), khớp mô hình
+  truy cập đã chốt: khách chỉ dùng AI Helpdesk có giới hạn, AI Mentor dành cho học viên.
 
 ## 2. Truy vết
-| Thay đổi | Liên quan |
+
+| Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Tên trang, route, chữ hiển thị | `spec.md` phần Phạm vi, §4 |
-| Trạng thái thật 4 việc của AI Mentor | Luật đề "ghi rõ phần nào mock"; `AGENTS.md` bất biến #10 |
+| Menu theo vai trò (Học viên / Giảng viên / Quản trị) | U-01 #90 |
+| Bỏ menu "Lộ Trình AI Mentor" dẫn tới wizard giả; menu học viên trỏ về trang lộ trình thật | U-02 #91 |
+| `/learning-path` chỉ mở cho học viên; `/personalized-path`, `/planner`, `/ai-mentor` chuyển hướng về đây | Mô hình truy cập trong `spec.md` §1; ghi `spec.md` §9 |
+| Trang Giảng viên (tạo nháp, gửi duyệt) và Quản trị (duyệt tài liệu, duyệt tài khoản) dùng dữ liệu mẫu | Luồng B-07/U-05/U-07 ở mức giao diện |
 
 ## 3. File thay đổi
+
 | File | Thay đổi |
 |---|---|
-| `codebase/src/app/planner/` → `codebase/src/app/personalized-path/` | Đổi route; tiêu đề trang "Lộ trình cá nhân hoá" |
-| `codebase/next.config.ts` | Chuyển hướng `/planner` và `/ai-mentor` → `/personalized-path` |
-| `codebase/src/components/planner/study-planner.tsx` | Tiêu đề, dòng phụ "Personalized Learning Path · AI Mentor đề xuất cho bạn", bước 4 "Lộ trình", nút "Tạo lộ trình", nhãn trên cùng dễ hiểu hơn |
-| `codebase/src/app/api/roadmap/route.ts` | Nhãn log `[Planner:]` → `[AIMentor:]` |
-| `codebase/public/export-flowchart.html`, `codebase/scripts/google-apps-script.js` | Đổi tên hiển thị / comment |
-| `.github/CODEOWNERS` | Đường dẫn route mới |
-| `README.md`, `spec.md`, `AGENTS.md`, `docs/00–05, 07`, `eval/run_results.md` | Dùng đúng tên; bảng 4 việc của AI Mentor; đường dẫn mới |
-
-**Không đổi:** tên file và biến trong code (`planner-catalog.ts`, `baseline-planner.ts`, `PlannerInput`…), để không làm hỏng bộ test và bộ chạy eval. Prompt (`PLANNER_SYSTEM_PROMPT`) cũng giữ nguyên, vì đổi prompt thì phải chạy lại bộ 20 câu thử.
+| `codebase/src/lib/demo/demo-accounts.ts` | Tài khoản demo, vai trò, dữ liệu mẫu tài khoản chờ duyệt và tài liệu giảng viên |
+| `codebase/src/components/demo/demo-banner.tsx` | Dải cảnh báo "bản demo giao diện" |
+| `codebase/src/components/auth/auth-modal.tsx` | Mục "Dùng thử nhanh" 3 vai trò |
+| `codebase/src/components/layout/app-sidebar.tsx` | Menu theo vai trò, nút đổi vai trò demo, nhãn vai trò |
+| `codebase/src/components/layout/main-header.tsx` | Thay bộ chuyển Free/Pro/Admin bằng vai trò demo |
+| `codebase/src/lib/client-storage.ts` | Thêm vai trò `lecturer`, cờ `isDemo` |
+| `codebase/src/components/lecturer/lecturer-documents-view.tsx`, `codebase/src/app/lecturer/documents/page.tsx` | Trang "Tài liệu của tôi" |
+| `codebase/src/components/admin/document-review-view.tsx`, `codebase/src/app/admin/documents/page.tsx` | Trang "Duyệt tài liệu" |
+| `codebase/src/components/admin/account-approval-view.tsx` | Chế độ demo dùng danh sách mẫu, không gọi backend |
+| `codebase/src/components/planner/student-path-gate.tsx`, `codebase/src/app/learning-path/page.tsx` | Trang lộ trình sau đăng nhập |
+| `codebase/src/app/personalized-path/page.tsx` | Xoá, thay bằng chuyển hướng trong `codebase/next.config.ts` |
+| `codebase/src/components/presentation/slides-deck-view.tsx` | Slide trỏ về `/learning-path` |
+| `README.md`, `spec.md`, `docs/02-kien-truc.md`, `docs/03-api.md`, `docs/05-ui-flow.md` | Đường dẫn mới; `spec.md` §9 thêm một dòng changelog |
 
 ## 4. Kiểm thử
-- Dev server, trình duyệt:
-  - `/personalized-path` hiển thị tiêu đề tab "Lộ trình cá nhân hoá | K.AI Labs", 4 bước đúng tên.
-  - `/planner` và `/ai-mentor` tự chuyển về `/personalized-path`.
-  - Chạy hết một lượt (Non-tech, 60 phút, chưa có key) → ra 3 việc với nhãn "Gợi ý mặc định".
-- `npm run verify` chạy qua hook pre-push.
-- **Chưa kiểm thử:** lượt có API key thật trên trang mới (logic gọi AI không đổi).
+
+- `npx tsc --noEmit`: không lỗi. `npx vitest run`: 101/101 test qua. `npm run lint`: không lỗi, không cảnh báo mới.
+- Chạy `npm run dev`, thử trên trình duyệt:
+  - Khách mở `/personalized-path` → chuyển sang `/learning-path`, hiện yêu cầu đăng nhập.
+  - Dùng thử Học viên → vào trang lộ trình, menu học viên.
+  - Đổi sang Giảng viên → "Tài liệu của tôi", gửi duyệt 1 tài liệu nháp.
+  - Đổi sang Quản trị → tài liệu vừa gửi xuất hiện ở "Chờ duyệt (2)"; "Duyệt tài khoản" duyệt 1 tài khoản mẫu, danh sách còn 1.
 
 ## 5. Tài liệu & changelog
-Đã ghi `spec.md` §9. Chuẩn đạt §7 không đổi.
+
+- `spec.md` §9 thêm dòng 18/9 (chiều). Không đổi chuẩn đạt §7.
 
 ## 6. Rủi ro / việc còn lại
-- Menu sidebar "Lộ Trình AI Mentor" vẫn trỏ tới wizard mô phỏng ở `/learning`, chưa trỏ tới `/personalized-path`.
-- Giao diện theo vai trò (viewer / học viên / giảng viên / admin) chưa khớp thiết kế: code đang chia theo gói Free/Pro/Admin và chưa có giao diện giảng viên.
-- Việc 2 và 3 của AI Mentor chưa làm.
-- Sau khi merge cần kiểm tra Vercel đã deploy bản mới (xem nhánh production trong Vercel).
+
+- Tài khoản demo không có JWT: khi bật chốt đăng nhập (B-05), API lộ trình sẽ đòi token thật — tài khoản demo
+  chỉ còn dùng được khi chưa bật chốt, hoặc phải thay bằng tài khoản demo thật (B-04).
+- Trang Giảng viên / Quản trị chưa chặn theo vai trò ở route; gõ thẳng URL vẫn mở được (dữ liệu chỉ là mẫu).
