@@ -1,31 +1,11 @@
-using AIIANotebook.Domain.Entities;
 using AIIANotebook.Domain.Enums;
 
 namespace AIIANotebook.Application.Features.Curriculum;
 
-public record CurriculumModuleDto(
-    Guid Id,
-    int ModuleNumber,
-    string Title,
-    string Slug,
-    string Description,
-    SFIALevel TargetLevel,
-    string BloomLevel,
-    int EstimatedHours,
-    string HumanAiRatio,
-    string? CodeSnippet,
-    string? CodeLanguage,
-    bool IsEnrolled = false,
-    int CompletedTopicsCount = 0,
-    int TotalTopicsCount = 0,
-    int ProgressPercent = 0,
-    bool IsCompleted = false,
-    CurriculumTrack Track = CurriculumTrack.Universal
-);
-
-public static class CurriculumService
+// Dùng khi DB chưa có chuyên đề nào hoặc không đọc được, để trang khoá học không trống.
+public static class DefaultCurriculumModules
 {
-    public static List<CurriculumModuleDto> GetDefaultModules()
+    public static List<CurriculumModuleDto> All()
     {
         return new List<CurriculumModuleDto>
         {

@@ -2,6 +2,26 @@ using AIIANotebook.Domain.Enums;
 
 namespace AIIANotebook.Application.Features.Curriculum;
 
+public record CurriculumModuleDto(
+    Guid Id,
+    int ModuleNumber,
+    string Title,
+    string Slug,
+    string Description,
+    SFIALevel TargetLevel,
+    string BloomLevel,
+    int EstimatedHours,
+    string HumanAiRatio,
+    string? CodeSnippet,
+    string? CodeLanguage,
+    bool IsEnrolled = false,
+    int CompletedTopicsCount = 0,
+    int TotalTopicsCount = 0,
+    int ProgressPercent = 0,
+    bool IsCompleted = false,
+    CurriculumTrack Track = CurriculumTrack.Universal
+);
+
 public record CurriculumTopicDto(
     Guid Id,
     int TopicNumber,
@@ -34,9 +54,6 @@ public record CurriculumModuleDetailDto(
     List<CurriculumTopicDto> Topics,
     CurriculumTrack Track = CurriculumTrack.Universal
 );
-
-public record EnrollCourseRequest(Guid ModuleId);
-public record ToggleTopicProgressRequest(Guid ModuleId, Guid TopicId);
 
 public record CertificateResultDto(
     string CertificateCode,
