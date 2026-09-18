@@ -69,7 +69,7 @@ export function SlidesDeckView() {
   
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const totalSlides = 12;
+  const totalSlides = 13;
 
   // Format timer MM:SS
   const formatTime = (secs: number) => {
@@ -176,7 +176,8 @@ export function SlidesDeckView() {
     '9. Kết Quả Đo Lường',
     '10. Vận Hành & 4 Vai Trò',
     '11. Kế Hoạch Tăng Trưởng',
-    '12. Tổng Kết & Hỏi Đáp'
+    '12. Tổng Kết & Hỏi Đáp',
+    '13. Cảm Ơn'
   ];
 
   // Render individual slide contents
@@ -214,7 +215,7 @@ export function SlidesDeckView() {
 
               {/* SLOGAN & GIẢI PHÁP CỐT LÕI */}
               <p className="text-[0.95rem] sm:text-[1.05rem] text-slate-700 font-medium leading-relaxed max-w-[62rem]">
-                <strong>Ý tưởng chính:</strong> Thay vì đưa thêm tài liệu hay một chatbot ngồi chờ người học hỏi, AI Mentor chọn sẵn <em>tối đa 3 việc</em> vừa với số phút rảnh tối nay — cho cả người chưa biết code lẫn người đã biết code.
+                <strong>Ý tưởng chính:</strong> Thay vì đưa thêm tài liệu hay một chatbot ngồi chờ người học hỏi, AI Mentor chọn sẵn <em>tối đa 3 việc</em> vừa với số phút rảnh hôm nay — cho cả người chưa biết code lẫn người đã biết code.
               </p>
             </div>
 
@@ -321,9 +322,9 @@ export function SlidesDeckView() {
                   <h3 className="text-[1.15rem] font-bold text-slate-900 mb-[0.4rem]">BỐI CẢNH &amp; ĐIỂM NGHẼN</h3>
                   <div className="text-[0.8rem] font-semibold text-rose-700 mb-[0.5rem]">Thực trạng thị trường đào tạo AI</div>
                   <ul className="space-y-[0.4rem] text-[0.85rem] text-slate-700 font-medium">
-                    <li>• 21:00, người đi làm mở máy và không biết học gì trước</li>
-                    <li>• Tài liệu rải rác ở 5 kênh khác nhau</li>
-                    <li>• Chatbot hiện tại chỉ trả lời khi được hỏi</li>
+                    <li>• 87% không tự biết cần bù phần nào</li>
+                    <li>• 93% gặp tài liệu rải rác ở 5 kênh</li>
+                    <li>• 18/13.494 lượt chat AI tự gợi ý bước tiếp</li>
                   </ul>
                 </div>
                 <div className="mt-[1rem] pt-[0.75rem] border-t border-slate-200 text-[0.75rem] text-slate-600 font-semibold">
@@ -346,9 +347,9 @@ export function SlidesDeckView() {
                   <h3 className="text-[1.15rem] font-bold text-blue-950 mb-[0.4rem]">GIẢI PHÁP</h3>
                   <div className="text-[0.8rem] font-semibold text-blue-700 mb-[0.5rem]">Sản phẩm làm gì</div>
                   <ul className="space-y-[0.4rem] text-[0.85rem] text-slate-700 font-medium">
-                    <li>• AI chọn việc cần làm thay vì trả lời dài</li>
-                    <li>• Hai AI: AI Mentor và AI Helpdesk</li>
-                    <li>• Khai báo 30 giây, học viên luôn là người quyết định</li>
+                    <li>• ≤3 việc, vừa số phút rảnh</li>
+                    <li>• 2 AI: AI Mentor + AI Helpdesk</li>
+                    <li>• 30 giây khai báo, 3 thông tin</li>
                   </ul>
                 </div>
                 <div className="mt-[1rem] pt-[0.75rem] border-t border-blue-200 text-[0.75rem] text-blue-900 font-semibold">
@@ -371,9 +372,9 @@ export function SlidesDeckView() {
                   <h3 className="text-[1.15rem] font-bold text-slate-900 mb-[0.4rem]">BẰNG CHỨNG</h3>
                   <div className="text-[0.8rem] font-semibold text-emerald-800 mb-[0.5rem]">Chạy thật, đo thật</div>
                   <ul className="space-y-[0.4rem] text-[0.85rem] text-slate-700 font-medium">
-                    <li>• Demo trực tiếp: kịch bản chuẩn và từ chối làm hộ bài</li>
-                    <li>• Kết quả đo trên bộ case kiểm thử, kể cả case trượt</li>
-                    <li>• 4 vai trò người dùng và cách giữ chi phí AI thấp</li>
+                    <li>• 19/20 case đạt, 0 link ngoài thư viện</li>
+                    <li>• 3/3 yêu cầu làm hộ bài bị từ chối</li>
+                    <li>• 1 lần gọi AI / lộ trình · 4 vai trò</li>
                   </ul>
                 </div>
                 <div className="mt-[1rem] pt-[0.75rem] border-t border-slate-200 text-[0.75rem] text-emerald-800 font-semibold">
@@ -402,7 +403,7 @@ export function SlidesDeckView() {
                 Phần I · Vấn đề
               </div>
               <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                21:00: Người Học Không Thiếu, Mà Thừa Tài Liệu
+                5 Kênh · 60+ Trang Slide · Dưới 1 Giờ Rảnh
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Tài liệu có đủ, nhưng quá nhiều và nằm rải rác, nên người học không biết nên bắt đầu từ đâu.
@@ -423,7 +424,7 @@ export function SlidesDeckView() {
                   </p>
                 </div>
                 <div className="mt-[0.75rem] p-[0.65rem] rounded-lg bg-rose-50 border border-rose-100 text-[0.75rem] text-rose-800 italic">
-                  “Mỗi buổi học phải mất 25 phút chỉ để gom link từ các kênh Discord, Drive.” — P01 (đã biết code)
+                  “Mỗi buổi học phải mất ít nhất 20–25 phút chỉ để gom đủ link tài liệu.” — P01 (đã biết code)
                 </div>
               </div>
 
@@ -435,11 +436,11 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.5rem]">Ít thời gian</h4>
                   <p className="text-[0.85rem] text-slate-600 font-medium leading-relaxed">
-                    41/82 học viên chỉ có <strong>dưới 60 phút</strong> mỗi tối để tự học, trong khi một bộ slide có thể dài hơn 60 trang.
+                    41/82 học viên chỉ có <strong>dưới 1 giờ</strong> rảnh để tự học; 75/82 gặp slide dài không rõ trọng tâm.
                   </p>
                 </div>
                 <div className="mt-[0.75rem] p-[0.65rem] rounded-lg bg-rose-50 border border-rose-100 text-[0.75rem] text-rose-800 italic">
-                  “Có 45 phút mà nhìn slide 60 trang em hoảng loạn chỉ muốn tắt máy đi ngủ.” — P02 (chưa biết code)
+                  “Slide bài giảng dài hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước.” — P02 (đã học AI)
                 </div>
               </div>
 
@@ -455,7 +456,7 @@ export function SlidesDeckView() {
                   </p>
                 </div>
                 <div className="mt-[0.75rem] p-[0.65rem] rounded-lg bg-rose-50 border border-rose-100 text-[0.75rem] text-rose-800 italic">
-                  Hệ quả: 8,8% lượt chat là yêu cầu tóm tắt; nhiều bài nộp sát hạn hoặc trễ hạn.
+                  Hệ quả: 19/82 (23%) từng nộp sát hạn hoặc trễ hạn.
                 </div>
               </div>
             </div>
@@ -464,7 +465,7 @@ export function SlidesDeckView() {
             <div className="bg-slate-50 border-l-4 border-rose-600 p-[1rem] rounded-r-xl flex items-center justify-between">
               <div>
                 <p className="text-[0.95rem] font-semibold text-slate-900">
-                  Học viên <strong>không cần thêm tài liệu</strong> — họ cần ai đó nói rõ: <em>"Tối nay em chỉ cần làm 3 việc này."</em>
+                  Học viên <strong>không cần thêm tài liệu</strong> — họ cần ai đó nói rõ: <em>"Hôm nay em chỉ cần làm 3 việc này."</em>
                 </p>
               </div>
               <span className="text-[0.8rem] font-bold text-rose-700 bg-white px-[0.75rem] py-[0.35rem] rounded-lg border border-slate-200 hidden sm:inline-block shrink-0">
@@ -504,7 +505,7 @@ export function SlidesDeckView() {
                   <div className="space-y-[0.75rem] text-[0.85rem] text-slate-700 font-medium">
                     <div className="flex items-start gap-[0.5rem]">
                       <X className="w-[1rem] h-[1rem] text-rose-600 shrink-0 mt-[0.1rem]" />
-                      <span><strong>Gần như không chủ động:</strong> chỉ 18/13.494 lượt chat AI Tutor tự gợi ý bước tiếp theo; còn lại chỉ trả lời khi được hỏi.</span>
+                      <span><strong>18/13.494 (0,13%):</strong> số lượt chat AI Tutor tự gợi ý bước tiếp theo; còn lại chỉ trả lời khi được hỏi.</span>
                     </div>
                     <div className="flex items-start gap-[0.5rem]">
                       <X className="w-[1rem] h-[1rem] text-rose-600 shrink-0 mt-[0.1rem]" />
@@ -512,7 +513,7 @@ export function SlidesDeckView() {
                     </div>
                     <div className="flex items-start gap-[0.5rem]">
                       <X className="w-[1rem] h-[1rem] text-rose-600 shrink-0 mt-[0.1rem]" />
-                      <span><strong>Trả lời quá dài:</strong> hỏi một câu ngắn nhưng nhận về cả trang chữ — người chỉ có 45 phút lại mất thêm thời gian đọc.</span>
+                      <span><strong>29/82 (35%):</strong> hỏi AI Tutor VLearn nhưng thấy câu trả lời chung chung.</span>
                     </div>
                   </div>
                 </div>
@@ -706,7 +707,7 @@ export function SlidesDeckView() {
 
             {/* HỢP */}
             <div className="border-t border-slate-200 pt-[0.85rem] flex justify-between items-center text-[0.85rem] text-slate-600 font-medium">
-              <span>Helpdesk trả lời câu hỏi ngay lúc cần; AI Mentor chỉ ra tối nay nên làm gì.</span>
+              <span>Helpdesk trả lời câu hỏi ngay lúc cần; AI Mentor chỉ ra hôm nay nên làm gì.</span>
               <span className="font-mono text-blue-700 font-bold">spec.md §1 &amp; §2</span>
             </div>
           </div>
@@ -848,7 +849,7 @@ export function SlidesDeckView() {
                   </div>
                 </div>
                 <div className="mt-[0.75rem] text-[0.75rem] text-blue-900 font-semibold">
-                  Kết quả: học viên biết tối nay làm gì, trong bao lâu, và vì sao.
+                  Kết quả: 3 việc, 60 phút, mỗi việc có lý do.
                 </div>
               </div>
 
@@ -1160,10 +1161,10 @@ export function SlidesDeckView() {
                 Tổng kết · Hỏi đáp
               </div>
               <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                Giúp Người Học Biết Tối Nay Làm Gì
+                Tóm Tắt Bằng 4 Con Số
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Cảm ơn Ban giám khảo và các bạn đã lắng nghe. Nhóm xin mời câu hỏi.
+                Nhóm xin mời câu hỏi từ Ban giám khảo.
               </p>
             </div>
 
@@ -1172,32 +1173,32 @@ export function SlidesDeckView() {
               <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
-                  <div className="text-[0.95rem] font-bold text-slate-900">Nhu cầu có thật</div>
-                  <div className="text-[0.8rem] text-slate-600 font-medium">87% học viên không biết mình hổng đâu; 90% muốn dùng danh sách 3 việc hằng ngày.</div>
+                  <div className="text-[0.95rem] font-bold text-slate-900">87% · 90%</div>
+                  <div className="text-[0.8rem] text-slate-600 font-medium">87% không biết cần bù phần nào; 90% muốn dùng danh sách 3 việc hằng ngày (khảo sát 82 học viên).</div>
                 </div>
               </div>
 
               <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
-                  <div className="text-[0.95rem] font-bold text-slate-900">Đo bằng số thật</div>
-                  <div className="text-[0.8rem] text-slate-600 font-medium">19/20 ở mốc chốt, 0 link ngoài thư viện; bộ 50 case: AI 44/50, đang sửa tiếp.</div>
+                  <div className="text-[0.95rem] font-bold text-slate-900">19/20 · 0 link ngoài</div>
+                  <div className="text-[0.8rem] text-slate-600 font-medium">19/20 case đạt ở mốc chốt; mở rộng 50 case: AI 44/50, đang sửa tiếp.</div>
                 </div>
               </div>
 
               <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
-                  <div className="text-[0.95rem] font-bold text-slate-900">Không làm bài thay học viên</div>
-                  <div className="text-[0.8rem] text-slate-600 font-medium">3/3 case xin làm hộ bài trong bộ kiểm thử đều bị từ chối.</div>
+                  <div className="text-[0.95rem] font-bold text-slate-900">3/3 từ chối làm hộ</div>
+                  <div className="text-[0.8rem] text-slate-600 font-medium">Mọi case xin làm hộ bài trong bộ kiểm thử đều bị từ chối.</div>
                 </div>
               </div>
 
               <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
-                  <div className="text-[0.95rem] font-bold text-slate-900">Chi phí AI thấp</div>
-                  <div className="text-[0.8rem] text-slate-600 font-medium">Gọi AI một lần mỗi lộ trình; tài khoản phải được duyệt mới dùng AI.</div>
+                  <div className="text-[0.95rem] font-bold text-slate-900">1 lần gọi AI / lộ trình</div>
+                  <div className="text-[0.8rem] text-slate-600 font-medium">Khi AI lỗi, dùng bộ quy tắc dự phòng; tài khoản phải được duyệt mới dùng AI.</div>
                 </div>
               </div>
             </div>
@@ -1224,6 +1225,39 @@ export function SlidesDeckView() {
                   <div className="font-bold text-blue-950 text-[0.85rem]">Minh (Database)</div>
                   <div className="text-[0.7rem] text-blue-800 font-medium mt-[0.1rem]">Schema, migration, dữ liệu mẫu, phân quyền</div>
                 </div>
+              </div>
+            </div>
+          </div>
+        );
+
+      // -------------------------------------------------------------
+      // SLIDE 13: CẢM ƠN
+      // -------------------------------------------------------------
+      case 12:
+        return (
+          <div className="relative flex flex-col items-center justify-center h-full text-center select-text font-['Montserrat',sans-serif] text-slate-900 overflow-hidden rounded-[1.25rem]">
+            <div className="absolute -top-[5rem] -right-[5rem] w-[22rem] h-[22rem] bg-blue-100/60 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-[6rem] -left-[6rem] w-[24rem] h-[24rem] bg-sky-100/50 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex flex-col items-center">
+              <div className="text-[0.85rem] font-bold text-slate-500 uppercase tracking-[0.1em] mb-[0.75rem]">
+                Adaptive Learning System · Nhóm Vinonymus
+              </div>
+              <h1 className="text-[clamp(2.6rem,6vw,5rem)] font-bold text-[#0a192f] leading-[1.1] tracking-[0.01em] uppercase">
+                Xin chân thành cảm ơn!
+              </h1>
+              <p className="text-[clamp(1rem,1.8vw,1.35rem)] font-semibold text-blue-700 mt-[1rem]">
+                Cảm ơn Ban giám khảo và các bạn đã lắng nghe.
+              </p>
+
+              <div className="mt-[2rem] flex flex-wrap justify-center gap-[0.5rem] text-[0.85rem] text-slate-700 font-medium">
+                <span className="bg-white/80 border border-slate-200 px-[0.75rem] py-[0.3rem] rounded-md"><strong>Đỗ Khắc Gia Khoa</strong></span>
+                <span className="bg-white/80 border border-slate-200 px-[0.75rem] py-[0.3rem] rounded-md"><strong>Nguyễn Việt Thành</strong></span>
+                <span className="bg-white/80 border border-slate-200 px-[0.75rem] py-[0.3rem] rounded-md"><strong>Đinh Ngọc Đức</strong></span>
+                <span className="bg-white/80 border border-slate-200 px-[0.75rem] py-[0.3rem] rounded-md"><strong>Trần Nhật Minh</strong></span>
+              </div>
+              <div className="mt-[1rem] font-mono text-blue-800 font-bold bg-blue-50 border border-blue-200 px-[0.75rem] py-[0.25rem] rounded-md text-[0.8rem]">
+                Mini Hackathon AI · Track E · Khoá 4 · Lớp 3A · AI20K
               </div>
             </div>
           </div>
