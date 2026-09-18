@@ -31,10 +31,10 @@ public class GuestQuotaStore(ApplicationDbContext db) : IGuestQuotaStore
     private async Task<int> IncrementAsync(DateOnly day, string subject, CancellationToken cancellationToken)
     {
         var rows = await db.Database.SqlQuery<int>($"""
-            INSERT INTO guest_quota_usage (usage_day, subject_hash, used_count, updated_at)
+            INSERT INTO app.guest_quota_usage (usage_day, subject_hash, used_count, updated_at)
             VALUES ({day}, {subject}, 1, NOW())
             ON CONFLICT (usage_day, subject_hash)
-            DO UPDATE SET used_count = guest_quota_usage.used_count + 1, updated_at = NOW()
+            DO UPDATE SET used_count = app.guest_quota_usage.used_count + 1, updated_at = NOW()
             RETURNING used_count AS "Value"
             """).ToListAsync(cancellationToken);
         return rows.Single();

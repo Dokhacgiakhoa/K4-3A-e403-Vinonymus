@@ -4,6 +4,8 @@
 -- subject_hash là SHA-256 của mã phiên ẩn danh hoặc IP — không lưu IP/mã phiên gốc.
 -- =========================================================================
 
+SET search_path TO app, public, extensions;
+
 CREATE TABLE IF NOT EXISTS guest_quota_usage (
     usage_day DATE NOT NULL,
     subject_hash VARCHAR(64) NOT NULL,
