@@ -12,15 +12,15 @@ Theo phản hồi trực tiếp của diễn giả và đóng vai trò Nhà đ�
   - Bổ sung đầy đủ danh sách 4 thành viên cùng chuyên môn đảm nhiệm theo luật Vibe-Coding.
 - **Loại bỏ toàn bộ nhãn thời gian nội bộ / ghi chú nháp:**
   - Xoá sạch các dòng chữ hiển thị thời gian tập dượt (`~1.5 Phút`, `30s thao tác`, `Live Demo (60-80s)`) vốn chỉ dành cho diễn giả nhẩm nháp chứ không phải nội dung để Ban giám khảo chấm điểm.
-  - Tối ưu hóa các luận điểm trình bày sắc bén, thể hiện tính logic cao, nguyên nhân - hệ quả rõ ràng, thuyết phục nhà đầu tư và giám khảo khó tính nhất.
+  - Tối ưu hóa các luận điểm trình bày sắc bén dựa trên việc khai phá trực tiếp từ khảo sát 82 học viên (Google Sheet) và 13.494 lượt chat thực tế.
 
 ## 2. Truy vết
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
 | Trang bìa chuẩn Keynote / BGK (Định danh dự án, 4 trụ cột, thành viên) | Đóng vai Nhà đầu tư & BGK chấm thi CP6 |
 | Xoá nhãn thời gian diễn tập nội bộ trên tất cả các slide | Nâng cao tính chuyên nghiệp của bài Pitching |
-| Trang chủ nhúng Program Overview, Alumni Insights & SFIA Matrix | `spec.md` §1, §3 (Mô tả chương trình đào tạo & khung năng lực) |
-| Trang Slide HTML full-width tại `/about` | Chuẩn bị mốc CP6, bám sát `docs/hackathon/cp5/demo-slides.html` & `slide-content.md` |
+| Dữ liệu khảo sát n = 82 học viên (Google Sheet) | `spec.md` §1 & `docs/research/survey-data-review.md` |
+| Dữ liệu khai phá 13.494 lượt chat VLearn LMS | `docs/research/evidence-mining.md` |
 
 ## 3. File thay đổi
 | File | Thay đổi |
