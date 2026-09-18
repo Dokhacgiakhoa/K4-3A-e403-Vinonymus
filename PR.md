@@ -1,37 +1,43 @@
-# PR: Chia lại việc giao diện và AI
+# PR: Prioritize direct learner notes in AI planner
 
-> **Task:** quản lý task · **Issue:** #75 → #103 · **Branch:** `docs/reassign-ui-ai-tasks`
-> **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
+> **Task:** AI Mentor golden set · **Issue:** #98 · **Branch:** `fix/mentor-golden-g02`
+> **Người thực hiện:** Thành với Codex · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-Nhóm thống nhất lại trên Discord (18/9, 12:48–12:55): **Khoa** làm backend + giao diện Student/Viewer, **Đức** làm AI Helpdesk + giao diện Admin/Lecturer, **Thành** làm AI Mentor, **Minh** giữ database. Mỗi vai trò có một giao diện riêng.
+Sửa case G02 của AI golden set: học viên tech-base đã biết code nhưng ghi rõ chưa hiểu tool calling/function calling thì tài liệu `ptc-function-calling` phải được ưu tiên trước khi lọc theo quỹ thời gian.
+
+Thay đổi chỉ nằm ở bước materialize output LLM về catalog đã kiểm chứng. Link, title, minutes vẫn lấy từ catalog, không tin trực tiếp vào dữ liệu model sinh ra.
 
 ## 2. Truy vết
-| Task | Trước | Sau |
-|---|---|---|
-| U-01 → U-04 (Student, Viewer) | Thành | Khoa |
-| U-05 → U-08 (Lecturer, Admin) | Thành | Đức |
-| A-01, A-02, A-03, A-06 (AI Mentor) | Đức | Thành |
-| A-04, A-05 (thư viện, AI Helpdesk) | Đức | Đức |
+| Thay đổi | Yêu cầu liên quan |
+|---|---|
+| Ưu tiên item khớp trực tiếp ghi chú học viên trước khi lọc thời lượng | `spec.md` §7 quality bar; `docs/04-ai-pipeline.md` guardrail catalog |
+| Thêm regression test cho G02 khi model xếp `ptc-function-calling` ở vị trí muộn | Golden set G02 trong `eval/golden-set.json` |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Bảng phân vai; cột "Phụ trách" cho task giao diện/AI; U-01 đổi thành "tách giao diện riêng cho 4 vai trò"; hạn mới; lịch mục 8; cảnh báo Khoa quá tải và thứ tự cắt |
-| `docs/hackathon/tasks.md`, `README.md` | Cập nhật vai trò thành viên |
-| `PR.md` | Mô tả PR này |
-
-Thay đổi trên GitHub (ngoài diff): 28 issue đang mở cập nhật hạn; 14 issue giao diện/AI đổi người phụ trách + nhãn `owner:*` + ghi chú chia lại; tiêu đề #90 (U-01); mô tả milestone #7.
+| `codebase/src/lib/planner/ai-planner.ts` | Thêm ranking hậu xử lý cho các item LLM chọn: khớp ghi chú học viên, ưu tiên `core`, giữ fallback an toàn qua catalog |
+| `codebase/tests/unit/ai-planner.test.ts` | Thêm test đảm bảo `ptc-function-calling` được đưa lên trước khi tổng thời lượng bị cắt |
+| `eval/latest-baseline-results.json` | Artifact sau khi chạy baseline eval |
+| `eval/latest-ai-results.json` | Artifact sau khi chạy AI eval thật |
+| `eval/run_results.md` | Ghi kết quả eval mới |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Đánh dấu A-01 #98 đã hoàn thành theo điều kiện issue |
+| `PR.md` | Mô tả PR hiện tại |
 
 ## 4. Kiểm thử
-- Script kiểm tra lịch: 0 task có hạn sớm hơn task nó phải chờ; không ai trùng giờ.
-- Đọc lại qua `gh`: issue đang mở — Khoa 12, Minh 6, Đức 6, Thành 4; #90 đúng tiêu đề, người phụ trách, nhãn.
-- Mọi dòng task trong bảng đủ số cột.
-- `npm run verify` chạy qua hook pre-push khi push nhánh này.
+- `npx.cmd vitest run tests/unit/ai-planner.test.ts tests/unit/baseline-planner.test.ts` → pass, 14/14 tests.
+- `npx.cmd tsx ../eval/run-eval.ts baseline` → pass, 50/50 = 100%.
+- `npx.cmd tsx ../eval/run-eval.ts ai` → fail tổng bộ theo chuẩn runner, 44/50 = 88%. G02 đã pass với `source = ai`.
+- Test thủ công route `/api/roadmap` trên máy local → `source = ai`, task đầu là `ptc-function-calling`, tiếp theo `ptc-structured-output`.
+
+Các case AI còn fail trong lượt này: G01, G19, G27, G28, G29, G47. Đây là việc còn lại ngoài phạm vi fix G02.
 
 ## 5. Tài liệu & changelog
-Không ghi `spec.md` §9.
+Đã cập nhật `eval/run_results.md` bằng số chạy thật. Không cập nhật `spec.md` §9 vì không đổi yêu cầu sản phẩm.
 
 ## 6. Rủi ro / việc còn lại
-- **Khoa quá tải: 12 task** đến 21:00 (backend + giao diện Student/Viewer). Thứ tự cắt đề xuất: B-10 → U-04 → B-06; Minh có thể hỗ trợ B-08 buổi tối.
-- Thành còn 4 task (nhẹ hơn các bạn) — có thể nhận thêm hỗ trợ nếu PM muốn.
+- AI eval toàn bộ chưa đạt quality bar 90%: đang 44/50 = 88%.
+- Cần xử lý tiếp nhóm fail còn lại bằng ranking theo level `basic`/`advanced`, giảm fallback baseline ở route AI, và chặn item cấm theo `must_not_include`.
+
+Closes #98

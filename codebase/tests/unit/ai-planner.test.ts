@@ -51,6 +51,35 @@ describe('materializePlannerResult', () => {
     expect(result.status).toBe('clarify');
   });
 
+  it('ưu tiên item khớp trực tiếp ghi chú trước khi lọc theo quỹ thời gian', () => {
+    const result = materializePlannerResult(
+      {
+        status: 'plan',
+        diagnosis: { confidence: 'high', summary: 'Đã biết code, cần tập trung tool calling.' },
+        tasks: [
+          { item_id: 'ptc-setup-colab', reason: 'Chuẩn bị môi trường.' },
+          { item_id: 'ptc-prompt-basics', reason: 'Ôn prompt cơ bản.' },
+          { item_id: 'ptc-function-calling', reason: 'Ghi chú nhắc trực tiếp phần này.' },
+          { item_id: 'ptc-structured-output', reason: 'Ôn schema nếu còn thời gian.' },
+        ],
+        message: 'Sắp theo gợi ý model.',
+      },
+      {
+        background: 'tech_base',
+        availableMinutes: 60,
+        labId: 'lab-prompt-tool-calling',
+        note: 'Mình đã biết code nhưng chưa hiểu tool calling và function calling.',
+      },
+      lab,
+    );
+
+    expect(result.status).toBe('plan');
+    if (result.status !== 'plan') return;
+    expect(result.tasks[0]?.itemId).toBe('ptc-function-calling');
+    expect(result.tasks.map((task) => task.itemId)).toContain('ptc-function-calling');
+    expect(result.tasks.reduce((sum, task) => sum + task.minutes, 0)).toBeLessThanOrEqual(60);
+  });
+
   it('cắt nội dung dài về giới hạn hiển thị', () => {
     const result = materializePlannerResult(
       {
