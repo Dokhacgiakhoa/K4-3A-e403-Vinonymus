@@ -127,8 +127,9 @@ Các case AI còn fail ở lượt 5: `G01`, `G19`, `G27`, `G28`, `G29`, `G47`.
 | Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Trạng thái |
 |---|---|---|---:|---:|---|
 | 6 | 18/09/2026 14:03 | CV → bài test năng lực · rule fallback + schema AI | **5/5** | **100%** | Đã có 5 case eval riêng cho A-02 |
+| 8 | 18/09/2026 14:31 | CV diagnostic API route · Gemini thật | **5/5** | **100%** | Gọi thẳng `/api/ai-mentor/cv-diagnostic`; cả 5 case trả `source = ai` |
 
-Artifact máy đọc được: `eval/latest-cv-diagnostic-results.json`.
+Artifact máy đọc được: `eval/latest-cv-diagnostic-results.json`, `eval/latest-cv-diagnostic-ai-results.json`.
 
 ## 11. Lượt chạy A-03 diagnostic score → student path
 
