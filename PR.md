@@ -1,30 +1,32 @@
-# PR: CI chạy test backend .NET (B-11)
+# PR: Gắn GitHub Issue vào bảng giao việc 4 vai trò
 
-> **Task:** B-11 trong [`docs/hackathon/tasks-he-thong-4-vai-tro.md`](docs/hackathon/tasks-he-thong-4-vai-tro.md) · **Issue:** — · **Branch:** `ci/dotnet-test`
+> **Task:** quản lý task · **Issue:** #73 → #103 · **Branch:** `docs/link-task-issues`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-CI trên GitHub (`verify.yml`) mới chỉ chạy `npm run verify` cho Next.js. 60 test của backend .NET (thêm ở PR #71) chỉ chạy khi ai đó nhớ chạy tay. PR này thêm job `backend-test` để mọi PR vào `main` đều build và chạy lại toàn bộ test backend.
+Tạo GitHub Issue cho từng task trong `docs/hackathon/tasks-he-thong-4-vai-tro.md` (như `tasks.md` cũ có issue cho từng việc) và gắn số issue vào bảng để bấm được.
 
 ## 2. Truy vết
 | Thay đổi | Liên quan |
 |---|---|
-| Job `backend-test` | Task B-11; bộ test từ PR #71 (B-02) |
+| 31 issue #73 → #103, milestone "Hệ thống 4 vai trò" (#7) | 30 task ban đầu + B-11 |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `.github/workflows/verify.yml` | Thêm job `backend-test`: cài .NET 10 → `dotnet restore` → `dotnet build -c Release -warnaserror` → `dotnet test` |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Thêm dòng B-11; ghi CI chạy lại test backend trong mục Cách làm việc |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Gắn link issue cạnh mỗi mã task; thêm dòng hướng dẫn dùng issue/milestone |
 | `PR.md` | Mô tả PR này |
 
+Thay đổi trên GitHub (ngoài diff): 1 milestone, 31 issue theo mẫu issue cũ (nhãn `owner:*`, bảng Phụ trách/Hỗ trợ/Phải chờ/Xong khi, checklist). Cột "Phải chờ" trong issue có link sang issue của task phải chờ. B-01, B-02 (PR #71) và B-11 (PR #72) đã đóng kèm bình luận dẫn PR.
+
 ## 4. Kiểm thử
-- Chạy đúng các lệnh của job trên máy: build Release với `-warnaserror` 0 cảnh báo 0 lỗi; `dotnet test` 60/60 qua (Domain 6 · Application 41 · tích hợp HTTP 13).
-- Job `backend-test` trên GitHub (run 35308415206): xanh sau 39 giây — build 0 cảnh báo 0 lỗi; test Domain 6/6, Application 41/41, tích hợp 13/13.
+- Đọc lại qua `gh`: 31 issue trong milestone — 28 mở, 3 đóng; phân công Khoa 11, Thành 8, Đức 6, Minh 6 (khớp bảng).
+- Mở issue mẫu #80 (B-08): đúng người phụ trách, nhãn, milestone; "Phải chờ" dẫn đúng #79, #86, #101.
+- Bảng giao việc: 31/31 mã task có link issue.
+- `npm run verify` chạy qua hook pre-push khi push nhánh này.
 
 ## 5. Tài liệu & changelog
 Không ghi `spec.md` §9.
 
 ## 6. Rủi ro / việc còn lại
-- Job mới **chưa phải check bắt buộc**: luật bảo vệ `main` hiện chỉ bắt buộc check `verify`. Muốn chặn merge khi test backend đỏ thì thêm `backend-test` vào danh sách check bắt buộc (cài đặt repo, PM quyết).
-- Job chạy ở mọi PR vào `main`, kể cả PR không đụng backend (thêm khoảng 1–2 phút). Không lọc theo đường dẫn vì check bắt buộc bị lọc sẽ treo ở trạng thái chờ.
+- Issue chưa có hạn: PM đặt hạn (có thể thêm vào milestone hoặc từng issue).
