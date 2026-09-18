@@ -1,58 +1,55 @@
-# PR: Tài khoản dùng thử theo vai trò và Lộ trình cá nhân hoá sau đăng nhập
+# PR: Tích hợp giao diện quản trị viên và giảng viên
 
-> **Task:** U-01, U-02 (một phần) · **Issue:** #90, #91 · **Branch:** `feat/demo-role-accounts`
-> **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) · **Hỗ trợ:** Claude Code
+> **Task:** Frontend Admin/Lecture · **Issue:** Chưa gắn issue · **Branch:** `nduc`
+> **Người thực hiện:** `nduc` · **Nguồn giao diện:** nhánh `front-back`
 
 ## 1. Mục tiêu
 
-- Backend .NET chưa deploy (B-03 → B-05), nên thêm **tài khoản dùng thử** Học viên / Giảng viên / Quản trị
-  chạy trên trình duyệt để giám khảo xem được giao diện của từng vai trò. Mọi màn hình demo có dải
-  "Bản demo giao diện — chưa nối backend".
-- Đưa **Lộ trình cá nhân hoá** vào trang chỉ mở cho học viên đã đăng nhập (`/learning-path`), khớp mô hình
-  truy cập đã chốt: khách chỉ dùng AI Helpdesk có giới hạn, AI Mentor dành cho học viên.
+- Đưa toàn bộ giao diện quản trị người dùng, tài liệu, nhật ký và số liệu hệ thống vào `/admin`.
+- Đưa không gian quản lý vòng đời tài liệu của giảng viên vào `/lecture`.
+- Giữ lại báo cáo khảo sát và chức năng quản trị giáo trình đang có trên `main`.
+- Thêm chuyển đổi giao diện sáng/tối cho khách và người dùng đã đăng nhập.
+- Không đưa bất kỳ thay đổi AI Helpdesk, RAG, dữ liệu riêng tư hay migration của Helpdesk vào PR.
 
 ## 2. Truy vết
 
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Menu theo vai trò (Học viên / Giảng viên / Quản trị) | U-01 #90 |
-| Bỏ menu "Lộ Trình AI Mentor" dẫn tới wizard giả; menu học viên trỏ về trang lộ trình thật | U-02 #91 |
-| `/learning-path` chỉ mở cho học viên; `/personalized-path`, `/planner`, `/ai-mentor` chuyển hướng về đây | Mô hình truy cập trong `spec.md` §1; ghi `spec.md` §9 |
-| Trang Giảng viên (tạo nháp, gửi duyệt) và Quản trị (duyệt tài liệu, duyệt tài khoản) dùng dữ liệu mẫu | Luồng B-07/U-05/U-07 ở mức giao diện |
+| Admin xem số liệu, lọc người dùng, đổi vai trò/gói/trạng thái và xem chi tiết | API bốn vai trò: Admin |
+| Admin duyệt/xuất bản/lưu trữ/xóa tài liệu và xem nhật ký kiểm toán | API bốn vai trò: Admin |
+| Giảng viên tạo/sửa/gửi duyệt tài liệu, xem phiên bản và phản hồi | API bốn vai trò: Lecture |
+| Tab Khảo sát và cửa sổ Quản trị giáo trình | Bảo toàn chức năng Admin hiện có trên `main` |
+| Route `/lecture`, menu theo vai trò và StaffGuard | Kiểm soát truy cập giao diện theo vai trò |
+| Light/dark mode | Yêu cầu review giao diện Admin/Lecture |
 
 ## 3. File thay đổi
 
-| File | Thay đổi |
+| Nhóm file | Thay đổi |
 |---|---|
-| `codebase/src/lib/demo/demo-accounts.ts` | Tài khoản demo, vai trò, dữ liệu mẫu tài khoản chờ duyệt và tài liệu giảng viên |
-| `codebase/src/components/demo/demo-banner.tsx` | Dải cảnh báo "bản demo giao diện" |
-| `codebase/src/components/auth/auth-modal.tsx` | Mục "Dùng thử nhanh" 3 vai trò |
-| `codebase/src/components/layout/app-sidebar.tsx` | Menu theo vai trò, nút đổi vai trò demo, nhãn vai trò |
-| `codebase/src/components/layout/main-header.tsx` | Thay bộ chuyển Free/Pro/Admin bằng vai trò demo |
-| `codebase/src/lib/client-storage.ts` | Thêm vai trò `lecturer`, cờ `isDemo` |
-| `codebase/src/components/lecturer/lecturer-documents-view.tsx`, `codebase/src/app/lecturer/documents/page.tsx` | Trang "Tài liệu của tôi" |
-| `codebase/src/components/admin/document-review-view.tsx`, `codebase/src/app/admin/documents/page.tsx` | Trang "Duyệt tài liệu" |
-| `codebase/src/components/admin/account-approval-view.tsx` | Chế độ demo dùng danh sách mẫu, không gọi backend |
-| `codebase/src/components/planner/student-path-gate.tsx`, `codebase/src/app/learning-path/page.tsx` | Trang lộ trình sau đăng nhập |
-| `codebase/src/app/personalized-path/page.tsx` | Xoá, thay bằng chuyển hướng trong `codebase/next.config.ts` |
-| `codebase/src/components/presentation/slides-deck-view.tsx` | Slide trỏ về `/learning-path` |
-| `README.md`, `spec.md`, `docs/02-kien-truc.md`, `docs/03-api.md`, `docs/05-ui-flow.md` | Đường dẫn mới; `spec.md` §9 thêm một dòng changelog |
+| `codebase/src/app/lecture/page.tsx` | Route không gian giảng viên |
+| `codebase/src/components/views/lecture/lecture-dashboard-view.tsx` | Màn hình giảng viên |
+| `codebase/src/components/views/admin/admin-cockpit-dashboard-view.tsx` | Console Admin và tab Khảo sát |
+| `codebase/src/components/staff/document-manager.tsx` | Giao diện vòng đời tài liệu dùng chung |
+| `codebase/src/components/staff/staff-guard.tsx` | Xác minh vai trò trước khi hiển thị |
+| `codebase/src/lib/api/staff-backend-client.ts`, `codebase/src/types/staff.ts` | Client và kiểu dữ liệu cho API nhân sự |
+| `codebase/src/components/theme/*`, `codebase/src/app/layout.tsx`, `codebase/src/app/globals.css`, `codebase/tailwind.config.ts` | Theme sáng/tối và style staff |
+| `codebase/src/components/layout/*` | Menu `/lecture`, nút chuyển theme và màu chữ theo theme |
 
-## 4. Kiểm thử
+## 4. Kiểm thử thực tế
 
-- `npx tsc --noEmit`: không lỗi. `npx vitest run`: 101/101 test qua. `npm run lint`: không lỗi, không cảnh báo mới.
-- Chạy `npm run dev`, thử trên trình duyệt:
-  - Khách mở `/personalized-path` → chuyển sang `/learning-path`, hiện yêu cầu đăng nhập.
-  - Dùng thử Học viên → vào trang lộ trình, menu học viên.
-  - Đổi sang Giảng viên → "Tài liệu của tôi", gửi duyệt 1 tài liệu nháp.
-  - Đổi sang Quản trị → tài liệu vừa gửi xuất hiện ở "Chờ duyệt (2)"; "Duyệt tài khoản" duyệt 1 tài khoản mẫu, danh sách còn 1.
+- `npm run verify`: đạt.
+- Lint: đạt; chỉ còn các cảnh báo `<img>` và hook đã tồn tại từ trước.
+- TypeScript: đạt, không lỗi.
+- Vitest: 19/19 file, 101/101 test đạt.
+- FAQ audit: 53 file, 0 lỗi nặng, 0 cảnh báo.
+- Production build: đạt; sinh thành công `/admin` và `/lecture`.
 
 ## 5. Tài liệu & changelog
 
-- `spec.md` §9 thêm dòng 18/9 (chiều). Không đổi chuẩn đạt §7.
+- Không đổi `spec.md` hoặc chuẩn đạt CP4.
+- Không thay đổi prompt nên không chạy lại golden set.
 
 ## 6. Rủi ro / việc còn lại
 
-- Tài khoản demo không có JWT: khi bật chốt đăng nhập (B-05), API lộ trình sẽ đòi token thật — tài khoản demo
-  chỉ còn dùng được khi chưa bật chốt, hoặc phải thay bằng tài khoản demo thật (B-04).
-- Trang Giảng viên / Quản trị chưa chặn theo vai trò ở route; gõ thẳng URL vẫn mở được (dữ liệu chỉ là mẫu).
+- Giao diện staff gọi hợp đồng API `/api/v1/me`, `/api/v1/lecture/documents`, `/api/v1/admin/analytics`, `/api/v1/admin/audit` và các endpoint cập nhật tương ứng. Backend `.NET` hiện tại trên `main` chưa có đủ toàn bộ endpoint này; cần ghép backend bốn vai trò tương ứng trước khi các thao tác chạy trọn vẹn trên môi trường deploy.
+- PR này không chứa file trong `codebase/data/private-documents/`, khóa môi trường, migration hoặc mã AI Helpdesk.

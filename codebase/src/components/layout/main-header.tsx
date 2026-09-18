@@ -9,6 +9,7 @@ import { AuthModal } from '@/components/auth/auth-modal';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { DEMO_ACCOUNTS, getUserRole, isDemoUser, ROLE_LABELS, startDemoSession } from '@/lib/demo/demo-accounts';
 import { FocusModeController } from '@/components/learning/focus-mode-controller';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 export function MainHeader() {
   const pathname = usePathname();
@@ -147,6 +148,7 @@ export function MainHeader() {
 
             {/* Header Right Action: Focus, NDA & Tài Khoản */}
             <div className="flex items-center gap-2.5">
+              <ThemeToggle compact />
               
               {/* Focus Mode Button */}
               <div className="hidden md:flex items-center">
