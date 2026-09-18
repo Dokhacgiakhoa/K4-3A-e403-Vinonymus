@@ -6,7 +6,7 @@ Prototype là một ứng dụng **Next.js 15 (App Router)** trong `codebase/`. 
 
 ```mermaid
 flowchart LR
-    U[Học viên] -->|chọn nền tảng, thời gian, bài lab| W[Trang Lộ trình cá nhân hoá<br/>/personalized-path]
+    U[Học viên] -->|chọn nền tảng, thời gian, bài lab| W[Trang Lộ trình cá nhân hoá<br/>/learning-path]
     W -->|POST /api/roadmap<br/>header key nếu có| R[Route handler<br/>app/api/roadmap]
     R -->|validate zod| R
     R --> C[(Catalog<br/>planner-catalog.ts)]
@@ -38,7 +38,7 @@ flowchart LR
 codebase/
 ├── src/
 │   ├── app/                  ← trang + route handler (api/chat, api/roadmap)
-│   ├── app/personalized-path/ ← trang Lộ trình cá nhân hoá (vai trò Student)
+│   ├── app/learning-path/ ← trang Lộ trình cá nhân hoá (vai trò Student)
 │   ├── components/planner/   ← study-planner.tsx (UI 4 bước + checklist)
 │   ├── components/learning/  ← wizard lộ trình 4 sprint (quy tắc chạy trên FE, không gọi AI)
 │   ├── components/chat/      ← AI Helpdesk: widget nổi dùng chat-box.tsx gọi /api/chat

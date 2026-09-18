@@ -7,6 +7,7 @@ import { ShieldAlert, UserCircle, LogOut, Award, Sparkles, ChevronDown, Target }
 import { DisclaimerModal } from '@/components/legal/disclaimer-modal';
 import { AuthModal } from '@/components/auth/auth-modal';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
+import { DEMO_ACCOUNTS, getUserRole, isDemoUser, ROLE_LABELS, startDemoSession } from '@/lib/demo/demo-accounts';
 import { FocusModeController } from '@/components/learning/focus-mode-controller';
 
 export function MainHeader() {
@@ -198,13 +199,10 @@ export function MainHeader() {
 
                       <div className="space-y-1.5 text-xs text-slate-300 font-medium">
                         <div className="flex items-center justify-between p-2 rounded-xl bg-[#070d1e] border border-slate-800">
-                          <span className="text-slate-400">Phân hạng:</span>
+                          <span className="text-slate-400">Vai trò:</span>
                           <span className="font-bold text-sky-400">
-                            {currentUser.role === 'admin' || currentUser.tier === 'Admin'
-                              ? '🛡️ Quản Trị Viên (Admin)'
-                              : currentUser.tier === 'Pro'
-                              ? '👑 Pro VIP (Học viên)'
-                              : 'Free (Cộng đồng)'}
+                            {ROLE_LABELS[getUserRole(currentUser)]}
+                            {isDemoUser(currentUser) ? ' · demo' : ''}
                           </span>
                         </div>
                         <div className="flex items-center justify-between p-2 rounded-xl bg-[#070d1e] border border-slate-800">
@@ -213,51 +211,30 @@ export function MainHeader() {
                         </div>
                       </div>
 
-                      {/* QUICK ROLE / TIER SWITCHER DEMO */}
-                      <div className="p-2.5 rounded-xl bg-[#070d1e] border border-slate-800 space-y-1.5">
-                        <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">Trải nghiệm các loại tài khoản:</div>
-                        <div className="grid grid-cols-3 gap-1.5 pt-0.5">
-                          <button
-                            onClick={() => {
-                              const updated: StoredUser = { ...currentUser, tier: 'Free', plan: 'free', role: 'student' };
-                              clientStorage.saveUser(updated);
-                            }}
-                            className={`px-2 py-1 rounded-lg text-[10px] font-bold border transition ${
-                              currentUser.tier !== 'Pro' && currentUser.role !== 'admin'
-                                ? 'bg-sky-500 text-slate-950 border-sky-400 font-extrabold shadow-sm'
-                                : 'bg-[#0b1329] text-slate-400 hover:text-white border-slate-800'
-                            }`}
-                          >
-                            Free
-                          </button>
-                          <button
-                            onClick={() => {
-                              const updated: StoredUser = { ...currentUser, tier: 'Pro', plan: 'pro', role: 'student' };
-                              clientStorage.saveUser(updated);
-                            }}
-                            className={`px-2 py-1 rounded-lg text-[10px] font-bold border transition ${
-                              currentUser.tier === 'Pro' && currentUser.role !== 'admin'
-                                ? 'bg-amber-400 text-slate-950 border-amber-300 font-extrabold shadow-sm'
-                                : 'bg-[#0b1329] text-slate-400 hover:text-white border-slate-800'
-                            }`}
-                          >
-                            Pro VIP
-                          </button>
-                          <button
-                            onClick={() => {
-                              const updated: StoredUser = { ...currentUser, tier: 'Admin', plan: 'admin', role: 'admin' };
-                              clientStorage.saveUser(updated);
-                            }}
-                            className={`px-2 py-1 rounded-lg text-[10px] font-bold border transition ${
-                              currentUser.role === 'admin' || currentUser.tier === 'Admin'
-                                ? 'bg-red-500 text-white border-red-400 font-extrabold shadow-sm'
-                                : 'bg-[#0b1329] text-slate-400 hover:text-white border-slate-800'
-                            }`}
-                          >
-                            Admin
-                          </button>
+                      {/* Chuyển nhanh giữa các vai trò demo khi trình bày, không cần đăng xuất */}
+                      {isDemoUser(currentUser) && (
+                        <div className="p-2.5 rounded-xl bg-[#070d1e] border border-slate-800 space-y-1.5">
+                          <div className="text-[10px] uppercase font-bold text-slate-400 font-mono">Đổi vai trò demo:</div>
+                          <div className="grid grid-cols-3 gap-1.5 pt-0.5">
+                            {DEMO_ACCOUNTS.map((account) => {
+                              const active = getUserRole(currentUser) === account.role;
+                              return (
+                                <button
+                                  key={account.role}
+                                  onClick={() => startDemoSession(account.role)}
+                                  className={`px-2 py-1 rounded-lg text-[10px] font-bold border transition ${
+                                    active
+                                      ? 'bg-amber-400 text-slate-950 border-amber-300 font-extrabold shadow-sm'
+                                      : 'bg-[#0b1329] text-slate-400 hover:text-white border-slate-800'
+                                  }`}
+                                >
+                                  {account.label}
+                                </button>
+                              );
+                            })}
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       <div className="pt-1 space-y-2">
                         <Link

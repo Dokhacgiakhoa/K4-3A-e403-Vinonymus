@@ -3,7 +3,7 @@ Hướng: **E — Làn mở** (trong phạm vi AI20k)
 Loại: [x] Tính năng mới
 
 **Phạm vi:** Adaptive Learning System gồm 2 AI:
-- **AI Mentor:** AI thực thi, **không trò chuyện** với người dùng; kết quả hiện qua các tính năng. AI Mentor làm 4 việc: (1) đọc thông tin đầu vào của học viên; (2) đọc tài liệu giảng viên tải lên để đưa vào thư viện; (3) phân tích CV để ra bài test năng lực online; (4) phân tích điểm test để xây lộ trình học từ thư viện. **Phần được chấm (lát cắt dự thi)** là tính năng **Lộ trình cá nhân hoá** (`/personalized-path`), dùng việc (1) và một phần việc (4): chọn tài liệu theo nền tảng tự khai, chưa theo điểm test. Việc (2), (3) chưa làm.
+- **AI Mentor:** AI thực thi, **không trò chuyện** với người dùng; kết quả hiện qua các tính năng. AI Mentor làm 4 việc: (1) đọc thông tin đầu vào của học viên; (2) đọc tài liệu giảng viên tải lên để đưa vào thư viện; (3) phân tích CV để ra bài test năng lực online; (4) phân tích điểm test để xây lộ trình học từ thư viện. **Phần được chấm (lát cắt dự thi)** là tính năng **Lộ trình cá nhân hoá** (`/learning-path`, chỉ mở cho học viên đã đăng nhập), dùng việc (1) và một phần việc (4): chọn tài liệu theo nền tảng tự khai, chưa theo điểm test. Việc (2), (3) chưa làm.
 - **AI Helpdesk:** AI duy nhất người dùng trò chuyện, ở chatbox; dùng để tra cứu, giải đáp về tài liệu và lộ trình học. Đây là tính năng nền, không thuộc phần chấm.
 
 > **Đã chốt tại CP4 (21:00 · 17/9).** Chuẩn "đạt" ở §7 không sửa sau mốc này. Phần chưa xong được tự khai ở cuối file.
@@ -203,6 +203,7 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 | 17/9 (sau CP4) | Thêm mô hình truy cập: khách được hỏi AI Helpdesk 10 câu/ngày; đăng nhập mới dùng đủ 2 AI; đăng ký phải chờ quản trị viên duyệt. Code đã có, **chưa deploy backend**. Việc khoá Lộ trình cá nhân hoá chỉ bật khi đã cấu hình backend | Theo quyết định của nhóm: AI Helpdesk miễn phí có giới hạn để thu hút người dùng. Chưa đổi chuẩn đạt §7; khi bật khoá, giám khảo dùng tài khoản demo đã duyệt |
 | 18/9 | Bổ sung module API tích hợp Discord Activity (+5 XP) tại `/api/integrations/discord/activity` (Dual-Mode: Mock Sandbox & Live Webhook), đặc tả tại `docs/feature-discord-api.md` | Mở rộng kênh `#activity` của Discord AI20K, ghi nhận tự học của học viên; chế độ Mock phục vụ chấm điểm và demo an toàn |
 | 18/9 | Mở rộng Golden set lên **50 case** độc lập (G01–G50), tối ưu baseline planner với phát hiện mâu thuẫn (`hasContradiction`) và loại trừ item theo ghi chú (`isExcludedByNote`); baseline đạt **50/50 (100%)** | Đáp ứng yêu cầu đánh giá toàn diện trên tập dữ liệu lớn hơn, bao phủ đủ 5 nhóm kịch bản và giữ vững cam kết 0 link ngoài catalog |
+| 18/9 (chiều) | Trang Lộ trình cá nhân hoá chuyển từ `/personalized-path` (mở cho mọi người) sang `/learning-path`, **chỉ mở cho học viên đã đăng nhập**; link cũ tự chuyển hướng. Thêm tài khoản dùng thử Học viên/Giảng viên/Quản trị chạy trên trình duyệt | Khớp mô hình truy cập đã chốt: khách chỉ dùng AI Helpdesk có giới hạn, AI Mentor dành cho học viên. Backend .NET chưa deploy nên vai trò Giảng viên/Quản trị mới là bản demo giao diện. Không đổi chuẩn đạt §7 |
 
 ---
 

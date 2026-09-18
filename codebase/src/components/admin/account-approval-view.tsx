@@ -3,6 +3,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { CheckCircle2, Loader2, RefreshCw, UserCheck, XCircle } from 'lucide-react';
 import { authBackendClient, type ApprovalDecision, type AuthUserDto } from '@/lib/api/auth-backend-client';
+import { clientStorage } from '@/lib/client-storage';
+import { DEMO_ACCOUNT_REQUESTS, isDemoUser } from '@/lib/demo/demo-accounts';
+import { DemoBanner } from '@/components/demo/demo-banner';
 
 type StatusFilter = 'Pending' | 'Approved' | 'Rejected';
 
@@ -18,21 +21,39 @@ export function AccountApprovalView() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [busyId, setBusyId] = useState<string | null>(null);
+  // null = chưa đọc phiên; không gọi backend trước khi biết đây có phải phiên demo không.
+  const [isDemo, setIsDemo] = useState<boolean | null>(null);
+  // Phiên demo không có backend: giữ danh sách mẫu trong bộ nhớ để duyệt/từ chối vẫn thấy kết quả.
+  const [demoUsers, setDemoUsers] = useState<AuthUserDto[]>(DEMO_ACCOUNT_REQUESTS);
+
+  useEffect(() => {
+    setIsDemo(isDemoUser(clientStorage.getUser()));
+  }, []);
 
   const load = useCallback(async () => {
+    if (isDemo === null) return;
+    if (isDemo) {
+      setError(null);
+      setUsers(demoUsers.filter((u) => (u.approvalStatus ?? 'Pending') === filter));
+      return;
+    }
     setLoading(true);
     setError(null);
     const res = await authBackendClient.listUsers(filter);
     setUsers(res.users);
     if (!res.ok) setError(res.message ?? 'Không tải được danh sách tài khoản.');
     setLoading(false);
-  }, [filter]);
+  }, [filter, isDemo, demoUsers]);
 
   useEffect(() => {
     void load();
   }, [load]);
 
   const decide = async (userId: string, decision: ApprovalDecision) => {
+    if (isDemo) {
+      setDemoUsers((prev) => prev.map((u) => (u.id === userId ? { ...u, approvalStatus: decision } : u)));
+      return;
+    }
     setBusyId(userId);
     const res = await authBackendClient.setApproval(userId, decision);
     setBusyId(null);
@@ -62,6 +83,8 @@ export function AccountApprovalView() {
       <p className="text-sm text-slate-400">
         Tài khoản mới đăng ký chỉ đăng nhập được sau khi quản trị viên duyệt.
       </p>
+
+      {isDemo === true && <DemoBanner />}
 
       <div className="flex gap-2" role="tablist">
         {FILTERS.map((f) => (

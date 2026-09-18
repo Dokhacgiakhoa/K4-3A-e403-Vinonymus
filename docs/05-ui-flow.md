@@ -43,11 +43,11 @@ Trang không kiểm tra key trước khi gọi API: key (nếu có) được g�
 
 ## 3. Hiện thực (CP2 · 16/9)
 
-Trang riêng **`/personalized-path`** — dành cho vai trò Student (đã đăng nhập, tài khoản đã được duyệt); khi chưa khai báo địa chỉ backend thì trang mở tự do, không bắt đăng nhập. Không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
+Trang riêng **`/learning-path`** — dành cho vai trò Student (đã đăng nhập, tài khoản đã được duyệt); khi chưa khai báo địa chỉ backend thì trang mở tự do, không bắt đăng nhập. Không cần gói Pro. Không sửa wizard cũ (`ai-mentor-wizard.tsx`) vì gắn chặt với luồng tài khoản.
 
 | File | Vai trò |
 |---|---|
-| `codebase/src/app/personalized-path/page.tsx` | Route |
+| `codebase/src/app/learning-path/page.tsx` | Route |
 | `codebase/src/components/planner/study-planner.tsx` | UI 4 bước + checklist (tick, bỏ, đổi thứ tự, khôi phục), lưu `localStorage` |
 | `codebase/src/lib/planner/baseline-planner.ts` | Luật tĩnh: clarify (<30 phút, lab lạ), refuse (làm hộ, đáp án, gia hạn, điểm, ghi đè chỉ dẫn), chọn ≤3 việc theo nền tảng + ghi chú |
 | `codebase/src/data/planner-catalog.ts` | Catalog 3 bài lab, chỉ link công khai |
