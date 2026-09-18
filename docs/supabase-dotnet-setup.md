@@ -27,7 +27,8 @@ khoản chạy backend.
 
 1. Trong Supabase SQL Editor, chạy lần lượt năm file trong
    `codebase/database/migrations/` theo thứ tự tên. Migration đầu tạo schema
-   `app`; các migration sau đặt `search_path` là `app, public`.
+   `app`; các migration sau đặt `search_path` là `app, public, extensions` để
+   dùng được extension do Supabase cài trong schema `extensions`.
 2. Tạo một mật khẩu dài, ngẫu nhiên trong password manager của nhóm. Trong SQL
    Editor, thay đúng **một lần** giá trị placeholder rồi chạy:
 
@@ -75,9 +76,9 @@ where table_schema = 'app' and table_name = 'users';
 select count(*) from app.users;
 ```
 
-Kết quả mong đợi: `current_user = aiia_backend`, nhìn thấy `app.users`, và
-truy vấn `count(*)` thành công. Khi hoàn tất, ghi đúng kết quả thực tế (không có
-connection string) vào `PR.md` và chuyển D-01 sang ✅.
+Kết quả đã kiểm thử: `current_user = aiia_backend`, `app_table_count = 11`,
+`users_count = 0`; truy vấn `count(*)` thành công. Kết quả không ghi connection
+string hoặc secret vào repo.
 
 ## Tái sử dụng từ dự án cũ
 

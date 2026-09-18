@@ -4,7 +4,7 @@
 -- Tài khoản đã tồn tại trước migration này coi như đã được duyệt.
 -- =========================================================================
 
-SET search_path TO app, public;
+SET search_path TO app, public, extensions;
 
 ALTER TABLE users ADD COLUMN IF NOT EXISTS approval_status VARCHAR(20) NOT NULL DEFAULT 'Approved';
 

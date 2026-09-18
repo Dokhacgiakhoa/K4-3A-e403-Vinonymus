@@ -26,16 +26,15 @@ hiện có ở `public`. Chuẩn bị quy trình tạo role `aiia_backend` theo 
 
 ## 4. Kiểm thử
 
-- Project cũ có `.env.local` với `SUPABASE_DB_URL` và cùng Supabase project/ref;
-  không sao chép file này sang repo mới và không ghi secret vào Git.
-- Đã thử kết nối bằng chuỗi DB cũ: API project phân giải được nhưng host DB
-  `db.<project-ref>.supabase.co` không phân giải được; chưa thể chạy migration
-  hoặc dùng chuỗi admin cũ để đánh dấu hoàn thành role backend.
-- `dotnet test --no-restore` đã thử chạy nhưng máy hiện không cài .NET SDK
-  (`dotnet` không được nhận diện), nên chưa có kết quả test .NET.
-- Guard tĩnh cho 5 migration và wiring EF Core: pass. `git diff --check` toàn
-  repo bị chặn bởi các đường dẫn legacy vượt giới hạn Windows, không liên quan
-  đến thay đổi D-01.
+- Kết nối pooler Supabase thật bằng chuỗi admin được cung cấp (secret không ghi
+  vào repo/log): thành công.
+- 5/5 migration áp dụng thành công; role `aiia_backend` tạo và cấp quyền trên
+  schema `app` thành công.
+- Kiểm thử bằng role backend: `current_user=aiia_backend`, `users_count=0`,
+  `app_table_count=11`.
+- `dotnet restore` thành công; test .NET chạy từ thư mục tạm ngoài OneDrive:
+  Domain `6/6`, Application `41/41`, WebApi Integration `13/13` — tổng `60/60`.
+- Guard tĩnh cho migration và wiring EF Core: pass.
 
 ## 5. Tài liệu & changelog
 
@@ -43,7 +42,7 @@ hiện có ở `public`. Chuẩn bị quy trình tạo role `aiia_backend` theo 
 
 ## 6. Rủi ro / việc còn lại
 
-- Cần @Khoa duyệt schema `app`, quyền quản trị project Supabase để chạy migration
-  và tạo role, sau đó kiểm thử backend đọc `app.users`.
+- Cần @Khoa duyệt đề xuất schema `app` trên PR; không còn thao tác database nào
+  cần tài khoản quản trị để bàn giao.
 
 Closes #84

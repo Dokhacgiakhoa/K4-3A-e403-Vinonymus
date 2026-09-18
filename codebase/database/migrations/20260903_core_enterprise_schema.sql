@@ -8,7 +8,7 @@ CREATE EXTENSION IF NOT EXISTS "vector";
 
 -- Phần FAQ/RAG cũ tiếp tục ở public. Toàn bộ dữ liệu nghiệp vụ .NET ở app.
 CREATE SCHEMA IF NOT EXISTS app;
-SET search_path TO app, public;
+SET search_path TO app, public, extensions;
 
 -- 1. BẢNG NGƯỜI DÙNG & HẠN MỨC (USERS & QUOTAS)
 CREATE TABLE IF NOT EXISTS users (
