@@ -49,6 +49,14 @@ import {
   Share2
 } from 'lucide-react';
 
+function FlowArrow({ className = "w-[0.9rem] h-[0.9rem] text-blue-600" }: { className?: string }) {
+  return (
+    <span className="inline-flex items-center justify-center align-middle mx-[0.3rem] text-inherit" aria-hidden="true">
+      <ArrowRight className={`${className} stroke-[2.75]`} />
+    </span>
+  );
+}
+
 export function SlidesDeckView() {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
@@ -212,14 +220,14 @@ export function SlidesDeckView() {
 
             {/* PHÂN: 4 TRỤ CỘT ĐỊNH VỊ DỰ ÁN */}
             <div className="relative z-10 my-[1.25rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1rem]">
-              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
-                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-rose-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-rose-50 text-rose-600 flex items-center justify-center mb-[0.5rem]">
                   <Target className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Bài toán thực tế</div>
-                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Cá Nhân Hoá Lộ Trình</div>
+                <div className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Bài toán thực tế</div>
+                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Bội Thực &amp; Lạc Lối Tự Học</div>
                 <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
-                  Tự động phân loại nền tảng và quỹ thời gian để đưa ra lộ trình tự học trước mỗi buổi lab thực hành.
+                  87% học viên không tự biết mình hổng ở đâu, quá tải trước 5 kênh rời rạc và slide 50-60 trang mỗi tối.
                 </p>
               </div>
 
@@ -227,29 +235,29 @@ export function SlidesDeckView() {
                 <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
                   <Bot className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Mô hình sản phẩm</div>
+                <div className="text-[0.75rem] font-bold text-blue-700 uppercase tracking-wider">Mô hình sản phẩm</div>
                 <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Kiến Trúc 2 AI Phân Vai</div>
                 <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
                   <strong>AI Mentor</strong> (Action AI chạy ngầm ra quyết định) &amp; <strong>AI Helpdesk</strong> (Trợ lý hội thoại tra cứu FAQ 24/7).
                 </p>
               </div>
 
-              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
-                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-emerald-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center mb-[0.5rem]">
                   <ShieldCheck className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Lát cắt chấm thi (Scope)</div>
-                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Lộ Trình Cá Nhân Hoá</div>
+                <div className="text-[0.75rem] font-bold text-emerald-700 uppercase tracking-wider">Lát cắt chấm thi (Scope)</div>
+                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">AI Mentor Ra Quyết Định</div>
                 <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
-                  Hoạt động thật tại <code>/personalized-path</code> với catalog kiểm duyệt 100% và cơ chế Guardrail chống gian lận.
+                  Hoạt động thật tại <code>/personalized-path</code>: Cắt tỉa catalog 100% nội bộ, xuất checklist ≤3 việc và chống gian lận.
                 </p>
               </div>
 
-              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
-                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-indigo-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center mb-[0.5rem]">
                   <TrendingUp className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Hiệu quả kinh tế</div>
+                <div className="text-[0.75rem] font-bold text-indigo-700 uppercase tracking-wider">Hiệu quả kinh tế</div>
                 <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Unit Economics &lt;4.800đ</div>
                 <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
                   Tối ưu chi phí token LLM, kiến trúc duyệt tài khoản Admin chống spam và tích hợp Discord Activity (+5 XP).
@@ -258,18 +266,15 @@ export function SlidesDeckView() {
             </div>
 
             {/* FOOTER: ĐỘI NGŨ VINONYMUS & VAI TRÒ */}
-            <div className="relative z-10 border-t border-slate-200/90 pt-[0.85rem] flex flex-col md:flex-row justify-between items-start md:items-center gap-[0.5rem] text-[0.825rem]">
-              <div className="flex flex-wrap items-center gap-[0.75rem] text-slate-700 font-medium">
-                <span className="font-bold text-slate-900 bg-slate-100 px-[0.5rem] py-[0.15rem] rounded">Nhóm Vinonymus:</span>
-                <span><strong>Đỗ Khắc Gia Khoa</strong> (Đội trưởng / PM · Backend)</span>
-                <span>•</span>
-                <span><strong>Nguyễn Việt Thành</strong> (AI Mentor · UI)</span>
-                <span>•</span>
-                <span><strong>Đinh Ngọc Đức</strong> (AI Pipeline · Helpdesk)</span>
-                <span>•</span>
-                <span><strong>Trần Nhật Minh</strong> (Database · CI)</span>
+            <div className="relative z-10 border-t border-slate-200/90 pt-[0.85rem] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-[0.5rem] text-[0.8rem]">
+              <div className="flex flex-wrap items-center gap-[0.4rem] text-slate-700 font-medium">
+                <span className="font-bold text-slate-900 bg-slate-100 px-[0.5rem] py-[0.15rem] rounded text-[0.75rem] uppercase tracking-wider">Đội ngũ:</span>
+                <span className="bg-slate-50 border border-slate-200 px-[0.5rem] py-[0.15rem] rounded-md"><strong>Đỗ Khắc Gia Khoa</strong> (Lead · Backend)</span>
+                <span className="bg-slate-50 border border-slate-200 px-[0.5rem] py-[0.15rem] rounded-md"><strong>Nguyễn Việt Thành</strong> (AI Mentor · UI)</span>
+                <span className="bg-slate-50 border border-slate-200 px-[0.5rem] py-[0.15rem] rounded-md"><strong>Đinh Ngọc Đức</strong> (Helpdesk · Pipeline)</span>
+                <span className="bg-slate-50 border border-slate-200 px-[0.5rem] py-[0.15rem] rounded-md"><strong>Trần Nhật Minh</strong> (Database · CI)</span>
               </div>
-              <div className="font-mono text-blue-800 font-bold bg-blue-50 border border-blue-200 px-[0.65rem] py-[0.2rem] rounded-md shrink-0">
+              <div className="font-mono text-blue-800 font-bold bg-blue-50 border border-blue-200 px-[0.65rem] py-[0.2rem] rounded-md shrink-0 text-[0.75rem]">
                 Khoá 4 · Lớp 3A · AI20K
               </div>
             </div>
@@ -287,17 +292,28 @@ export function SlidesDeckView() {
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
                 Bản đồ chiến lược · Cấu trúc phản biện
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                Hành Trình 3 Trụ Cột: Vấn Đề → Giải Pháp → Thực Chứng
+              <h1 className="text-[clamp(1.5rem,2.8vw,2.4rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em] flex flex-wrap items-center gap-[0.4rem]">
+                <span>Hành Trình 3 Trụ Cột:</span>
+                <span className="inline-flex items-center gap-[0.35rem] bg-rose-50 text-rose-800 px-[0.65rem] py-[0.15rem] rounded-lg text-[0.85em] border border-rose-200">
+                  Vấn Đề
+                </span>
+                <ArrowRight className="w-[1.2rem] h-[1.2rem] text-slate-400 stroke-[3] shrink-0" />
+                <span className="inline-flex items-center gap-[0.35rem] bg-blue-50 text-blue-700 px-[0.65rem] py-[0.15rem] rounded-lg text-[0.85em] border border-blue-200">
+                  Giải Pháp
+                </span>
+                <ArrowRight className="w-[1.2rem] h-[1.2rem] text-slate-400 stroke-[3] shrink-0" />
+                <span className="inline-flex items-center gap-[0.35rem] bg-emerald-50 text-emerald-800 px-[0.65rem] py-[0.15rem] rounded-lg text-[0.85em] border border-emerald-200">
+                  Thực Chứng
+                </span>
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Khung luận điểm chặt chẽ được thiết kế nhằm chứng minh tính khả thi, giá trị thực tiễn và năng lực mở rộng sản phẩm.
               </p>
             </div>
 
-            {/* PHÂN: 3 TRỤ CỘT LUẬN ĐIỂM */}
-            <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-3 gap-[1.25rem]">
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-slate-300 transition">
+            {/* PHÂN: 3 TRỤ CỘT LUẬN ĐIỂM CÓ MŨI TÊN NỐI */}
+            <div className="my-[1.25rem] grid grid-cols-1 lg:grid-cols-[1fr_auto_1fr_auto_1fr] items-stretch gap-[0.75rem]">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-rose-300 transition">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
                     I
@@ -315,7 +331,14 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="bg-blue-50/50 border border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-blue-400 transition">
+              {/* MŨI TÊN NỐI 1 -> 2 */}
+              <div className="hidden lg:flex items-center justify-center">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 shadow-xs">
+                  <ArrowRight className="w-[1.1rem] h-[1.1rem] stroke-[2.75]" />
+                </div>
+              </div>
+
+              <div className="bg-blue-50/40 border border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-blue-400 transition">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
                     II
@@ -333,7 +356,14 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-slate-300 transition">
+              {/* MŨI TÊN NỐI 2 -> 3 */}
+              <div className="hidden lg:flex items-center justify-center">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-slate-400 shadow-xs">
+                  <ArrowRight className="w-[1.1rem] h-[1.1rem] stroke-[2.75]" />
+                </div>
+              </div>
+
+              <div className="bg-emerald-50/40 border border-emerald-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-emerald-400 transition">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
                     III
@@ -491,28 +521,28 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="bg-blue-50/50 border-2 border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
+              <div className="bg-emerald-50/40 border-2 border-emerald-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="flex items-center gap-[0.5rem] text-blue-900 font-bold text-[1.05rem] mb-[0.75rem]">
-                    <Zap className="w-[1.2rem] h-[1.2rem]" />
+                  <div className="flex items-center gap-[0.5rem] text-emerald-900 font-bold text-[1.05rem] mb-[0.75rem]">
+                    <Zap className="w-[1.2rem] h-[1.2rem] text-emerald-600" />
                     <span>Cái người học thực sự khao khát: AI Thực Thi (Action AI)</span>
                   </div>
                   <div className="space-y-[0.75rem] text-[0.85rem] text-slate-700 font-medium">
                     <div className="flex items-start gap-[0.5rem]">
-                      <Check className="w-[1rem] h-[1rem] text-blue-600 shrink-0 mt-[0.1rem]" />
+                      <Check className="w-[1rem] h-[1rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                       <span><strong>Chẩn đoán trước khi hỏi:</strong> Nắm bắt nền tảng (Non-tech / Tech) và số phút rảnh để tự tính toán đường đi tối ưu.</span>
                     </div>
                     <div className="flex items-start gap-[0.5rem]">
-                      <Check className="w-[1rem] h-[1rem] text-blue-600 shrink-0 mt-[0.1rem]" />
+                      <Check className="w-[1rem] h-[1rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                       <span><strong>Nói không với văn vở:</strong> Không chat dông dài — Trả thẳng một Checklist ≤3 việc có thời lượng rõ ràng và lý do vì sao cần học.</span>
                     </div>
                     <div className="flex items-start gap-[0.5rem]">
-                      <Check className="w-[1rem] h-[1rem] text-blue-600 shrink-0 mt-[0.1rem]" />
+                      <Check className="w-[1rem] h-[1rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                       <span><strong>100% Link sạch đã kiểm chứng:</strong> Tuyệt đối không sinh URL ảo ngoài catalog, loại bỏ hoàn toàn rủi ro hallucination.</span>
                     </div>
                   </div>
                 </div>
-                <div className="mt-[1rem] p-[0.75rem] rounded-lg bg-blue-100/70 text-[0.8rem] text-blue-900 font-semibold">
+                <div className="mt-[1rem] p-[0.75rem] rounded-lg bg-emerald-100/70 text-[0.8rem] text-emerald-950 font-semibold">
                   Bằng chứng: 74/82 (90%) học viên khẳng định muốn dùng Checklist 3 việc này mỗi ngày.
                 </div>
               </div>
@@ -520,7 +550,7 @@ export function SlidesDeckView() {
 
             {/* HỢP */}
             <div className="p-[1rem] rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between text-[0.85rem] text-blue-950 font-semibold">
-              <span>Insight từ dữ liệu: <strong className="text-rose-700">8.8%</strong> lượt chat xin "tóm tắt" là tiếng kêu cứu → Sản phẩm phải chuyển từ <em>Chatbot đàm thoại</em> sang <em>AI thực thi hành động</em>.</span>
+              <span>Insight từ dữ liệu: <strong className="text-rose-700">8.8%</strong> lượt chat xin "tóm tắt" là tiếng kêu cứu <FlowArrow className="w-[0.95rem] h-[0.95rem] text-blue-700" /> Sản phẩm phải chuyển từ <em>Chatbot đàm thoại</em> sang <em>AI thực thi hành động</em>.</span>
               <span className="font-mono text-blue-700 font-bold">13.494 chats mining</span>
             </div>
           </div>
@@ -639,12 +669,12 @@ export function SlidesDeckView() {
                   </div>
                   <h3 className="text-[1.25rem] font-bold text-blue-950 mb-[0.35rem]">Hoàn Toàn Không Chat — Chỉ Ra Quyết Định</h3>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Đọc dữ liệu học viên (trình độ + thời gian rảnh) → Chẩn đoán lỗ hổng → Tự động cắt tỉa catalog và xuất xưởng Checklist ≤3 việc trong vòng 3 giây.
+                    Đọc dữ liệu học viên (trình độ + thời gian rảnh) <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> Chẩn đoán lỗ hổng <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> Tự động cắt tỉa catalog và xuất xưởng Checklist ≤3 việc trong vòng 3 giây.
                   </p>
                   <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-blue-200">
                     <div>• <strong>Vị trí hoạt động:</strong> Trang Lộ trình cá nhân hoá (<code>/personalized-path</code>)</div>
                     <div>• <strong>Bảo vệ học liệu:</strong> 100% link trích từ catalog nội bộ đã kiểm định.</div>
-                    <div>• <strong>Hiệu quả token:</strong> Chỉ gọi AI đúng 1 lần khi tạo lộ trình → Siêu tiết kiệm chi phí!</div>
+                    <div>• <strong>Hiệu quả token:</strong> Chỉ gọi AI đúng 1 lần khi tạo lộ trình <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> Siêu tiết kiệm chi phí!</div>
                   </div>
                 </div>
                 <div className="mt-[0.75rem] text-[0.75rem] font-bold text-blue-800 uppercase tracking-wide">
@@ -652,23 +682,23 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border-2 border-slate-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
+              <div className="bg-indigo-50/40 border-2 border-indigo-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="inline-flex items-center gap-[0.5rem] px-[0.75rem] py-[0.25rem] rounded-full bg-slate-700 text-white text-[0.75rem] font-bold uppercase mb-[0.75rem]">
+                  <div className="inline-flex items-center gap-[0.5rem] px-[0.75rem] py-[0.25rem] rounded-full bg-indigo-700 text-white text-[0.75rem] font-bold uppercase mb-[0.75rem]">
                     <Compass className="w-[1rem] h-[1rem]" />
                     <span>AI HELPDESK · TIỀN SẢNH (CONVERSATIONAL AI)</span>
                   </div>
-                  <h3 className="text-[1.25rem] font-bold text-slate-900 mb-[0.35rem]">Trợ Lý Hội Thoại Đồng Hành 24/7</h3>
+                  <h3 className="text-[1.25rem] font-bold text-indigo-950 mb-[0.35rem]">Trợ Lý Hội Thoại Đồng Hành 24/7</h3>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
                     AI duy nhất người dùng trò chuyện cùng ở góc chatbox. Giải thích các khái niệm khó, tra cứu chính xác từ 53 tài liệu FAQ của khoá học có trích dẫn nguồn.
                   </p>
-                  <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-slate-200">
+                  <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-indigo-200">
                     <div>• <strong>Vị trí hoạt động:</strong> Widget chatbox nổi ở toàn bộ hệ thống</div>
                     <div>• <strong>Công nghệ:</strong> RAG tra cứu FAQ xác thực + Router đa LLM dự phòng.</div>
-                    <div>• <strong>Phễu khách hàng:</strong> Khách dùng 10 câu/ngày → Học viên không giới hạn.</div>
+                    <div>• <strong>Phễu khách hàng:</strong> Khách dùng 10 câu/ngày <FlowArrow className="w-[0.9rem] h-[0.9rem] text-indigo-700" /> Học viên không giới hạn.</div>
                   </div>
                 </div>
-                <div className="mt-[0.75rem] text-[0.75rem] font-bold text-slate-600 uppercase tracking-wide">
+                <div className="mt-[0.75rem] text-[0.75rem] font-bold text-indigo-800 uppercase tracking-wide">
                   Tính năng nền tảng giữ chân và chuyển đổi học viên
                 </div>
               </div>
@@ -736,12 +766,14 @@ export function SlidesDeckView() {
                 <div className="text-[0.7rem] font-mono text-blue-700 font-bold mt-[0.5rem]">Con người quyết định</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between shadow-xs">
+              <div className="bg-rose-50/50 border border-rose-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between shadow-xs">
                 <div>
-                  <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-rose-600 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">4</div>
-                  <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">Lớp Guardrail</h4>
-                  <p className="text-[0.8rem] text-slate-600 leading-relaxed font-medium">
-                    Dưới 30 phút → Hỏi lại; Xin đáp án làm hộ → Từ chối; Lỗi mạng → Fallback luật tĩnh ngay.
+                  <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-rose-600 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">
+                    <ShieldCheck className="w-[1.05rem] h-[1.05rem]" />
+                  </div>
+                  <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">Tầng Guardrail 24/7</h4>
+                  <p className="text-[0.8rem] text-slate-700 leading-relaxed font-medium">
+                    &lt;30 phút <FlowArrow className="w-[0.8rem] h-[0.8rem] text-rose-600" /> Hỏi lại; Xin đáp án làm hộ <FlowArrow className="w-[0.8rem] h-[0.8rem] text-rose-600" /> Từ chối; Lỗi mạng <FlowArrow className="w-[0.8rem] h-[0.8rem] text-rose-600" /> Fallback luật tĩnh.
                   </p>
                 </div>
                 <div className="text-[0.7rem] font-mono text-rose-700 font-bold mt-[0.5rem]">Phòng thủ 3 lớp</div>
@@ -772,13 +804,13 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-emerald-700 tracking-[0.08em] uppercase">
-                Trụ cột III: Thực chứng sản phẩm · Kiểm chứng thực tế tại chỗ
+                Trụ cột III: Thực chứng sản phẩm · Trải nghiệm thực tế
               </div>
               <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                Trải Nghiệm Sản Phẩm Thật: 2 Kịch Bản Kiểm Chứng Tức Thì
+                Live Demo: AI Mentor Giải Quyết Đúng Việc — Đúng Lúc — Chống Gian Lận
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Không trình chiếu video quay sẵn hay slide tĩnh — Chúng tôi mời Ban giám khảo kiểm chứng trực tiếp trên ứng dụng đang hoạt động.
+                Kiểm chứng trực tiếp trên hệ thống thật: May đo theo thời gian rảnh và cơ chế Guardrail bảo vệ tính trung thực học thuật.
               </p>
             </div>
 
@@ -794,7 +826,7 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">Học viên Tech-base · 60 phút rảnh · Chuẩn bị Lab 03</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Bấm <strong>"Tạo lộ trình"</strong> → AI Mentor tính toán và trả về đúng 3 việc vừa khít 60 phút:
+                    Bấm <strong>"Tạo lộ trình"</strong> <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> AI Mentor tính toán và trả về đúng 3 việc vừa khít 60 phút:
                   </p>
                   <div className="bg-white p-[0.75rem] rounded-lg border border-blue-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
                     <div className="flex items-center justify-between">
@@ -830,15 +862,21 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.1rem] font-bold text-rose-950 mb-[0.25rem]">Học viên nhập: “Làm hộ bài lab và gửi đáp án testcase ẩn”</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Kẻ gian tìm cách lợi dụng AI để gian lận → Hệ thống Guardrail lập tức kích hoạt:
+                    Kẻ gian tìm cách lợi dụng AI để gian lận <FlowArrow className="w-[0.9rem] h-[0.9rem] text-rose-700" /> Hệ thống Guardrail lập tức kích hoạt:
                   </p>
                   <div className="bg-white p-[0.75rem] rounded-lg border border-rose-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
                     <div className="text-rose-700 font-bold flex items-center gap-[0.4rem]">
                       <X className="w-[1rem] h-[1rem]" />
                       <span>Từ chối cung cấp đáp án hoặc code thay học viên.</span>
                     </div>
-                    <div>✓ Giải thích nguyên tắc sư phạm và liêm chính học thuật.</div>
-                    <div>✓ Hướng dẫn kết nối Lab Coach nếu gặp bế tắc tư duy.</div>
+                    <div className="flex items-center gap-[0.35rem] text-slate-700">
+                      <ShieldCheck className="w-[0.95rem] h-[0.95rem] text-emerald-600 shrink-0" />
+                      <span>Giải thích nguyên tắc sư phạm và liêm chính học thuật.</span>
+                    </div>
+                    <div className="flex items-center gap-[0.35rem] text-slate-700">
+                      <ShieldCheck className="w-[0.95rem] h-[0.95rem] text-emerald-600 shrink-0" />
+                      <span>Hướng dẫn kết nối Lab Coach nếu gặp bế tắc tư duy.</span>
+                    </div>
                     <div className="text-slate-500 italic pt-[0.25rem] border-t border-slate-100">
                       Bảo vệ uy tín chương trình đào tạo của nhà trường.
                     </div>
@@ -858,7 +896,7 @@ export function SlidesDeckView() {
               <Link
                 href="/personalized-path"
                 target="_blank"
-                className="w-full sm:w-auto px-[1.5rem] py-[0.75rem] rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-[0.85rem] uppercase tracking-wider shadow-md transition flex items-center justify-center gap-[0.5rem] shrink-0"
+                className="w-full sm:w-auto px-[1.6rem] py-[0.8rem] rounded-xl bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white font-bold text-[0.85rem] uppercase tracking-wider shadow-lg shadow-blue-500/25 ring-4 ring-blue-300/40 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-[0.5rem] shrink-0"
               >
                 <Monitor className="w-[1.1rem] h-[1.1rem] text-sky-300" />
                 <span>🚀 MỞ TRANG DEMO THẬT (/personalized-path)</span>
@@ -924,9 +962,9 @@ export function SlidesDeckView() {
 
                 <div className="p-[0.75rem] rounded-xl bg-blue-50 border border-blue-200 text-[0.8rem] text-blue-950 font-medium">
                   <strong>Chuẩn Quality Bar cam kết trong spec.md:</strong><br/>
-                  • Tỷ lệ đạt ≥ 18/20 (90%) → <strong>Thực tế: 19/20 (95%)</strong>.<br/>
-                  • Link ngoài catalog = 0 → <strong>Thực tế: 0 link ngoài</strong>.<br/>
-                  • Chống gian lận 3/3 → <strong>Thực tế: Đạt 100%</strong>.
+                  • Tỷ lệ đạt ≥ 18/20 (90%) <FlowArrow className="w-[0.85rem] h-[0.85rem] text-emerald-700" /> <strong>Thực tế: 19/20 (95%)</strong>.<br/>
+                  • Link ngoài catalog = 0 <FlowArrow className="w-[0.85rem] h-[0.85rem] text-emerald-700" /> <strong>Thực tế: 0 link ngoài</strong>.<br/>
+                  • Chống gian lận 3/3 <FlowArrow className="w-[0.85rem] h-[0.85rem] text-emerald-700" /> <strong>Thực tế: Đạt 100%</strong>.
                 </div>
               </div>
 
@@ -985,9 +1023,9 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.25rem]">Phễu 4 vai trò</h4>
                   <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
-                    • <strong>Viewer (Khách):</strong> Dùng thử AI Helpdesk 10 câu/ngày → Phễu marketing miễn phí.<br/>
+                    • <strong>Viewer (Khách):</strong> Dùng thử AI Helpdesk 10 câu/ngày <FlowArrow className="w-[0.8rem] h-[0.8rem] text-blue-700" /> Phễu marketing miễn phí.<br/>
                     • <strong>Student (Học viên):</strong> Được mở khoá Lộ trình cá nhân hoá.<br/>
-                    • <strong>Lecturer &amp; Admin:</strong> Quản lý học liệu.
+                    • <strong>Lecturer &amp; Admin:</strong> Quản trị và kiểm duyệt catalog.
                   </p>
                 </div>
                 <div className="text-[0.75rem] font-bold text-blue-700 mt-[0.5rem]">Phễu chuyển đổi rõ ràng</div>
@@ -1006,17 +1044,20 @@ export function SlidesDeckView() {
                 <div className="text-[0.75rem] font-bold text-emerald-700 mt-[0.5rem]">Chống rò rỉ chi phí API</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
+              <div className="bg-emerald-50/40 border border-emerald-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-emerald-400 transition">
                 <div>
-                  <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold mb-[0.75rem]">
-                    <DollarSign className="w-[1.2rem] h-[1.2rem]" />
+                  <div className="flex items-center justify-between mb-[0.5rem]">
+                    <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold">
+                      <DollarSign className="w-[1.2rem] h-[1.2rem]" />
+                    </div>
+                    <span className="text-[1.5rem] font-bold text-emerald-700 font-mono">&lt; 4.800đ</span>
                   </div>
-                  <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.25rem]">Unit Economics &lt;4.800đ</h4>
+                  <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.25rem]">Unit Economics Cực Thấp</h4>
                   <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
-                    Sử dụng Gemini Flash-Lite tối ưu prompt tinh gọn: Chi phí AI cho một học viên tạo 30 lộ trình/tháng chỉ tốn <strong>&lt; 4.800 VNĐ</strong>. Biên lợi nhuận vận hành &gt; 85%.
+                    Sử dụng Gemini Flash-Lite tối ưu prompt tinh gọn: Chi phí AI cho một học viên tạo 30 lộ trình/tháng chỉ tốn <strong>&lt; 4.800 VNĐ</strong>. Biên lợi nhuận vận hành <strong>&gt; 85%</strong>.
                   </p>
                 </div>
-                <div className="text-[0.75rem] font-bold text-blue-700 mt-[0.5rem]">Siêu tiết kiệm chi phí</div>
+                <div className="text-[0.75rem] font-bold text-emerald-700 mt-[0.5rem]">Mô hình tài chính bền vững</div>
               </div>
             </div>
 
@@ -1045,10 +1086,10 @@ export function SlidesDeckView() {
                 Trụ cột III: Thực chứng sản phẩm · Lộ trình tăng trưởng &amp; Mở rộng quy mô
               </div>
               <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                Nếu Có Thêm 1 Tuần: 3 Đòn Bẩy Nhân Rộng Quy Mô Sản Phẩm
+                Nếu Có Thêm 1 Tuần: Kế Hoạch Đòn Bẩy Để Bứt Phá
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Tập trung trực tiếp vào 3 điểm hoàn thiện lớn nhất để đưa hệ thống vào ứng dụng thương mại toàn diện.
+                3 hướng phát triển chiến lược đã được thiết kế sẵn cấu trúc và sẵn sàng triển khai tiếp sau Hackathon.
               </p>
             </div>
 
@@ -1087,7 +1128,7 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-blue-950 mb-[0.25rem]">Cổng Nạp Tài Liệu Giảng Viên</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed">
-                    Giảng viên chỉ cần kéo thả PDF/Slide → Hệ thống tự động phân tích vector, trích xuất mục tiêu bài học và nạp thẳng vào catalog AI Mentor.
+                    Giảng viên chỉ cần kéo thả PDF/Slide <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> Hệ thống tự động phân tích vector, trích xuất mục tiêu bài học và nạp thẳng vào catalog AI Mentor.
                   </p>
                 </div>
                 <div className="text-[0.75rem] font-bold text-blue-800 mt-[0.5rem]">Quy trình tự động khép kín</div>

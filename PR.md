@@ -25,21 +25,21 @@ Theo phản hồi trực tiếp của diễn giả và đóng vai trò Nhà đ�
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `codebase/src/components/presentation/slides-deck-view.tsx` | Thiết kế lại Slide 1 (Trang bìa) chuẩn Keynote với đầy đủ tên dự án, nhóm Vinonymus, giải pháp 2 AI, 4 trụ cột định vị, nền ambient glow, danh sách thành viên; xoá bỏ toàn bộ nhãn thời gian nội bộ trên các slide; sửa các ký tự mũi tên LaTeX `$\rightarrow$` thành ký tự Unicode `→` chuẩn UI |
+| `codebase/src/components/presentation/slides-deck-view.tsx` | • Tinh chỉnh toàn bộ hệ thống mũi tên: tạo component `FlowArrow` dùng icon SVG `ArrowRight` với stroke đậm `stroke-[2.75]`, căn giữa hoàn hảo và có màu sắc đồng bộ, thay thế hoàn toàn các ký tự text mũi tên mảnh và lệch baseline.<br/>• Sửa Slide 1: Xử lý triệt để việc lặp từ giữa Thẻ 1 ("Bội Thực & Lạc Lối Tự Học") và Thẻ 3 ("AI Mentor Ra Quyết Định"); bọc 4 thành viên đội ngũ trong các thẻ chip bo tròn gọn gàng.<br/>• Sửa Slide 2: Thiết kế lại tiêu đề 3 trụ cột dạng pill-badge không bị ngắt chữ "Thực Chứng"; bổ sung các vòng tròn mũi tên kết nối trực quan giữa Cột I ➔ Cột II ➔ Cột III.<br/>• Sửa Slide 4: Chuyển thẻ Action AI sang tông màu Emerald (Xanh lá) đối xứng Đỏ/Xanh lá sắc nét.<br/>• Sửa Slide 6: Cập nhật thẻ AI Helpdesk sang tông màu Indigo/Tím phân vai rành mạch với AI Mentor.<br/>• Sửa Slide 7 & 8: Thay icon bảo vệ Guardrail dạng khiên, nâng cấp nút CTA "🚀 MỞ TRANG DEMO THẬT" với gradient, vòng sáng `ring-4` nổi bật.<br/>• Sửa Slide 10: Tách chỉ số `< 4.800đ` thành stat callout lớn tạo điểm nhấn tài chính bền vững. |
 | `PR.md` | Cập nhật tài liệu PR theo quy ước |
 
 ## 4. Kiểm thử
-- `npm run verify` chạy trong `codebase/`:
-  - `tsc --noEmit`: Typecheck sạch 100%.
+- `npm run verify` / `tsc --noEmit` & `vitest run` chạy trong `codebase/`:
+  - `tsc --noEmit`: Typecheck sạch 100% (0 lỗi).
   - `vitest run`: 17/17 test files passed, 94/94 tests passed.
-  - `audit`: 53/53 FAQ files verified (0 lỗi, 0 cảnh báo).
-- Kiểm tra trực tiếp trên trình duyệt `http://localhost:3000/about`:
-  - Slide 1 hiển thị bìa dự án hoành tráng, chuyên nghiệp, cân đối và đầy đủ thông tin.
-  - Không còn bất kỳ nhãn thời gian nội bộ gây phản cảm cho người xem.
-  - Phím tắt `F` (Fullscreen), `Space` / `→` (Next), `←` (Prev), `T` (Timer 6 phút) hoạt động trơn tru.
+- Browser Subagent (`/browser`) đã review toàn diện 12 slides tại `http://localhost:3000/about`:
+  - Đã khắc phục triệt để lỗi mũi tên mảnh, lệch baseline và ngắt dòng xấu.
+  - Phân tầng màu sắc, độ tương phản (Contrast) và khoảng đệm (Paddings) đạt chuẩn UX/UI thuyết trình.
+  - Slide 1 hết sạch hiện tượng lặp từ giữa Bài toán thực tế và Lát cắt chấm thi.
+  - Nút CTA mở live demo nổi bật, kích hoạt chuyển tiếp mượt mà.
 
 ## 5. Tài liệu & changelog
 - Khớp với `spec.md`, `README.md` và tinh thần phản biện của mốc CP6.
 
 ## 6. Rủi ro / việc còn lại
-- Không có rủi ro kỹ thuật.
+- Không có rủi ro kỹ thuật. Sẵn sàng cho buổi pitching E403.
