@@ -112,3 +112,29 @@ Runner tự tạo `latest-baseline-results.json` hoặc `latest-ai-results.json`
 - **Trong đó bao nhiêu lần đạt:** 19 (**95%**).
 - **Chuẩn đạt:** dùng nguyên văn mục 2 phía trên.
 - **Những lần chưa đạt sai ở đâu:** G02 thiếu tài liệu `ptc-function-calling`. Gemini đã chọn đúng item nhưng xếp thứ ba; khi ghép catalog, item này làm tổng vượt 60 phút nên bị lọc. Kết quả vẫn không bịa link và không fallback baseline.
+
+## 9. Lượt chạy sau fix G02
+
+| Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Link ngoài catalog | Trạng thái |
+|---|---|---|---:|---:|---:|---|
+| 4 | 18/09/2026 13:42 | Baseline sau fix G02 | **50/50** | **100%** | **0** | Đã chạy lại, không làm hỏng baseline |
+| 5 | 18/09/2026 13:44 | AI sau fix G02 · Gemini | **44/50** | **88%** | **0** | G02 đã pass với `source = ai`; toàn bộ AI còn dưới quality bar 90% |
+
+Các case AI còn fail ở lượt 5: `G01`, `G19`, `G27`, `G28`, `G29`, `G47`.
+
+## 10. Lượt chạy A-02 CV diagnostic
+
+| Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Trạng thái |
+|---|---|---|---:|---:|---|
+| 6 | 18/09/2026 14:03 | CV → bài test năng lực · rule fallback + schema AI | **5/5** | **100%** | Đã có 5 case eval riêng cho A-02 |
+| 8 | 18/09/2026 14:31 | CV diagnostic API route · Gemini thật | **5/5** | **100%** | Gọi thẳng `/api/ai-mentor/cv-diagnostic`; cả 5 case trả `source = ai` |
+
+Artifact máy đọc được: `eval/latest-cv-diagnostic-results.json`, `eval/latest-cv-diagnostic-ai-results.json`.
+
+## 11. Lượt chạy A-03 diagnostic score → student path
+
+| Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Trạng thái |
+|---|---|---|---:|---:|---|
+| 7 | 18/09/2026 14:19 | Điểm diagnostic → lộ trình Student từ thư viện | **5/5** | **100%** | Đã có 5 case eval riêng cho A-03; role khác Student bị từ chối |
+
+Artifact máy đọc được: `eval/latest-diagnostic-learning-path-results.json`.
