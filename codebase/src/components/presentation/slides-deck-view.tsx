@@ -43,7 +43,10 @@ import {
   MessageSquare,
   Cpu,
   Check,
-  X
+  X,
+  Code2,
+  Workflow,
+  Share2
 } from 'lucide-react';
 
 export function SlidesDeckView() {
@@ -51,7 +54,7 @@ export function SlidesDeckView() {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'single' | 'scroll'>('single');
   
-  // Timer state for 6-minute pitch (30s per slide x 12 slides = 360s)
+  // Timer state for pitch control (06:00 Budget)
   const [timerSeconds, setTimerSeconds] = useState<number>(0);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -154,110 +157,127 @@ export function SlidesDeckView() {
   }, [nextSlide, prevSlide]);
 
   const slideTitles = [
-    '1. Định vị & Tầm nhìn',
-    '2. Bản đồ Pitching (6 Phút)',
-    '3. Vấn đề: Ác mộng 21h',
-    '4. Nghịch lý AI Chatbot',
-    '5. Đột phá: Action AI',
-    '6. Mô hình 2 AI tương hỗ',
-    '7. Trải nghiệm & Zero-Risk',
+    '1. Bìa Dự Án & Định Vị',
+    '2. Bản Đồ Thuyết Trình',
+    '3. Thực Trạng & Điểm Nghẽn',
+    '4. Nghịch Lý Chatbot AI',
+    '5. Đột Phá: Action AI',
+    '6. Kiến Trúc 2 AI Phân Vai',
+    '7. Trải Nghiệm & Zero-Risk',
     '8. Live Demo Thực Chiến',
-    '9. Đo lường & Sự thật G02',
-    '10. Business Model & Phễu 4 vai trò',
-    '11. Kế hoạch Tăng trưởng',
-    '12. Tổng kết & Phân vai Q&A'
+    '9. Đo Lường Khoa Học & G02',
+    '10. Business Model & Phễu 4 Vai Trò',
+    '11. Kế Hoạch Tăng Trưởng',
+    '12. Tổng Kết & Phân Vai Q&A'
   ];
 
-  // Render individual slide contents (Storytelling, Non-tech, Business, Tổng-Phân-Hợp, rem/em)
+  // Render individual slide contents
   const renderSlideContent = (index: number) => {
     switch (index) {
       // -------------------------------------------------------------
-      // SLIDE 1: BÌA DỰ ÁN & ĐỊNH VỊ GIẢI PHÁP
+      // SLIDE 1: BÌA DỰ ÁN & ĐỊNH VỊ GIẢI PHÁP (CHUẨN KEYNOTE / BGK)
       // -------------------------------------------------------------
       case 0:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
-            {/* TỔNG: HOOK & SỨ MỆNH */}
-            <div>
-              <div className="inline-flex items-center gap-[0.5rem] px-[0.85rem] py-[0.35rem] rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[0.8rem] font-semibold tracking-[0.06em] uppercase">
-                <Sparkles className="w-[1rem] h-[1rem] text-blue-600" />
-                <span>MINI HACKATHON AI · TRACK E (LÀN MỞ AI20K) · NHÓM VINONYMUS · PHÒNG E403</span>
+          <div className="relative flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-900 overflow-hidden rounded-[1.25rem]">
+            {/* Background Aesthetic Glow Accents */}
+            <div className="absolute -top-[5rem] -right-[5rem] w-[22rem] h-[22rem] bg-blue-100/60 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-[6rem] -left-[6rem] w-[24rem] h-[24rem] bg-sky-100/50 rounded-full blur-3xl pointer-events-none" />
+
+            {/* HEADER: METADATA CUỘC THI */}
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-[0.5rem] px-[0.85rem] py-[0.35rem] rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[0.78rem] font-bold tracking-[0.06em] uppercase shadow-xs">
+                <Sparkles className="w-[0.95rem] h-[0.95rem] text-blue-600" />
+                <span>MINI HACKATHON AI · TRACK E: LÀN MỞ (PHẠM VI ĐÀO TẠO AI20K) · CỤM C2 · PHÒNG E403</span>
               </div>
 
-              <h1 className="text-[clamp(2.25rem,4.2vw,3.75rem)] font-semibold text-[#0f172a] mt-[1rem] mb-[0.75rem] leading-[1.15] tracking-[0.02em] uppercase">
-                ADAPTIVE LEARNING SYSTEM
-              </h1>
+              {/* TÊN DỰ ÁN & ĐỀ TÀI */}
+              <div className="mt-[1.25rem] mb-[0.75rem]">
+                <div className="text-[0.85rem] font-bold text-slate-500 uppercase tracking-[0.1em] mb-[0.25rem]">
+                  Dự án Khởi nghiệp Sản phẩm AI · Nhóm Vinonymus
+                </div>
+                <h1 className="text-[clamp(2.4rem,4.5vw,4rem)] font-bold text-[#0a192f] leading-[1.1] tracking-[0.01em] uppercase">
+                  ADAPTIVE LEARNING SYSTEM
+                </h1>
+                <h2 className="text-[clamp(1.15rem,2.1vw,1.65rem)] font-semibold text-blue-700 mt-[0.5rem] leading-snug">
+                  Hệ Thống Học Tập Thích Ứng Cá Nhân Hoá Cho Kỷ Nguyên Trí Tuệ Nhân Tạo
+                </h2>
+              </div>
 
-              <h2 className="text-[clamp(1.15rem,2vw,1.65rem)] font-medium text-blue-700 leading-relaxed max-w-[65rem]">
-                Giải phóng học viên khỏi cơn ác mộng <strong className="font-bold underline decoration-rose-500 underline-offset-4 text-slate-900">"Bội thực tài liệu"</strong> bằng AI thực thi may đo lộ trình theo từng phút rảnh.
-              </h2>
+              {/* SLOGAN & GIẢI PHÁP CỐT LÕI */}
+              <p className="text-[0.95rem] sm:text-[1.05rem] text-slate-700 font-medium leading-relaxed max-w-[62rem]">
+                <strong>Đột phá cốt lõi:</strong> Chuyển dịch toàn diện từ mô hình <em>"Bội thực tài liệu &amp; Chatbot thụ động"</em> sang <em>"AI thực thi may đo lộ trình hành động trọng tâm theo từng phút rảnh"</em>, thu hẹp khoảng cách giữa người học Non-tech và Tech-base.
+              </p>
             </div>
 
-            {/* PHÂN: 3 CON SỐ THỰC CHỨNG TẠO TENSION */}
-            <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-3 gap-[1.25rem]">
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between hover:border-rose-300 transition group shadow-sm">
-                <div>
-                  <div className="flex items-center justify-between text-[0.8rem] font-bold text-slate-500 uppercase tracking-wider mb-[0.5rem]">
-                    <span className="flex items-center gap-[0.4rem]">
-                      <Search className="w-[0.95rem] h-[0.95rem] text-rose-500" />
-                      Nỗi đau thực tế
-                    </span>
-                    <span className="text-[0.7rem] bg-rose-100 text-rose-700 px-[0.4rem] py-[0.1rem] rounded font-mono">82 Học viên</span>
-                  </div>
-                  <div className="text-[clamp(2.5rem,4.2vw,3.75rem)] font-bold text-rose-600 leading-none my-[0.4rem]">87%</div>
+            {/* PHÂN: 4 TRỤ CỘT ĐỊNH VỊ DỰ ÁN */}
+            <div className="relative z-10 my-[1.25rem] grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[1rem]">
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+                  <Target className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <p className="text-[0.9rem] text-slate-700 font-medium leading-relaxed">
-                  Không biết mình đang hổng ở đâu, thiếu nền tảng gì để bù trước mỗi buổi lab thực hành.
+                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Bài toán thực tế</div>
+                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Cá Nhân Hoá Lộ Trình</div>
+                <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
+                  Tự động phân loại nền tảng và quỹ thời gian để đưa ra lộ trình tự học trước mỗi buổi lab thực hành.
                 </p>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between hover:border-amber-300 transition group shadow-sm">
-                <div>
-                  <div className="flex items-center justify-between text-[0.8rem] font-bold text-slate-500 uppercase tracking-wider mb-[0.5rem]">
-                    <span className="flex items-center gap-[0.4rem]">
-                      <Bot className="w-[0.95rem] h-[0.95rem] text-amber-500" />
-                      Hạn chế AI Chatbot
-                    </span>
-                    <span className="text-[0.7rem] bg-amber-100 text-amber-800 px-[0.4rem] py-[0.1rem] rounded font-mono">13.494 Chats</span>
-                  </div>
-                  <div className="text-[clamp(2.5rem,4.2vw,3.75rem)] font-bold text-amber-600 leading-none my-[0.4rem]">0.13%</div>
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+                  <Bot className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <p className="text-[0.9rem] text-slate-700 font-medium leading-relaxed">
-                  AI Tutor hiện tại chỉ ngồi thụ động chờ hỏi; chỉ 18/13.494 lượt chat có hành động chủ động dẫn dắt.
+                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Mô hình sản phẩm</div>
+                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Kiến Trúc 2 AI Phân Vai</div>
+                <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
+                  <strong>AI Mentor</strong> (Action AI chạy ngầm ra quyết định) &amp; <strong>AI Helpdesk</strong> (Trợ lý hội thoại tra cứu FAQ 24/7).
                 </p>
               </div>
 
-              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between hover:border-blue-400 transition group shadow-sm">
-                <div>
-                  <div className="flex items-center justify-between text-[0.8rem] font-bold text-blue-900 uppercase tracking-wider mb-[0.5rem]">
-                    <span className="flex items-center gap-[0.4rem]">
-                      <Target className="w-[0.95rem] h-[0.95rem] text-blue-600" />
-                      Đột phá Vinonymus
-                    </span>
-                    <span className="text-[0.7rem] bg-blue-200/80 text-blue-900 px-[0.4rem] py-[0.1rem] rounded font-mono">Action AI</span>
-                  </div>
-                  <div className="text-[clamp(2.5rem,4.2vw,3.75rem)] font-bold text-blue-700 leading-none my-[0.4rem]">≤ 3 Việc</div>
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+                  <ShieldCheck className="w-[1.1rem] h-[1.1rem]" />
                 </div>
-                <p className="text-[0.9rem] text-slate-700 font-medium leading-relaxed">
-                  Cắt bỏ 90% tài liệu thừa thãi, đóng gói đúng 3 việc cần làm nhất vừa khít quỹ thời gian rảnh.
+                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Lát cắt chấm thi (Scope)</div>
+                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Lộ Trình Cá Nhân Hoá</div>
+                <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
+                  Hoạt động thật tại <code>/personalized-path</code> với catalog kiểm duyệt 100% và cơ chế Guardrail chống gian lận.
+                </p>
+              </div>
+
+              <div className="bg-white/80 backdrop-blur-xs border border-slate-200 rounded-[1.15rem] p-[1.25rem] shadow-xs hover:border-blue-300 transition">
+                <div className="w-[2rem] h-[2rem] rounded-lg bg-blue-50 text-blue-600 flex items-center justify-center mb-[0.5rem]">
+                  <TrendingUp className="w-[1.1rem] h-[1.1rem]" />
+                </div>
+                <div className="text-[0.75rem] font-bold text-slate-400 uppercase tracking-wider">Hiệu quả kinh tế</div>
+                <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">Unit Economics &lt;4.800đ</div>
+                <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
+                  Tối ưu chi phí token LLM, kiến trúc duyệt tài khoản Admin chống spam và tích hợp Discord Activity (+5 XP).
                 </p>
               </div>
             </div>
 
-            {/* HỢP: CAM KẾT & FORMAT TRÌNH BÀY */}
-            <div className="border-t border-slate-200 pt-[0.85rem] flex flex-wrap justify-between items-center text-[0.85rem] text-slate-600 font-medium">
-              <span className="flex items-center gap-[0.5rem]">
-                <strong className="text-slate-900">Đội ngũ Vinonymus:</strong> Đỗ Khắc Gia Khoa (PM · Backend) · Minh (Database) · Đức (AI) · Thành (UI)
-              </span>
-              <span className="font-mono text-blue-700 font-bold bg-blue-50 border border-blue-200 px-[0.75rem] py-[0.25rem] rounded-md">
-                Pitch 6 Phút · 12 Slide · Live Demo Web Thật
-              </span>
+            {/* FOOTER: ĐỘI NGŨ VINONYMUS & VAI TRÒ */}
+            <div className="relative z-10 border-t border-slate-200/90 pt-[0.85rem] flex flex-col md:flex-row justify-between items-start md:items-center gap-[0.5rem] text-[0.825rem]">
+              <div className="flex flex-wrap items-center gap-[0.75rem] text-slate-700 font-medium">
+                <span className="font-bold text-slate-900 bg-slate-100 px-[0.5rem] py-[0.15rem] rounded">Nhóm Vinonymus:</span>
+                <span><strong>Đỗ Khắc Gia Khoa</strong> (Đội trưởng / PM · Backend)</span>
+                <span>•</span>
+                <span><strong>Nguyễn Việt Thành</strong> (AI Mentor · UI)</span>
+                <span>•</span>
+                <span><strong>Đinh Ngọc Đức</strong> (AI Pipeline · Helpdesk)</span>
+                <span>•</span>
+                <span><strong>Trần Nhật Minh</strong> (Database · CI)</span>
+              </div>
+              <div className="font-mono text-blue-800 font-bold bg-blue-50 border border-blue-200 px-[0.65rem] py-[0.2rem] rounded-md shrink-0">
+                Khoá 4 · Lớp 3A · AI20K
+              </div>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 2: MỤC LỤC & BẢN ĐỒ PITCHING 6 PHÚT
+      // SLIDE 2: MỤC LỤC & BẢN ĐỒ THUYẾT TRÌNH (INVESTOR VIEW)
       // -------------------------------------------------------------
       case 1:
         return (
@@ -265,83 +285,83 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Mục lục · Cấu trúc bài thuyết trình (6 phút)
+                Bản đồ chiến lược · Cấu trúc phản biện
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Bản đồ 3 Trụ Cột: Vấn Đề $\rightarrow$ Giải Pháp $\rightarrow$ Chứng Minh
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Hành Trình 3 Trụ Cột: Vấn Đề $\rightarrow$ Giải Pháp $\rightarrow$ Thực Chứng
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Đi thẳng vào bản chất tư duy sản phẩm AI: giải quyết đúng nỗi đau bằng bằng chứng xác thực.
+                Khung luận điểm chặt chẽ được thiết kế nhằm chứng minh tính khả thi, giá trị thực tiễn và năng lực mở rộng sản phẩm.
               </p>
             </div>
 
-            {/* PHÂN: 3 TRỤ CỘT CHÍNH */}
+            {/* PHÂN: 3 TRỤ CỘT LUẬN ĐIỂM */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-3 gap-[1.25rem]">
-              <div className="bg-rose-50/40 border border-rose-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-slate-300 transition">
                 <div>
-                  <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-rose-600 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
+                  <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
                     I
                   </div>
-                  <h3 className="text-[1.15rem] font-bold text-slate-900 mb-[0.5rem]">LÀM RÕ VẤN ĐỀ</h3>
-                  <div className="text-[0.8rem] font-mono text-rose-700 font-semibold mb-[0.5rem]">Slide 3–4 · ~1.5 Phút</div>
+                  <h3 className="text-[1.15rem] font-bold text-slate-900 mb-[0.4rem]">BỐI CẢNH &amp; ĐIỂM NGHẼN</h3>
+                  <div className="text-[0.8rem] font-semibold text-rose-700 mb-[0.5rem]">Thực trạng thị trường đào tạo AI</div>
                   <ul className="space-y-[0.4rem] text-[0.85rem] text-slate-700 font-medium">
                     <li>• Cơn ác mộng 21:00 của người học đi làm</li>
-                    <li>• Ma trận 5 kênh phân mảnh tài liệu</li>
-                    <li>• Sự bất lực của các Chatbot AI thụ động</li>
+                    <li>• Bằng chứng ma trận 5 kênh phân mảnh tài liệu</li>
+                    <li>• Sự bất lực và thụ động của các Chatbot AI hiện nay</li>
                   </ul>
                 </div>
-                <div className="mt-[1rem] pt-[0.75rem] border-t border-rose-200/80 text-[0.75rem] text-rose-800 font-semibold">
-                  Mục tiêu: Đưa BGK vào đúng vị trí nỗi đau của học viên
+                <div className="mt-[1rem] pt-[0.75rem] border-t border-slate-200 text-[0.75rem] text-slate-600 font-semibold">
+                  Luận điểm: Xác thực nhu cầu bức thiết bằng dữ liệu định lượng
                 </div>
               </div>
 
-              <div className="bg-blue-50/50 border border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-blue-50/50 border border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-blue-400 transition">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
                     II
                   </div>
-                  <h3 className="text-[1.15rem] font-bold text-blue-950 mb-[0.5rem]">ĐƯA RA GIẢI PHÁP</h3>
-                  <div className="text-[0.8rem] font-mono text-blue-700 font-semibold mb-[0.5rem]">Slide 5–7 · ~1.5 Phút</div>
+                  <h3 className="text-[1.15rem] font-bold text-blue-950 mb-[0.4rem]">ĐỘT PHÁ CÔNG NGHỆ</h3>
+                  <div className="text-[0.8rem] font-semibold text-blue-700 mb-[0.5rem]">Kiến trúc sản phẩm thông minh</div>
                   <ul className="space-y-[0.4rem] text-[0.85rem] text-slate-700 font-medium">
-                    <li>• Đột phá Action AI: May đo thay vì nói nhiều</li>
-                    <li>• Kiến trúc 2 AI: AI Mentor vs AI Helpdesk</li>
-                    <li>• Trải nghiệm 30s &amp; Nguyên tắc Zero-Risk</li>
+                    <li>• Đột phá Action AI: May đo hành động thay vì nói nhiều</li>
+                    <li>• Kiến trúc 2 AI chuyên biệt: AI Mentor vs AI Helpdesk</li>
+                    <li>• Quy trình 30 giây tối giản &amp; Nguyên lý Zero Cost-of-Error</li>
                   </ul>
                 </div>
                 <div className="mt-[1rem] pt-[0.75rem] border-t border-blue-200 text-[0.75rem] text-blue-900 font-semibold">
-                  Mục tiêu: Thuyết phục bằng kiến trúc sản phẩm thông minh
+                  Luận điểm: Mô hình ra quyết định thực thi tạo rào cản công nghệ
                 </div>
               </div>
 
-              <div className="bg-emerald-50/40 border border-emerald-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs hover:border-slate-300 transition">
                 <div>
-                  <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
+                  <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold text-[0.95rem] mb-[0.75rem]">
                     III
                   </div>
-                  <h3 className="text-[1.15rem] font-bold text-slate-900 mb-[0.5rem]">CHỨNG MINH &amp; KINH DOANH</h3>
-                  <div className="text-[0.8rem] font-mono text-emerald-700 font-semibold mb-[0.5rem]">Slide 8–12 · ~3.0 Phút</div>
+                  <h3 className="text-[1.15rem] font-bold text-slate-900 mb-[0.4rem]">THỰC CHỨNG &amp; VẬN HÀNH</h3>
+                  <div className="text-[0.8rem] font-semibold text-emerald-800 mb-[0.5rem]">Hiệu quả kinh tế &amp; Tăng trưởng</div>
                   <ul className="space-y-[0.4rem] text-[0.85rem] text-slate-700 font-medium">
-                    <li>• Live Demo 2 kịch bản (Chuẩn &amp; Chống gian lận)</li>
-                    <li>• Đo lường 50 case &amp; Sự thật trung thực ca G02</li>
-                    <li>• Phễu 4 vai trò &amp; Chi phí AI &lt;4.800đ/tháng</li>
+                    <li>• Live Demo kịch bản chuẩn &amp; Phòng thủ chống gian lận</li>
+                    <li>• Đo lường 50 case kiểm thử &amp; Sự thật ca trượt G02</li>
+                    <li>• Phễu chuyển đổi 4 vai trò &amp; Chi phí AI &lt;4.800đ/học viên</li>
                   </ul>
                 </div>
-                <div className="mt-[1rem] pt-[0.75rem] border-t border-emerald-200 text-[0.75rem] text-emerald-800 font-semibold">
-                  Mục tiêu: Bằng chứng sản phẩm chạy thật &amp; Khả thi thương mại
+                <div className="mt-[1rem] pt-[0.75rem] border-t border-slate-200 text-[0.75rem] text-emerald-800 font-semibold">
+                  Luận điểm: Sản phẩm chạy thật, bảo vệ dòng tiền và liêm chính học thuật
                 </div>
               </div>
             </div>
 
             {/* HỢP */}
             <div className="border-t border-slate-200 pt-[0.85rem] flex justify-between items-center text-[0.85rem] text-slate-500 font-medium">
-              <span>Định hướng trình bày: Nói vào giá trị thực, trải nghiệm thực, nói không với đọc slide máy móc</span>
-              <span className="text-blue-700 font-semibold font-mono">SPEC → Prototype → Demo</span>
+              <span>Phương châm phản biện: Minh bạch số liệu, kiểm chứng tại chỗ, lấy hiệu quả người học làm trọng tâm</span>
+              <span className="text-blue-700 font-semibold font-mono">Evidence-Based Pitching</span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 3: VẤN ĐỀ 1 — ÁC MỘNG 21:00 & 3 NỖI ĐAU THỰC TẾ
+      // SLIDE 3: VẤN ĐỀ 1 — THỰC TRẠNG & 3 TẦNG NỖI ĐAU
       // -------------------------------------------------------------
       case 2:
         return (
@@ -349,38 +369,38 @@ export function SlidesDeckView() {
             {/* TỔNG: STORYTELLING VỀ CẢM XÚC HỌC VIÊN */}
             <div>
               <div className="text-[0.85rem] font-semibold text-rose-600 tracking-[0.08em] uppercase">
-                Trụ cột I: Làm rõ vấn đề (1/2) · Câu chuyện thực tế
+                Trụ cột I: Điểm nghẽn thị trường · Câu chuyện thực tế
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Cơn ác mộng 21:00: Học viên không thiếu tài liệu — Họ đang BỘI THỰC!
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Cơn Ác Mộng 21:00: Người Học Không Thiếu Tài Liệu — Họ Đang Bội Thực!
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Hãy tưởng tượng: Bạn vừa hoàn thành 8 tiếng đi làm về mệt mỏi, ngày mai phải nộp bài Lab, bạn mở máy lên...
+                Trong các chương trình đào tạo AI thực chiến, nghịch lý lớn nhất là người học bị chôn vùi trong biển tài liệu mà không biết bắt đầu từ đâu.
               </p>
             </div>
 
             {/* PHÂN: 3 TẦNG NỖI ĐAU ĐƯỢC CHỨNG MINH BẰNG DỮ LIỆU */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-3 gap-[1.25rem]">
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center justify-between mb-[0.25rem]">
-                    <span className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Nỗi đau 1</span>
+                    <span className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Điểm nghẽn 1</span>
                     <span className="text-[1.75rem] font-bold text-rose-600 font-mono">93%</span>
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.5rem]">Ma trận 5 kênh phân mảnh</h4>
                   <p className="text-[0.85rem] text-slate-600 font-medium leading-relaxed">
-                    Tài liệu bị xé nhỏ khắp nơi: Discord, Zoom chat, Google Drive, LMS và GitHub. 76/82 học viên mất ít nhất <strong>15–25 phút</strong> mỗi buổi chỉ để đi gom đủ link!
+                    Tài liệu bị xé nhỏ khắp nơi: Discord, Zoom chat, Google Drive, LMS và GitHub. 76/82 học viên mất <strong>15–25 phút</strong> mỗi buổi chỉ để đi gom đủ link!
                   </p>
                 </div>
                 <div className="mt-[0.75rem] p-[0.65rem] rounded-lg bg-rose-50 border border-rose-100 text-[0.75rem] text-rose-800 italic">
-                  “Mỗi buổi học phải mất 25 phút gom link từ các kênh Discord, Drive.” — P01 (Tech-base)
+                  “Mỗi buổi học phải mất 25 phút chỉ để gom link từ các kênh Discord, Drive.” — P01 (Tech-base)
                 </div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center justify-between mb-[0.25rem]">
-                    <span className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Nỗi đau 2</span>
+                    <span className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Điểm nghẽn 2</span>
                     <span className="text-[1.75rem] font-bold text-rose-600 font-mono">50%</span>
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.5rem]">Áp lực thời gian ngặt nghèo</h4>
@@ -393,15 +413,15 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center justify-between mb-[0.25rem]">
-                    <span className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Nỗi đau 3</span>
+                    <span className="text-[0.75rem] font-bold text-rose-600 uppercase tracking-wider">Điểm nghẽn 3</span>
                     <span className="text-[1.75rem] font-bold text-rose-600 font-mono">87%</span>
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.5rem]">Mù mờ điểm xuất phát</h4>
                   <p className="text-[0.85rem] text-slate-600 font-medium leading-relaxed">
-                    71/82 học viên <strong>không tự xác định được</strong> lỗ hổng kiến thức. Người non-tech thì sợ code, người tech-base thì hổng toán AI, không biết bắt đầu từ đâu!
+                    71/82 học viên <strong>không tự xác định được</strong> lỗ hổng kiến thức. Người non-tech thì sợ code, người tech-base thì hổng toán AI, không biết bù cái gì trước.
                   </p>
                 </div>
                 <div className="mt-[0.75rem] p-[0.65rem] rounded-lg bg-rose-50 border border-rose-100 text-[0.75rem] text-rose-800 italic">
@@ -418,7 +438,7 @@ export function SlidesDeckView() {
                 </p>
               </div>
               <span className="text-[0.8rem] font-bold text-rose-700 bg-white px-[0.75rem] py-[0.35rem] rounded-lg border border-slate-200 hidden sm:inline-block shrink-0">
-                Nghiên cứu n = 82 học viên thật
+                Nghiên cứu định lượng n = 82 học viên thật
               </span>
             </div>
           </div>
@@ -433,19 +453,19 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-rose-600 tracking-[0.08em] uppercase">
-                Trụ cột I: Làm rõ vấn đề (2/2) · Nghịch lý giải pháp cũ
+                Trụ cột I: Điểm nghẽn thị trường · Phân tích đối thủ &amp; Giải pháp cũ
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Tại sao các Chatbot AI hiện tại không giải quyết được vấn đề?
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Tại Sao Các Chatbot AI Hiện Tại Đang Thất Bại Trước Nỗi Đau Này?
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Khai phá từ 13.494 tin nhắn chat thực tế trên hệ thống LMS/VLearn phơi bày 3 nghịch lý tai hại.
+                Khai phá từ 13.494 tin nhắn chat thực tế trên hệ thống LMS/VLearn phơi bày sự bất lực của mô hình Chatbot đàm thoại truyền thống.
               </p>
             </div>
 
             {/* PHÂN: ĐỐI CHIẾU SỰ THẤT BẠI CỦA CHATBOT THỤ ĐỘNG */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-2 gap-[1.5rem]">
-              <div className="bg-rose-50/40 border-2 border-rose-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-rose-50/40 border-2 border-rose-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center gap-[0.5rem] text-rose-700 font-bold text-[1.05rem] mb-[0.75rem]">
                     <HelpCircle className="w-[1.2rem] h-[1.2rem]" />
@@ -454,7 +474,7 @@ export function SlidesDeckView() {
                   <div className="space-y-[0.75rem] text-[0.85rem] text-slate-700 font-medium">
                     <div className="flex items-start gap-[0.5rem]">
                       <X className="w-[1rem] h-[1rem] text-rose-600 shrink-0 mt-[0.1rem]" />
-                      <span><strong>99.87% Thụ động ngồi chờ:</strong> Đúng 18/13.494 lượt chat AI Tutor tự chủ động gợi ý bước tiếp theo. Còn lại hoàn toàn im lặng nếu người dùng không hỏi.</span>
+                      <span><strong>99.87% Thụ động ngồi chờ:</strong> Chỉ 18/13.494 lượt chat AI Tutor tự chủ động gợi ý bước tiếp theo. Còn lại hoàn toàn im lặng nếu người dùng không hỏi.</span>
                     </div>
                     <div className="flex items-start gap-[0.5rem]">
                       <X className="w-[1rem] h-[1rem] text-rose-600 shrink-0 mt-[0.1rem]" />
@@ -467,11 +487,11 @@ export function SlidesDeckView() {
                   </div>
                 </div>
                 <div className="mt-[1rem] p-[0.75rem] rounded-lg bg-rose-100/70 text-[0.8rem] text-rose-900 font-semibold">
-                  Hậu quả: Chatbot trở thành gánh nặng thông tin thay vì giải pháp giảm tải!
+                  Hậu quả: Chatbot trở thành một nguồn gây xao nhãng và quá tải mới!
                 </div>
               </div>
 
-              <div className="bg-blue-50/50 border-2 border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-blue-50/50 border-2 border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center gap-[0.5rem] text-blue-900 font-bold text-[1.05rem] mb-[0.75rem]">
                     <Zap className="w-[1.2rem] h-[1.2rem]" />
@@ -500,7 +520,7 @@ export function SlidesDeckView() {
 
             {/* HỢP */}
             <div className="p-[1rem] rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between text-[0.85rem] text-blue-950 font-semibold">
-              <span>Kết luận khảo sát: <strong className="text-rose-700">8.8%</strong> lượt chat xin "tóm tắt" là tiếng kêu cứu của học viên $\rightarrow$ Sản phẩm phải chuyển từ <em>Chatbot đàm thoại</em> sang <em>AI thực thi hành động</em>.</span>
+              <span>Insight từ dữ liệu: <strong className="text-rose-700">8.8%</strong> lượt chat xin "tóm tắt" là tiếng kêu cứu $\rightarrow$ Sản phẩm phải chuyển từ <em>Chatbot đàm thoại</em> sang <em>AI thực thi hành động</em>.</span>
               <span className="font-mono text-blue-700 font-bold">13.494 chats mining</span>
             </div>
           </div>
@@ -515,24 +535,24 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Trụ cột II: Đưa ra giải pháp (1/3) · Chiến lược sản phẩm
+                Trụ cột II: Đột phá sản phẩm · Phân tích chiến lược lựa chọn bài toán
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Đột phá sản phẩm: Không làm Chatbot nói nhiều — Chúng tôi làm Action AI!
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Chiến Lược Lựa Chọn: Tìm Bài Toán Có AI Ra Quyết Định Thực Thi
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                So sánh 3 lựa chọn sản phẩm để tìm ra bài toán có giá trị kinh doanh và công nghệ cao nhất.
+                Đánh giá 3 cơ hội sản phẩm dựa trên rào cản công nghệ, giá trị người dùng và khả năng thương mại hoá.
               </p>
             </div>
 
             {/* PHÂN: MA TRẬN 3 Ý TƯỞNG */}
-            <div className="my-[1.25rem] overflow-hidden rounded-[1.25rem] border border-slate-300 shadow-sm">
+            <div className="my-[1.25rem] overflow-hidden rounded-[1.25rem] border border-slate-300 shadow-xs">
               <table className="w-full text-left text-[0.9rem] border-collapse">
                 <thead>
-                  <tr className="bg-[#0f172a] text-white">
-                    <th className="p-[0.85rem] font-semibold w-[30%]">Hướng tiếp cận</th>
+                  <tr className="bg-[#0a192f] text-white">
+                    <th className="p-[0.85rem] font-semibold w-[30%]">Hướng tiếp cận sản phẩm</th>
                     <th className="p-[0.85rem] font-semibold w-[35%]">Bằng chứng khảo sát</th>
-                    <th className="p-[0.85rem] font-semibold">Đánh giá chiến lược</th>
+                    <th className="p-[0.85rem] font-semibold">Đánh giá &amp; Quyết định</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
@@ -599,10 +619,10 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Trụ cột II: Đưa ra giải pháp (2/3) · Kiến trúc hệ thống
+                Trụ cột II: Đột phá sản phẩm · Kiến trúc hệ thống
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Mô hình 2 AI: Phân vai rành mạch giữa Hậu trường &amp; Tiền sảnh
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Kiến Trúc 2 AI: Phân Vai Rành Mạch Giữa Hậu Trường &amp; Tiền Sảnh
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Tách biệt tuyệt đối giữa AI ra quyết định chiến lược (không chat) và AI chăm sóc giao tiếp (trò chuyện).
@@ -611,7 +631,7 @@ export function SlidesDeckView() {
 
             {/* PHÂN: BỨC TRANH 2 AI */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-2 gap-[1.5rem]">
-              <div className="bg-blue-50/70 border-2 border-blue-400 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-blue-50/70 border-2 border-blue-400 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="inline-flex items-center gap-[0.5rem] px-[0.75rem] py-[0.25rem] rounded-full bg-blue-700 text-white text-[0.75rem] font-bold uppercase mb-[0.75rem]">
                     <Bot className="w-[1rem] h-[1rem]" />
@@ -622,7 +642,7 @@ export function SlidesDeckView() {
                     Đọc dữ liệu học viên (trình độ + thời gian rảnh) $\rightarrow$ Chẩn đoán lỗ hổng $\rightarrow$ Tự động cắt tỉa catalog và xuất xưởng Checklist ≤3 việc trong vòng 3 giây.
                   </p>
                   <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-blue-200">
-                    <div>• <strong>Vị trí:</strong> Trang Lộ trình cá nhân hoá (<code>/personalized-path</code>)</div>
+                    <div>• <strong>Vị trí hoạt động:</strong> Trang Lộ trình cá nhân hoá (<code>/personalized-path</code>)</div>
                     <div>• <strong>Bảo vệ học liệu:</strong> 100% link trích từ catalog nội bộ đã kiểm định.</div>
                     <div>• <strong>Hiệu quả token:</strong> Chỉ gọi AI đúng 1 lần khi tạo lộ trình $\rightarrow$ Siêu tiết kiệm chi phí!</div>
                   </div>
@@ -632,7 +652,7 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="bg-slate-50 border-2 border-slate-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-slate-50 border-2 border-slate-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="inline-flex items-center gap-[0.5rem] px-[0.75rem] py-[0.25rem] rounded-full bg-slate-700 text-white text-[0.75rem] font-bold uppercase mb-[0.75rem]">
                     <Compass className="w-[1rem] h-[1rem]" />
@@ -643,7 +663,7 @@ export function SlidesDeckView() {
                     AI duy nhất người dùng trò chuyện cùng ở góc chatbox. Giải thích các khái niệm khó, tra cứu chính xác từ 53 tài liệu FAQ của khoá học có trích dẫn nguồn.
                   </p>
                   <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-slate-200">
-                    <div>• <strong>Vị trí:</strong> Widget chatbox nổi ở toàn bộ hệ thống</div>
+                    <div>• <strong>Vị trí hoạt động:</strong> Widget chatbox nổi ở toàn bộ hệ thống</div>
                     <div>• <strong>Công nghệ:</strong> RAG tra cứu FAQ xác thực + Router đa LLM dự phòng.</div>
                     <div>• <strong>Phễu khách hàng:</strong> Khách dùng 10 câu/ngày $\rightarrow$ Học viên không giới hạn.</div>
                   </div>
@@ -671,19 +691,19 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Trụ cột II: Đưa ra giải pháp (3/3) · Trải nghiệm &amp; An toàn
+                Trụ cột II: Đột phá sản phẩm · Trải nghiệm người dùng &amp; Quản trị rủi ro
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Trải nghiệm 30 giây: Tối giản khai báo &amp; Chi phí rủi ro bằng 0
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Trải Nghiệm 30 Giây: Tối Giản Khai Báo &amp; Chi Phí Rủi Ro Bằng 0
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Thiết kế theo triết lý Augment: AI đề xuất — Con người kiểm soát — Không bao giờ làm hộ.
+                Thiết kế theo triết lý Augment: AI đề xuất — Con người kiểm soát — Không bao giờ làm thay học viên.
               </p>
             </div>
 
             {/* PHÂN: 4 BƯỚC THAO TÁC + LỚP BẢO VỆ */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-4 gap-[1rem]">
-              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-blue-700 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">1</div>
                   <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">Khai báo 30s</h4>
@@ -694,7 +714,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.7rem] font-mono text-blue-700 font-bold mt-[0.5rem]">Input siêu tốc</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-blue-700 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">2</div>
                   <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">AI Cắt gọt 90%</h4>
@@ -705,7 +725,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.7rem] font-mono text-blue-700 font-bold mt-[0.5rem]">Xử lý 3 giây</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-blue-700 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">3</div>
                   <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">Checklist linh hoạt</h4>
@@ -716,7 +736,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.7rem] font-mono text-blue-700 font-bold mt-[0.5rem]">Con người quyết định</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1rem] p-[1.25rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-rose-600 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">4</div>
                   <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">Lớp Guardrail</h4>
@@ -752,29 +772,29 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-emerald-700 tracking-[0.08em] uppercase">
-                Trụ cột III: Chứng minh giải pháp (1/2) · Live Demo Thực Chiến
+                Trụ cột III: Thực chứng sản phẩm · Kiểm chứng thực tế tại chỗ
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Trải nghiệm sản phẩm thật: 2 Kịch bản kiểm chứng tức thì
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Trải Nghiệm Sản Phẩm Thật: 2 Kịch Bản Kiểm Chứng Tức Thì
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Không trình chiếu video quay sẵn hay slide giả lập — Chúng tôi mời Ban giám khảo kiểm chứng trực tiếp trên web thật.
+                Không trình chiếu video quay sẵn hay slide tĩnh — Chúng tôi mời Ban giám khảo kiểm chứng trực tiếp trên ứng dụng đang hoạt động.
               </p>
             </div>
 
             {/* PHÂN: 2 TRƯỜNG HỢP DEMO SẮC BÉN */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-2 gap-[1.5rem]">
-              <div className="bg-blue-50/70 border-2 border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-blue-50/70 border-2 border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center justify-between mb-[0.5rem]">
                     <span className="px-[0.65rem] py-[0.2rem] rounded-full bg-blue-900 text-white text-[0.75rem] font-bold">
                       KỊCH BẢN 1 · HAPPY PATH CHUẨN
                     </span>
-                    <span className="text-[0.75rem] font-mono font-bold text-emerald-700">30S THAO TÁC</span>
+                    <span className="text-[0.75rem] font-mono font-bold text-emerald-700">KIỂM CHỨNG TỨC THÌ</span>
                   </div>
                   <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">Học viên Tech-base · 60 phút rảnh · Chuẩn bị Lab 03</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Bấm <strong>"Tạo lộ trình"</strong> $\rightarrow$ AI Mentor tính toán và trả về đúng 3 việc trong 60 phút:
+                    Bấm <strong>"Tạo lộ trình"</strong> $\rightarrow$ AI Mentor tính toán và trả về đúng 3 việc vừa khít 60 phút:
                   </p>
                   <div className="bg-white p-[0.75rem] rounded-lg border border-blue-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
                     <div className="flex items-center justify-between">
@@ -796,11 +816,11 @@ export function SlidesDeckView() {
                   </div>
                 </div>
                 <div className="mt-[0.75rem] text-[0.75rem] text-blue-900 font-semibold">
-                  Kết quả: Học viên biết chính xác phải làm gì, tự tin nộp lab đúng hạn.
+                  Kết quả: Người học nắm rõ lộ trình, hoàn thành bài lab đúng hạn mà không bị xao nhãng.
                 </div>
               </div>
 
-              <div className="bg-rose-50/70 border-2 border-rose-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-sm">
+              <div className="bg-rose-50/70 border-2 border-rose-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="flex items-center justify-between mb-[0.5rem]">
                     <span className="px-[0.65rem] py-[0.2rem] rounded-full bg-rose-700 text-white text-[0.75rem] font-bold">
@@ -857,10 +877,10 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-emerald-700 tracking-[0.08em] uppercase">
-                Trụ cột III: Chứng minh giải pháp (2/2) · Đo lường khoa học
+                Trụ cột III: Thực chứng sản phẩm · Đo lường khoa học &amp; Minh bạch kỹ thuật
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Chất lượng 95% — Bài học trung thực về ca trượt duy nhất G02
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Đo Lường 95% — Bài Học Trung Thực Về Ca Trượt Duy Nhất G02
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Chúng tôi chốt tiêu chuẩn chất lượng (Quality Bar) sớm và đo kiểm định lượng thật, không tô hồng số liệu.
@@ -870,10 +890,10 @@ export function SlidesDeckView() {
             {/* PHÂN: BẢNG SỐ LIỆU THẬT & MỔ XẺ CA BIÊN G02 */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-12 gap-[1.25rem]">
               <div className="md:col-span-6 space-y-[0.75rem]">
-                <div className="overflow-hidden rounded-xl border border-slate-300 shadow-sm">
+                <div className="overflow-hidden rounded-xl border border-slate-300 shadow-xs">
                   <table className="w-full text-left text-[0.85rem] border-collapse">
                     <thead>
-                      <tr className="bg-[#0f172a] text-white">
+                      <tr className="bg-[#0a192f] text-white">
                         <th className="p-[0.65rem] font-semibold">Phiên bản kiểm định</th>
                         <th className="p-[0.65rem] font-semibold">Tỷ lệ đạt</th>
                         <th className="p-[0.65rem] font-semibold">Link ngoài</th>
@@ -946,10 +966,10 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Trụ cột IV: Business Model &amp; Vận hành (1/3)
+                Trụ cột III: Thực chứng sản phẩm · Mô hình kinh doanh &amp; Kiểm soát chi phí
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Business Model bền vững: Phễu 4 vai trò &amp; Unit Economics
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Business Model Bền Vững: Phễu 4 Vai Trò &amp; Unit Economics
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Ứng dụng AI chỉ có thể sống sót khi giải quyết được bài toán chi phí token trên từng học viên.
@@ -958,7 +978,7 @@ export function SlidesDeckView() {
 
             {/* PHÂN: 3 TRỤ CỘT BẢO VỆ DÒNG TIỀN */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-3 gap-[1.25rem]">
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold mb-[0.75rem]">
                     <Users className="w-[1.2rem] h-[1.2rem]" />
@@ -973,7 +993,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.75rem] font-bold text-blue-700 mt-[0.5rem]">Phễu chuyển đổi rõ ràng</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold mb-[0.75rem]">
                     <Lock className="w-[1.2rem] h-[1.2rem]" />
@@ -986,7 +1006,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.75rem] font-bold text-emerald-700 mt-[0.5rem]">Chống rò rỉ chi phí API</div>
               </div>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold mb-[0.75rem]">
                     <DollarSign className="w-[1.2rem] h-[1.2rem]" />
@@ -1022,19 +1042,19 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Trụ cột IV: Kế hoạch tăng trưởng (2/3)
+                Trụ cột III: Thực chứng sản phẩm · Lộ trình tăng trưởng &amp; Mở rộng quy mô
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Nếu có thêm 1 tuần: 3 đòn bẩy nhân rộng quy mô sản phẩm
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Nếu Có Thêm 1 Tuần: 3 Đòn Bẩy Nhân Rộng Quy Mô Sản Phẩm
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Tập trung trực tiếp vào 3 điểm hoàn thiện lớn nhất để đưa hệ thống vào ứng dụng thương mại.
+                Tập trung trực tiếp vào 3 điểm hoàn thiện lớn nhất để đưa hệ thống vào ứng dụng thương mại toàn diện.
               </p>
             </div>
 
             {/* PHÂN: 3 ĐÒN BẨY HÀNH ĐỘNG CỤ THỂ */}
             <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-3 gap-[1.25rem]">
-              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[2rem] h-[2rem] rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-[0.85rem] mb-[0.75rem]">
                     1
@@ -1047,7 +1067,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.75rem] font-bold text-blue-800 mt-[0.5rem]">Đo lường thời gian thực</div>
               </div>
 
-              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[2rem] h-[2rem] rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-[0.85rem] mb-[0.75rem]">
                     2
@@ -1060,7 +1080,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.75rem] font-bold text-blue-800 mt-[0.5rem]">Tự động hoá chẩn đoán</div>
               </div>
 
-              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between">
+              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
                 <div>
                   <div className="w-[2rem] h-[2rem] rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-[0.85rem] mb-[0.75rem]">
                     3
@@ -1096,10 +1116,10 @@ export function SlidesDeckView() {
             {/* TỔNG */}
             <div>
               <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
-                Trụ cột IV: Tổng kết &amp; Hỏi đáp (3/3)
+                Tổng kết đề án · Sẵn sàng phản biện chất vấn
               </div>
-              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.35rem] tracking-[0.02em]">
-                Vinonymus: Giải quyết đúng nỗi đau bằng số liệu thật
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
+                Vinonymus: Giải Quyết Đúng Nỗi Đau Bằng Giải Pháp Thực Thi
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Cảm ơn Ban giám khảo và toàn thể lớp học. Chúng tôi sẵn sàng cho phần hỏi đáp phản biện!
@@ -1108,7 +1128,7 @@ export function SlidesDeckView() {
 
             {/* PHÂN: 4 TRỤ CỘT CAM KẾT VỮNG CHẮC */}
             <div className="my-[1rem] grid grid-cols-1 md:grid-cols-2 gap-[1rem]">
-              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
                   <div className="text-[0.95rem] font-bold text-slate-900">Bằng chứng thực chứng rõ ràng</div>
@@ -1116,7 +1136,7 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
                   <div className="text-[0.95rem] font-bold text-slate-900">Chất lượng kiểm định 95%</div>
@@ -1124,7 +1144,7 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
                   <div className="text-[0.95rem] font-bold text-slate-900">Liêm chính học thuật tuyệt đối</div>
@@ -1132,7 +1152,7 @@ export function SlidesDeckView() {
                 </div>
               </div>
 
-              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+              <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem] shadow-xs">
                 <CheckCircle2 className="w-[1.35rem] h-[1.35rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
                 <div>
                   <div className="text-[0.95rem] font-bold text-slate-900">Chi phí AI siêu tiết kiệm</div>
@@ -1208,7 +1228,7 @@ export function SlidesDeckView() {
           </span>
         </div>
 
-        {/* Center: Stopwatch / Pitch Timer (06:00 Budget, ~30s/slide) */}
+        {/* Center: Stopwatch / Pitch Timer (06:00 Budget) */}
         <div className="flex items-center gap-[0.5rem] bg-slate-950/90 px-[0.85rem] py-[0.3rem] rounded-xl border border-slate-800 shadow-inner">
           <button
             type="button"
