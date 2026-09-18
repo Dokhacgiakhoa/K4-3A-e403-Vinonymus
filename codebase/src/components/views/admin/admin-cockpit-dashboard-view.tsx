@@ -1,247 +1,232 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { 
-  ShieldAlert, 
-  ShieldCheck, 
-  Users, 
-  BookOpen, 
-  CreditCard, 
-  CheckCircle2, 
-  AlertTriangle, 
-  Sparkles, 
-  Settings, 
-  Layers, 
-  FileText, 
-  Check, 
-  X, 
-  Search, 
-  RefreshCw,
-  Cpu,
-  Database,
-  ArrowRight
-} from 'lucide-react';
-import { clientStorage, type StoredUser } from '@/lib/client-storage';
-import { CurriculumIngestionModal } from '@/components/admin/CurriculumIngestionModal';
+import { useCallback, useEffect, useState } from 'react';
+import { Activity, BarChart3, Eye, FileText, Loader2, RefreshCw, ShieldCheck, ToggleLeft, ToggleRight, Users } from 'lucide-react';
+import { DocumentManager } from '@/components/staff/document-manager';
+import { StaffGuard } from '@/components/staff/staff-guard';
+import { staffBackendClient } from '@/lib/api/staff-backend-client';
+import type { AdminAnalytics, AuditEntry, PlatformRole, Profile } from '@/types/staff';
 
-interface MockPaymentTransaction {
-  id: string;
-  invoiceCode: string;
-  userName: string;
-  userEmail: string;
-  amount: number;
-  status: 'pending' | 'approved' | 'rejected';
-  createdAt: string;
-  bankRef: string;
+type AdminTab = 'users' | 'documents' | 'audit';
+
+const EMPTY_ANALYTICS: AdminAnalytics = {
+  users: 0,
+  activeUsers: 0,
+  publishedDocuments: 0,
+  pendingReviews: 0,
+  roadmaps: 0,
+};
+
+const ROLE_LABELS: Record<PlatformRole, string> = {
+  student: 'Học viên',
+  lecture: 'Giảng viên',
+  admin: 'Quản trị viên',
+};
+
+const BACKGROUND_LABELS: Record<NonNullable<Profile['background']>, string> = {
+  non_tech: 'Non-tech',
+  tech_base: 'Tech-base',
+  ai: 'Đã học AI',
+};
+
+function formatDate(value: string): string {
+  return new Intl.DateTimeFormat('vi-VN', { dateStyle: 'short', timeStyle: 'short' }).format(new Date(value));
 }
 
 export function AdminCockpitDashboardView() {
-  const [currentUser, setCurrentUser] = useState<StoredUser | null>(null);
-  const [showIngestionModal, setShowIngestionModal] = useState<boolean>(false);
-  const [transactions, setTransactions] = useState<MockPaymentTransaction[]>([
-    {
-      id: 'tx-001',
-      invoiceCode: 'PRO-LAMLUU-2026',
-      userName: 'Lam Luu',
-      userEmail: 'lamluu@ai-thuc-chien.vn',
-      amount: 99000,
-      status: 'approved',
-      createdAt: '2026-09-03 14:20',
-      bankRef: 'MB-98234710'
-    },
-    {
-      id: 'tx-002',
-      invoiceCode: 'PRO-GUEST-2026',
-      userName: 'Google Engineer',
-      userEmail: 'engineer@google.com',
-      amount: 999000,
-      status: 'pending',
-      createdAt: '2026-09-03 22:50',
-      bankRef: 'MB-81273941'
-    },
-    {
-      id: 'tx-003',
-      invoiceCode: 'PRO-DEVAI-2026',
-      userName: 'Nguyễn Văn A',
-      userEmail: 'anguyen@corp.vn',
-      amount: 99000,
-      status: 'approved',
-      createdAt: '2026-09-03 18:30',
-      bankRef: 'MB-10293847'
+  return (
+    <StaffGuard allow={['admin']}>
+      {(profile) => <AdminConsole profile={profile} />}
+    </StaffGuard>
+  );
+}
+
+function AdminConsole({ profile }: { profile: Profile }) {
+  const [tab, setTab] = useState<AdminTab>('users');
+  const [roleFilter, setRoleFilter] = useState<PlatformRole | ''>('');
+  const [analytics, setAnalytics] = useState<AdminAnalytics>(EMPTY_ANALYTICS);
+  const [users, setUsers] = useState<Profile[]>([]);
+  const [selectedUser, setSelectedUser] = useState<Profile | null>(null);
+  const [audit, setAudit] = useState<AuditEntry[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [busyId, setBusyId] = useState('');
+  const [notice, setNotice] = useState('');
+
+  const load = useCallback(async () => {
+    setLoading(true);
+    setNotice('');
+    try {
+      const [analyticsResult, usersResult, auditResult] = await Promise.all([
+        staffBackendClient.getAnalytics(),
+        staffBackendClient.listUsers(roleFilter || undefined),
+        staffBackendClient.listAudit(),
+      ]);
+      setAnalytics(analyticsResult);
+      setUsers(usersResult.data);
+      setAudit(auditResult.data);
+      setSelectedUser((current) => current && usersResult.data.find((item) => item.id === current.id) || null);
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : 'Không thể tải dữ liệu quản trị.');
+    } finally {
+      setLoading(false);
     }
-  ]);
+  }, [roleFilter]);
 
   useEffect(() => {
-    const syncUser = () => {
-      setCurrentUser(clientStorage.getUser());
-    };
-    syncUser();
-    window.addEventListener('aiia_auth_changed', syncUser);
-    return () => window.removeEventListener('aiia_auth_changed', syncUser);
-  }, []);
+    void load();
+  }, [load]);
 
-  const handleApproveTx = (id: string) => {
-    setTransactions(prev => prev.map(t => t.id === id ? { ...t, status: 'approved' } : t));
-    // Tự động nâng cấp tài khoản nếu đang đăng nhập đúng user đó
-    const active = clientStorage.getUser();
-    if (active) {
-      const updated: StoredUser = { ...active, tier: 'Pro', plan: 'pro' };
-      clientStorage.saveUser(updated);
-      setCurrentUser(updated);
+  const showUserDetail = async (user: Profile) => {
+    setBusyId(user.id);
+    try {
+      setSelectedUser(await staffBackendClient.getUser(user.id));
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : 'Không thể tải chi tiết tài khoản.');
+    } finally {
+      setBusyId('');
     }
   };
 
-  const handleRejectTx = (id: string) => {
-    setTransactions(prev => prev.map(t => t.id === id ? { ...t, status: 'rejected' } : t));
+  const updateRole = async (user: Profile, role: PlatformRole, tier = user.tier) => {
+    setBusyId(user.id);
+    try {
+      const updated = await staffBackendClient.updateUserRole(user.id, role, tier);
+      setUsers((current) => current.map((item) => (item.id === updated.id ? updated : item)));
+      setSelectedUser((current) => (current?.id === updated.id ? updated : current));
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : 'Không thể cập nhật vai trò.');
+    } finally {
+      setBusyId('');
+    }
   };
 
+  const updateStatus = async (user: Profile) => {
+    setBusyId(user.id);
+    try {
+      const updated = await staffBackendClient.updateUserStatus(user.id, !user.is_active);
+      setUsers((current) => current.map((item) => (item.id === updated.id ? updated : item)));
+      setSelectedUser((current) => (current?.id === updated.id ? updated : current));
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : 'Không thể cập nhật trạng thái.');
+    } finally {
+      setBusyId('');
+    }
+  };
+
+  const stats = [
+    { label: 'Tổng người dùng', value: analytics.users, icon: Users },
+    { label: 'Đang hoạt động', value: analytics.activeUsers, icon: Activity },
+    { label: 'Tài liệu đã xuất bản', value: analytics.publishedDocuments, icon: FileText },
+    { label: 'Đang chờ duyệt', value: analytics.pendingReviews, icon: ShieldCheck },
+    { label: 'Lộ trình đã tạo', value: analytics.roadmaps, icon: BarChart3 },
+  ];
+
   return (
-    <div className="space-y-8 animate-fadeIn font-sans pb-16">
-      
-      {/* CURRICULUM INGESTION MODAL */}
-      <CurriculumIngestionModal
-        isOpen={showIngestionModal}
-        onClose={() => setShowIngestionModal(false)}
-        onSubjectPublished={() => setShowIngestionModal(false)}
-      />
-
-      {/* 1. ADMIN EXECUTIVE CONSOLE HEADER */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#0f172a] border border-red-500/40 shadow-2xl flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div className="flex items-center gap-4 sm:gap-5">
-          <div className="w-16 h-16 rounded-2xl bg-red-500/15 border border-red-500/40 text-red-400 flex items-center justify-center font-black text-2xl shrink-0 shadow-inner">
-            🛡️
-          </div>
-          <div className="space-y-1">
-            <div className="flex flex-wrap items-center gap-2">
-              <h1 className="text-xl sm:text-2xl font-extrabold text-white">
-                Bảng Điều Khiển Quản Trị Hệ Thống (Admin Cockpit)
-              </h1>
-              <span className="px-2.5 py-0.5 rounded-full bg-red-950 text-red-300 font-mono text-xs font-bold border border-red-800">
-                SYSTEM ADMINISTRATOR
-              </span>
-            </div>
-            <p className="text-xs sm:text-sm text-slate-300">
-              Quản trị toàn diện: Giáo trình AI, Ngân hàng câu hỏi, Phân quyền học viên và Kiểm soát giao dịch VietQR.
-            </p>
-          </div>
-        </div>
-
-        {/* NÚT MỞ CỔNG NẠP GIÁO TRÌNH BẰNG AI */}
-        <button
-          onClick={() => setShowIngestionModal(true)}
-          className="px-5 py-3 rounded-2xl bg-gradient-to-r from-red-500 to-rose-600 hover:from-red-400 hover:to-rose-500 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-red-500/20 transition-all transform hover:scale-105 active:scale-95 flex items-center gap-2 shrink-0"
-        >
-          <Sparkles className="w-4 h-4 text-white" />
-          <span>Nạp & Đóng Gói Giáo Trình AI →</span>
-        </button>
-      </div>
-
-      {/* 2. ADMIN STATS CARDS */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
-          <div className="text-xs font-bold text-slate-400 font-mono uppercase">Quy Mô Học Viên</div>
-          <div className="text-2xl font-extrabold text-sky-400 font-mono mt-1">20,000</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">Học viên toàn quốc</div>
-        </div>
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
-          <div className="text-xs font-bold text-slate-400 font-mono uppercase">Giáo Trình SFIA</div>
-          <div className="text-2xl font-extrabold text-emerald-400 font-mono mt-1">12 / 12</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">Modules đã chuẩn hóa</div>
-        </div>
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
-          <div className="text-xs font-bold text-slate-400 font-mono uppercase">Doanh Thu VietQR</div>
-          <div className="text-2xl font-extrabold text-amber-400 font-mono mt-1">897.000 đ</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">3 Giao dịch đã ghi sổ</div>
-        </div>
-        <div className="p-5 rounded-2xl bg-[#0f172a] border border-slate-800 text-center">
-          <div className="text-xs font-bold text-slate-400 font-mono uppercase">Hạ Tầng Core</div>
-          <div className="text-2xl font-extrabold text-teal-400 font-mono mt-1">.NET 10</div>
-          <div className="text-[11px] text-slate-400 mt-0.5">Clean Arch + PostgreSQL</div>
-        </div>
-      </div>
-
-      {/* 3. HUMAN-IN-THE-LOOP PAYMENT APPROVAL SECTION (QUY TẮC: KIỂM SOÁT TỪ CON NGƯỜI) */}
-      <div className="p-6 sm:p-8 rounded-3xl bg-[#0f172a] border border-amber-500/30 shadow-xl space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+    <div className="space-y-6 pb-12">
+      <header className="staff-panel p-6">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/20 text-amber-300 text-[11px] font-bold uppercase font-mono mb-2">
-              <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
-              <span>Human-In-The-Loop Verification</span>
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="text-2xl font-extrabold text-slate-950 dark:text-white">Bảng quản trị hệ thống</h1>
+              <span className="rounded-full border border-rose-300 bg-rose-50 px-2.5 py-1 text-[11px] font-bold uppercase text-rose-700 dark:border-rose-800 dark:bg-rose-950 dark:text-rose-300">{ROLE_LABELS[profile.role]}</span>
             </div>
-            <h2 className="text-lg font-bold text-white uppercase tracking-wide">
-              Kiểm Soát & Phê Duyệt Thanh Toán VietQR
-            </h2>
-            <p className="text-xs text-slate-300">
-              Tuân thủ nguyên tắc: Giao dịch thanh toán bắt buộc phải có kiểm soát phê duyệt từ con người để đảm bảo tuyệt đối an toàn.
-            </p>
+            <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">Quản lý người dùng, học liệu, nhật ký kiểm toán và số liệu hệ thống từ API phân quyền.</p>
           </div>
+          <button type="button" onClick={() => void load()} className="staff-button-secondary" disabled={loading}>
+            {loading ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />} Làm mới
+          </button>
         </div>
+      </header>
 
-        <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-[#0b1329] text-slate-400 uppercase font-mono text-[11px]">
-              <tr>
-                <th className="p-3 rounded-l-xl">Mã Hóa Đơn</th>
-                <th className="p-3">Học Viên</th>
-                <th className="p-3">Số Tiền</th>
-                <th className="p-3">Mã Ngân Hàng</th>
-                <th className="p-3">Thời Gian</th>
-                <th className="p-3">Trạng Thái</th>
-                <th className="p-3 rounded-r-xl text-center">Hành Động</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-slate-800">
-              {transactions.map(tx => (
-                <tr key={tx.id} className="hover:bg-[#0b1329]/60 transition">
-                  <td className="p-3 font-mono font-bold text-white">{tx.invoiceCode}</td>
-                  <td className="p-3">
-                    <div className="font-semibold text-slate-200">{tx.userName}</div>
-                    <div className="text-[11px] text-slate-400">{tx.userEmail}</div>
-                  </td>
-                  <td className="p-3 font-mono font-bold text-amber-400">
-                    {tx.amount.toLocaleString()} VNĐ
-                  </td>
-                  <td className="p-3 font-mono text-slate-400">{tx.bankRef}</td>
-                  <td className="p-3 text-slate-400 font-mono text-[11px]">{tx.createdAt}</td>
-                  <td className="p-3">
-                    <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase font-mono ${
-                      tx.status === 'approved' 
-                        ? 'bg-emerald-950 text-emerald-300 border border-emerald-800'
-                        : tx.status === 'pending'
-                        ? 'bg-amber-950 text-amber-300 border border-amber-800 animate-pulse'
-                        : 'bg-red-950 text-red-300 border border-red-800'
-                    }`}>
-                      {tx.status === 'approved' ? 'Đã Phê Duyệt' : tx.status === 'pending' ? 'Chờ Duyệt' : 'Đã Từ Chối'}
-                    </span>
-                  </td>
-                  <td className="p-3 text-center">
-                    {tx.status === 'pending' ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <button
-                          onClick={() => handleApproveTx(tx.id)}
-                          className="px-3 py-1 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-[11px] transition shadow-sm"
-                        >
-                          Duyệt Kích Hoạt
-                        </button>
-                        <button
-                          onClick={() => handleRejectTx(tx.id)}
-                          className="px-2 py-1 rounded-lg bg-red-950 hover:bg-red-900 text-red-400 text-[11px] border border-red-800 transition"
-                        >
-                          Từ Chối
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-slate-400 font-mono text-[11px]">Hoàn tất</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+      <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        {stats.map((stat) => {
+          const Icon = stat.icon;
+          return (
+            <div key={stat.label} className="staff-panel p-4">
+              <Icon className="mb-3 h-5 w-5 text-sky-500" />
+              <p className="text-xs font-semibold uppercase text-slate-500">{stat.label}</p>
+              <p className="mt-1 text-2xl font-extrabold text-slate-950 dark:text-white">{stat.value}</p>
+            </div>
+          );
+        })}
+      </section>
+
+      <div className="flex flex-wrap gap-2">
+        {(['users', 'documents', 'audit'] as AdminTab[]).map((item) => (
+          <button key={item} type="button" onClick={() => setTab(item)} className={tab === item ? 'staff-button-primary' : 'staff-button-secondary'}>
+            {item === 'users' ? 'Người dùng' : item === 'documents' ? 'Tài liệu' : 'Nhật ký'}
+          </button>
+        ))}
       </div>
 
+      {notice && <div className="rounded-xl border border-rose-300 bg-rose-50 px-4 py-3 text-sm text-rose-800 dark:border-rose-800 dark:bg-rose-950/60 dark:text-rose-200">{notice}</div>}
+
+      {tab === 'users' && (
+        <section className="staff-panel overflow-hidden">
+          <div className="flex flex-col gap-3 border-b border-slate-200 p-4 dark:border-slate-800 sm:flex-row sm:items-center sm:justify-between">
+            <h2 className="font-bold text-slate-950 dark:text-white">Quản lý tài khoản</h2>
+            <select value={roleFilter} onChange={(event) => setRoleFilter(event.target.value as PlatformRole | '')} className="staff-input max-w-48">
+              <option value="">Tất cả vai trò</option>
+              <option value="student">Học viên</option>
+              <option value="lecture">Giảng viên</option>
+              <option value="admin">Quản trị viên</option>
+            </select>
+          </div>
+          {loading ? (
+            <div className="flex min-h-48 items-center justify-center gap-2 text-sm text-slate-500"><Loader2 className="h-5 w-5 animate-spin" /> Đang tải người dùng...</div>
+          ) : (
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[860px] text-left text-sm">
+                <thead className="bg-slate-50 text-xs uppercase text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+                  <tr><th className="p-3">Người dùng</th><th className="p-3">Vai trò</th><th className="p-3">Gói</th><th className="p-3">Trạng thái</th><th className="p-3">Cập nhật</th><th className="p-3">Chi tiết</th></tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+                  {users.map((user) => (
+                    <tr key={user.id} className="align-top">
+                      <td className="p-3"><strong className="block text-slate-950 dark:text-white">{user.display_name}</strong><span className="text-xs text-slate-500">{user.id}</span></td>
+                      <td className="p-3"><select disabled={busyId === user.id} value={user.role} onChange={(event) => void updateRole(user, event.target.value as PlatformRole)} className="staff-input"><option value="student">Học viên</option><option value="lecture">Giảng viên</option><option value="admin">Quản trị viên</option></select></td>
+                      <td className="p-3"><select disabled={busyId === user.id} value={user.tier} onChange={(event) => void updateRole(user, user.role, event.target.value as Profile['tier'])} className="staff-input"><option value="free">Miễn phí</option><option value="vip">VIP</option></select></td>
+                      <td className="p-3"><button type="button" disabled={busyId === user.id} onClick={() => void updateStatus(user)} className={user.is_active ? 'staff-button-secondary text-emerald-700 dark:text-emerald-300' : 'staff-button-secondary text-rose-700 dark:text-rose-300'}>{user.is_active ? <ToggleRight className="h-4 w-4" /> : <ToggleLeft className="h-4 w-4" />} {user.is_active ? 'Đang mở' : 'Đã khóa'}</button></td>
+                      <td className="p-3 text-xs text-slate-500">{formatDate(user.updated_at)}</td>
+                      <td className="p-3"><button type="button" disabled={busyId === user.id} onClick={() => void showUserDetail(user)} className="staff-button-secondary"><Eye className="h-4 w-4" /> Xem</button></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+          {selectedUser && (
+            <div className="border-t border-slate-200 p-4 text-sm dark:border-slate-800">
+              <h3 className="font-bold text-slate-950 dark:text-white">Chi tiết tài khoản</h3>
+              <dl className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                <div><dt className="text-xs uppercase text-slate-500">Tên hiển thị</dt><dd className="mt-1 font-semibold">{selectedUser.display_name}</dd></div>
+                <div><dt className="text-xs uppercase text-slate-500">Nền tảng</dt><dd className="mt-1 font-semibold">{selectedUser.background ? BACKGROUND_LABELS[selectedUser.background] : 'Chưa khai báo'}</dd></div>
+                <div><dt className="text-xs uppercase text-slate-500">Thời lượng/tuần</dt><dd className="mt-1 font-semibold">{selectedUser.weekly_minutes} phút</dd></div>
+                <div><dt className="text-xs uppercase text-slate-500">Ngày tạo</dt><dd className="mt-1 font-semibold">{formatDate(selectedUser.created_at)}</dd></div>
+                <div className="sm:col-span-2 lg:col-span-4"><dt className="text-xs uppercase text-slate-500">Mục tiêu học</dt><dd className="mt-1 font-semibold">{selectedUser.goal || 'Chưa khai báo'}</dd></div>
+              </dl>
+            </div>
+          )}
+        </section>
+      )}
+
+      {tab === 'documents' && <DocumentManager mode="admin" />}
+
+      {tab === 'audit' && (
+        <section className="staff-panel overflow-hidden">
+          <div className="border-b border-slate-200 p-4 dark:border-slate-800"><h2 className="font-bold text-slate-950 dark:text-white">Nhật ký kiểm toán</h2></div>
+          <div className="divide-y divide-slate-200 dark:divide-slate-800">
+            {audit.map((entry) => (
+              <div key={entry.id} className="grid gap-2 p-4 text-sm md:grid-cols-[180px_1fr_220px]">
+                <span className="font-mono text-xs text-slate-500">{formatDate(entry.created_at)}</span>
+                <span className="font-semibold text-slate-900 dark:text-slate-100">{entry.action}</span>
+                <span className="truncate font-mono text-xs text-slate-500">{entry.resource_id ?? entry.actor_id ?? 'hệ thống'}</span>
+              </div>
+            ))}
+            {!audit.length && <div className="p-8 text-center text-sm text-slate-500">Chưa có nhật ký kiểm toán.</div>}
+          </div>
+        </section>
+      )}
     </div>
   );
 }

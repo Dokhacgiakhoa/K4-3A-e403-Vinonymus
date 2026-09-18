@@ -1,12 +1,14 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Bot, Sparkles, RefreshCw, X, MessageSquare, History, Plus } from 'lucide-react';
+import { RefreshCw, X } from 'lucide-react';
 import { MessageBubble } from './message-bubble';
 import { Composer } from './composer';
 import { NeedKeyPrompt } from './need-key-prompt';
 import { CitationPanel } from './citation-panel';
 import { clientStorage } from '@/lib/client-storage';
+import { authBackendClient } from '@/lib/api/auth-backend-client';
+import { readLearnerContextFromBrowser } from '@/lib/learner-context';
 import type { ChatMessage, CitationItem } from '@/types/chat';
 
 interface ChatBoxProps {
@@ -15,29 +17,96 @@ interface ChatBoxProps {
   isMobileModal?: boolean;
 }
 
+function createWelcomeMessage(): ChatMessage {
+  return {
+    id: 'welcome',
+    role: 'assistant',
+    content: 'Chào bạn! Mình là **K.AI** — Sổ tay AI **không chính thức** do học viên chương trình **AI in Action** (AIIA) xây dựng. Bạn có thể hỏi mình bất kỳ thắc mắc nào về chương trình nhé!',
+    createdAt: new Date().toISOString(),
+  };
+}
+
+function activeConversationId(): string {
+  const userId = clientStorage.getUser()?.id;
+  return userId
+    ? `helpdesk-user-${userId}`
+    : `helpdesk-guest-${clientStorage.getClientSessionId()}`;
+}
+
 export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatBoxProps) {
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    {
-      id: 'welcome',
-      role: 'assistant',
-      content: 'Chào bạn! Mình là **K.AI** — Sổ tay AI **không chính thức** do học viên chương trình **AI in Action** (AIIA) xây dựng. Bạn có thể hỏi mình bất kỳ thắc mắc nào về chương trình nhé!',
-      createdAt: new Date().toISOString(),
-    },
-  ]);
+  const [messages, setMessages] = useState<ChatMessage[]>(() => [createWelcomeMessage()]);
+  const [memoryReady, setMemoryReady] = useState(false);
 
   const [stageStatus, setStageStatus] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
   const [showNeedKey, setShowNeedKey] = useState(false);
   const [selectedCitation, setSelectedCitation] = useState<CitationItem | null>(null);
-  const [showSettings, setShowSettings] = useState(false);
 
   const abortControllerRef = useRef<AbortController | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const lastSentInitialQuestionRef = useRef<string | null>(null);
+  const conversationIdRef = useRef<string | null>(null);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, stageStatus, showNeedKey]);
+
+  useEffect(() => {
+    let active = true;
+    const hydrateMemory = async () => {
+      const conversationId = activeConversationId();
+      conversationIdRef.current = conversationId;
+      const saved = clientStorage
+        .getConversations()
+        .find((conversation) => conversation.id === conversationId);
+      if (saved?.messages.some((message) => message.role === 'user')) {
+        setMessages(saved.messages.map((message) => ({ ...message, isStreaming: false })));
+      }
+
+      try {
+        const headers: Record<string, string> = {};
+        const token = authBackendClient.getToken();
+        if (token) headers.Authorization = `Bearer ${token}`;
+        const response = await fetch('/api/chat', {
+          method: 'GET',
+          headers,
+          credentials: 'same-origin',
+          cache: 'no-store',
+        });
+        const payload = response.ok
+          ? await response.json() as { messages?: ChatMessage[] }
+          : null;
+        if (active && payload?.messages?.some((message) => message.role === 'user')) {
+          setMessages(payload.messages.map((message) => ({ ...message, isStreaming: false })));
+        }
+      } catch {
+        // Supabase/backend lỗi: giữ bản local đã nạp ở trên.
+      } finally {
+        if (active) setMemoryReady(true);
+      }
+    };
+    void hydrateMemory();
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!memoryReady || isStreaming) return;
+    const conversationId = conversationIdRef.current;
+    if (!conversationId) return;
+    const firstQuestion = messages.find((message) => message.role === 'user')?.content.trim();
+    if (!firstQuestion) {
+      clientStorage.deleteConversation(conversationId);
+      return;
+    }
+    clientStorage.saveConversation({
+      id: conversationId,
+      title: firstQuestion.slice(0, 80),
+      updatedAt: new Date().toISOString(),
+      messages: messages.slice(-50),
+    });
+  }, [isStreaming, memoryReady, messages]);
 
   useEffect(() => {
     if (
@@ -74,7 +143,7 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
     setMessages((prev) => [...prev, userMsg, assistantMsg]);
     setIsStreaming(true);
     setShowNeedKey(false);
-    setStageStatus('Đang tìm trong FAQ…');
+    setStageStatus('Đang phân tích và chọn nguồn…');
 
     abortControllerRef.current = new AbortController();
 
@@ -86,12 +155,8 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
       // UUID ẩn danh, chỉ để gom các lượt hỏi cùng phiên khi thống kê — không định danh cá nhân
       headers['x-client-session-id'] = clientStorage.getClientSessionId();
       if (storedKeys.gemini) headers['x-gemini-key'] = storedKeys.gemini;
-      if (storedKeys.openai) headers['x-openai-key'] = storedKeys.openai;
-      if (storedKeys.claude) headers['x-claude-key'] = storedKeys.claude;
-      if (storedKeys.deepseek) headers['x-deepseek-key'] = storedKeys.deepseek;
-      if (storedKeys.groq) headers['x-groq-key'] = storedKeys.groq;
-      if (storedKeys.cerebras) headers['x-cerebras-key'] = storedKeys.cerebras;
-      if (storedKeys.fpt) headers['x-fpt-key'] = storedKeys.fpt;
+      const token = authBackendClient.getToken();
+      if (token) headers.Authorization = `Bearer ${token}`;
 
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -99,8 +164,10 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
         signal: abortControllerRef.current.signal,
         body: JSON.stringify({
           question: userQuestion,
+          learner_context: readLearnerContextFromBrowser(),
           history: messages
             .filter((m) => m.id !== 'welcome' && !m.isStreaming)
+            .slice(-6)
             .map((m) => ({ role: m.role, content: m.content })),
         }),
       });
@@ -237,6 +304,24 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
     }
   };
 
+  const handleNewConversation = () => {
+    abortControllerRef.current?.abort();
+    if (conversationIdRef.current) {
+      clientStorage.deleteConversation(conversationIdRef.current);
+    }
+    setMessages([createWelcomeMessage()]);
+    setShowNeedKey(false);
+    setStageStatus(null);
+    const headers: Record<string, string> = {};
+    const token = authBackendClient.getToken();
+    if (token) headers.Authorization = `Bearer ${token}`;
+    void fetch('/api/chat', {
+      method: 'DELETE',
+      headers,
+      credentials: 'same-origin',
+    }).catch(() => undefined);
+  };
+
   const handleRegenerate = (msg: ChatMessage) => {
     const msgIndex = messages.findIndex((m) => m.id === msg.id);
     if (msgIndex > 0) {
@@ -264,6 +349,16 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
         </div>
 
         <div className="flex items-center gap-1.5">
+
+          <button
+            type={'button'}
+            onClick={handleNewConversation}
+            className={'p-2 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-cyan-300 transition-colors'}
+            title={'Cuộc trò chuyện mới'}
+            aria-label={'Cuộc trò chuyện mới'}
+          >
+            <RefreshCw className={'w-4 h-4'} />
+          </button>
 
           {isMobileModal && onCloseMobile && (
             <button
@@ -299,7 +394,7 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
 
         {showNeedKey && (
           <div className="p-3 bg-slate-900/60 border border-cyan-500/40 rounded-2xl backdrop-blur-md">
-            <NeedKeyPrompt />
+            <NeedKeyPrompt onOpenSettings={() => { window.location.href = '/settings'; }} />
           </div>
         )}
 

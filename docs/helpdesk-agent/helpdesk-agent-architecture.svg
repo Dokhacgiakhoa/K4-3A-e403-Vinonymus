@@ -1,0 +1,96 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1600' height='1000' viewBox='0 0 1600 1000'>
+  <defs>
+    <linearGradient id='bg' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='#071426'/>
+      <stop offset='1' stop-color='#10223f'/>
+    </linearGradient>
+    <linearGradient id='accent' x1='0' y1='0' x2='1' y2='1'>
+      <stop offset='0' stop-color='#22d3ee'/>
+      <stop offset='1' stop-color='#3b82f6'/>
+    </linearGradient>
+    <filter id='shadow' x='-20%' y='-20%' width='140%' height='140%'>
+      <feDropShadow dx='0' dy='8' stdDeviation='10' flood-color='#020617' flood-opacity='.55'/>
+    </filter>
+    <marker id='arrow' markerWidth='12' markerHeight='12' refX='10' refY='6' orient='auto'>
+      <path d='M0,0 L12,6 L0,12 Z' fill='#67e8f9'/>
+    </marker>
+    <style>
+      .title { font: 700 42px Inter,Segoe UI,sans-serif; fill: #f8fafc; }
+      .sub { font: 400 20px Inter,Segoe UI,sans-serif; fill: #94a3b8; }
+      .head { font: 700 22px Inter,Segoe UI,sans-serif; fill: #e0f2fe; }
+      .body { font: 400 17px Inter,Segoe UI,sans-serif; fill: #cbd5e1; }
+      .small { font: 500 15px Inter,Segoe UI,sans-serif; fill: #94a3b8; }
+      .box { fill: #0f213b; stroke: #29527a; stroke-width: 2; rx: 20; filter: url(#shadow); }
+      .tool { fill: #102b36; stroke: #22d3ee; stroke-width: 2; rx: 18; }
+      .guard { fill: #281d3e; stroke: #a78bfa; stroke-width: 2; rx: 18; }
+      .line { fill: none; stroke: #67e8f9; stroke-width: 3; marker-end: url(#arrow); }
+    </style>
+  </defs>
+
+  <rect width='1600' height='1000' fill='url(#bg)'/>
+  <circle cx='1450' cy='90' r='190' fill='#0891b2' opacity='.08'/>
+  <circle cx='120' cy='900' r='250' fill='#2563eb' opacity='.08'/>
+
+  <text x='80' y='72' class='title'>K.AI Helpdesk 24/7 - Agentic RAG Architecture</text>
+  <text x='80' y='108' class='sub'>Gemini 3.5 Flash-Lite · bounded single agent · grounded answers with citations</text>
+
+  <rect x='80' y='155' width='300' height='130' class='box'/>
+  <text x='110' y='195' class='head'>1. Client</text>
+  <text x='110' y='228' class='body'>FloatingAiWidget + ChatBox</text>
+  <text x='110' y='256' class='small'>SSE · Supabase session memory · fallback local</text>
+
+  <rect x='470' y='155' width='300' height='130' class='box'/>
+  <text x='500' y='195' class='head'>2. API Boundary</text>
+  <text x='500' y='228' class='body'>POST /api/chat · Zod</text>
+  <text x='500' y='256' class='small'>Zod · backend JWT role verification</text>
+
+  <rect x='860' y='155' width='300' height='130' class='guard'/>
+  <text x='890' y='195' class='head'>3. Deterministic Gate</text>
+  <text x='890' y='228' class='body'>Small-talk · Exact FAQ · Planner</text>
+  <text x='890' y='256' class='small'>Fast path before agent/tool calls</text>
+
+  <path d='M380 220 H455' class='line'/>
+  <path d='M770 220 H845' class='line'/>
+
+  <rect x='470' y='350' width='690' height='150' fill='url(#accent)' opacity='.95' rx='24' filter='url(#shadow)'/>
+  <text x='510' y='395' class='head' fill='#031525'>4. Helpdesk Decision Agent</text>
+  <text x='510' y='430' class='body' fill='#06233a'>Validated JSON · role-gated roadmap context</text>
+  <text x='510' y='466' style='font:700 18px Inter,Segoe UI,sans-serif;fill:#06233a'>search · clarify · refuse · handoff_planner · chat</text>
+  <path d='M1010 285 V335 H815' class='line'/>
+
+  <rect x='80' y='585' width='330' height='160' class='tool'/>
+  <text x='110' y='625' class='head'>FAQ Tool</text>
+  <text x='110' y='660' class='body'>Exact · Trigram · Vector</text>
+  <text x='110' y='690' class='small'>LLM verifies fuzzy candidates</text>
+  <text x='110' y='718' class='small'>Local Markdown fallback</text>
+
+  <rect x='470' y='585' width='330' height='160' class='tool'/>
+  <text x='500' y='625' class='head'>Knowledge Tool</text>
+  <text x='500' y='660' class='body'>Hybrid Search</text>
+  <text x='500' y='690' class='small'>Gemini embedding + FTS + RRF</text>
+  <text x='500' y='718' class='small'>Visitor: public · learning roles: +learning</text>
+
+  <rect x='860' y='585' width='300' height='160' class='guard'/>
+  <text x='890' y='625' class='head'>Safe Outcomes</text>
+  <text x='890' y='660' class='body'>Clarify · Refuse · Chat</text>
+  <text x='890' y='690' class='small'>Planner handoff via /personalized-path</text>
+  <text x='890' y='718' class='small'>No unrestricted agent loop</text>
+
+  <path d='M650 500 V550 H245 V570' class='line'/>
+  <path d='M815 500 V570 H635' class='line'/>
+  <path d='M980 500 V570 H1010' class='line'/>
+
+  <rect x='220' y='825' width='660' height='105' class='box'/>
+  <text x='255' y='866' class='head'>5. Grounded Answer + Output Guard</text>
+  <text x='255' y='900' class='body'>Only retrieved evidence · citations [1][2] · no-source means no guessing</text>
+
+  <rect x='970' y='825' width='490' height='105' class='box'/>
+  <text x='1005' y='866' class='head'>6. Observability</text>
+  <text x='1005' y='900' class='body'>query_logs · latency · provider/model · feedback</text>
+
+  <path d='M245 745 V790 H470 V810' class='line'/>
+  <path d='M635 745 V810' class='line'/>
+  <path d='M880 877 H955' class='line'/>
+
+  <text x='80' y='972' class='small'>Security: role fails closed to Visitor · keys are never logged · user/history/knowledge are data, not instructions</text>
+</svg>

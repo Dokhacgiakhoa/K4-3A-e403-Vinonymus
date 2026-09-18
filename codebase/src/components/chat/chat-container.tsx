@@ -7,6 +7,7 @@ import { Composer } from './composer';
 import { CitationPanel } from './citation-panel';
 import { NeedKeyPrompt } from './need-key-prompt';
 import { Bot, Loader2, Sparkles, Key } from 'lucide-react';
+import { authBackendClient } from '@/lib/api/auth-backend-client';
 
 interface ChatContainerProps {
   apiKey?: string;
@@ -70,6 +71,8 @@ export function ChatContainer({ apiKey, onOpenSettings }: ChatContainerProps) {
         headers['x-gemini-key'] = apiKey;
         headers['x-llm-key'] = apiKey;
       }
+      const token = authBackendClient.getToken();
+      if (token) headers.Authorization = `Bearer ${token}`;
 
       const response = await fetch('/api/chat', {
         method: 'POST',

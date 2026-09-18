@@ -20,8 +20,9 @@ obj/
 docs/legacy/curriculum/private/
 codebase/public/images/faqs/minh-chung-*
 
-# Hackathon data pack — must never be committed (README: "Bảo mật dữ liệu")
-/data/
+# Private VLearn course materials and generated Markdown corpus - local ingestion only
+/codebase/data/Vlearn_data/
+/codebase/data/private-documents/
 
 # Personal AI coding-tool config — kept locally, not part of the product
 codebase/.agent/

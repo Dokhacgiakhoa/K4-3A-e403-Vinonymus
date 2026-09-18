@@ -39,4 +39,11 @@ Nội dung khác sau bảng.
     expect(chunks.length).toBeGreaterThan(0);
     expect(chunks[0]?.headingPath).toBe('Chương 1 > Giới thiệu');
   });
+
+  it('chia c? paragraph ??n qu? d?i v? ??ng ng??ng token', () => {
+    const chunks = chunkMarkdown(`# B?i h?c\n\n${'A'.repeat(5_000)}`, 800);
+
+    expect(chunks.length).toBeGreaterThan(1);
+    expect(Math.max(...chunks.map((chunk) => chunk.tokenCount))).toBeLessThanOrEqual(800);
+  });
 });

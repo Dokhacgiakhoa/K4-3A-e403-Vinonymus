@@ -1,4 +1,5 @@
 import type { AnswerPath } from '@/types/database';
+import type { LearnerContext } from '@/lib/learner-context';
 
 export interface CitationItem {
   chunkId: string;
@@ -40,6 +41,7 @@ export interface ChatApiHeaderKeys {
 export interface ChatApiRequestBody {
   question: string;
   history?: { role: 'user' | 'assistant'; content: string }[];
+  learner_context?: LearnerContext;
 }
 
 export type SseEventType = 'status' | 'token' | 'citations' | 'done' | 'need_key' | 'error';

@@ -47,6 +47,7 @@ interface DocFrontmatter {
   status?: 'draft' | 'published' | 'archived';
   summary?: string;
   tags?: string[];
+  audience?: 'public' | 'learning';
 }
 
 async function syncDocumentChunks(
@@ -54,17 +55,20 @@ async function syncDocumentChunks(
   title: string,
   content: string,
   categoryId: string | null,
-  rawForHash: string
+  rawForHash: string,
+  audience: 'public' | 'learning' = 'public'
 ): Promise<void> {
   const newHash = Buffer.from(rawForHash).toString('base64');
 
   const { data: existingDoc } = await supabaseAdmin
     .from('documents')
-    .select('id, content_hash')
+    .select('id, content_hash, audience')
     .eq('source_path', relPath)
     .maybeSingle();
 
-  if (existingDoc && existingDoc.content_hash === newHash) {
+  if (
+    existingDoc && existingDoc.content_hash === newHash && existingDoc.audience === audience
+  ) {
     const { count: totalChunkCount } = await supabaseAdmin
       .from('chunks')
       .select('id', { count: 'exact', head: true })
@@ -91,6 +95,7 @@ async function syncDocumentChunks(
         summary: null,
         category_id: categoryId,
         status: 'published',
+        audience,
         content_hash: newHash,
         synced_at: new Date().toISOString(),
       },
@@ -135,18 +140,22 @@ async function main() {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
   const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-  const isConfigured = Boolean(
-    supabaseUrl &&
-    serviceKey &&
-    !supabaseUrl.includes('placeholder') &&
-    !serviceKey.includes('placeholder')
-  );
+  const dryRun = process.env.SYNC_DRY_RUN === '1';
+  const invalidConfig =
+    !supabaseUrl ||
+    !serviceKey ||
+    /placeholder|xxxxx|your_/i.test(supabaseUrl) ||
+    /placeholder|xxxxx|your_/i.test(serviceKey);
+  const isConfigured = !dryRun && !invalidConfig;
 
-  if (!isConfigured) {
-    console.warn('⚠️ CẢNH BÁO: Chưa cấu hình SUPABASE_URL hoặc SUPABASE_SERVICE_ROLE_KEY hợp lệ trong môi trường local.');
-    console.warn('⚡ Pipeline sync-content sẽ quét và validate tất cả file local, nhưng bỏ qua bước upsert Supabase.\n');
+  if (dryRun) {
+    console.warn('DRY RUN: local validation only; Supabase writes and embeddings are disabled.');
+  } else if (!isConfigured) {
+    throw new Error(
+      'Supabase is not configured. Set a real URL and service role key, or use SYNC_DRY_RUN=1.',
+    );
   } else {
-    console.log(`🌐 Đã kết nối Supabase Cloud: ${supabaseUrl}`);
+    console.log('Supabase configured. Starting content sync.');
   }
 
   // 1. Categories
@@ -213,8 +222,9 @@ async function main() {
   }
 
   // 3. Documents
-  const docsDir = path.join(process.cwd(), 'data', 'documents');
-  if (fs.existsSync(docsDir)) {
+  const documentDirs = ['documents', 'private-documents']
+    .map((dir) => path.join(process.cwd(), 'data', dir)).filter(fs.existsSync);
+  if (documentDirs.length > 0) {
     console.log('\n--- 3. Đồng bộ Documents & Chunks ---');
     const docFiles: string[] = [];
 
@@ -229,7 +239,10 @@ async function main() {
         }
       }
     }
-    walkDocs(docsDir);
+    documentDirs.forEach(walkDocs);
+    const syncedPaths = new Set(
+      docFiles.map((filePath) => path.relative(process.cwd(), filePath).replace(/\\/g, '/')),
+    );
 
     for (const filePath of docFiles) {
       const relPath = path.relative(process.cwd(), filePath).replace(/\\/g, '/');
@@ -241,7 +254,14 @@ async function main() {
 
       if (isConfigured) {
         const catId = fm.category ? catMap.get(fm.category) ?? null : null;
-        await syncDocumentChunks(relPath, fm.title || path.basename(filePath), content, catId, raw);
+        await syncDocumentChunks(
+          relPath,
+          fm.title || path.basename(filePath),
+          content,
+          catId,
+          raw,
+          fm.audience ?? 'public',
+        );
       }
     }
   }

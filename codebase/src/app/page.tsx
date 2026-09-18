@@ -6,6 +6,7 @@ import { GuestHomeView } from '@/components/views/guest/guest-home-view';
 import { FreeMemberDashboardView } from '@/components/views/free/free-member-dashboard-view';
 import { ProCockpitDashboardView } from '@/components/views/pro/pro-cockpit-dashboard-view';
 import { AdminCockpitDashboardView } from '@/components/views/admin/admin-cockpit-dashboard-view';
+import { LectureDashboardView } from '@/components/views/lecture/lecture-dashboard-view';
 
 export default function HomePage() {
   const [currentUser, setCurrentUser] = useState<StoredUser | null>(null);
@@ -30,6 +31,8 @@ export default function HomePage() {
       ) : currentUser.role === 'admin' || currentUser.tier === 'Admin' ? (
         /* 4. GIAO DIỆN QUẢN TRỊ VIÊN HỆ THỐNG (ADMIN) */
         <AdminCockpitDashboardView />
+      ) : currentUser.role === 'lecture' ? (
+        <LectureDashboardView />
       ) : currentUser.tier === 'Pro' || currentUser.plan === 'pro' ? (
         /* 3. GIAO DIỆN HỌC VIÊN TRẢ PHÍ (PRO VIP) */
         <ProCockpitDashboardView />

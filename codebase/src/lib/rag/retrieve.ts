@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase/client';
+import { supabaseAdmin } from '@/lib/supabase/admin';
 import type { CitationItem } from '@/types/chat';
 
 export interface RetrievalResult {
@@ -10,15 +11,17 @@ export async function retrieveChunks(
   queryText: string,
   queryEmbedding: number[] | null = null,
   matchCount = 8,
-  minScore = 0.015
+  minScore = 0.015,
+  includeLearning = false,
 ): Promise<RetrievalResult> {
   if (!queryText || !queryText.trim()) {
     return { citations: [], maxScore: 0 };
   }
 
+  const client = includeLearning ? supabaseAdmin : supabase;
   try {
     if (queryEmbedding && queryEmbedding.length > 0) {
-      const { data, error } = await supabase.rpc('search_chunks_hybrid' as any, {
+      const { data, error } = await client.rpc('search_chunks_hybrid' as any, {
         query_text: queryText,
         query_embedding: queryEmbedding,
         match_count: matchCount,
@@ -54,7 +57,7 @@ export async function retrieveChunks(
     }
 
     // Fallback FTS nếu không có queryEmbedding
-    const { data: ftsData, error: ftsError } = await supabase.rpc('search_chunks_fts' as any, {
+    const { data: ftsData, error: ftsError } = await client.rpc('search_chunks_fts' as any, {
       query_text: queryText,
       match_count: matchCount,
     });

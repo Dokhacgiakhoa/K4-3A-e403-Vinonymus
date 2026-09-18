@@ -71,6 +71,7 @@ export interface Database {
           summary: string | null
           category_id: string | null
           status: DocStatus
+          audience: 'public' | 'learning'
           content_hash: string
           synced_at: string
           content_tsv: unknown
@@ -83,6 +84,7 @@ export interface Database {
           summary?: string | null
           category_id?: string | null
           status?: DocStatus
+          audience?: 'public' | 'learning'
           content_hash: string
           synced_at?: string
         }
@@ -94,6 +96,7 @@ export interface Database {
           summary?: string | null
           category_id?: string | null
           status?: DocStatus
+          audience?: 'public' | 'learning'
           content_hash?: string
           synced_at?: string
         }
@@ -223,6 +226,68 @@ export interface Database {
           embedding?: number[] | null
         }
         Relationships: []
+      }
+      chat_sessions: {
+        Row: {
+          id: string
+          owner_kind: 'guest' | 'user'
+          owner_key_hash: string
+          expires_at: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          owner_kind: 'guest' | 'user'
+          owner_key_hash: string
+          expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          owner_kind?: 'guest' | 'user'
+          owner_key_hash?: string
+          expires_at?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      chat_messages: {
+        Row: {
+          id: string
+          session_id: string
+          role: 'user' | 'assistant'
+          content: string
+          citations: Json
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          session_id: string
+          role: 'user' | 'assistant'
+          content: string
+          citations?: Json
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          session_id?: string
+          role?: 'user' | 'assistant'
+          content?: string
+          citations?: Json
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: 'chat_messages_session_id_fkey'
+            columns: ['session_id']
+            isOneToOne: false
+            referencedRelation: 'chat_sessions'
+            referencedColumns: ['id']
+          }
+        ]
       }
       query_logs: {
         Row: {

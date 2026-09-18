@@ -93,7 +93,7 @@ export function looksLikeSmallTalk(question: string): boolean {
     /\b(ban|cau)\s+ten\s+(la\s+)?gi\b/,
     // Chào hỏi / cảm ơn / tạm biệt
     /^(chao|hi|hello|alo|xin chao|hey)([\s!.,]*(ban|cau|k\.?ai))?[\s!.,]*$/,
-    /\b(cam on|thanks|thank you)\b/,
+    /^(cam on|thanks|thank you)(\s+(ban|cau|nhe|nha|rat|nhieu))*[\s!.,]*$/,
     /^(tam biet|bye|bai|goodbye)[\s!.,]*$/,
   ];
 

@@ -81,6 +81,30 @@ export function chunkMarkdown(
     let currentChunkText = '';
 
     for (const p of paragraphs) {
+      if (estimateTokens(p) > targetSize) {
+        if (currentChunkText.trim()) {
+          rawChunks.push({
+            headingPath: section.headingPath,
+            content: currentChunkText.trim(),
+            tokenCount: estimateTokens(currentChunkText.trim()),
+          });
+          currentChunkText = '';
+        }
+
+        const maxChars = Math.max(1, Math.floor((targetSize * 2.5) / 1.15));
+        const overlapChars = Math.floor(maxChars * overlapRatio);
+        const step = Math.max(1, maxChars - overlapChars);
+        for (let start = 0; start < p.length; start += step) {
+          const content = p.slice(start, start + maxChars).trim();
+          if (!content) continue;
+          rawChunks.push({
+            headingPath: section.headingPath,
+            content,
+            tokenCount: estimateTokens(content),
+          });
+        }
+        continue;
+      }
       const combined = currentChunkText ? `${currentChunkText}\n\n${p}` : p;
       if (estimateTokens(combined) > targetSize && currentChunkText) {
         rawChunks.push({

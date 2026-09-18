@@ -25,7 +25,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
   // 1. KHI CHƯA ĐĂNG NHẬP (GUEST): Dùng Top Header ngang truyền thống
   if (!mounted || !currentUser) {
     return (
-      <div className="min-h-screen flex flex-col bg-transparent text-slate-100 font-sans">
+      <div className="min-h-screen flex flex-col bg-transparent text-slate-900 dark:text-slate-100 font-sans">
         <MainHeader />
         <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8 space-y-6">
           {children}
@@ -39,7 +39,7 @@ export function AppShellLayout({ children }: { children: React.ReactNode }) {
 
   // 2. KHI ĐÃ ĐĂNG NHẬP (FREE / PRO / ADMIN): BẬT NGAY SIDEBAR TRÁI, KHÔNG DÙNG TOP HEADER CỦA GUEST
   return (
-    <div className="min-h-screen flex bg-transparent text-slate-100 font-sans">
+    <div className="min-h-screen flex bg-transparent text-slate-900 dark:text-slate-100 font-sans">
       {/* LEFT SIDEBAR CHUẨN MỰC */}
       <AppSidebar user={currentUser} />
 

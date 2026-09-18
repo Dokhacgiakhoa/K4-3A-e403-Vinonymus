@@ -105,7 +105,7 @@ export function MessageBubble({ message, onSelectCitation, onSuggestionClick }: 
             {message.degraded && (
               <div className="flex items-start gap-1.5 text-xs px-2.5 py-2 rounded-lg bg-amber-950/60 text-amber-300 border border-amber-800/50">
                 <AlertCircle className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
-                <span>Đã hết lượt AI miễn phí hôm nay — câu trả lời rút gọn. Thêm API key khác ở Cài đặt để có câu trả lời đầy đủ hơn.</span>
+                <span>AI chưa dùng được ở lượt này — đang hiển thị câu trả lời gốc. Kiểm tra Gemini API key trong Cài đặt để nhận câu trả lời diễn đạt theo ngữ cảnh.</span>
               </div>
             )}
 

@@ -13,6 +13,7 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 | [`04-ai-pipeline.md`](04-ai-pipeline.md) | Prompt, guardrail, LLM router, catalog tài liệu | Đức |
 | [`05-ui-flow.md`](05-ui-flow.md) | Luồng người dùng của tính năng Lộ trình cá nhân hoá (CP2) | Thành |
 | [`06-backend-dotnet.md`](06-backend-dotnet.md) | Backend .NET — giữ lại, **chưa tích hợp** | Minh |
+| [`helpdesk-agent/helpdesk-agent-architecture.md`](helpdesk-agent/helpdesk-agent-architecture.md) | Kiến trúc K.AI Helpdesk Agent, tool RAG, model và ranh giới an toàn | Đức |
 | [`07-ai-access-plan.md`](07-ai-access-plan.md) | Kế hoạch bỏ Free/Pro, thêm menu "Cấu hình AI" (làm sau CP3) | Khoa |
 
 ## API Mở Rộng 4 Role

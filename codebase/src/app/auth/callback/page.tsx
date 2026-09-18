@@ -7,6 +7,18 @@ import { authBackendClient } from '@/lib/api/auth-backend-client';
 import { CheckCircle2, AlertCircle, ArrowRight, KeyRound, ExternalLink, Loader2 } from 'lucide-react';
 import Link from 'next/link';
 
+function toStoredRole(role: string): StoredUser['role'] {
+  if (role === 'SuperAdmin' || role === 'admin') return 'admin';
+  if (role === 'Lecture' || role === 'lecture') return 'lecture';
+  return 'student';
+}
+
+function toStoredTier(role: string, tier: string): NonNullable<StoredUser['tier']> {
+  if (role === 'SuperAdmin' || role === 'admin') return 'Admin';
+  if (tier === 'vip' || tier === 'Pro') return 'Pro';
+  return 'Free';
+}
+
 function AuthCallbackContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -39,8 +51,8 @@ function AuthCallbackContent() {
           name: userObj.displayName || 'Kỹ sư AI',
           email: userObj.email,
           avatar: userObj.avatarUrl || undefined,
-          tier: (userObj.tier as 'Free' | 'Pro' | 'Admin') || 'Free',
-          role: userObj.role === 'SuperAdmin' ? 'admin' : 'student',
+          tier: toStoredTier(String(userObj.role ?? 'student'), String(userObj.tier ?? 'free')),
+          role: toStoredRole(String(userObj.role ?? 'student')),
           currentLevel: userObj.currentLevel || 'L1',
           totalStudyHours: userObj.totalStudyHours || 0
         };

@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
 import { AppShellLayout } from "@/components/layout/app-shell-layout";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 import "./globals.css";
 
 const beVietnamPro = Be_Vietnam_Pro({
@@ -145,7 +146,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="vi" className={`dark scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable}`}>
+    <html lang="vi" suppressHydrationWarning className={`scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable}`}>
       <head>
         <link rel="canonical" href="https://ai-thuc-chien.vn" />
         <script
@@ -153,10 +154,12 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased font-sans text-slate-100 min-h-screen">
-        <AppShellLayout>
-          {children}
-        </AppShellLayout>
+      <body className="antialiased font-sans min-h-screen">
+        <ThemeProvider>
+          <AppShellLayout>
+            {children}
+          </AppShellLayout>
+        </ThemeProvider>
       </body>
     </html>
   );

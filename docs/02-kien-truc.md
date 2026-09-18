@@ -27,7 +27,7 @@ flowchart LR
 | Ngôn ngữ | TypeScript `strict`, `noUncheckedIndexedAccess` | Toàn bộ app |
 | Giao diện | Tailwind CSS 3, lucide-react, GSAP | Wizard, checklist |
 | Validate | zod | Đầu vào API và đầu ra LLM của AI Mentor (tính năng Lộ trình cá nhân hoá) |
-| AI | `lib/llm/router.ts` — 7 provider, key từ request hoặc server, thử provider kế tiếp khi lỗi trước token đầu tiên (trừ key sai) | AI Mentor và AI Helpdesk |
+| AI | `lib/llm/router.ts` — router chung hỗ trợ 7 provider; AI Helpdesk hiện chỉ truyền Gemini key để kết quả nhất quán | AI Mentor và AI Helpdesk |
 | Dữ liệu | Supabase Postgres + pgvector, RLS | AI Helpdesk (không bắt buộc cho AI Mentor) |
 | Kiểm thử | Vitest | Unit test + eval |
 | Kiểm tra tự động | GitHub Actions tại `.github/workflows/verify.yml`; Husky pre-push chạy `npm run verify` | Kiểm tra PR và trước khi push |
@@ -41,7 +41,7 @@ codebase/
 │   ├── app/personalized-path/ ← trang Lộ trình cá nhân hoá (không cần đăng nhập)
 │   ├── components/planner/   ← study-planner.tsx (UI 4 bước + checklist)
 │   ├── components/learning/  ← wizard lộ trình 4 sprint (quy tắc chạy trên FE, không gọi AI)
-│   ├── components/chat/      ← AI Helpdesk gọi API và widget Helpdesk mô phỏng
+│   ├── components/chat/      ← widget AI Helpdesk thật, gọi /api/chat
 │   ├── lib/
 │   │   ├── llm/              ← router + adapter từng provider
 │   │   ├── rag/              ← pipeline AI Helpdesk
@@ -50,7 +50,9 @@ codebase/
 │   ├── data/                 ← planner-catalog.ts (thư viện tài liệu mà AI Mentor chọn) + dữ liệu SFIA của dự án nền
 │   └── types/
 ├── data/
-│   ├── faqs/, documents/     ← kho tri thức cho AI Helpdesk
+│   ├── faqs/                 ← FAQ công khai cho AI Helpdesk
+│   ├── Vlearn_data/          ← Markdown gốc Day 1–15, local-only và git-ignore
+│   └── private-documents/    ← 34 Markdown chuẩn hóa, audience learning, local-only
 ├── supabase/migrations/      ← schema Postgres
 ├── tests/                    ← unit + eval của Chat
 ├── scripts/                  ← sync nội dung, audit FAQ, OCR
@@ -66,7 +68,7 @@ codebase/
 | Checklist trên trình duyệt | Thật |
 | AI Helpdesk | FE gọi `/api/chat` thật; FAQ/RAG/LLM phụ thuộc key và dịch vụ liên quan |
 | Wizard lộ trình 4 sprint (`/learning`) | Quy tắc chạy tại FE; chưa có API/LLM cho wizard, PDF/DOC mới lấy tên file |
-| Widget AI Helpdesk nổi | Trả lời mẫu theo từ khoá sau `setTimeout`; bộ chọn model chưa tác động đến router |
+| Widget AI Helpdesk nổi | Gắn `ChatBox` vào layout toàn app; gọi `/api/chat`, stream SSE, hiển thị citations và feedback |
 | Đăng nhập .NET | FE gọi register/login thật khi backend chạy; OAuth cần cấu hình provider |
 | Ghi danh khoá học .NET | Ghi `localStorage` và gọi đồng bộ nền khi có user ID; màn học chưa đọc module/progress từ .NET |
 | Gói Pro, thanh toán, chứng chỉ trên FE | Chưa phải luồng tích hợp đầy đủ |
@@ -75,7 +77,7 @@ codebase/
 
 ```
 Trang Lộ trình cá nhân hoá → app/api/roadmap → lib/llm/router → provider
-AI Helpdesk → app/api/chat → lib/rag → lib/llm/router / Supabase
+AI Helpdesk → app/api/chat → backend auth (`/api/v1/auth/me`) → Supabase session memory + role gate + roadmap context → lib/rag → lib/llm/router / Supabase
 ```
 - Component không gọi thẳng provider LLM hay database.
 - Mọi lời gọi LLM đi qua `lib/llm/router.ts`.
@@ -85,6 +87,6 @@ AI Helpdesk → app/api/chat → lib/rag → lib/llm/router / Supabase
 
 | Vấn đề | Ảnh hưởng | Xử lý |
 |---|---|---|
-| Tên model cố định trong adapter; widget Helpdesk có bộ chọn model mô phỏng | Người dùng chưa thực sự chọn được model | Nối widget với `/api/chat` nếu đưa vào phạm vi sản phẩm |
+| Helpdesk tạm khóa Gemini 3.5 Flash-Lite | Người dùng chưa chọn model trong widget | Giữ một model để kết quả nhất quán; chỉ mở chọn model khi có yêu cầu sản phẩm |
 | `backend-core/appsettings.json` có JWT secret và mật khẩu Postgres dev ghi cứng | Chỉ dùng cho local, nhưng repo công khai | Đổi sang biến môi trường nếu tích hợp .NET |
 | `backend-services/`, `scripts/curriculum/` trỏ tới giáo trình đã chuyển sang `docs/legacy/curriculum/` | Script sinh giáo trình không chạy được | Không dùng trong lát cắt |

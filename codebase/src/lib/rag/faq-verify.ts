@@ -3,6 +3,7 @@ import type { FaqMatchResult } from './faq-match';
 import { routeLLMRequest } from '@/lib/llm/router';
 import { SYSTEM_PROMPT_RAG, buildUserPrompt } from '@/lib/prompts';
 import type { MediaLinkItem } from '@/lib/faqs';
+import type { LearnerContext } from '@/lib/learner-context';
 
 const SYSTEM_PROMPT_FAQ_VERIFY = `Bạn là bộ phân loại nội bộ, nhiệm vụ DUY NHẤT là xác định xem một trong các FAQ ứng viên có
 thực sự cùng ý định (intent) với câu hỏi của người dùng hay không.
@@ -65,6 +66,13 @@ export interface ExtendedFaqMatchResult extends FaqMatchResult {
   media_links?: MediaLinkItem[];
 }
 
+export interface FocusedFaqAnswerResult {
+  text: string;
+  degraded: boolean;
+  provider?: string;
+  model?: string;
+}
+
 /**
  * Tổng hợp câu trả lời đúng trọng tâm bằng LLM khi có khớp FAQ,
  * ghép Phần 1 (Notebook text) với Phần 3 (Media/Link ẩn) để AI Chat trả lời & đính kèm ảnh/link.
@@ -73,8 +81,9 @@ export async function synthesizeFocusedFaqAnswer(
   question: string,
   matchedFaq: ExtendedFaqMatchResult,
   keys: ChatApiHeaderKeys,
-  history?: { role: 'user' | 'assistant'; content: string }[]
-): Promise<string> {
+  history?: { role: 'user' | 'assistant'; content: string }[],
+  learnerContext?: LearnerContext,
+): Promise<FocusedFaqAnswerResult> {
   let knowledgeContent = matchedFaq.answer;
 
   // Nếu FAQ có Phần 3 (Media & Links), ghép vào tri thức RAG để AI Chat trích xuất
@@ -89,9 +98,9 @@ export async function synthesizeFocusedFaqAnswer(
     knowledgeContent += `\n\n--- DỮ LIỆU MEDIA & LINK BẰNG CHỨNG XÁC THỰC (PHẦN 3) ---\n${mediaStr}`;
   }
 
-  const hasAnyKey = Boolean(keys.gemini || keys.groq || keys.cerebras);
+  const hasAnyKey = Object.values(keys).some((key) => Boolean(key?.trim()));
   if (!hasAnyKey) {
-    return knowledgeContent;
+    return { text: knowledgeContent, degraded: true };
   }
 
   try {
@@ -104,7 +113,7 @@ export async function synthesizeFocusedFaqAnswer(
         content: knowledgeContent,
       },
     ];
-    const userPrompt = buildUserPrompt(question, citations, history);
+    const userPrompt = buildUserPrompt(question, citations, history, learnerContext);
     const routeRes = await routeLLMRequest(
       {
         systemPrompt: SYSTEM_PROMPT_RAG,
@@ -118,8 +127,14 @@ export async function synthesizeFocusedFaqAnswer(
       fullText += chunk;
     }
 
-    return fullText.trim() || knowledgeContent;
+    const text = fullText.trim();
+    return {
+      text: text || knowledgeContent,
+      degraded: !text,
+      provider: routeRes.provider,
+      model: routeRes.model,
+    };
   } catch {
-    return knowledgeContent;
+    return { text: knowledgeContent, degraded: true };
   }
 }

@@ -23,6 +23,7 @@ import {
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { FocusModeButton } from '@/components/learning/focus-mode-controller';
 import { DisclaimerModal } from '@/components/legal/disclaimer-modal';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 interface AppSidebarProps {
   user: StoredUser;
@@ -174,6 +175,28 @@ export function AppSidebar({ user }: AppSidebarProps) {
         <div className={`border-t border-slate-700/60 bg-[#060c1d]/75 backdrop-blur-xl space-y-1 shrink-0 ${
           isCollapsed ? 'p-1.5' : 'p-2.5'
         }`}>
+          <div className={isCollapsed ? 'flex justify-center' : ''}>
+            <ThemeToggle compact={isCollapsed} />
+          </div>
+
+          {((user.role as string) === 'lecture' || (user.role as string) === 'admin' || (user.tier as string) === 'Admin') && (
+            <Link
+              href="/lecture"
+              className={`flex items-center rounded-xl text-sm transition-colors ${
+                isCollapsed
+                  ? 'w-10 h-10 mx-auto justify-center p-0'
+                  : 'gap-2.5 px-3 py-2.5'
+              } ${
+                pathname === '/lecture'
+                  ? 'bg-sky-500/20 text-sky-300 font-bold border border-sky-500/40'
+                  : 'text-sky-300/80 hover:text-sky-200 hover:bg-sky-950/30 border border-transparent font-medium'
+              }`}
+              title={isCollapsed ? 'Lecture Workspace' : undefined}
+            >
+              <BookOpen className="w-[18px] h-[18px] text-sky-300 shrink-0" />
+              {!isCollapsed && <span>Lecture Workspace</span>}
+            </Link>
+          )}
           
           {/* Admin Management Link (Chỉ hiển thị cho Admin) */}
           {((user.role as string) === 'admin' || (user.tier as string) === 'Admin') && (

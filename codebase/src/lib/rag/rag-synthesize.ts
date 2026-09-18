@@ -2,6 +2,7 @@ import type { ChatApiHeaderKeys, CitationItem } from '@/types/chat';
 import { routeLLMRequest } from '@/lib/llm/router';
 import { SYSTEM_PROMPT_GENERAL_RAG, buildGeneralRagUserPrompt } from '@/lib/prompts/rag-general';
 import { stripImagesFromStream } from './stream-text';
+import type { LearnerContext } from '@/lib/learner-context';
 
 /**
  * Tổng hợp câu trả lời từ nhiều chunk tài liệu (tầng RAG tổng quát) — khác FAQ, không có "văn bản
@@ -19,10 +20,11 @@ export async function synthesizeRagAnswer(
   question: string,
   citations: CitationItem[],
   keys: ChatApiHeaderKeys,
-  history?: { role: 'user' | 'assistant'; content: string }[]
+  history?: { role: 'user' | 'assistant'; content: string }[],
+  learnerContext?: LearnerContext,
 ): Promise<SynthesizeRagAnswerResult | null> {
   try {
-    const userPrompt = buildGeneralRagUserPrompt(question, citations, history);
+    const userPrompt = buildGeneralRagUserPrompt(question, citations, history, learnerContext);
     const routeRes = await routeLLMRequest(
       { systemPrompt: SYSTEM_PROMPT_GENERAL_RAG, userPrompt },
       keys

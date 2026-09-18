@@ -6,6 +6,18 @@ import gsap from 'gsap';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { authBackendClient } from '@/lib/api/auth-backend-client';
 
+function toStoredRole(role: string): StoredUser['role'] {
+  if (role === 'SuperAdmin' || role === 'admin') return 'admin';
+  if (role === 'Lecture' || role === 'lecture') return 'lecture';
+  return 'student';
+}
+
+function toStoredTier(role: string, tier: string): NonNullable<StoredUser['tier']> {
+  if (role === 'SuperAdmin' || role === 'admin') return 'Admin';
+  if (tier === 'vip' || tier === 'Pro') return 'Pro';
+  return 'Free';
+}
+
 interface AuthModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -67,14 +79,14 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
         setIsLoading(false);
 
         if (res.success && res.user) {
-          const userTier = (res.user.tier as 'Free' | 'Pro' | 'Admin') || 'Free';
+          const userTier = toStoredTier(res.user.role, res.user.tier);
           loggedUser = {
             id: res.user.id,
             name: res.user.displayName || email.split('@')[0] || 'Kỹ sư AI',
             email: res.user.email,
             tier: userTier,
             plan: userTier.toLowerCase() as 'free' | 'pro' | 'admin',
-            role: res.user.role === 'SuperAdmin' ? 'admin' : 'student',
+            role: toStoredRole(res.user.role),
             currentLevel: res.user.currentLevel || 'L1',
             totalStudyHours: res.user.totalStudyHours || 0
           };
@@ -119,8 +131,8 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
           id: res.user.id,
           name: res.user.displayName || displayName,
           email: res.user.email,
-          tier: (res.user.tier as 'Free' | 'Pro' | 'Admin') || 'Free',
-          role: 'student',
+          tier: toStoredTier(res.user.role, res.user.tier),
+          role: toStoredRole(res.user.role),
           currentLevel: res.user.currentLevel || 'L1',
           totalStudyHours: res.user.totalStudyHours || 0
         };

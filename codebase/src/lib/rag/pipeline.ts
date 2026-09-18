@@ -1,4 +1,6 @@
 import type { ChatApiHeaderKeys, CitationItem } from '@/types/chat';
+import type { LearnerContext } from '@/lib/learner-context';
+import { canAccessLearningFeatures, type BackendUserRole } from '@/lib/auth/helpdesk-access';
 import { supabase } from '@/lib/supabase/client';
 import { matchFaq, matchFaqCandidates, getRelatedFaqQuestions } from './faq-match';
 import { embedBatch } from './embed';
@@ -12,6 +14,7 @@ import {
   type ConverseOutcome,
 } from './converse';
 import { stripImagesFromStream, textToStream } from './stream-text';
+import { decideHelpdeskAction, looksLikePlannerRequest } from './helpdesk-agent';
 
 export interface PipelineMetaResult {
   type: 'meta';
@@ -64,9 +67,12 @@ export type PipelineResult =
 export async function processChatPipeline(
   question: string,
   keys: ChatApiHeaderKeys,
-  history?: { role: 'user' | 'assistant'; content: string }[]
+  history?: { role: 'user' | 'assistant'; content: string }[],
+  role: BackendUserRole = 'Visitor',
+  learnerContext?: LearnerContext,
 ): Promise<PipelineResult> {
   const trimmedQuestion = question.trim();
+  const activeLearnerContext = canAccessLearningFeatures(role) ? learnerContext : undefined;
 
   // 0. Tầng đối thoại xã giao: nhận diện tin nhắn giao tiếp không cần key
   if (looksLikeSmallTalk(trimmedQuestion)) {
@@ -93,6 +99,28 @@ export async function processChatPipeline(
     };
   }
 
+  if (looksLikePlannerRequest(trimmedQuestion)) {
+    if (!canAccessLearningFeatures(role)) {
+      return {
+        type: 'refused',
+        stream: textToStream(
+          'Lộ trình cá nhân hoá dành cho tài khoản đã được cấp quyền học. Bạn hãy đăng nhập bằng tài khoản học viên để sử dụng tính năng này.',
+        ),
+        suggestions: [],
+        provider: 'rules',
+        model: 'rules',
+      };
+    }
+    return {
+      type: 'meta',
+      stream: textToStream(
+        'Yêu cầu này phù hợp với công cụ chẩn đoán và lập lộ trình cá nhân hóa. [Mở Lộ trình cá nhân hoá](/personalized-path).',
+      ),
+      provider: 'rules',
+      model: 'rules',
+    };
+  }
+
   // 1. Tầng nhanh & miễn phí: khớp chính xác / gần đúng theo câu chữ FAQ
   const exactMatch = await matchFaq(trimmedQuestion, null, 0.75);
   if (exactMatch) {
@@ -100,44 +128,80 @@ export async function processChatPipeline(
       trimmedQuestion,
       exactMatch,
       keys,
-      history
-    );
-    const hasAnyLlmKey = Boolean(
-      keys.gemini ||
-        keys.openai ||
-        keys.claude ||
-        keys.deepseek ||
-        keys.groq ||
-        keys.cerebras
+      history,
+      activeLearnerContext,
     );
     return {
       type: 'faq',
-      stream: stripImagesFromStream(textToStream(focusedAnswer)),
+      stream: stripImagesFromStream(textToStream(focusedAnswer.text)),
       faqId: exactMatch.faqId,
       isVerified: exactMatch.isVerified,
       verificationSource: exactMatch.verificationSource,
       suggestions: await getRelatedFaqQuestions(exactMatch.faqId),
-      degraded: !hasAnyLlmKey,
+      degraded: focusedAnswer.degraded,
+      provider: focusedAnswer.provider,
+      model: focusedAnswer.model,
     };
   }
 
-  const hasAnyKey = Boolean(
-    keys.gemini ||
-      keys.openai ||
-      keys.claude ||
-      keys.deepseek ||
-      keys.groq ||
-      keys.cerebras
-  );
+  const hasAnyKey = Boolean(keys.gemini);
   if (!hasAnyKey) {
     return { type: 'need_key' };
   }
 
-  // 2. Tầng khớp mờ theo vector + LLM xác minh ý định FAQ
+  // 2. Agent dùng Gemini chọn đúng một hành động trước khi gọi công cụ tra cứu.
+  const decision = await decideHelpdeskAction(trimmedQuestion, keys, history, activeLearnerContext);
+  if (decision.action === 'chat') {
+    return {
+      type: 'meta',
+      stream: textToStream(decision.response ?? FALLBACK_TEXT.smalltalk),
+      provider: decision.provider,
+      model: decision.model,
+    };
+  }
+  if (decision.action === 'handoff_planner') {
+    if (!canAccessLearningFeatures(role)) {
+      return {
+        type: 'refused',
+        stream: textToStream(
+          'Lộ trình cá nhân hoá dành cho tài khoản đã được cấp quyền học. Bạn hãy đăng nhập bằng tài khoản học viên để sử dụng tính năng này.',
+        ),
+        suggestions: [],
+        provider: 'rules',
+        model: 'rules',
+      };
+    }
+    return {
+      type: 'meta',
+      stream: textToStream(
+        `${decision.response ?? 'Yêu cầu này phù hợp với công cụ lập lộ trình cá nhân hóa.'} [Mở Lộ trình cá nhân hoá](/personalized-path).`,
+      ),
+      provider: decision.provider,
+      model: decision.model,
+    };
+  }
+  if (decision.action === 'clarify' || decision.action === 'refuse') {
+    return {
+      type: 'refused',
+      stream: textToStream(
+        decision.response ??
+          (decision.action === 'clarify'
+            ? 'Bạn mô tả rõ hơn nội dung, bài học hoặc mốc thời gian cần hỏi nhé.'
+            : 'Mình không thể thực hiện yêu cầu này, nhưng có thể hỗ trợ bạn tra cứu tài liệu và hướng dẫn cách tự làm.'),
+      ),
+      suggestions: [],
+      provider: decision.provider,
+      model: decision.model,
+    };
+  }
+
+  const searchQuestion = decision.rewritten_query ?? trimmedQuestion;
+
+  // 3. Công cụ khớp mờ theo vector + LLM xác minh ý định FAQ
   let queryEmbedding: number[] | null = null;
   if (keys.gemini) {
     try {
-      const embeds = await embedBatch([trimmedQuestion], keys.gemini, 'RETRIEVAL_QUERY');
+      const embeds = await embedBatch([searchQuestion], keys.gemini, 'RETRIEVAL_QUERY');
       queryEmbedding = embeds[0] ?? null;
     } catch (err) {
       console.warn('[pipeline] embedBatch failed:', err);
@@ -145,7 +209,7 @@ export async function processChatPipeline(
   }
 
   if (queryEmbedding) {
-    const candidates = await matchFaqCandidates(trimmedQuestion, queryEmbedding, 0.75, 0.55);
+    const candidates = await matchFaqCandidates(searchQuestion, queryEmbedding, 0.75, 0.55);
     if (candidates.length > 0) {
       const wordCount = trimmedQuestion.split(/\s+/).filter(Boolean).length;
       const isTooShort = wordCount < 4;
@@ -188,25 +252,40 @@ export async function processChatPipeline(
           trimmedQuestion,
           verified,
           keys,
-          history
+          history,
+          activeLearnerContext,
         );
         return {
           type: 'faq',
-          stream: stripImagesFromStream(textToStream(focusedAnswer)),
+          stream: stripImagesFromStream(textToStream(focusedAnswer.text)),
           faqId: verified.faqId,
           isVerified: verified.isVerified,
           verificationSource: verified.verificationSource,
           suggestions: await getRelatedFaqQuestions(verified.faqId),
-          degraded: false,
+          degraded: focusedAnswer.degraded,
+          provider: focusedAnswer.provider,
+          model: focusedAnswer.model,
         };
       }
     }
   }
 
-  // 3. Tầng RAG tổng quát từ các chunk tài liệu
-  const retrieval = await retrieveChunks(trimmedQuestion, queryEmbedding, 8, 0.015);
+  // 4. Công cụ RAG tổng quát từ các chunk tài liệu
+  const retrieval = await retrieveChunks(
+    searchQuestion,
+    queryEmbedding,
+    8,
+    0.015,
+    canAccessLearningFeatures(role),
+  );
   if (retrieval.citations.length > 0) {
-    const ragRes = await synthesizeRagAnswer(trimmedQuestion, retrieval.citations, keys, history);
+    const ragRes = await synthesizeRagAnswer(
+      trimmedQuestion,
+      retrieval.citations,
+      keys,
+      history,
+      activeLearnerContext,
+    );
     if (ragRes) {
       return {
         type: 'rag',
@@ -218,7 +297,7 @@ export async function processChatPipeline(
     }
   }
 
-  // 4. Tầng đối thoại khi không tìm thấy thông tin
+  // 5. Tầng đối thoại khi không tìm thấy thông tin
   try {
     await supabase.rpc('record_unanswered' as any, {
       p_question: trimmedQuestion,

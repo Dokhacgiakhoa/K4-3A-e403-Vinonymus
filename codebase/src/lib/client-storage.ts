@@ -15,7 +15,7 @@ export interface StoredUser {
   name: string;
   email: string;
   tier?: 'Free' | 'Pro' | 'Admin';
-  role?: 'student' | 'community' | 'admin';
+  role?: 'student' | 'community' | 'lecture' | 'admin';
   plan?: 'free' | 'pro' | 'admin';
   avatar?: string;
   // AI Mentor Ground Truth & Profiling Fields
