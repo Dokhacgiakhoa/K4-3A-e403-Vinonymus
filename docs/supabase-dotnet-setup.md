@@ -19,6 +19,12 @@ khi áp dụng lên project dùng chung.
 Chỉ người có quyền quản trị database thực hiện các bước này. Không đưa mật khẩu
 vào Git, PR, Discord hoặc log CI.
 
+Project cũ đã có `.env.local` với `SUPABASE_DB_URL`, nhưng đây là secret vận hành
+và không được sao chép vào project mới. Chuỗi cũ hiện trỏ tới direct host không
+phân giải được; hãy lấy lại connection string mới từ Supabase **Connect** sau
+khi xác nhận project còn hoạt động. Không dùng tài khoản `postgres` cũ làm tài
+khoản chạy backend.
+
 1. Trong Supabase SQL Editor, chạy lần lượt năm file trong
    `codebase/database/migrations/` theo thứ tự tên. Migration đầu tạo schema
    `app`; các migration sau đặt `search_path` là `app, public`.

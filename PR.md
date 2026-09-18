@@ -26,8 +26,11 @@ hiện có ở `public`. Chuẩn bị quy trình tạo role `aiia_backend` theo 
 
 ## 4. Kiểm thử
 
-- Chưa chạy migration/kết nối Supabase: workspace không có Supabase CLI, project
-  Supabase đang đăng nhập hoặc connection string cho role backend.
+- Project cũ có `.env.local` với `SUPABASE_DB_URL` và cùng Supabase project/ref;
+  không sao chép file này sang repo mới và không ghi secret vào Git.
+- Đã thử kết nối bằng chuỗi DB cũ: API project phân giải được nhưng host DB
+  `db.<project-ref>.supabase.co` không phân giải được; chưa thể chạy migration
+  hoặc dùng chuỗi admin cũ để đánh dấu hoàn thành role backend.
 - `dotnet test --no-restore` đã thử chạy nhưng máy hiện không cài .NET SDK
   (`dotnet` không được nhận diện), nên chưa có kết quả test .NET.
 - Guard tĩnh cho 5 migration và wiring EF Core: pass. `git diff --check` toàn
