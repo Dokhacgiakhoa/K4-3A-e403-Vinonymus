@@ -15,6 +15,15 @@ Tất cả tài liệu của dự án nằm trong `docs/`. Tài liệu chấm đ
 | [`06-backend-dotnet.md`](06-backend-dotnet.md) | Backend .NET — giữ lại, **chưa tích hợp** | Minh |
 | [`07-ai-access-plan.md`](07-ai-access-plan.md) | Kế hoạch bỏ Free/Pro, thêm menu "Cấu hình AI" (làm sau CP3) | Khoa |
 
+## API Mở Rộng 4 Role
+
+- [Luồng, tính năng và danh sách endpoint thực thi](role-api-schema.md).
+- [OpenAPI request/response](role-api.openapi.json).
+- [Postman collection](role-api.postman_collection.json).
+- [Báo cáo kiểm thử và giới hạn triển khai](role-api-test-report.md).
+
+Phần mở rộng theo yêu cầu team, không thay tiêu chí chấm Planner trong spec.
+
 ## Hackathon
 
 | File | Nội dung |

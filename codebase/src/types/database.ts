@@ -1,3 +1,5 @@
+import type { PlatformDatabase } from '@/backend/platform/models';
+
 export type Json =
   | string
   | number
@@ -105,6 +107,7 @@ export interface Database {
           }
         ]
       }
+      lecture_documents: PlatformDatabase['public']['Tables']['lecture_documents'];
       document_tags: {
         Row: {
           document_id: string

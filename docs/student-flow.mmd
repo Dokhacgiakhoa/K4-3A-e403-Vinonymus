@@ -1,0 +1,25 @@
+flowchart TD
+    Start([Student đăng nhập]) --> Login[POST /api/v1/auth/login<br/>Nhận access + refresh token]
+    Login --> Me[GET /api/v1/me<br/>Đọc profile + role]
+    Me --> Profile[PATCH /api/v1/me<br/>Lưu nền tảng, mục tiêu, thời gian học]
+    Profile --> Nodes[GET /api/v1/learning/nodes<br/>Lấy node từ catalog]
+    Nodes --> Input[Bắt input Planner<br/>nền tảng + thời gian + lab + ghi chú]
+    Input --> Analyze[POST /api/v1/mentor/analyze<br/>Phân tích nền tảng và mục tiêu]
+    Analyze --> Result{data.status}
+    Result -- clarify / refuse --> Fix[Sửa input theo câu hỏi / từ chối]
+    Fix --> Input
+    Result -- plan / baseline --> Roadmap[POST /api/v1/mentor/roadmap<br/>Lưu roadmap tối đa 3 task]
+    Roadmap --> History[GET /api/v1/mentor/roadmaps<br/>Lịch sử roadmap]
+    History --> Detail[GET /api/v1/mentor/roadmaps/{id}<br/>Chi tiết roadmap]
+    Detail --> Action{Student muốn làm gì?}
+    Action -- Xóa --> Delete[DELETE /api/v1/mentor/roadmaps/{id}]
+    Action -- Cập nhật task --> Task[PATCH /api/v1/mentor/roadmaps/{id}/tasks/{itemId}]
+    Action -- Xem tiến độ --> Progress[GET /api/v1/learning/progress]
+    Task --> Progress
+    Progress --> Done([Tiếp tục học])
+
+    classDef endpoint fill:#e3f2fd,stroke:#1565c0,color:#0d47a1
+    classDef decision fill:#fff3e0,stroke:#ef6c00,color:#e65100
+    class Start,Input,Fix,Done endpoint
+    class Login,Me,Profile,Nodes,Analyze,Roadmap,History,Detail,Delete,Task,Progress endpoint
+    class Result,Action decision

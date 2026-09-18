@@ -168,6 +168,10 @@ Công thức khóa: `PASS = (passed >= 18/20) AND (external_url_count = 0) AND (
 ## §9. Changelog
 | Thời điểm | Đổi gì | Vì sao |
 |---|---|---|
+| 18/9 (theo yêu cầu team) | Bổ sung migration 0018-0019: profile cho Student/Lecture/Admin, metadata file Lecture trong `lecture_documents`, bucket riêng tư và chunk `pgvector`; Guest vẫn ẩn danh | Chuẩn bị DB cho workflow 4 role và upload Lecture; API nhận file và embedding chưa triển khai, không đổi quality bar §7 |
+| 18/9 (gỡ luồng Quiz) | Gỡ endpoint, route, schema và tài liệu Quiz khỏi API 4 role; thêm migration 0020 thu hồi quyền gọi RPC cũ, giữ bảng legacy để bảo toàn dữ liệu | Làm rõ contract hiện hành và tránh tạo luồng Quiz mới |
+| 18/9 (bàn giao team) | Thêm hướng dẫn kết nối Supabase, class diagram Markdown và xác minh Auth/API trên remote; cập nhật danh sách migration 0015-0019 | Giúp team nối cùng project và kiểm tra đủ 4 role; xác nhận luồng Quiz API đã được gỡ trong đợt này |
+| 17/9 (mở rộng theo yêu cầu team) | Triển khai 4 role Guest/Student/Lecture/Admin bằng TypeScript: auth, profile, roadmap/progress lưu DB, CRUD/review metadata học liệu, admin và schema FE; migration 0015-0016 | Hoàn thiện luồng bàn giao FE; Qdrant/upload/RAG tài liệu Lecture là giai đoạn sau. Không thay quality bar §7. Chi tiết và giới hạn tại docs/role-api-schema.md |
 | 16/9 19:30 (CP1) | Chốt Track E, lát cắt "AI Diagnostic Study Planner" | Sau khi mining bằng chứng từ `discord-pack` + `vlearn-pack` |
 | 16/9 (sau CP1) | Sắp xếp lại repo: tài liệu gom về `docs/`, thêm SRS riêng cho lát cắt, tài liệu dự án nền chuyển sang `docs/legacy/` | Tài liệu cũ mô tả sản phẩm khác, dễ gây hiểu nhầm khi chấm |
 | 17/9 | Đồng bộ `docs/02-kien-truc.md` và `docs/03-api.md` với code Planner, router và trạng thái AI Mentor/Helpdesk | API Planner đã nối FE; tài liệu cũ còn ghi chưa build và chưa phân biệt các giao diện mô phỏng |

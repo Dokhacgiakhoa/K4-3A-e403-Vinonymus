@@ -1,196 +1,217 @@
-%% UML class diagram: database model for AI Mentor, AI Helpdesk, chat and roadmaps.
-%% <<required FK>> = NOT NULL foreign key; <<optional FK>> = nullable foreign key.
+%% Current database model for the Next.js TypeScript 4-role API.
+%% Source of truth: migrations 0015_platform_roles_and_lecture_documents.sql,
+%% 0016_four_role_workflows.sql through 0019_lecture_material_vectors.sql.
+%% PLANNER_CATALOG is a TypeScript allowlist, not a database table.
 classDiagram
-    class VisitorSession {
+    direction LR
+
+    class AuthUser {
+        <<Supabase auth.users>>
         +UUID id PK
-        +string tokenHash UK
-        +DateTime createdAt
-        +DateTime lastSeenAt
-        +DateTime expiresAt
+        +JSON raw_user_meta_data
+        +JSON raw_app_meta_data
     }
 
-    class Conversation {
-        +UUID id PK
-        +UUID visitorSessionId <<required FK>>
-        +AgentType agentType
-        +string title
-        +ConversationStatus status
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class Message {
-        +UUID id PK
-        +UUID conversationId <<required FK>>
-        +long sequenceNo
-        +MessageRole role
-        +string content
-        +MessageStatus status
-        +UUID replyToMessageId <<optional FK>>
-        +UUID clientRequestId <<optional UK>>
-        +JSON citations
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class LearnerProfile {
-        +UUID id PK
-        +UUID visitorSessionId <<required FK, UK>>
+    class Profile {
+        <<public.profiles>>
+        +UUID id PK, FK auth.users
+        +string display_name
+        +AccountRole role
+        +Tier tier
+        +boolean is_active
         +Background background
-        +string targetGoal
-        +decimal weeklyHours
-        +string bioDescription
-        +JSON skills
-        +JSON adaptiveAnswers
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class Roadmap {
-        +UUID id PK
-        +UUID learnerProfileId <<required FK>>
-        +int version
-        +string title
-        +string targetGoal
-        +decimal weeklyHoursBudget
-        +int durationWeeks
-        +decimal totalTargetHours
-        +string aiMentorAdvice
-        +JSON inputSnapshot
-        +RoadmapStatus status
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class RoadmapMilestone {
-        +UUID id PK
-        +UUID roadmapId <<required FK>>
-        +int sortOrder
-        +string title
-        +string description
-        +int targetDays
-        +decimal estimatedHours
-        +JSON selectedLessonIds
-        +string bossFightTask
-        +MilestoneStatus status
-        +DateTime completedAt
-        +DateTime createdAt
-        +DateTime updatedAt
-    }
-
-    class AgentRun {
-        +UUID id PK
-        +UUID conversationId <<required FK>>
-        +UUID requestMessageId <<required FK>>
-        +UUID responseMessageId <<optional FK, UK>>
-        +AgentType agentType
-        +string agentVersion
-        +string provider
-        +string model
-        +AgentRunStatus status
-        +int inputTokens
-        +int outputTokens
-        +int latencyMs
-        +string errorCode
-        +DateTime startedAt
-        +DateTime finishedAt
+        +string goal
+        +int weekly_minutes
+        +DateTime created_at
+        +DateTime updated_at
     }
 
     class LectureDocument {
+        <<public.lecture_documents>>
         +UUID id PK
-        +string sourcePath UK
+        +UUID owner_id FK
         +string title
-        +string fileName
-        +LectureFileType fileType
-        +string mimeType
-        +long fileSizeBytes
-        +string storagePath
-        +string extractedContent
-        +string contentHash
-        +LectureDocumentStatus status
-        +DateTime createdAt
-        +DateTime updatedAt
+        +string summary
+        +string lab_id
+        +string[] item_ids
+        +string source_path
+        +string file_name
+        +FileType file_type
+        +string mime_type
+        +bigint file_size_bytes
+        +string extracted_content
+        +string qdrant_collection
+        +string storage_bucket nullable
+        +string embedding_model nullable
+        +int indexed_revision nullable
+        +DateTime indexed_at nullable
+        +string content_hash
+        +int chunk_count
+        +DocumentStatus status
+        +int revision
+        +int approved_revision
+        +string review_note
+        +UUID published_by FK nullable
+        +DateTime published_at nullable
+        +DateTime deleted_at nullable
+        +DateTime created_at
+        +DateTime updated_at
     }
 
-    class LectureFileType {
+    class LectureDocumentReview {
+        <<public.lecture_document_reviews>>
+        +UUID id PK
+        +UUID document_id FK
+        +UUID reviewer_id FK
+        +ReviewDecision decision
+        +string note nullable
+        +int revision nullable
+        +DateTime created_at
+    }
+
+    class LectureDocumentChunk {
+        <<public.lecture_document_chunks>>
+        +UUID id PK
+        +UUID document_id FK
+        +int revision
+        +int ordinal
+        +string content
+        +string heading_path nullable
+        +int token_count nullable
+        +vector768 embedding
+        +DateTime created_at
+    }
+
+    class LectureDocumentVersion {
+        <<public.lecture_document_versions>>
+        +UUID id PK
+        +UUID document_id FK
+        +int revision
+        +JSON snapshot
+        +DateTime created_at
+        +UK document_id, revision
+    }
+
+    class StudentRoadmap {
+        <<public.student_roadmaps>>
+        +UUID id PK
+        +UUID student_id FK
+        +string lab_id
+        +RoadmapSource source
+        +JSON diagnosis
+        +JSON tasks
+        +DateTime created_at
+        +DateTime updated_at
+    }
+
+    class PlatformAudit {
+        <<public.platform_audit>>
+        +UUID id PK
+        +UUID actor_id FK nullable
+        +string action
+        +UUID resource_id nullable
+        +JSON details
+        +DateTime created_at
+    }
+
+    class RevokedSession {
+        <<public.platform_revoked_sessions>>
+        +string token_hash PK
+        +DateTime expires_at
+    }
+
+    class CatalogSource {
+        <<TypeScript, not a DB table>>
+        +string labId
+        +string title
+        +CatalogItem[] items
+        +findLab(labId)
+    }
+
+    class CatalogItem {
+        +string itemId
+        +string title
+        +string url
+        +ItemType type
+        +int minutes
+        +string level
+        +string[] tags
+        +string why
+    }
+
+    class AccountRole {
+        <<enumeration>>
+        student
+        lecture
+        admin
+    }
+
+    class Tier {
+        <<enumeration>>
+        free
+        vip
+    }
+
+    class Background {
+        <<enumeration>>
+        non_tech
+        tech_base
+        ai
+    }
+
+    class FileType {
         <<enumeration>>
         pdf
         text
         markdown
     }
 
-    class LectureDocumentStatus {
+    class DocumentStatus {
         <<enumeration>>
         draft
+        processing
+        review
         published
         archived
-    }
-
-    class AgentType {
-        <<enumeration>>
-        mentor
-        helpdesk
-    }
-
-    class MessageRole {
-        <<enumeration>>
-        user
-        assistant
-    }
-
-    class MessageStatus {
-        <<enumeration>>
-        pending
-        streaming
-        completed
         failed
-        cancelled
     }
 
-    class ConversationStatus {
+    class ReviewDecision {
         <<enumeration>>
-        active
-        archived
+        approved
+        rejected
+        needs_changes
     }
 
-    class RoadmapStatus {
+    class RoadmapSource {
         <<enumeration>>
-        draft
-        inProgress
-        completed
-        paused
-        superseded
+        ai
+        baseline
     }
 
-    class MilestoneStatus {
+    class ItemType {
         <<enumeration>>
-        locked
-        available
-        completed
+        slide
+        video
+        notebook
+        doc
     }
 
-    class AgentRunStatus {
-        <<enumeration>>
-        running
-        succeeded
-        failed
-        cancelled
-    }
+    AuthUser "1" --> "1" Profile : creates profile
+    Profile "1" --> "0..*" LectureDocument : owns
+    Profile "0..1" --> "0..*" LectureDocument : publishes
+    Profile "1" --> "0..*" LectureDocumentReview : reviews
+    LectureDocument "1" --> "0..*" LectureDocumentReview : has reviews
+    LectureDocument "1" --> "0..*" LectureDocumentVersion : has versions
+    LectureDocument "1" --> "0..*" LectureDocumentChunk : has vectors
+    Profile "1" --> "0..*" StudentRoadmap : owns as student
+    Profile "0..1" --> "0..*" PlatformAudit : acts
+    CatalogSource "1" --> "1..*" CatalogItem : contains
+    StudentRoadmap ..> CatalogSource : validates lab_id and task itemId
+    LectureDocument ..> CatalogSource : validates lab_id and item_ids
+    Profile ..> RevokedSession : access token can be revoked
 
-    class Background {
-        <<enumeration>>
-        nonTech
-        softwareDev
-        dataAnalyst
-        student
-    }
-
-    VisitorSession "1" --> "0..*" Conversation : owns
-    VisitorSession "1" --> "0..1" LearnerProfile : has
-    Conversation "1" --> "0..*" Message : contains
-    Conversation "1" --> "0..*" AgentRun : has
-    Message "0..1" --> "0..*" Message : replies to
-    Message "1" --> "0..*" AgentRun : request
-    AgentRun "1" --> "0..1" Message : response
-    LearnerProfile "1" --> "0..*" Roadmap : has
-    Roadmap "1" --> "1..*" RoadmapMilestone : contains
+    note for Profile "Guest has no row. Public registration creates student; trusted app metadata can provision staff."
+    note for LectureDocument "Private Storage and pgvector schema exist; upload, parsing and embedding API are still pending."
+    note for LectureDocumentReview "Lecture owner cannot review or publish own document; another lecture or admin can."
+    note for StudentRoadmap "tasks is JSON array with 1..3 catalog-backed tasks."
