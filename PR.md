@@ -26,7 +26,7 @@ PM phân vai lại từ 18/9: **Khoa** làm backend .NET, **Minh** chỉ làm da
 ## 4. Kiểm thử
 - Sơ đồ Mermaid thứ tự task: render kiểm tra, `valid: true`.
 - Đối chiếu tên file/đường dẫn nhắc trong task với code thật trên `main`: `app-sidebar.tsx` (mục "Lộ Trình AI Mentor" → `/learning?mode=ai_roadmap`), `lib/client-storage.ts` (`tier`, `plan`), `backend-core/.../UserRole.cs` (`Visitor`/`Member`/`Lecture`/`SuperAdmin`), `codebase/database/migrations/` (mẫu tên `YYYYMMDD_*.sql`).
-- `npm run verify` chạy qua hook pre-push (PR chỉ đổi tài liệu).
+- `npm run verify` chạy tay trên nhánh này (hook pre-push không chạy trong worktree phụ vì thiếu thư mục husky): lint, typecheck, 89/89 test, audit FAQ 53 file, build — tất cả qua.
 
 ## 5. Tài liệu & changelog
 Không ghi `spec.md` §9: không đổi sản phẩm hay chuẩn đạt, chỉ phân việc.
