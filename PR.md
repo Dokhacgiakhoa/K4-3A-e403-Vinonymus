@@ -1,39 +1,38 @@
-# PR: Add document chunks and pgvector retrieval
+# PR: Add audit log for account and document actions
 
-> **Task:** D-03 · **Issue:** #86 · **Branch:** `feat/D-03-document-chunks-vector`
+> **Task:** D-04 · **Issue:** #87 · **Branch:** `feat/D-04-audit-log`
 > **Người thực hiện:** Trần Nhật Minh (`@Minh`) · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
 
-Lưu các đoạn văn bản của tài liệu giảng viên cùng embedding 768 chiều trong
-schema `app`, phục vụ AI Mentor tìm kiếm ngữ nghĩa. Dùng HNSW với cosine
-distance và RPC server-side giới hạn tối đa 50 kết quả.
+Thêm bảng audit append-only trong schema `app` để ghi ai thực hiện thao tác gì,
+lên tài nguyên nào và lúc nào. Thiết kế dùng `app.users`, không phụ thuộc
+Supabase Auth; role backend chỉ được đọc và thêm log, không được sửa/xoá.
 
 ## 2. Truy vết
 
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| `lecture_document_chunks` + pgvector | D-03 / #86; D-02 / #85 |
-| 768 chiều, `gemini-embedding-001`, cosine | Quyết định embedding hiện có trong pipeline legacy; chờ A-04 ghi nhận chính thức |
+| `app.platform_audit` và index thời gian | D-04 / #87; D-01 / #84 |
+| Actor FK và loại tài nguyên account/document | D-02 / #85 |
 
 ## 3. File thay đổi
 
 | File | Thay đổi |
 |---|---|
-| `codebase/database/migrations/20260918_document_chunks_vector.sql` | Thêm metadata indexing, bảng chunk, vector 768D, HNSW index và hàm tìm kiếm top-k. |
-| `docs/diagrams/database-class-diagram.mmd` | Bổ sung `LectureDocumentChunk` và quan hệ với tài liệu. |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-03. |
-| `PR.md` | Ghi kết quả truy vấn thật. |
+| `codebase/database/migrations/20260918_platform_audit.sql` | Tạo audit log, CHECK/FK, index thời gian/resource/actor và quyền append-only. |
+| `docs/diagrams/database-class-diagram.mmd` | Bổ sung `PlatformAudit` và `AuditResourceType`. |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-04. |
+| `PR.md` | Ghi kiểm thử thật của PR này. |
 
 ## 4. Kiểm thử
 
 - Migration chạy thành công 2 lần liên tiếp trên Supabase.
-- Xác nhận bảng chunk và HNSW index tồn tại.
-- Tạo 6 chunk mẫu với vector 768 chiều trong transaction kiểm thử.
-- Role `aiia_backend` gọi `app.search_lecture_document_chunks` thành công.
-- Truy vấn top-5 trả đúng 5 kết quả theo cosine similarity giảm dần:
-  `1.0, 0.95, 0.85, 0.75, 0.65`.
-- Dữ liệu mẫu đã được xoá sau kiểm thử; không ghi secret vào repository/log.
+- Bảng `app.platform_audit` và index `idx_platform_audit_created_at` tồn tại.
+- Kết nối bằng role `aiia_backend`: ghi 2 log mẫu (`account.approve`,
+  `document.submit`) và đọc đúng thứ tự thời gian mới nhất trước.
+- Dữ liệu kiểm thử đã được xoá bằng admin sau khi xác minh; không ghi secret vào
+  repository/log.
 
 ## 5. Tài liệu & changelog
 
@@ -41,8 +40,10 @@ distance và RPC server-side giới hạn tối đa 50 kết quả.
 
 ## 6. Rủi ro / việc còn lại
 
-- A-04 cần ghi quyết định 768 chiều vào `docs/04-ai-pipeline.md`; nếu đổi chiều
-  sau đó phải tạo migration/index và embed lại toàn bộ dữ liệu.
-- D-03 không thêm API upload hoặc pipeline embedding; phần đó thuộc B-08/A-05.
+- API gọi audit log sẽ được tích hợp trong các task backend duyệt tài khoản/tài liệu.
+- Log được thiết kế append-only ở quyền ứng dụng; thao tác xoá khẩn cấp cần DBA.
+- Khi review (Khoa) đã thêm `REVOKE UPDATE, DELETE, TRUNCATE` vì default privileges
+  của schema `app` từ D-01 tự cấp quyền sửa/xoá cho `aiia_backend`. Database
+  Supabase đã chạy migration bản cũ cần chạy lại lệnh REVOKE này.
 
-Closes #86
+Closes #87
