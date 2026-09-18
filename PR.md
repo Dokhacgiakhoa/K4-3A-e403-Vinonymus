@@ -1,39 +1,36 @@
-# PR: Viết lại luồng người dùng trong README theo 4 vai trò
+# PR: Giao việc xây hệ thống 4 vai trò
 
-> **Task:** làm rõ luồng người dùng · **Issue:** — · **Branch:** `docs/readme-four-role-flows`
+> **Task:** giao việc sau CP4 · **Issue:** — · **Branch:** `docs/team-task-assignment`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-Mục "Luồng người dùng" trong README trước đây chỉ mô tả **một** luồng (học viên mở `/personalized-path`), và ghi sai rằng trang đó "không cần đăng nhập" — sai từ khi thêm phần bắt đăng nhập và duyệt tài khoản.
-
-PR này viết lại thành **4 luồng theo vai trò**: Viewer (chưa đăng nhập) · Student · Lecturer · Admin, kèm tình trạng thật của từng vai trò (cái nào đã làm, cái nào chưa có giao diện, cái nào chờ deploy).
+PM phân vai lại từ 18/9: **Khoa** làm backend .NET, **Minh** chỉ làm database, **Đức và Thành** làm giao diện và AI. PR này tạo danh sách task nhỏ cho từng mảng, kèm điều kiện "xong khi" và thứ tự phụ thuộc, và đưa quy tắc "xong task nào commit task đó" vào quy ước chung.
 
 ## 2. Truy vết
 | Thay đổi | Liên quan |
 |---|---|
-| 4 vai trò | `backend-core/src/Core/Domain/Enums/UserRole.cs` (`Visitor` / `Member` / `Lecture` / `SuperAdmin`) |
-| Hạn mức khách 10 câu/ngày | `codebase/src/lib/server/guest-quota.ts` (`GUEST_DAILY_LIMIT`) |
-| Bắt đăng nhập chỉ khi có backend | `codebase/src/lib/server/session.ts` (`isLoginEnforced`) |
-| Duyệt tài khoản | `codebase/src/app/admin/approvals/page.tsx`, `backend-core/src/WebApi/Services/AdminWebService.cs` |
-| Sơ đồ API 4 vai trò đã có sẵn | `role-flow.mmd` |
+| Task backend B-01, B-02 | PR refactor backend Clean Architecture (nhánh `refactor/backend-clean-architecture`, đang làm) |
+| Task database D-02 → D-04 | Phần thiết kế database trong PR #69 (không merge nguyên trạng vì dựng backend TypeScript + Supabase Auth song song với .NET) |
+| Task U-01 → U-04 | Lỗ hổng đã ghi trong README mục "Luồng người dùng" (4 vai trò) |
+| Task A-02, A-03 | 4 nhiệm vụ của AI Mentor trong README |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `README.md` | Mục "Luồng người dùng": thêm bảng 4 vai trò + sơ đồ Mermaid tổng, đổi luồng cũ thành mục con "Luồng Student — phần được chấm". Mục "Luồng vận hành (quản trị)": bỏ câu "không có giao diện admin" (đã sai vì có `/admin/approvals`) và bỏ chữ "lát cắt dự thi" |
-| `docs/05-ui-flow.md` | Sửa câu "`/personalized-path` không cần đăng nhập" thành mô tả đúng: dành cho Student, chỉ mở tự do khi chưa khai báo backend |
-| `docs/02-kien-truc.md` | Chú thích cây thư mục: "(không cần đăng nhập)" → "(vai trò Student)" |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Mới: phân vai, cách làm việc, 30 task (B-01 → B-10, D-01 → D-06, U-01 → U-08, A-01 → A-06), sơ đồ thứ tự |
+| `docs/hackathon/tasks.md` | Thêm link sang file mới; cập nhật vai trò trong bảng thành viên |
+| `README.md` | Cập nhật cột "Vai trò chính" trong bảng thành viên; thêm link file giao việc |
+| `AGENTS.md` | Thêm quy tắc: xong task nào commit task đó, không dồn commit/PR lớn |
 | `PR.md` | Mô tả PR này |
 
 ## 4. Kiểm thử
-- Cú pháp sơ đồ Mermaid mới: đã render kiểm tra, kết quả `valid: true`, `diagramType: flowchart`.
-- Đối chiếu từng dòng trong bảng vai trò với code thật (các file ở mục 2) trước khi viết — không ghi vai trò nào là "đã làm" nếu chưa có code.
-- `npm run verify` chạy qua hook pre-push (PR này chỉ đổi tài liệu, không đổi code).
+- Sơ đồ Mermaid thứ tự task: render kiểm tra, `valid: true`.
+- Đối chiếu tên file/đường dẫn nhắc trong task với code thật trên `main`: `app-sidebar.tsx` (mục "Lộ Trình AI Mentor" → `/learning?mode=ai_roadmap`), `lib/client-storage.ts` (`tier`, `plan`), `backend-core/.../UserRole.cs` (`Visitor`/`Member`/`Lecture`/`SuperAdmin`), `codebase/database/migrations/` (mẫu tên `YYYYMMDD_*.sql`).
+- `npm run verify` chạy qua hook pre-push (PR chỉ đổi tài liệu).
 
 ## 5. Tài liệu & changelog
-Không ghi `spec.md` §9: không đổi sản phẩm hay chuẩn đạt, chỉ mô tả đúng cái đang có.
+Không ghi `spec.md` §9: không đổi sản phẩm hay chuẩn đạt, chỉ phân việc.
 
 ## 6. Rủi ro / việc còn lại
-- **Lecturer chưa có giao diện.** README ghi rõ là ❌, nhưng đây vẫn là lỗ hổng lớn nhất so với mô tả sản phẩm (nhiệm vụ 2 của AI Mentor: đọc tài liệu giảng viên tải lên). Thư viện hiện do nhóm soạn tay trong `planner-catalog.ts`.
-- Vai trò trong Next.js (`client-storage.ts`: `student` / `community` / `admin`, gói `free` / `pro`) **chưa khớp** 4 vai trò của backend. Chưa gộp lại trong PR này vì đụng vào luồng tài khoản đang chạy.
-- Việc bắt đăng nhập chỉ bật khi có `NEXT_PUBLIC_BACKEND_CORE_URL`; backend .NET chưa deploy nên web thật vẫn chạy mở.
+- Chưa tạo GitHub Issue cho từng task mới (file `tasks.md` cũ có issue cho từng việc). Tạo issue sẽ gửi thông báo tới cả nhóm — để PM quyết.
+- Cột hạn chưa có: PM đặt hạn theo lịch CP5/CP6.
