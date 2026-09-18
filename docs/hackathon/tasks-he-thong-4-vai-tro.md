@@ -65,7 +65,7 @@
 | D-03 [#86](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/86) | Lưu nội dung tài liệu cho AI Mentor đọc: bảng đoạn văn (chunk) + cột vector (pgvector) + index tìm kiếm | D-02, A-04 (chốt số chiều vector) | Truy vấn tìm 5 đoạn gần nhất chạy được trên dữ liệu mẫu | 16:15 | ✅ — pgvector 768D + HNSW index; truy vấn top-5 chạy thật trên Supabase |
 | D-04 [#87](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/87) | Nhật ký thao tác (ai làm gì, lúc nào) cho duyệt tài khoản và tài liệu | D-01 | Migration chạy được; có index theo thời gian | 14:00 | ✅ — `platform_audit` chạy idempotent, ghi/đọc thật bằng `aiia_backend`, có index thời gian |
 | D-05 [#88](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/88) | Dữ liệu mẫu: chuyên đề + bài học khớp catalog lab hiện có; kiểm tra lại 3 file seed đang có, bỏ phần trùng | D-01 | Seed chạy trên database trống không lỗi, chạy lần 2 không nhân đôi dữ liệu | 15:30 | ✅ — `03_catalog_curriculum_seed.sql` chạy transaction thật: 3 modules + 3 topics, lần 2 không tăng bản ghi |
-| D-06 [#89](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/89) | Cập nhật sơ đồ database (`docs/diagrams/database-class-diagram.mmd`) theo đúng các bảng đang có | D-02 → D-04 | Sơ đồ khớp migration | 19:30 | ⬜ |
+| D-06 [#89](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues/89) | Cập nhật sơ đồ database (`docs/diagrams/database-class-diagram.mmd`) theo đúng các bảng đang có | D-02 → D-04 | Sơ đồ khớp migration | 19:30 | ✅ — đối chiếu đủ 16 bảng app và các FK/index chính từ D-01 đến D-04 |
 
 ## 5. Giao diện — `@Khoa` (Student, Viewer) · `@Duc` (Admin, Lecturer)
 

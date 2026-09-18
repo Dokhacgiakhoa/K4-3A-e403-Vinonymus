@@ -1,274 +1,232 @@
-%% UML class diagram: database model for AI Mentor, AI Helpdesk, chat and roadmaps.
-%% <<required FK>> = NOT NULL foreign key; <<optional FK>> = nullable foreign key.
+%% PostgreSQL schema app — generated from codebase/database/migrations.
+%% D-06: tables and relationships reflect the migrations currently applied.
 classDiagram
-    class VisitorSession {
-        +UUID id PK
-        +string tokenHash UK
-        +DateTime createdAt
-        +DateTime lastSeenAt
-        +DateTime expiresAt
+    class users {
+        +uuid id PK
+        +varchar email UK
+        +varchar display_name
+        +text avatar_url
+        +varchar tier
+        +varchar current_level
+        +int total_study_hours
+        +int ai_token_quota
+        +int ai_token_used
+        +boolean is_active
+        +varchar password_hash
+        +varchar role
+        +varchar approval_status
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class Conversation {
-        +UUID id PK
-        +UUID visitorSessionId <<required FK>>
-        +AgentType agentType
-        +string title
-        +ConversationStatus status
-        +DateTime createdAt
-        +DateTime updatedAt
+    class curriculum_modules {
+        +uuid id PK
+        +int module_number
+        +varchar title
+        +varchar slug UK
+        +text description
+        +varchar target_level
+        +varchar bloom_level
+        +int estimated_hours
+        +varchar human_ai_ratio
+        +text code_snippet
+        +varchar code_language
+        +boolean is_published
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class Message {
-        +UUID id PK
-        +UUID conversationId <<required FK>>
-        +long sequenceNo
-        +MessageRole role
-        +string content
-        +MessageStatus status
-        +UUID replyToMessageId <<optional FK>>
-        +UUID clientRequestId <<optional UK>>
-        +JSON citations
-        +DateTime createdAt
-        +DateTime updatedAt
+    class curriculum_topics {
+        +uuid id PK
+        +uuid module_id FK
+        +int topic_number
+        +varchar title
+        +varchar slug
+        +text description
+        +int reading_time_minutes
+        +text code_snippet
+        +varchar code_language
+        +boolean is_published
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class LearnerProfile {
-        +UUID id PK
-        +UUID visitorSessionId <<required FK, UK>>
-        +Background background
-        +string targetGoal
-        +decimal weeklyHours
-        +string bioDescription
-        +JSON skills
-        +JSON adaptiveAnswers
-        +DateTime createdAt
-        +DateTime updatedAt
+    class quiz_questions {
+        +uuid id PK
+        +uuid module_id FK optional
+        +varchar level
+        +text question_text
+        +text option_a
+        +text option_b
+        +text option_c
+        +text option_d
+        +varchar correct_option
+        +text explanation
+        +boolean is_simulation_mock
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class Roadmap {
-        +UUID id PK
-        +UUID learnerProfileId <<required FK>>
-        +int version
-        +string title
-        +string targetGoal
-        +decimal weeklyHoursBudget
-        +int durationWeeks
-        +decimal totalTargetHours
-        +string aiMentorAdvice
-        +JSON inputSnapshot
-        +RoadmapStatus status
-        +DateTime createdAt
-        +DateTime updatedAt
+    class quiz_submissions {
+        +uuid id PK
+        +uuid user_id
+        +uuid module_id
+        +int total_questions
+        +int correct_answers
+        +numeric score_percentage
+        +boolean is_passed
+        +int study_minutes_credited
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class RoadmapMilestone {
-        +UUID id PK
-        +UUID roadmapId <<required FK>>
-        +int sortOrder
-        +string title
-        +string description
-        +int targetDays
-        +decimal estimatedHours
-        +JSON selectedLessonIds
-        +string bossFightTask
-        +MilestoneStatus status
-        +DateTime completedAt
-        +DateTime createdAt
-        +DateTime updatedAt
+    class user_streaks {
+        +uuid id PK
+        +uuid user_id UK
+        +int current_streak_days
+        +int longest_streak_days
+        +date last_active_date
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class AgentRun {
-        +UUID id PK
-        +UUID conversationId <<required FK>>
-        +UUID requestMessageId <<required FK>>
-        +UUID responseMessageId <<optional FK, UK>>
-        +AgentType agentType
-        +string agentVersion
-        +string provider
-        +string model
-        +AgentRunStatus status
-        +int inputTokens
-        +int outputTokens
-        +int latencyMs
-        +string errorCode
-        +DateTime startedAt
-        +DateTime finishedAt
+    class payment_ledgers {
+        +uuid id PK
+        +uuid user_id
+        +numeric amount_vnd
+        +varchar order_code UK
+        +text viet_qr_url
+        +varchar status
+        +varchar gateway_transaction_id
+        +timestamptz paid_at
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class LectureDocument {
-        +UUID id PK
-        +UUID ownerId <<required FK>>
-        +string sourcePath
-        +string fileName
-        +string title
-        +string summary
-        +LectureFileType fileType
-        +string mimeType
-        +long fileSizeBytes
-        +string extractedContent
-        +string contentHash
+    class course_enrollments {
+        +uuid id PK
+        +uuid user_id FK
+        +uuid module_id FK
+        +varchar status
+        +timestamptz enrolled_at
+        +timestamptz completed_at
+        +timestamptz created_at
+        +timestamptz updated_at
+    }
+
+    class user_topic_progress {
+        +uuid id PK
+        +uuid user_id FK
+        +uuid module_id FK
+        +uuid topic_id FK
+        +boolean is_completed
+        +timestamptz completed_at
+        +timestamptz created_at
+        +timestamptz updated_at
+    }
+
+    class issued_certificates {
+        +uuid id PK
+        +varchar certificate_code UK
+        +uuid user_id FK
+        +uuid module_id FK
+        +varchar course_title
+        +varchar course_level
+        +varchar recipient_name
+        +date issue_date
+        +timestamptz created_at
+        +timestamptz updated_at
+    }
+
+    class guest_quota_usage {
+        +date usage_day PK
+        +varchar subject_hash PK
+        +int used_count
+        +timestamptz updated_at
+    }
+
+    class lecture_documents {
+        +uuid id PK
+        +uuid owner_id FK
+        +text source_path
+        +varchar file_name
+        +varchar title
+        +text summary
+        +varchar file_type
+        +varchar mime_type
+        +bigint file_size_bytes
+        +text extracted_content
+        +varchar content_hash
+        +varchar status
+        +text review_note
         +int revision
-        +int approvedRevision
-        +LectureDocumentStatus status
-        +string reviewNote
-        +UUID publishedBy <<optional FK>>
-        +DateTime publishedAt
-        +DateTime createdAt
-        +DateTime updatedAt
+        +int approved_revision
+        +uuid published_by FK optional
+        +timestamptz published_at
+        +timestamptz deleted_at
+        +varchar storage_bucket
+        +varchar embedding_model
+        +int indexed_revision
+        +timestamptz indexed_at
+        +timestamptz created_at
+        +timestamptz updated_at
     }
 
-    class AppUser {
-        +UUID id PK
-        +string email UK
-        +string displayName
-        +UserRole role
-        +boolean isActive
-    }
-
-    class LectureDocumentVersion {
-        +UUID id PK
-        +UUID documentId <<required FK>>
+    class lecture_document_versions {
+        +uuid id PK
+        +uuid document_id FK
         +int revision
-        +JSON snapshot
-        +UUID createdBy <<required FK>>
-        +DateTime createdAt
+        +jsonb snapshot
+        +uuid created_by FK
+        +timestamptz created_at
     }
 
-    class LectureDocumentReview {
-        +UUID id PK
-        +UUID documentId <<required FK>>
-        +UUID reviewerId <<required FK>>
+    class lecture_document_reviews {
+        +uuid id PK
+        +uuid document_id FK
+        +uuid reviewer_id FK
         +int revision
-        +ReviewDecision decision
-        +string note
-        +DateTime createdAt
+        +varchar decision
+        +text note
+        +timestamptz created_at
     }
 
-    class LectureDocumentChunk {
-        +UUID id PK
-        +UUID documentId <<required FK>>
+    class lecture_document_chunks {
+        +uuid id PK
+        +uuid document_id FK
         +int revision
         +int ordinal
-        +string content
-        +string headingPath
-        +int tokenCount
-        +vector embedding768
-        +DateTime createdAt
+        +text content
+        +text heading_path
+        +int token_count
+        +vector(768) embedding
+        +timestamptz created_at
     }
 
-    class PlatformAudit {
-        +UUID id PK
-        +UUID actorId <<optional FK>>
-        +string action
-        +AuditResourceType resourceType
-        +UUID resourceId
-        +JSON details
-        +DateTime createdAt <<indexed DESC>>
+    class platform_audit {
+        +uuid id PK
+        +uuid actor_id FK optional
+        +varchar action
+        +varchar resource_type
+        +uuid resource_id
+        +jsonb details
+        +timestamptz created_at indexed DESC
     }
 
-    class AuditResourceType {
-        <<enumeration>>
-        account
-        document
-        documentVersion
-        documentReview
-    }
-
-    class ReviewDecision {
-        <<enumeration>>
-        approved
-        rejected
-        needsChanges
-    }
-
-    class LectureFileType {
-        <<enumeration>>
-        pdf
-        text
-        markdown
-    }
-
-    class LectureDocumentStatus {
-        <<enumeration>>
-        draft
-        published
-        archived
-    }
-
-    class AgentType {
-        <<enumeration>>
-        mentor
-        helpdesk
-    }
-
-    class MessageRole {
-        <<enumeration>>
-        user
-        assistant
-    }
-
-    class MessageStatus {
-        <<enumeration>>
-        pending
-        streaming
-        completed
-        failed
-        cancelled
-    }
-
-    class ConversationStatus {
-        <<enumeration>>
-        active
-        archived
-    }
-
-    class RoadmapStatus {
-        <<enumeration>>
-        draft
-        inProgress
-        completed
-        paused
-        superseded
-    }
-
-    class MilestoneStatus {
-        <<enumeration>>
-        locked
-        available
-        completed
-    }
-
-    class AgentRunStatus {
-        <<enumeration>>
-        running
-        succeeded
-        failed
-        cancelled
-    }
-
-    class Background {
-        <<enumeration>>
-        nonTech
-        softwareDev
-        dataAnalyst
-        student
-    }
-
-    VisitorSession "1" --> "0..*" Conversation : owns
-    VisitorSession "1" --> "0..1" LearnerProfile : has
-    Conversation "1" --> "0..*" Message : contains
-    Conversation "1" --> "0..*" AgentRun : has
-    Message "0..1" --> "0..*" Message : replies to
-    Message "1" --> "0..*" AgentRun : request
-    AgentRun "1" --> "0..1" Message : response
-    LearnerProfile "1" --> "0..*" Roadmap : has
-    Roadmap "1" --> "1..*" RoadmapMilestone : contains
-    AppUser "1" --> "0..*" LectureDocument : owns
-    LectureDocument "1" --> "0..*" LectureDocumentVersion : versions
-    LectureDocument "1" --> "0..*" LectureDocumentReview : reviews
-    LectureDocument "1" --> "0..*" LectureDocumentChunk : chunks
-    AppUser "0..1" --> "0..*" PlatformAudit : acts
-    PlatformAudit "*" --> "1" AuditResourceType : categorizes
-    AppUser "1" --> "0..*" LectureDocumentReview : reviews
-    AppUser "1" --> "0..*" LectureDocumentVersion : creates
+    curriculum_modules "1" --> "0..*" curriculum_topics : contains
+    curriculum_modules "1" --> "0..*" quiz_questions : has
+    users "1" --> "0..*" course_enrollments : enrolls
+    curriculum_modules "1" --> "0..*" course_enrollments : offers
+    users "1" --> "0..*" user_topic_progress : tracks
+    curriculum_modules "1" --> "0..*" user_topic_progress : groups
+    curriculum_topics "1" --> "0..*" user_topic_progress : tracks
+    users "1" --> "0..*" issued_certificates : receives
+    curriculum_modules "1" --> "0..*" issued_certificates : certifies
+    users "1" --> "0..*" lecture_documents : owns
+    users "1" --> "0..*" lecture_documents : publishes
+    lecture_documents "1" --> "0..*" lecture_document_versions : versions
+    lecture_documents "1" --> "0..*" lecture_document_reviews : reviews
+    lecture_documents "1" --> "0..*" lecture_document_chunks : chunks
+    users "1" --> "0..*" lecture_document_versions : creates
+    users "1" --> "0..*" lecture_document_reviews : reviews
+    users "0..1" --> "0..*" platform_audit : acts

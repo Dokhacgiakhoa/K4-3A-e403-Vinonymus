@@ -1,40 +1,25 @@
-# PR: Seed catalog chuyên đề và bài học (D-05)
+# PR: Cập nhật sơ đồ database theo migration (D-06)
 
-> **Task:** D-05 · **Issue:** #88 · **Branch:** `feat/D-05-curriculum-seed`
+> **Task:** D-06 · **Issue:** #89 · **Branch:** `feat/D-06-database-diagram`
 
 ## Tóm tắt
 
-Thêm seed chuẩn cho 3 lab đang có trong `planner-catalog.ts`: Prompt & Tool
-Calling, AI Product Specification và RAG Foundations. Seed dùng UUID/slug ổn
-định, cập nhật khi conflict và không tạo bản ghi trùng khi chạy lại.
-
-Ba file seed cũ đã được rà soát; chúng là các bộ curriculum lịch sử khác nhau,
-không dùng chung với catalog hiện tại. `03_catalog_curriculum_seed.sql` là nguồn
-canonical duy nhất cho môi trường mới.
-
-## File thay đổi
-
-- `codebase/database/seeds/03_catalog_curriculum_seed.sql`: 3 chuyên đề + 3 bài học, idempotent.
-- `codebase/database/seeds/README.md`: hướng dẫn chọn seed canonical và ghi chú 3 seed legacy.
-- `docs/hackathon/tasks-he-thong-4-vai-tro.md`: đánh dấu D-05 hoàn thành.
+Cập nhật `docs/diagrams/database-class-diagram.mmd` để phản ánh đúng schema
+`app` hiện tại. Sơ đồ gồm toàn bộ bảng từ D-01 đến D-04, các cột chính, khóa
+chính/duy nhất, quan hệ khóa ngoại và vector `embedding(768)` của D-03.
 
 ## Kiểm tra thật
 
-Đã kết nối Supabase bằng role backend `aiia_backend` trong một transaction thử
-nghiệm. Xoá tạm đúng 3 slug D-05, chạy seed trên trạng thái trống rồi chạy lần
-hai; transaction được rollback sau khi assert:
+- Đối chiếu trực tiếp với Supabase `information_schema`: đủ **16/16 bảng**,
+  không có bảng thừa hoặc thiếu.
+- Xác nhận database có **17 khóa ngoại**; các quan hệ FK tương ứng đã được thể
+  hiện trong sơ đồ.
+- Kiểm tra cú pháp Mermaid cơ bản: **16 class**, tên class duy nhất, dấu `{}` cân
+  bằng (`16/16`), `git diff --check` không có lỗi trong các file D-06.
 
-```text
-first:  modules=3, topics=3
-second: modules=3, topics=3
-idempotent=true
-```
-
-Không có secret hoặc dữ liệu kiểm thử được ghi vào repository.
-
-Sau đó đã chạy seed thật bằng role `aiia_backend` (không rollback) để nạp dữ
-liệu mẫu cho backend; chạy lại lần nữa vẫn cho `modules=3, topics=3`.
+Không thay đổi dữ liệu hoặc migration; chỉ cập nhật tài liệu sơ đồ và trạng thái
+task.
 
 ## Issue liên quan
 
-Closes #88
+Closes #89
