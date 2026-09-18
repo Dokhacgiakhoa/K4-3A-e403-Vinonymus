@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Be_Vietnam_Pro, JetBrains_Mono } from "next/font/google";
+import { Be_Vietnam_Pro, JetBrains_Mono, Montserrat } from "next/font/google";
 import { AppShellLayout } from "@/components/layout/app-shell-layout";
 import "./globals.css";
 
@@ -14,6 +14,13 @@ const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
   display: "swap",
   variable: "--font-mono",
+});
+
+const montserrat = Montserrat({
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  subsets: ["vietnamese", "latin"],
+  display: "swap",
+  variable: "--font-montserrat",
 });
 
 export const metadata: Metadata = {
@@ -145,7 +152,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="vi" className={`dark scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable}`}>
+    <html lang="vi" className={`dark scroll-smooth ${beVietnamPro.variable} ${jetbrainsMono.variable} ${montserrat.variable}`}>
       <head>
         <link rel="canonical" href="https://ai-thuc-chien.vn" />
         <script
