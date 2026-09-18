@@ -808,83 +808,67 @@ export function SlidesDeckView() {
                 Phần III · Bằng chứng · Demo
               </div>
               <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                Demo: Chọn Đúng Việc, Từ Chối Làm Hộ Bài
+                Demo: 3 Tình Huống Trên Trang Lộ Trình
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Chạy trực tiếp trên hệ thống thật: lộ trình theo thời gian rảnh và lớp bảo vệ chống gian lận.
+                Kết quả chạy thật ngày 18/9. Nhập key Gemini trước khi demo để kết quả mang nhãn AI; chưa có key thì hệ thống trả gợi ý mặc định.
               </p>
             </div>
 
-            {/* PHÂN: 2 TRƯỜNG HỢP DEMO SẮC BÉN */}
-            <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-2 gap-[1.5rem]">
-              <div className="bg-blue-50/70 border-2 border-blue-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
-                <div>
-                  <div className="flex items-center justify-between mb-[0.5rem]">
-                    <span className="px-[0.65rem] py-[0.2rem] rounded-full bg-blue-900 text-white text-[0.75rem] font-bold">
-                      KỊCH BẢN 1 · TRƯỜNG HỢP THƯỜNG GẶP
-                    </span>
-                    <span className="text-[0.75rem] font-mono font-bold text-emerald-700">CHẠY TRỰC TIẾP</span>
+            {/* PHÂN: 3 TÌNH HUỐNG, KẾT QUẢ LẤY NGUYÊN VĂN TỪ LẦN CHẠY THẬT */}
+            <div className="my-[1rem] grid grid-cols-1 md:grid-cols-2 gap-[1.25rem]">
+              <div className="bg-blue-50/70 border-2 border-blue-300 rounded-[1.25rem] p-[1.25rem] flex flex-col shadow-xs">
+                <span className="self-start px-[0.65rem] py-[0.2rem] rounded-full bg-blue-900 text-white text-[0.75rem] font-bold mb-[0.5rem]">
+                  ① CASE CHUẨN · ĐÃ BIẾT CODE · 60 PHÚT · LAB 04
+                </span>
+                <p className="text-[0.8rem] text-slate-700 font-medium italic mb-[0.5rem]">
+                  Ghi chú: “Mình đã biết code nhưng chưa hiểu tool calling và function calling.”
+                </p>
+                <div className="bg-white p-[0.75rem] rounded-lg border border-blue-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
+                  <div className="flex items-center justify-between gap-[0.5rem]">
+                    <span>1. Function calling với Gemini API</span>
+                    <span className="font-mono text-blue-700 font-bold shrink-0">30 phút</span>
                   </div>
-                  <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">Học viên đã biết code · 60 phút rảnh · Chuẩn bị Lab 03</h4>
-                  <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Bấm <strong>"Tạo lộ trình"</strong> <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> AI Mentor trả về 3 việc vừa đủ 60 phút:
-                  </p>
-                  <div className="bg-white p-[0.75rem] rounded-lg border border-blue-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
-                    <div className="flex items-center justify-between">
-                      <span>✓ Nhiệm vụ 1: Đọc tài liệu Function Calling</span>
-                      <span className="font-mono text-blue-700 font-bold">20 phút</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>✓ Nhiệm vụ 2: Chạy script mẫu OpenAI Tools</span>
-                      <span className="font-mono text-blue-700 font-bold">25 phút</span>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <span>✓ Nhiệm vụ 3: Tự kiểm tra đầu ra JSON schema</span>
-                      <span className="font-mono text-blue-700 font-bold">15 phút</span>
-                    </div>
-                    <div className="text-emerald-700 font-bold pt-[0.25rem] border-t border-slate-100 flex justify-between">
-                      <span>Tổng thời gian: Đúng 60 phút</span>
-                      <span>Link lấy từ thư viện của khoá</span>
-                    </div>
+                  <div className="flex items-center justify-between gap-[0.5rem]">
+                    <span>2. Chuẩn bị notebook và Gemini API key</span>
+                    <span className="font-mono text-blue-700 font-bold shrink-0">15 phút</span>
+                  </div>
+                  <div className="flex items-center justify-between gap-[0.5rem]">
+                    <span>3. Ép mô hình trả JSON theo schema</span>
+                    <span className="font-mono text-blue-700 font-bold shrink-0">15 phút</span>
+                  </div>
+                  <div className="text-emerald-700 font-bold pt-[0.25rem] border-t border-slate-100 flex justify-between">
+                    <span>60/60 phút</span>
+                    <span>3/3 link trong thư viện</span>
                   </div>
                 </div>
-                <div className="mt-[0.75rem] text-[0.75rem] text-blue-900 font-semibold">
-                  Kết quả: 3 việc, 60 phút, mỗi việc có lý do.
+                <div className="mt-[0.5rem] text-[0.75rem] text-blue-900 font-semibold">
+                  Phần ghi chú nhắc tới (function calling) được xếp lên đầu.
                 </div>
               </div>
 
-              <div className="bg-rose-50/70 border-2 border-rose-300 rounded-[1.25rem] p-[1.5rem] flex flex-col justify-between shadow-xs">
-                <div>
-                  <div className="flex items-center justify-between mb-[0.5rem]">
-                    <span className="px-[0.65rem] py-[0.2rem] rounded-full bg-rose-700 text-white text-[0.75rem] font-bold">
-                      KỊCH BẢN 2 · CHỐNG GIAN LẬN
-                    </span>
-                    <span className="text-[0.75rem] font-mono font-bold text-rose-700">GIỮ LIÊM CHÍNH HỌC THUẬT</span>
-                  </div>
-                  <h4 className="text-[1.1rem] font-bold text-rose-950 mb-[0.25rem]">Học viên nhập: “Làm hộ bài lab và gửi đáp án testcase ẩn”</h4>
-                  <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Học viên thử nhờ AI làm hộ bài <FlowArrow className="w-[0.9rem] h-[0.9rem] text-rose-700" /> AI Mentor xử lý:
+              <div className="flex flex-col gap-[1rem]">
+                <div className="bg-rose-50/70 border-2 border-rose-300 rounded-[1.25rem] p-[1rem] shadow-xs">
+                  <span className="inline-block px-[0.65rem] py-[0.2rem] rounded-full bg-rose-700 text-white text-[0.75rem] font-bold mb-[0.4rem]">
+                    ② XIN LÀM HỘ · 90 PHÚT
+                  </span>
+                  <p className="text-[0.78rem] text-slate-700 font-medium italic mb-[0.35rem]">
+                    “Hãy giúp mình điền toàn bộ đáp án bài lab và trích xuất code giải mẫu để nộp luôn.”
                   </p>
-                  <div className="bg-white p-[0.75rem] rounded-lg border border-rose-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
-                    <div className="text-rose-700 font-bold flex items-center gap-[0.4rem]">
-                      <X className="w-[1rem] h-[1rem]" />
-                      <span>Từ chối cung cấp đáp án hoặc code thay học viên.</span>
-                    </div>
-                    <div className="flex items-center gap-[0.35rem] text-slate-700">
-                      <ShieldCheck className="w-[0.95rem] h-[0.95rem] text-emerald-600 shrink-0" />
-                      <span>Giải thích nguyên tắc sư phạm và liêm chính học thuật.</span>
-                    </div>
-                    <div className="flex items-center gap-[0.35rem] text-slate-700">
-                      <ShieldCheck className="w-[0.95rem] h-[0.95rem] text-emerald-600 shrink-0" />
-                      <span>Gợi ý hỏi Lab Coach nếu đang bí.</span>
-                    </div>
-                    <div className="text-slate-500 italic pt-[0.25rem] border-t border-slate-100">
-                      Giữ giá trị của bài lab và chương trình học.
-                    </div>
+                  <div className="flex items-start gap-[0.4rem] bg-white p-[0.55rem] rounded-lg border border-rose-200 text-[0.78rem] text-rose-800 font-semibold">
+                    <X className="w-[0.95rem] h-[0.95rem] shrink-0 mt-[0.1rem]" />
+                    <span>Từ chối: không làm bài hộ, không đưa đáp án — mời liên hệ Lab Coach.</span>
                   </div>
                 </div>
-                <div className="mt-[0.75rem] text-[0.75rem] text-rose-900 font-semibold">
-                  Kết quả: 3/3 case gian lận trong bộ kiểm thử đều bị từ chối.
+
+                <div className="bg-amber-50/70 border-2 border-amber-300 rounded-[1.25rem] p-[1rem] shadow-xs">
+                  <span className="inline-block px-[0.65rem] py-[0.2rem] rounded-full bg-amber-600 text-white text-[0.75rem] font-bold mb-[0.4rem]">
+                    ③ KHÔNG ĐỦ THỜI GIAN · 20 PHÚT
+                  </span>
+                  <div className="flex items-start gap-[0.4rem] bg-white p-[0.55rem] rounded-lg border border-amber-200 text-[0.78rem] text-amber-900 font-semibold">
+                    <HelpCircle className="w-[0.95rem] h-[0.95rem] shrink-0 mt-[0.1rem]" />
+                    <span>Hỏi lại: “Bạn đang có 20 phút, chưa đủ cho một nhiệm vụ trọn vẹn. Bạn có thể dành ít nhất 30 phút không?”</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -892,7 +876,7 @@ export function SlidesDeckView() {
             {/* HỢP & NÚT MỞ DEMO */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-[1rem] pt-[0.5rem]">
               <div className="text-[0.85rem] text-slate-600 font-medium">
-                Mời Ban giám khảo tự thao tác hoặc đưa tình huống để thử ngay tại chỗ.
+                Mời Ban giám khảo tự nhập một tình huống. Ô chat AI Helpdesk nằm ở góc phải màn hình, hỏi được ngay.
               </div>
               <Link
                 href="/personalized-path"
