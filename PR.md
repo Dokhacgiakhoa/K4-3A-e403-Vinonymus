@@ -1,40 +1,47 @@
-# PR: Tích hợp báo cáo phân tích khảo sát học viên sạch và ẩn danh hóa vào Admin Cockpit
+# PR: Tích hợp Slide HTML vào menu About (Full Width) và chuyển nội dung About sang trang Home
 
-> **Task:** Admin Survey Analytics · **Issue:** — · **Branch:** `feat/admin-survey-analytics`
+> **Task:** CP6 Slide Presentation & UX Polish · **Issue:** — · **Branch:** `feat/web-slides-and-home-about`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) · **Hỗ trợ:** Antigravity AI
 
 ## 1. Mục tiêu
-Nâng cấp bảng điều khiển Admin Cockpit (`/admin`) để trực quan hóa toàn bộ kết quả phân tích thực nghiệm từ khảo sát học viên Khóa 4 (Track E Evidence). Tích hợp engine làm sạch dữ liệu (Data Cleansing Engine), khử trùng lặp, lọc các bản ghi thử nghiệm, và đóng gói tập dữ liệu mẫu đã ẩn danh hóa 100% thông tin cá nhân (PII) theo đúng Bất biến #1 của repo.
+Phục vụ buổi thuyết trình mốc Checkpoint 6 (CP6) trực tiếp trên nền tảng web:
+- Chuyển toàn bộ nội dung giới thiệu chương trình, góc nhìn cựu học viên và ma trận năng lực SFIA 8 từ trang `/about` sang trang chủ `/` (Home), giúp trang chủ đầy đủ thông tin chiều sâu và phễu chuyển đổi.
+- Xây dựng component trình chiếu Slide HTML chuyên nghiệp tại menu `/about` hiển thị **full width**, chuẩn tỉ lệ 16:9, điều khiển bằng phím mũi tên / Space / cảm ứng, phóng toàn màn hình (`F`), tích hợp đồng hồ bấm giờ đếm 6 phút (stopwatch phục vụ vòng cụm C2), và nút nhảy nhanh sang `/personalized-path` để Live Demo.
 
 ## 2. Truy vết
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Giao diện phân tích khảo sát Admin | `spec.md` §1 (Evidence khảo sát học viên n = 82, n = 51 sạch) |
-| Engine làm sạch và ẩn danh hóa PII | `AGENTS.md` Bất biến #1 (Không commit PII, email, số tài khoản) |
-| Tích hợp vào Admin Cockpit View | `codebase/src/components/views/admin/admin-cockpit-dashboard-view.tsx` |
+| Trang chủ nhúng Program Overview, Alumni Insights & SFIA Matrix | `spec.md` §1, §3 (Mô tả chương trình đào tạo & khung năng lực) |
+| Trang Slide HTML full-width tại `/about` | Chuẩn bị mốc CP6, bám sát `docs/hackathon/cp5/demo-slides.html` & `slide-content.md` |
+| Bỏ giới hạn độ rộng container cho `/about` | Trải nghiệm trình chiếu sân khấu (Presentation Mode) |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `codebase/src/components/views/admin/admin-cockpit-dashboard-view.tsx` | Chuyển đổi khu vực mock thanh toán sang nhúng component `<SurveyAnalyticsView />` và cập nhật 4 thẻ KPI khảo sát thực tế |
-| `codebase/src/components/admin/survey-analytics-view.tsx` | Component hiển thị báo cáo khảo sát (chỉ số làm sạch, biểu đồ phân phối, xếp hạng nỗi đau & tính năng, xuất CSV) |
-| `codebase/src/data/survey-cleaned-sample.json` | Bộ dữ liệu khảo sát mẫu đã làm sạch và ẩn danh hóa 100% PII |
-| `codebase/src/lib/survey/data-cleaner.ts` | Engine làm sạch dữ liệu, khử trùng lặp, tính toán KPI và biểu đồ phân phối |
-| `codebase/tests/unit/data-cleaner.test.ts` | 5 unit test kiểm thử logic làm sạch dữ liệu và ẩn danh hóa an toàn |
-| `.claude/launch.json` | Cấu hình chạy local dev server |
+| `codebase/src/components/home/home-landing-view.tsx` | Nhúng `ProgramOverviewSection`, `AlumniInsightsSection`, và `SfiaMatrixView` trước phần FAQ |
+| `codebase/src/components/presentation/slides-deck-view.tsx` | Tạo mới component trình chiếu 6 slide HTML chuẩn tỉ lệ 16:9, phím tắt, timer 6 phút, nút Live Demo |
+| `codebase/src/app/about/page.tsx` | Cập nhật render `SlidesDeckView` |
+| `codebase/src/components/layout/app-shell-layout.tsx` | Bỏ giới hạn `max-w-7xl` / `max-w-screen-2xl` khi ở route `/about` để bung full width |
+| `codebase/src/components/layout/main-header.tsx` | Đổi nhãn menu `ABOUT` thành `SLIDES` |
+| `codebase/src/components/layout/app-sidebar.tsx` | Bổ sung mục `Slide Thuyết Trình (CP6)` dẫn tới `/about` trên thanh điều hướng sidebar |
 | `PR.md` | Bản mô tả PR theo quy ước repo |
 
 ## 4. Kiểm thử
 - `npm run verify` chạy trong `codebase/`:
   - `next lint`: Hoàn thành, 0 lỗi.
   - `tsc --noEmit`: Typecheck sạch 100%.
-  - `vitest run`: 17/17 test files passed, 94/94 tests passed (bao gồm cả 5 test mới trong `data-cleaner.test.ts`).
-  - `audit`: Đã rà soát 53 file FAQ, 0 lỗi.
-  - `next build`: Biên dịch production thành công, 24/24 static pages generated.
-- Kiểm thử hiển thị không phụ thuộc file gitignored `survey-responses-raw.json`.
+  - `vitest run`: 17/17 test files passed, 94/94 tests passed.
+  - `audit`: Đã rà soát 53 file FAQ, 0 lỗi, 0 cảnh báo.
+  - `next build`: Biên dịch production thành công, 24/24 static pages generated (bao gồm `/` và `/about`).
+- Kiểm thử hiển thị và tương tác phím tắt:
+  - Phím `→`, `Space`: Chuyển slide tiếp theo.
+  - Phím `←`, `Backspace`: Lùi slide trước.
+  - Phím `F`: Bật / tắt chế độ toàn màn hình.
+  - Phím `T`: Bật / dừng đồng hồ đếm giờ 6 phút.
+  - Nút `🚀 Mở Trang Live Demo (/personalized-path)` tại Slide 3 hoạt động chuẩn xác.
 
 ## 5. Tài liệu & changelog
-- Dữ liệu và phương pháp làm sạch khớp với ghi chú trong `docs/research/survey-data-review.md` và `spec.md` §1.
+- Khớp với kịch bản trình chiếu tại `docs/hackathon/cp5/slide-content.md` và mã nguồn slide `docs/hackathon/cp5/demo-slides.html`.
 
 ## 6. Rủi ro / việc còn lại
-- Không có. File raw JSON chứa PII vẫn được giữ nguyên trong `.gitignore` không bị rò rỉ.
+- Không có rủi ro kỹ thuật.

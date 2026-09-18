@@ -18,7 +18,7 @@ export function MainHeader() {
 
   const navItems = [
     { href: '/', label: 'HOME' },
-    { href: '/about', label: 'ABOUT' },
+    { href: '/about', label: 'SLIDES' },
     { href: '/learning', label: 'LEARNING' },
     { href: '/test', label: 'TEST' },
     { href: '/instruction', label: 'INSTRUCTION' },

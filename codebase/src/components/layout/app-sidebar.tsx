@@ -41,6 +41,7 @@ export function AppSidebar({ user }: AppSidebarProps) {
     { href: '/', label: 'Trang Chủ', icon: Home },
     { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
     { href: '/personalized-path', label: 'Lộ trình cá nhân hoá', icon: GraduationCap },
+    { href: '/about', label: 'Slide Thuyết Trình (CP6)', icon: BookOpen },
     { href: '/learning?mode=ai_roadmap', label: 'Lộ Trình AI Mentor', icon: Bot, isPro: true },
     { href: '/test', label: 'Khảo Thí SFIA', icon: ClipboardCheck },
     { href: '/architecture', label: 'Kiến Trúc Kỹ Thuật', icon: Cpu },
