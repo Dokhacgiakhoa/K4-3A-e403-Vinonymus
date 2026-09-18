@@ -2,7 +2,7 @@
 
 ## 1. `POST /api/roadmap` — tạo kế hoạch tự học
 
-> **Trạng thái:** đã build cho CP3; FE tại `/personalized-path` gọi LLM thật qua router đa nhà cung cấp, có fallback baseline. Người phụ trách: Minh.
+> **Trạng thái:** đã build cho CP3; FE tại `/learning-path` gọi LLM thật qua router đa nhà cung cấp, có fallback baseline. Người phụ trách: Minh.
 
 ### Đăng nhập
 

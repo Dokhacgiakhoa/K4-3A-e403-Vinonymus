@@ -1,51 +1,58 @@
-# PR: Rà soát văn phong và số liệu trên slide pitch
+# PR: Tài khoản dùng thử theo vai trò và Lộ trình cá nhân hoá sau đăng nhập
 
-> **Task:** Chuẩn bị pitch · **Issue:** — · **Branch:** `docs/slides-wording-review`
+> **Task:** U-01, U-02 (một phần) · **Issue:** #90, #91 · **Branch:** `feat/demo-role-accounts`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) · **Hỗ trợ:** Claude Code
 
 ## 1. Mục tiêu
 
-Rà soát toàn bộ 12 slide HTML (`/about`) để:
-
-- Văn phong tự nhiên với người nghe Việt Nam: bớt từ phóng đại ("đột phá", "tuyệt đối",
-  "siêu", "chặn đứng", "100%"), bớt câu Hán Việt dịch từ tiếng Anh, bớt chêm tiếng Anh
-  (Non-tech/Tech-base, Happy Path, Unit Economics, Zero Cost-of-Error…).
-- Bỏ từ ngữ thiếu tôn trọng người học ("van xin", "kẻ gian").
-- Sửa số liệu và khẳng định không có nguồn hoặc đã cũ, để giám khảo hỏi lại vẫn trả lời được.
-
-Bố cục giao diện giữ nguyên, chỉ đổi chữ.
+- Backend .NET chưa deploy (B-03 → B-05), nên thêm **tài khoản dùng thử** Học viên / Giảng viên / Quản trị
+  chạy trên trình duyệt để giám khảo xem được giao diện của từng vai trò. Mọi màn hình demo có dải
+  "Bản demo giao diện — chưa nối backend".
+- Đưa **Lộ trình cá nhân hoá** vào trang chỉ mở cho học viên đã đăng nhập (`/learning-path`), khớp mô hình
+  truy cập đã chốt: khách chỉ dùng AI Helpdesk có giới hạn, AI Mentor dành cho học viên.
 
 ## 2. Truy vết
 
-| Thay đổi | Nguồn đối chiếu |
+| Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Bỏ "< 4.800đ/học viên" và "biên lợi nhuận > 85%", thay bằng "gọi AI một lần mỗi lộ trình" | Không có nguồn trong `spec.md`, `docs/`, `eval/` |
-| Bỏ "Zero Cost-of-Error / An toàn tuyệt đối", thay bằng "AI đề xuất, học viên quyết định" | `spec.md` mục Automation: cost-of-error được đánh giá là cao |
-| Slide 9: G02 đã sửa; bộ 50 case AI 44/50 (88%), baseline 50/50 | `eval/run_results.md` §9 (PR #111) |
-| Slide 11: bài test từ CV đã có bản đầu; database tài liệu giảng viên đã có | PR #112, #115 (A-02, A-03), #116–#118 (D-02–D-04) |
-| Phân vai slide 1 và 12 | Phân vai chốt 18/9 trong `docs/hackathon/tasks-he-thong-4-vai-tro.md` |
-| "15–30 phút gom link" thay cho "15–25 phút" | `spec.md`: 77% ở mức 15–30 phút |
+| Menu theo vai trò (Học viên / Giảng viên / Quản trị) | U-01 #90 |
+| Bỏ menu "Lộ Trình AI Mentor" dẫn tới wizard giả; menu học viên trỏ về trang lộ trình thật | U-02 #91 |
+| `/learning-path` chỉ mở cho học viên; `/personalized-path`, `/planner`, `/ai-mentor` chuyển hướng về đây | Mô hình truy cập trong `spec.md` §1; ghi `spec.md` §9 |
+| Trang Giảng viên (tạo nháp, gửi duyệt) và Quản trị (duyệt tài liệu, duyệt tài khoản) dùng dữ liệu mẫu | Luồng B-07/U-05/U-07 ở mức giao diện |
 
 ## 3. File thay đổi
 
 | File | Thay đổi |
 |---|---|
-| `codebase/src/components/presentation/slides-deck-view.tsx` | Viết lại chữ trên 12 slide và tiêu đề trong mục lục; rút ngắn tiêu đề và chữ trong thẻ để không tràn khung ở 1366×768 |
-| `PR.md` | Mô tả PR này |
+| `codebase/src/lib/demo/demo-accounts.ts` | Tài khoản demo, vai trò, dữ liệu mẫu tài khoản chờ duyệt và tài liệu giảng viên |
+| `codebase/src/components/demo/demo-banner.tsx` | Dải cảnh báo "bản demo giao diện" |
+| `codebase/src/components/auth/auth-modal.tsx` | Mục "Dùng thử nhanh" 3 vai trò |
+| `codebase/src/components/layout/app-sidebar.tsx` | Menu theo vai trò, nút đổi vai trò demo, nhãn vai trò |
+| `codebase/src/components/layout/main-header.tsx` | Thay bộ chuyển Free/Pro/Admin bằng vai trò demo |
+| `codebase/src/lib/client-storage.ts` | Thêm vai trò `lecturer`, cờ `isDemo` |
+| `codebase/src/components/lecturer/lecturer-documents-view.tsx`, `codebase/src/app/lecturer/documents/page.tsx` | Trang "Tài liệu của tôi" |
+| `codebase/src/components/admin/document-review-view.tsx`, `codebase/src/app/admin/documents/page.tsx` | Trang "Duyệt tài liệu" |
+| `codebase/src/components/admin/account-approval-view.tsx` | Chế độ demo dùng danh sách mẫu, không gọi backend |
+| `codebase/src/components/planner/student-path-gate.tsx`, `codebase/src/app/learning-path/page.tsx` | Trang lộ trình sau đăng nhập |
+| `codebase/src/app/personalized-path/page.tsx` | Xoá, thay bằng chuyển hướng trong `codebase/next.config.ts` |
+| `codebase/src/components/presentation/slides-deck-view.tsx` | Slide trỏ về `/learning-path` |
+| `README.md`, `spec.md`, `docs/02-kien-truc.md`, `docs/03-api.md`, `docs/05-ui-flow.md` | Đường dẫn mới; `spec.md` §9 thêm một dòng changelog |
 
 ## 4. Kiểm thử
 
-- `npx tsc --noEmit`: không lỗi.
-- Chạy `npm run dev`, mở `/about` ở 1366×768, xem lần lượt 12 slide: không tràn khung.
-  Bản sửa đầu làm footer slide 1 bị che; đã rút gọn chữ trong thẻ và kiểm tra lại.
-- `npm run verify` chạy qua pre-push hook.
+- `npx tsc --noEmit`: không lỗi. `npx vitest run`: 101/101 test qua. `npm run lint`: không lỗi, không cảnh báo mới.
+- Chạy `npm run dev`, thử trên trình duyệt:
+  - Khách mở `/personalized-path` → chuyển sang `/learning-path`, hiện yêu cầu đăng nhập.
+  - Dùng thử Học viên → vào trang lộ trình, menu học viên.
+  - Đổi sang Giảng viên → "Tài liệu của tôi", gửi duyệt 1 tài liệu nháp.
+  - Đổi sang Quản trị → tài liệu vừa gửi xuất hiện ở "Chờ duyệt (2)"; "Duyệt tài khoản" duyệt 1 tài khoản mẫu, danh sách còn 1.
 
 ## 5. Tài liệu & changelog
 
-- Không đổi `spec.md`; slide được sửa cho khớp tài liệu hiện có.
+- `spec.md` §9 thêm dòng 18/9 (chiều). Không đổi chuẩn đạt §7.
 
 ## 6. Rủi ro / việc còn lại
 
-- Nếu nhóm có bảng tính chi phí AI trên mỗi học viên, có thể thêm lại con số chi phí kèm nguồn.
-- Slide 9 cần cập nhật tiếp khi 6 case AI còn trượt (G01, G19, G27, G28, G29, G47) được sửa.
-- Kịch bản nói trong tài liệu pitch (nếu còn dùng "4.800đ", "95%", "ca trượt duy nhất") cần sửa cho khớp.
+- Tài khoản demo không có JWT: khi bật chốt đăng nhập (B-05), API lộ trình sẽ đòi token thật — tài khoản demo
+  chỉ còn dùng được khi chưa bật chốt, hoặc phải thay bằng tài khoản demo thật (B-04).
+- Trang Giảng viên / Quản trị chưa chặn theo vai trò ở route; gõ thẳng URL vẫn mở được (dữ liệu chỉ là mẫu).

@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { X, Mail, Lock, User, Github, Sparkles, CheckCircle2, ArrowRight, UserCircle, AlertCircle } from 'lucide-react';
 import gsap from 'gsap';
 import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { authBackendClient } from '@/lib/api/auth-backend-client';
+import { DEMO_ACCOUNTS, DEMO_HOME, startDemoSession, type DemoRole } from '@/lib/demo/demo-accounts';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -14,6 +16,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthModalProps) {
+  const router = useRouter();
   const [isLogin, setIsLogin] = useState<boolean>(true);
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
@@ -112,6 +115,20 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
       setIsLoading(false);
       setErrorMessage(err?.message || 'Có lỗi kết nối xảy ra. Vui lòng thử lại.');
     }
+  };
+
+  const handleDemoLogin = (role: DemoRole) => {
+    const user = startDemoSession(role);
+    if (!user) return;
+    setErrorMessage('');
+    setSuccessMessage(`Đã vào bản demo với vai trò ${DEMO_ACCOUNTS.find((a) => a.role === role)?.label ?? role}.`);
+    if (onLoginSuccess) onLoginSuccess(user);
+    if (onSuccess) onSuccess();
+    setTimeout(() => {
+      setSuccessMessage('');
+      onClose();
+      router.push(DEMO_HOME[role]);
+    }, 700);
   };
 
   const handleOAuthLogin = async (provider: string) => {
@@ -266,6 +283,30 @@ export function AuthModal({ isOpen, onClose, onLoginSuccess, onSuccess }: AuthMo
             )}
           </button>
         </form>
+
+        {isLogin && (
+          <div className="space-y-2 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-3">
+            <div className="text-[11px] font-bold uppercase tracking-wider text-amber-300">
+              Dùng thử nhanh · bản demo giao diện
+            </div>
+            <div className="grid grid-cols-3 gap-2">
+              {DEMO_ACCOUNTS.map((account) => (
+                <button
+                  key={account.role}
+                  type="button"
+                  onClick={() => handleDemoLogin(account.role)}
+                  className="flex flex-col items-center gap-0.5 rounded-xl border border-slate-700 bg-[#0b1329] px-2 py-2 text-center hover:border-amber-400 transition cursor-pointer"
+                >
+                  <span className="text-xs font-bold text-white">{account.label}</span>
+                  <span className="text-[10px] leading-tight text-slate-400">{account.description}</span>
+                </button>
+              ))}
+            </div>
+            <p className="text-[10px] text-slate-500">
+              Không cần mật khẩu. Dữ liệu mẫu, chỉ lưu trên trình duyệt này — backend chưa đưa lên server.
+            </p>
+          </div>
+        )}
 
         {errorMessage && (
           <div className="p-3 rounded-xl bg-red-500/15 border border-red-500/40 text-red-300 text-xs font-medium flex items-center gap-2.5 animate-fadeIn">

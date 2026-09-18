@@ -250,7 +250,7 @@ export function SlidesDeckView() {
                 <div className="text-[0.75rem] font-bold text-emerald-700 uppercase tracking-wider">Phần được chấm</div>
                 <div className="text-[0.95rem] font-bold text-slate-900 mt-[0.2rem] mb-[0.25rem]">AI Mentor Lên Lộ Trình</div>
                 <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
-                  Chạy thật tại <code>/personalized-path</code>: tối đa 3 việc, link chỉ lấy từ thư viện của khoá.
+                  Học viên đăng nhập, mở <code>/learning-path</code>: tối đa 3 việc, link chỉ lấy từ thư viện của khoá.
                 </p>
               </div>
 
@@ -673,7 +673,7 @@ export function SlidesDeckView() {
                     Đọc dữ liệu học viên (trình độ + thời gian rảnh) <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> Chẩn đoán lỗ hổng <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> Lọc thư viện tài liệu và trả về danh sách tối đa 3 việc.
                   </p>
                   <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-blue-200">
-                    <div>• <strong>Vị trí hoạt động:</strong> Trang Lộ trình cá nhân hoá (<code>/personalized-path</code>)</div>
+                    <div>• <strong>Vị trí hoạt động:</strong> Trang Lộ trình cá nhân hoá của học viên (<code>/learning-path</code>)</div>
                     <div>• <strong>Link an toàn:</strong> mọi link lấy từ thư viện tài liệu của khoá.</div>
                     <div>• <strong>Tiết kiệm:</strong> chỉ gọi AI một lần cho mỗi lộ trình <FlowArrow className="w-[0.9rem] h-[0.9rem] text-blue-700" /> chi phí thấp.</div>
                   </div>
@@ -811,7 +811,7 @@ export function SlidesDeckView() {
                 Demo: 3 Tình Huống Trên Trang Lộ Trình
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
-                Kết quả chạy thật ngày 18/9. Nhập key Gemini trước khi demo để kết quả mang nhãn AI; chưa có key thì hệ thống trả gợi ý mặc định.
+                Đăng nhập tài khoản Học viên → mở Lộ trình cá nhân hoá. Kết quả chạy thật 18/9; nhập key Gemini trước để kết quả mang nhãn AI, chưa có key thì trả gợi ý mặc định.
               </p>
             </div>
 
@@ -876,15 +876,15 @@ export function SlidesDeckView() {
             {/* HỢP & NÚT MỞ DEMO */}
             <div className="flex flex-col sm:flex-row items-center justify-between gap-[1rem] pt-[0.5rem]">
               <div className="text-[0.85rem] text-slate-600 font-medium">
-                Mời Ban giám khảo tự nhập một tình huống. Ô chat AI Helpdesk nằm ở góc phải màn hình, hỏi được ngay.
+                Mời Ban giám khảo tự nhập một tình huống. AI Helpdesk ở ô chat góc phải. Vai trò Giảng viên và Quản trị: bản demo giao diện, chưa nối backend.
               </div>
               <Link
-                href="/personalized-path"
+                href="/learning-path"
                 target="_blank"
                 className="w-full sm:w-auto px-[1.6rem] py-[0.8rem] rounded-xl bg-gradient-to-r from-blue-700 to-indigo-700 hover:from-blue-800 hover:to-indigo-800 text-white font-bold text-[0.85rem] uppercase tracking-wider shadow-lg shadow-blue-500/25 ring-4 ring-blue-300/40 transition-all transform hover:scale-[1.02] flex items-center justify-center gap-[0.5rem] shrink-0"
               >
                 <Monitor className="w-[1.1rem] h-[1.1rem] text-sky-300" />
-                <span>MỞ TRANG DEMO (/personalized-path)</span>
+                <span>MỞ TRANG DEMO (/learning-path)</span>
                 <ExternalLink className="w-[0.9rem] h-[0.9rem]" />
               </Link>
             </div>
@@ -1325,10 +1325,10 @@ export function SlidesDeckView() {
           
           {/* Quick jump to Live Demo */}
           <Link
-            href="/personalized-path"
+            href="/learning-path"
             target="_blank"
             className="px-[0.75rem] py-[0.35rem] rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/40 text-sky-300 text-[0.8rem] font-bold transition flex items-center gap-[0.4rem]"
-            title="Mở tab Live Demo (/personalized-path)"
+            title="Mở tab Live Demo (/learning-path)"
           >
             <Monitor className="w-[0.9rem] h-[0.9rem]" />
             <span className="hidden lg:inline">Live Demo</span>
