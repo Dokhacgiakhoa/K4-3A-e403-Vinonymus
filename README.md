@@ -59,14 +59,14 @@ Với tính năng **Lộ trình cá nhân hoá (Personalized Learning Path)**:
 
 | Họ và Tên | Mã Học Viên | Vai trò chính | GitHub | Phần việc đảm nhiệm trong dự án | Việc được giao |
 |---|---|---|---|---|---|
-| Đỗ Khắc Gia Khoa (đội trưởng) | 02733 | PM · Backend | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) | Chốt Canvas & lát cắt, khảo sát nỗi đau, viết `spec.md`, điều phối checkpoint & nộp form, slide + pitch, validation (R6) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3ADokhacgiakhoa) |
+| Đỗ Khắc Gia Khoa (đội trưởng) | 02733 | PM · Backend · Giao diện Student/Viewer | [@Dokhacgiakhoa](https://github.com/Dokhacgiakhoa) | Chốt Canvas & lát cắt, khảo sát nỗi đau, viết `spec.md`, điều phối checkpoint & nộp form, slide + pitch, validation (R6) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3ADokhacgiakhoa) |
 | Trần Nhật Minh | 02483 | Database | [@minh-tran-2611](https://github.com/minh-tran-2611) | Backend/API cho prototype (`/api/roadmap`), tích hợp lời gọi AI qua LLM router, CI, quản lý biến môi trường (không commit key) | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Aminh-tran-2611) |
-| Đinh Ngọc Đức | 02935 | AI · Giao diện | [@dinhngocduc1311](https://github.com/dinhngocduc1311) | Thiết kế prompt/pipeline AI, catalog tài liệu, xây golden set & chạy eval (`eval/`), phân tích lỗi và kịch bản rủi ro | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Adinhngocduc1311) |
-| Nguyễn Việt Thành | 02924 | Giao diện · AI | [@thanhnvhust514](https://github.com/thanhnvhust514) | Giao diện & luồng người dùng, mock bấm được (CP2), quay video thao tác CP3 và video demo dự phòng CP5 | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Athanhnvhust514) |
+| Đinh Ngọc Đức | 02935 | AI Helpdesk · Giao diện Admin/Lecturer | [@dinhngocduc1311](https://github.com/dinhngocduc1311) | Thiết kế prompt/pipeline AI, catalog tài liệu, xây golden set & chạy eval (`eval/`), phân tích lỗi và kịch bản rủi ro | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Adinhngocduc1311) |
+| Nguyễn Việt Thành | 02924 | AI Mentor | [@thanhnvhust514](https://github.com/thanhnvhust514) | Giao diện & luồng người dùng, mock bấm được (CP2), quay video thao tác CP3 và video demo dự phòng CP5 | [Issues](https://github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus/issues?q=is%3Aissue+assignee%3Athanhnvhust514) |
 
 Bảng phân công chi tiết theo từng checkpoint (người phụ trách, người hỗ trợ, hạn): [`docs/hackathon/tasks.md`](docs/hackathon/tasks.md).
 
-Từ 18/9 phân vai lại để xây hệ thống 4 vai trò — Khoa làm backend .NET, Minh làm database, Đức và Thành làm giao diện và AI. Danh sách task: [`docs/hackathon/tasks-he-thong-4-vai-tro.md`](docs/hackathon/tasks-he-thong-4-vai-tro.md).
+Từ 18/9 phân vai lại để xây hệ thống 4 vai trò — Khoa làm backend .NET và giao diện Student/Viewer, Minh làm database, Đức làm AI Helpdesk và giao diện Admin/Lecturer, Thành làm AI Mentor. Mỗi vai trò có giao diện riêng. Danh sách task: [`docs/hackathon/tasks-he-thong-4-vai-tro.md`](docs/hackathon/tasks-he-thong-4-vai-tro.md).
 
 ---
 
