@@ -26,3 +26,6 @@ CREATE INDEX IF NOT EXISTS idx_platform_audit_actor
 
 -- Audit là append-only đối với role ứng dụng: không cho sửa/xoá bằng API.
 GRANT SELECT, INSERT ON app.platform_audit TO aiia_backend;
+-- Default privileges của schema app (D-01) tự cấp UPDATE/DELETE cho bảng mới,
+-- nên phải thu hồi tường minh thì audit mới thật sự append-only.
+REVOKE UPDATE, DELETE, TRUNCATE ON app.platform_audit FROM aiia_backend;
