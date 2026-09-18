@@ -1,46 +1,37 @@
-# PR: Add audit log for account and document actions
+# PR: Seed catalog chuyên đề và bài học (D-05)
 
-> **Task:** D-04 · **Issue:** #87 · **Branch:** `feat/D-04-audit-log`
-> **Người thực hiện:** Trần Nhật Minh (`@Minh`) · **Hỗ trợ:** —
+> **Task:** D-05 · **Issue:** #88 · **Branch:** `feat/D-05-curriculum-seed`
 
-## 1. Mục tiêu
+## Tóm tắt
 
-Thêm bảng audit append-only trong schema `app` để ghi ai thực hiện thao tác gì,
-lên tài nguyên nào và lúc nào. Thiết kế dùng `app.users`, không phụ thuộc
-Supabase Auth; role backend chỉ được đọc và thêm log, không được sửa/xoá.
+Thêm seed chuẩn cho 3 lab đang có trong `planner-catalog.ts`: Prompt & Tool
+Calling, AI Product Specification và RAG Foundations. Seed dùng UUID/slug ổn
+định, cập nhật khi conflict và không tạo bản ghi trùng khi chạy lại.
 
-## 2. Truy vết
+Ba file seed cũ đã được rà soát; chúng là các bộ curriculum lịch sử khác nhau,
+không dùng chung với catalog hiện tại. `03_catalog_curriculum_seed.sql` là nguồn
+canonical duy nhất cho môi trường mới.
 
-| Thay đổi | Yêu cầu liên quan |
-|---|---|
-| `app.platform_audit` và index thời gian | D-04 / #87; D-01 / #84 |
-| Actor FK và loại tài nguyên account/document | D-02 / #85 |
+## File thay đổi
 
-## 3. File thay đổi
+- `codebase/database/seeds/03_catalog_curriculum_seed.sql`: 3 chuyên đề + 3 bài học, idempotent.
+- `codebase/database/seeds/README.md`: hướng dẫn chọn seed canonical và ghi chú 3 seed legacy.
+- `docs/hackathon/tasks-he-thong-4-vai-tro.md`: đánh dấu D-05 hoàn thành.
 
-| File | Thay đổi |
-|---|---|
-| `codebase/database/migrations/20260918_platform_audit.sql` | Tạo audit log, CHECK/FK, index thời gian/resource/actor và quyền append-only. |
-| `docs/diagrams/database-class-diagram.mmd` | Bổ sung `PlatformAudit` và `AuditResourceType`. |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-04. |
-| `PR.md` | Ghi kiểm thử thật của PR này. |
+## Kiểm tra thật
 
-## 4. Kiểm thử
+Đã kết nối Supabase bằng role backend `aiia_backend` trong một transaction thử
+nghiệm. Xoá tạm đúng 3 slug D-05, chạy seed trên trạng thái trống rồi chạy lần
+hai; transaction được rollback sau khi assert:
 
-- Migration chạy thành công 2 lần liên tiếp trên Supabase.
-- Bảng `app.platform_audit` và index `idx_platform_audit_created_at` tồn tại.
-- Kết nối bằng role `aiia_backend`: ghi 2 log mẫu (`account.approve`,
-  `document.submit`) và đọc đúng thứ tự thời gian mới nhất trước.
-- Dữ liệu kiểm thử đã được xoá bằng admin sau khi xác minh; không ghi secret vào
-  repository/log.
+```text
+first:  modules=3, topics=3
+second: modules=3, topics=3
+idempotent=true
+```
 
-## 5. Tài liệu & changelog
+Không có secret hoặc dữ liệu kiểm thử được ghi vào repository.
 
-- Sơ đồ database khớp migration mới.
+## Issue liên quan
 
-## 6. Rủi ro / việc còn lại
-
-- API gọi audit log sẽ được tích hợp trong các task backend duyệt tài khoản/tài liệu.
-- Log được thiết kế append-only ở quyền ứng dụng; thao tác xoá khẩn cấp cần DBA.
-
-Closes #87
+Closes #88
