@@ -157,6 +157,24 @@ classDiagram
         +DateTime createdAt
     }
 
+    class PlatformAudit {
+        +UUID id PK
+        +UUID actorId <<optional FK>>
+        +string action
+        +AuditResourceType resourceType
+        +UUID resourceId
+        +JSON details
+        +DateTime createdAt <<indexed DESC>>
+    }
+
+    class AuditResourceType {
+        <<enumeration>>
+        account
+        document
+        documentVersion
+        documentReview
+    }
+
     class ReviewDecision {
         <<enumeration>>
         approved
@@ -250,5 +268,7 @@ classDiagram
     LectureDocument "1" --> "0..*" LectureDocumentVersion : versions
     LectureDocument "1" --> "0..*" LectureDocumentReview : reviews
     LectureDocument "1" --> "0..*" LectureDocumentChunk : chunks
+    AppUser "0..1" --> "0..*" PlatformAudit : acts
+    PlatformAudit "*" --> "1" AuditResourceType : categorizes
     AppUser "1" --> "0..*" LectureDocumentReview : reviews
     AppUser "1" --> "0..*" LectureDocumentVersion : creates
