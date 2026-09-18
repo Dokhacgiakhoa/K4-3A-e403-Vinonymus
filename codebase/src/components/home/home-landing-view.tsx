@@ -19,6 +19,9 @@ import {
 } from 'lucide-react';
 import { StatsBar } from './stats-bar';
 import { FaqAccordionSection } from './faq-accordion-section';
+import { ProgramOverviewSection } from '@/components/about/program-overview-section';
+import { AlumniInsightsSection } from '@/components/about/alumni-insights-section';
+import { SfiaMatrixView } from '@/components/sfia/sfia-matrix-view';
 import { AuthModal } from '@/components/auth/auth-modal';
 import { clientStorage } from '@/lib/client-storage';
 
@@ -706,7 +709,18 @@ export function HomeLandingView() {
       </section>
 
       {/* ========================================================================= */}
-      {/* 6. SECTION: FAQ GIẢI ĐÁP CÂU HỎI THƯỜNG GẶP                                */}
+      {/* 6. SECTION: GIỚI THIỆU CHƯƠNG TRÌNH, NGUYÊN TẮC CỐT LÕI & ALUMNI INSIGHTS */}
+      {/* ========================================================================= */}
+      <section className="space-y-16 border-t border-slate-800/80 pt-12">
+        <ProgramOverviewSection />
+        <AlumniInsightsSection />
+        <div className="space-y-4 border-t border-slate-800 pt-8">
+          <SfiaMatrixView onSelectLevel={() => {}} />
+        </div>
+      </section>
+
+      {/* ========================================================================= */}
+      {/* 7. SECTION: FAQ GIẢI ĐÁP CÂU HỎI THƯỜNG GẶP                                */}
       {/* ========================================================================= */}
       <FaqAccordionSection />
 
