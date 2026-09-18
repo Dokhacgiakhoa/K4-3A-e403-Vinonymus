@@ -27,7 +27,12 @@ import {
   Database,
   Lock,
   ListChecks,
-  Compass
+  Compass,
+  TrendingUp,
+  Target,
+  DollarSign,
+  Users,
+  Award
 } from 'lucide-react';
 
 export function SlidesDeckView() {
@@ -35,7 +40,7 @@ export function SlidesDeckView() {
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [viewMode, setViewMode] = useState<'single' | 'scroll'>('single');
   
-  // Timer state for 6-minute pitch (30s per slide x 12 slides)
+  // Timer state for 6-minute pitch (30s per slide x 12 slides = 360s)
   const [timerSeconds, setTimerSeconds] = useState<number>(0);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -140,820 +145,840 @@ export function SlidesDeckView() {
   const slideTitles = [
     '1. Bìa dự án',
     '2. Mục lục',
-    '3. Tổng quan 2 AI',
-    '4. User & Job',
-    '5. Vì sao chọn',
-    '6. Giải pháp',
-    '7. Live Demo',
-    '8. Kết quả đo',
-    '9. Người dùng thật',
-    '10. Kiến trúc an toàn',
-    '11. Kế hoạch 1 tuần',
-    '12. Tổng kết & Q&A'
+    '3. Mô hình 2 AI',
+    '4. Khách hàng & Nỗi đau',
+    '5. Lựa chọn bài toán',
+    '6. Giải pháp & Triết lý',
+    '7. Live Demo thực tế',
+    '8. Đo lường & Trung thực',
+    '9. Tiếng nói người dùng',
+    '10. Business Model & Chi phí',
+    '11. Kế hoạch tăng trưởng',
+    '12. Kêu gọi & Q&A'
   ];
 
-  // Render individual slide contents (Font Montserrat, Nền trắng chữ xanh)
+  // Render individual slide contents (Font Montserrat, Nền trắng chữ xanh, Tỉ lệ rem/em, Tổng-Phân-Hợp)
   const renderSlideContent = (index: number) => {
     switch (index) {
       // -------------------------------------------------------------
-      // SLIDE 1: MỞ ĐẦU · BÌA DỰ ÁN
+      // SLIDE 1: MỞ ĐẦU · ĐỊNH VỊ DỰ ÁN & GIÁ TRỊ KINH DOANH
       // -------------------------------------------------------------
       case 0:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs sm:text-sm font-bold tracking-wider uppercase">
-                <Sparkles className="w-4 h-4 text-blue-600" />
-                <span>NHÓM VINONYMUS · TRACK E · PHÒNG E403 · CỤM C2</span>
+              <div className="inline-flex items-center gap-[0.5rem] px-[0.85rem] py-[0.35rem] rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-[0.8rem] font-semibold tracking-[0.06em] uppercase">
+                <Sparkles className="w-[1rem] h-[1rem] text-blue-600" />
+                <span>TRACK E · MINI HACKATHON AI · NHÓM VINONYMUS · PHÒNG E403</span>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#0f172a] mt-4 sm:mt-6 mb-4 leading-tight tracking-tight">
-                ADAPTIVE LEARNING SYSTEM
+              <h1 className="text-[clamp(2rem,3.8vw,3.5rem)] font-semibold text-[#0f172a] mt-[1rem] mb-[0.75rem] leading-[1.2] tracking-[0.03em] uppercase">
+                Adaptive Learning System
               </h1>
 
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-[#1d4ed8] leading-snug max-w-5xl">
-                Trước mỗi buổi lab, AI Mentor chỉ cho học viên Khoá 4 đúng ≤3 việc cần học — vừa quỹ thời gian, kèm link đã kiểm chứng.
+              <h2 className="text-[clamp(1.15rem,1.8vw,1.6rem)] font-medium text-blue-700 leading-relaxed max-w-[65rem]">
+                Hệ thống AI thích ứng giải phóng người học khỏi tình trạng quá tải thông tin trước mỗi buổi thực hành.
               </h2>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mt-8 max-w-5xl">
-                <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-6">
-                  <div className="text-4xl sm:text-5xl font-black text-rose-600">87%</div>
-                  <div className="text-sm sm:text-base text-slate-700 font-semibold mt-2">
-                    71/82 học viên không tự xác định được phần cần học bù trước buổi lab.
-                  </div>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-3 gap-[1.5rem]">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.75rem] flex flex-col justify-between hover:border-blue-300 transition">
+                <div>
+                  <span className="text-[0.8rem] font-bold text-slate-500 uppercase tracking-wider block">Nỗi đau thị trường</span>
+                  <div className="text-[clamp(2.75rem,5vw,4.25rem)] font-bold text-rose-600 leading-none my-[0.75rem]">87%</div>
                 </div>
-                <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-6">
-                  <div className="text-4xl sm:text-5xl font-black text-blue-700">0.13%</div>
-                  <div className="text-sm sm:text-base text-slate-700 font-semibold mt-2">
-                    Lượt chat AI Tutor VLearn tự gợi ý bước học tiếp theo (18/13.494).
-                  </div>
+                <p className="text-[0.95rem] text-slate-700 font-medium leading-relaxed">
+                  Học viên không biết tự xác định lỗ hổng kiến thức để học bù trước giờ lên lớp.
+                </p>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.75rem] flex flex-col justify-between hover:border-blue-300 transition">
+                <div>
+                  <span className="text-[0.8rem] font-bold text-slate-500 uppercase tracking-wider block">Thực trạng giải pháp cũ</span>
+                  <div className="text-[clamp(2.75rem,5vw,4.25rem)] font-bold text-blue-700 leading-none my-[0.75rem]">0.13%</div>
                 </div>
-                <div className="bg-blue-50/70 border border-blue-200/80 rounded-2xl p-6">
-                  <div className="text-4xl sm:text-5xl font-black text-emerald-700">19/20</div>
-                  <div className="text-sm sm:text-base text-slate-700 font-semibold mt-2">
-                    AI v2 đạt chuẩn Quality Bar khoá tại CP4, 0 link ngoài catalog.
-                  </div>
+                <p className="text-[0.95rem] text-slate-700 font-medium leading-relaxed">
+                  AI Tutor thụ động, chỉ 18/13.494 lượt chat có hành động tự gợi ý bước học tiếp theo.
+                </p>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.75rem] flex flex-col justify-between hover:border-blue-300 transition">
+                <div>
+                  <span className="text-[0.8rem] font-bold text-slate-500 uppercase tracking-wider block">Chất lượng đã chứng minh</span>
+                  <div className="text-[clamp(2.75rem,5vw,4.25rem)] font-bold text-emerald-600 leading-none my-[0.75rem]">95%</div>
                 </div>
+                <p className="text-[0.95rem] text-slate-700 font-medium leading-relaxed">
+                  19/20 ca kiểm thử đạt chuẩn nghiêm ngặt; 100% học liệu nội bộ đã qua thẩm định.
+                </p>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-4 mt-6 flex flex-wrap justify-between items-center text-xs sm:text-sm text-slate-600 font-semibold">
-              <span>Thành viên: Đỗ Khắc Gia Khoa (PM · Backend) · Minh (Database) · Đức (AI) · Thành (UI)</span>
-              <span className="font-mono text-blue-700 font-bold">Thời lượng pitch: 6 phút (30s / slide)</span>
+            {/* HỢP */}
+            <div className="border-t border-slate-200 pt-[1rem] flex flex-wrap justify-between items-center text-[0.85rem] text-slate-600 font-medium">
+              <span>Đội ngũ: Đỗ Khắc Gia Khoa (PM · Backend) · Minh (Database) · Đức (AI) · Thành (UI)</span>
+              <span className="font-mono text-blue-700 font-bold bg-blue-50 px-[0.75rem] py-[0.25rem] rounded-md">
+                Pitch 6 phút · 12 Slide (30s / slide)
+              </span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 2: MỞ ĐẦU · MỤC LỤC RÕ RÀNG
+      // SLIDE 2: MỞ ĐẦU · MỤC LỤC & LỘ TRÌNH THUYẾT TRÌNH
       // -------------------------------------------------------------
       case 1:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Mục lục · Cấu trúc bài thuyết trình (6 phút)
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Cấu trúc bài thuyết trình (6 phút)
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-6 leading-tight">
-                4 phần rõ ràng: Mở bài – Thân bài A – Thân bài B – Kết luận
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Bản đồ thuyết trình theo mô hình Tổng – Phân – Hợp
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Mỗi chặng tập trung giải quyết trọn vẹn một luận điểm then chốt trong kinh doanh và công nghệ.
+              </p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6">
-                {/* Phần 1 */}
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 lg:p-6 hover:border-blue-300 transition">
-                  <div className="flex items-center gap-2.5 text-blue-700 font-bold text-base lg:text-lg mb-2">
-                    <span className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs">1</span>
-                    <span>MỞ ĐẦU (1 phút · Slide 1–3)</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm lg:text-base text-slate-700 font-medium pl-9 list-disc">
-                    <li>Bối cảnh Khoá 4 &amp; Nỗi đau dữ liệu thật</li>
-                    <li>Mục lục toàn diện</li>
-                    <li>Mô hình 2 AI: AI Mentor (thực thi) vs AI Helpdesk (trò chuyện)</li>
-                  </ul>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-2 gap-[1.25rem]">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex items-start gap-[1rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-[0.9rem] shrink-0">
+                  1
                 </div>
-
-                {/* Phần 2 */}
-                <div className="bg-blue-50/50 border border-blue-200 rounded-2xl p-5 lg:p-6 hover:border-blue-400 transition">
-                  <div className="flex items-center gap-2.5 text-blue-800 font-bold text-base lg:text-lg mb-2">
-                    <span className="w-7 h-7 rounded-lg bg-blue-700 text-white flex items-center justify-center text-xs">2</span>
-                    <span>THÂN BÀI A · YÊU CẦU ĐỀ (2.5 phút · Slide 4–8)</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm lg:text-base text-slate-800 font-medium pl-9 list-disc">
-                    <li>User &amp; Job: 87% không biết học bù, 93% tài liệu rải rác</li>
-                    <li>Vì sao chọn tính năng: Loại 2 ứng viên, chọn chẩn đoán thời gian</li>
-                    <li>Giải pháp Augment &amp; LIVE DEMO trên web thật</li>
-                    <li>Kết quả đo lường Quality Bar &amp; sự thật về case G02</li>
-                  </ul>
+                <div>
+                  <h3 className="text-[1.1rem] font-semibold text-[#0f172a] mb-[0.25rem]">Khách hàng &amp; Nỗi đau thực tế</h3>
+                  <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                    Khảo sát 82 học viên: Nỗi đau mất 25 phút gom link, slide 60 trang nhưng chỉ có 45 phút học.
+                  </p>
                 </div>
+              </div>
 
-                {/* Phần 3 */}
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 lg:p-6 hover:border-blue-300 transition">
-                  <div className="flex items-center gap-2.5 text-blue-700 font-bold text-base lg:text-lg mb-2">
-                    <span className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs">3</span>
-                    <span>THÂN BÀI B · MỞ RỘNG (1.5 phút · Slide 9–10)</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm lg:text-base text-slate-700 font-medium pl-9 list-disc">
-                    <li>Người dùng thật nói gì &amp; Bằng chứng Golden Set</li>
-                    <li>Kiến trúc an toàn: BYOK trên browser, Zod guardrail, .NET 10 CQRS, 4 vai trò</li>
-                  </ul>
+              <div className="bg-blue-50/50 border border-blue-200 rounded-[1.25rem] p-[1.5rem] flex items-start gap-[1rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-700 text-white flex items-center justify-center font-bold text-[0.9rem] shrink-0">
+                  2
                 </div>
+                <div>
+                  <h3 className="text-[1.1rem] font-semibold text-blue-950 mb-[0.25rem]">Lựa chọn bài toán &amp; Live Demo</h3>
+                  <p className="text-[0.875rem] text-slate-700 font-medium leading-relaxed">
+                    So sánh 3 cơ hội thị trường $\rightarrow$ Giải pháp Lộ trình cá nhân hoá &amp; Demo ứng dụng chạy thật.
+                  </p>
+                </div>
+              </div>
 
-                {/* Phần 4 */}
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 lg:p-6 hover:border-blue-300 transition">
-                  <div className="flex items-center gap-2.5 text-blue-700 font-bold text-base lg:text-lg mb-2">
-                    <span className="w-7 h-7 rounded-lg bg-blue-600 text-white flex items-center justify-center text-xs">4</span>
-                    <span>KẾT LUẬN (1 phút · Slide 11–12)</span>
-                  </div>
-                  <ul className="space-y-1.5 text-sm lg:text-base text-slate-700 font-medium pl-9 list-disc">
-                    <li>Nếu có thêm 1 tuần: 5 user test, test CV, thư viện giảng viên</li>
-                    <li>Bài học lớn nhất: Đo sớm, số thật &amp; Mời Ban giám khảo Q&amp;A</li>
-                  </ul>
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex items-start gap-[1rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-[0.9rem] shrink-0">
+                  3
+                </div>
+                <div>
+                  <h3 className="text-[1.1rem] font-semibold text-[#0f172a] mb-[0.25rem]">Đo lường &amp; Kiến trúc an toàn</h3>
+                  <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                    Quality Bar 19/20, báo cáo trung thực case G02, bảo vệ dữ liệu với BYOK và kiểm soát 4 vai trò.
+                  </p>
+                </div>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem] flex items-start gap-[1rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold text-[0.9rem] shrink-0">
+                  4
+                </div>
+                <div>
+                  <h3 className="text-[1.1rem] font-semibold text-[#0f172a] mb-[0.25rem]">Business Model &amp; Kế hoạch tăng trưởng</h3>
+                  <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                    Kiểm soát chi phí API dưới 5.000đ/học viên, 3 đòn bẩy nếu có thêm 1 tuần và cam kết bảo vệ hội trường.
+                  </p>
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Cam kết: Phần nào chưa xong ghi rõ "Đang triển khai" và không demo giả tạo</span>
-              <span className="font-mono text-blue-700">spec.md §9 · AGENTS.md</span>
+            {/* HỢP */}
+            <div className="border-t border-slate-200 pt-[1rem] flex justify-between items-center text-[0.85rem] text-slate-500 font-medium">
+              <span>Mỗi phần trình bày trong 1.5 phút — Nhịp điệu dứt khoát, trực diện</span>
+              <span className="text-blue-700 font-semibold font-mono">Bất biến: Không demo giả lập</span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 3: MỞ ĐẦU · TỔNG QUAN 2 AI
+      // SLIDE 3: MÔ HÌNH 2 AI TỐI ƯU CHI PHÍ & TRẢI NGHIỆM
       // -------------------------------------------------------------
       case 2:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Mở đầu · Định vị hệ thống
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Mô hình vận hành hệ thống
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-6 leading-tight">
-                Một hệ thống học thích ứng — Hai AI phân vai độc lập
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Kiến trúc 2 AI: Phân tách Tiền sảnh &amp; Hậu trường
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Tối ưu hoá trải nghiệm học viên đồng thời bảo vệ chi phí token qua việc phân định rõ chức năng.
+              </p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
-                {/* AI MENTOR */}
-                <div className="bg-blue-50/70 border-2 border-blue-400 rounded-3xl p-6 lg:p-8 shadow-sm flex flex-col justify-between">
-                  <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-600 text-white text-xs font-bold uppercase mb-4">
-                      <Bot className="w-4 h-4" />
-                      <span>PHẦN ĐƯỢC CHẤM HÔM NAY · ĐÃ CHẠY</span>
-                    </div>
-                    <h2 className="text-2xl lg:text-3xl font-black text-blue-900 mb-2">
-                      AI Mentor — AI Thực Thi
-                    </h2>
-                    <p className="text-base lg:text-lg text-slate-700 font-medium leading-relaxed mb-4">
-                      <strong>Không trò chuyện bằng chatbox.</strong> AI Mentor chạy ngầm phía sau, đọc dữ liệu nền tảng và thời gian rảnh của học viên để đưa ra quyết định lập lộ trình ≤3 việc.
-                    </p>
-                    <div className="p-3.5 bg-white rounded-xl border border-blue-200 text-sm text-blue-950 font-semibold">
-                      ✓ Tính năng: Lộ trình cá nhân hoá (/personalized-path)<br/>
-                      ✓ Trọng tâm: Quyết định học gì trước, bỏ gì lại, link 100% catalog.
-                    </div>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-2 gap-[1.75rem]">
+              <div className="bg-blue-50/70 border-2 border-blue-400 rounded-[1.5rem] p-[2rem] flex flex-col justify-between shadow-sm">
+                <div>
+                  <div className="inline-flex items-center gap-[0.5rem] px-[0.75rem] py-[0.25rem] rounded-full bg-blue-600 text-white text-[0.75rem] font-bold uppercase mb-[1rem]">
+                    <Bot className="w-[1rem] h-[1rem]" />
+                    <span>HẬU TRƯỜNG (BACK-OFFICE) · ĐƯỢC CHẤM HÔM NAY</span>
                   </div>
+                  <h3 className="text-[1.4rem] font-bold text-blue-950 mb-[0.5rem]">AI Mentor — AI Thực Thi Quyết Định</h3>
+                  <p className="text-[0.95rem] text-slate-700 font-medium leading-relaxed mb-[1rem]">
+                    Không tương tác qua hội thoại tán gẫu. AI Mentor chỉ kích hoạt khi học viên yêu cầu tạo lộ trình, phân tích quỹ thời gian và may đo chính xác ≤3 đầu việc trọng tâm.
+                  </p>
                 </div>
-
-                {/* AI HELPDESK */}
-                <div className="bg-slate-50 border border-slate-300 rounded-3xl p-6 lg:p-8 shadow-sm flex flex-col justify-between">
-                  <div>
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-700 text-white text-xs font-bold uppercase mb-4">
-                      <Compass className="w-4 h-4" />
-                      <span>AI HỖ TRỢ TƯƠNG TÁC · ĐÃ CHẠY</span>
-                    </div>
-                    <h2 className="text-2xl lg:text-3xl font-black text-slate-900 mb-2">
-                      AI Helpdesk — AI Trò Chuyện
-                    </h2>
-                    <p className="text-base lg:text-lg text-slate-700 font-medium leading-relaxed mb-4">
-                      <strong>AI duy nhất học viên nói chuyện cùng trong chatbox.</strong> Hỗ trợ tra cứu nhanh tài liệu, hỏi đáp thắc mắc lý thuyết và câu hỏi thường gặp (FAQ).
-                    </p>
-                    <div className="p-3.5 bg-white rounded-xl border border-slate-200 text-sm text-slate-800 font-semibold">
-                      ✓ Dựa trên kho 53 bài FAQ &amp; RAG vector tìm kiếm.<br/>
-                      ✓ Hạn mức: Khách 10 câu/ngày · Học viên không giới hạn.
-                    </div>
-                  </div>
+                <div className="bg-white p-[1rem] rounded-xl border border-blue-200 text-[0.85rem] text-blue-900 font-semibold">
+                  ✓ Tiết kiệm chi phí: Chỉ gọi LLM khi cần ra quyết định lớn.<br/>
+                  ✓ Link học liệu 100% trích xuất từ catalog nội bộ đã thẩm định.
                 </div>
               </div>
 
-              {/* Data evidence footer */}
-              <div className="mt-6 p-4 rounded-xl bg-slate-100 border border-slate-200 text-xs sm:text-sm text-slate-700 font-semibold flex flex-wrap justify-between items-center">
-                <span>Dữ liệu nền tảng: Khảo sát 82 học viên · 13.494 lượt chat AI Tutor VLearn · 779 tin Discord · 2 phỏng vấn sâu</span>
-                <span className="font-mono text-blue-700 font-bold">spec.md §1</span>
+              <div className="bg-slate-50 border border-slate-300 rounded-[1.5rem] p-[2rem] flex flex-col justify-between shadow-sm">
+                <div>
+                  <div className="inline-flex items-center gap-[0.5rem] px-[0.75rem] py-[0.25rem] rounded-full bg-slate-700 text-white text-[0.75rem] font-bold uppercase mb-[1rem]">
+                    <Compass className="w-[1rem] h-[1rem]" />
+                    <span>TIỀN SẢNH (FRONT-OFFICE) · ĐỒNG HÀNH 24/7</span>
+                  </div>
+                  <h3 className="text-[1.4rem] font-bold text-slate-900 mb-[0.5rem]">AI Helpdesk — Trợ Lý Hội Thoại</h3>
+                  <p className="text-[0.95rem] text-slate-700 font-medium leading-relaxed mb-[1rem]">
+                    Kênh giao tiếp duy nhất học viên trò chuyện trực tiếp trong chatbox. Giải đáp thắc mắc tài liệu, giải thích thuật ngữ khó và hỗ trợ tìm kiếm dựa trên 53 bài FAQ chuẩn.
+                  </p>
+                </div>
+                <div className="bg-white p-[1rem] rounded-xl border border-slate-200 text-[0.85rem] text-slate-800 font-semibold">
+                  ✓ Phễu chuyển đổi: Khách vãng lai 10 câu/ngày $\rightarrow$ Kích thích lên Pro.<br/>
+                  ✓ Hạn chế rủi ro: Giới hạn phạm vi câu trả lời trong kho tri thức khoá học.
+                </div>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold">
-              Khoá 4 · AI in Action · Track E: Adaptive Learning System
+            {/* HỢP */}
+            <div className="border-t border-slate-200 pt-[1rem] flex justify-between items-center text-[0.85rem] text-slate-600 font-medium">
+              <span>Đòn bẩy: Học viên nhận đúng sự hỗ trợ, nền tảng kiểm soát được chi phí token</span>
+              <span className="font-mono text-blue-700 font-bold">spec.md §1 · README</span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 4: THÂN BÀI A · 1/6: USER & JOB
+      // SLIDE 4: KHÁCH HÀNG MỤC TIÊU & JOB-TO-BE-DONE
       // -------------------------------------------------------------
       case 3:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài A · 1/6: User &amp; Job
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Thấu hiểu khách hàng mục tiêu
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-3 leading-tight">
-                Học viên Khoá 4 trước mỗi buổi lab: không biết phải học bù phần nào
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Học viên Khoá 4: Người đi làm bận rộn cần sự tập trung
               </h1>
-              <p className="text-base sm:text-xl lg:text-2xl text-slate-700 leading-relaxed font-medium">
-                <strong className="text-blue-900">Job:</strong> với quỹ thời gian rảnh hôm nay và trình độ của mình, biết chính xác cần học gì để làm kịp bài lab tiếp theo.
+              <p className="text-[1rem] text-slate-600 font-medium">
+                <strong>Job-to-be-Done:</strong> Trong 45–60 phút rảnh ít ỏi mỗi ngày, biết chính xác cần đọc tài liệu nào để hoàn thành bài lab tiếp theo mà không bị lạc trôi.
               </p>
+            </div>
 
-              {/* 3 Metric Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mt-6">
-                <div className="bg-blue-50/60 rounded-2xl p-6 border border-blue-200/90 shadow-sm">
-                  <div className="text-5xl sm:text-6xl lg:text-7xl font-black text-rose-600 leading-none">87%</div>
-                  <div className="text-base sm:text-lg text-slate-800 mt-3 leading-snug font-bold">
-                    71/82 học viên không tự xác định được phần cần học bù trước buổi lab.
-                  </div>
-                </div>
-                <div className="bg-blue-50/60 rounded-2xl p-6 border border-blue-200/90 shadow-sm">
-                  <div className="text-5xl sm:text-6xl lg:text-7xl font-black text-rose-600 leading-none">93%</div>
-                  <div className="text-base sm:text-lg text-slate-800 mt-3 leading-snug font-bold">
-                    76/82 học viên gặp tình trạng tài liệu rải rác nhiều nơi (Discord, Zoom, Drive, VLearn, GitHub).
-                  </div>
-                </div>
-                <div className="bg-blue-50/60 rounded-2xl p-6 border border-blue-200/90 shadow-sm">
-                  <div className="text-5xl sm:text-6xl lg:text-7xl font-black text-blue-700 leading-none">0.13%</div>
-                  <div className="text-base sm:text-lg text-slate-800 mt-3 leading-snug font-bold">
-                    lượt chat AI Tutor VLearn tự gợi ý bước học tiếp theo (18/13.494 lượt).
-                  </div>
-                </div>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-3 gap-[1.5rem]">
+              <div className="bg-blue-50/50 border border-blue-200 rounded-[1.25rem] p-[1.75rem]">
+                <div className="text-[clamp(2.5rem,4vw,3.5rem)] font-bold text-rose-600 mb-[0.5rem]">87%</div>
+                <h4 className="text-[1.05rem] font-semibold text-[#0f172a] mb-[0.5rem]">Mất phương hướng tự học</h4>
+                <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                  71/82 học viên thừa nhận không biết mình hổng phần nào và nên học bài nào trước buổi thực hành.
+                </p>
               </div>
 
-              {/* Quote */}
-              <div className="mt-6 border-l-6 border-blue-600 pl-5 py-2.5 bg-slate-50 rounded-r-2xl">
-                <p className="text-lg sm:text-xl italic text-blue-950 font-semibold leading-relaxed">
-                  “Slide bài giảng dài hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước.”
+              <div className="bg-blue-50/50 border border-blue-200 rounded-[1.25rem] p-[1.75rem]">
+                <div className="text-[clamp(2.5rem,4vw,3.5rem)] font-bold text-rose-600 mb-[0.5rem]">93%</div>
+                <h4 className="text-[1.05rem] font-semibold text-[#0f172a] mb-[0.5rem]">Tài liệu bị phân mảnh</h4>
+                <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                  76/82 học viên phải lục tìm tài liệu rải rác trên Discord, Google Drive, VLearn và Zoom chat.
                 </p>
-                <div className="text-sm text-slate-500 mt-1 font-medium">
-                  — P02, học viên nền AI (phỏng vấn sâu ngày 16/9)
-                </div>
+              </div>
+
+              <div className="bg-blue-50/50 border border-blue-200 rounded-[1.25rem] p-[1.75rem]">
+                <div className="text-[clamp(2.5rem,4vw,3.5rem)] font-bold text-blue-700 mb-[0.5rem]">50%</div>
+                <h4 className="text-[1.05rem] font-semibold text-[#0f172a] mb-[0.5rem]">Quỹ thời gian dưới 1 giờ</h4>
+                <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                  41/82 người chỉ có dưới 60 phút mỗi ngày để tự học trước giờ lên lớp buổi tối.
+                </p>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Nguồn: khảo sát form n = 82 · vlearn-pack 13.494 lượt chat · phỏng vấn P02 16/9</span>
-              <span className="font-mono text-blue-700 font-bold">spec.md §1</span>
+            {/* HỢP */}
+            <div className="bg-slate-50 border-l-4 border-blue-600 p-[1.25rem] rounded-r-xl flex items-center justify-between">
+              <div>
+                <p className="text-[1rem] italic font-semibold text-slate-900">
+                  “Slide bài giảng hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước.”
+                </p>
+                <span className="text-[0.8rem] text-slate-500 font-medium mt-[0.25rem] block">— P02, học viên nền tảng AI</span>
+              </div>
+              <span className="text-[0.85rem] font-bold text-blue-700 shrink-0 bg-white px-[0.75rem] py-[0.35rem] rounded-lg border border-slate-200 hidden sm:inline-block">
+                Khảo sát thực tế n = 82
+              </span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 5: THÂN BÀI A · 2/6: VÌ SAO CHỌN TÍNH NĂNG
+      // SLIDE 5: LỰA CHỌN BÀI TOÁN CÓ ROI CAO NHẤT
       // -------------------------------------------------------------
       case 4:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài A · 2/6: Vì sao chọn tính năng
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Chiến lược lựa chọn tính năng
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                3 ứng viên — chọn cái có “một quyết định AI” rõ ràng
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                So sánh 3 cơ hội: Tìm kiếm bài toán AI tạo giá trị đột phá
               </h1>
-
-              {/* Selection Table */}
-              <div className="overflow-hidden rounded-2xl border border-slate-300 shadow-sm mt-4">
-                <table className="w-full text-left text-sm sm:text-base border-collapse">
-                  <thead>
-                    <tr className="bg-[#0f172a] text-white">
-                      <th className="p-4 font-bold w-[34%]">Ứng viên giải pháp</th>
-                      <th className="p-4 font-bold">Bằng chứng thực nghiệm</th>
-                      <th className="p-4 font-bold w-[30%]">Quyết định lựa chọn</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-slate-200">
-                    <tr className="bg-white">
-                      <td className="p-4 font-semibold text-slate-900">(1) Tổng hợp link tài liệu phân mảnh</td>
-                      <td className="p-4 text-slate-700">76/82 (93%) gặp tài liệu rải rác</td>
-                      <td className="p-4 text-rose-700 font-bold">Loại — chỉ là tra cứu, không có quyết định AI</td>
-                    </tr>
-                    <tr className="bg-white">
-                      <td className="p-4 font-semibold text-slate-900">(2) Tóm tắt trọng tâm bài giảng</td>
-                      <td className="p-4 text-slate-700">75/82 (91%) gặp slide dài; 8.8% chat xin tóm tắt</td>
-                      <td className="p-4 text-rose-700 font-bold">Loại — trùng lõi Track A (AI Tutor)</td>
-                    </tr>
-                    <tr className="bg-emerald-50 font-bold text-blue-950">
-                      <td className="p-4 text-emerald-800 flex items-center gap-2 text-base lg:text-lg">
-                        <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                        <span>(3) Chẩn đoán nền tảng + thời gian → ≤3 việc</span>
-                      </td>
-                      <td className="p-4 text-slate-900">
-                        71/82 (87%) không biết học bù; 41/82 (50%) rảnh dưới 1 tiếng
-                      </td>
-                      <td className="p-4 text-emerald-800 font-extrabold">
-                        CHỌN — catalog đã kiểm chứng giải luôn một phần (1)
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Signal */}
-              <div className="mt-6 p-5 rounded-2xl bg-blue-50/80 border border-blue-200 flex items-center justify-between">
-                <div>
-                  <span className="text-xs uppercase font-bold text-blue-700 tracking-wider block">Tín hiệu chấp nhận giải pháp</span>
-                  <div className="text-lg sm:text-xl font-bold text-slate-900 mt-1">
-                    <span className="text-emerald-700 text-2xl sm:text-3xl font-black">74/82 (90%)</span> học viên muốn dùng checklist 3 việc theo số phút rảnh mỗi ngày.
-                  </div>
-                </div>
-                <span className="px-4 py-1.5 bg-emerald-100 text-emerald-800 rounded-full text-sm font-extrabold font-mono">
-                  Strong Demand
-                </span>
-              </div>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Không làm tính năng AI thừa thãi — Chỉ chọn bài toán mà AI đóng vai trò ra quyết định thực thụ.
+              </p>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Nguồn: bảng impact spec.md §2 · khảo sát n = 82 · docs/research/evidence-mining.md</span>
-              <span className="font-mono text-blue-700 font-bold">spec.md §2</span>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] overflow-hidden rounded-[1.25rem] border border-slate-300 shadow-sm">
+              <table className="w-full text-left text-[0.95rem] border-collapse">
+                <thead>
+                  <tr className="bg-[#0f172a] text-white">
+                    <th className="p-[1rem] font-semibold w-[30%]">Cơ hội giải pháp</th>
+                    <th className="p-[1rem] font-semibold">Bằng chứng nhu cầu</th>
+                    <th className="p-[1rem] font-semibold w-[35%]">Quyết định chiến lược</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-200">
+                  <tr className="bg-white">
+                    <td className="p-[1rem] font-medium text-slate-800">1. Tổng hợp link tài liệu tĩnh</td>
+                    <td className="p-[1rem] text-slate-600">76/82 (93%) gặp tài liệu rải rác</td>
+                    <td className="p-[1rem] text-rose-700 font-semibold">LOẠI — Chỉ là tra cứu, không có quyết định AI</td>
+                  </tr>
+                  <tr className="bg-white">
+                    <td className="p-[1rem] font-medium text-slate-800">2. Tóm tắt slide bài giảng</td>
+                    <td className="p-[1rem] text-slate-600">75/82 (91%) gặp slide dài; 8.8% xin tóm tắt</td>
+                    <td className="p-[1rem] text-rose-700 font-semibold">LOẠI — Trùng lõi Track A, dễ bị thay thế bởi ChatGPT</td>
+                  </tr>
+                  <tr className="bg-emerald-50 text-blue-950 font-bold">
+                    <td className="p-[1rem] text-emerald-800 flex items-center gap-[0.5rem]">
+                      <CheckCircle2 className="w-[1.25rem] h-[1.25rem] text-emerald-600 shrink-0" />
+                      <span>3. Chẩn đoán nền tảng + thời gian → ≤3 việc</span>
+                    </td>
+                    <td className="p-[1rem] text-slate-900 font-semibold">
+                      71/82 (87%) không biết học bù; 41/82 có dưới 60 phút
+                    </td>
+                    <td className="p-[1rem] text-emerald-800 font-extrabold">
+                      CHỌN — AI ra quyết định, catalog sạch giải luôn bài toán 1
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* HỢP */}
+            <div className="p-[1.25rem] rounded-2xl bg-blue-50 border border-blue-200 flex items-center justify-between">
+              <div className="flex items-center gap-[0.75rem]">
+                <Target className="w-[1.5rem] h-[1.5rem] text-blue-700 shrink-0" />
+                <span className="text-[1rem] font-semibold text-slate-900">
+                  Tín hiệu sẵn sàng chi trả &amp; sử dụng: <strong className="text-emerald-700 font-bold">74/82 (90%)</strong> học viên muốn có checklist 3 việc theo số phút rảnh mỗi ngày.
+                </span>
+              </div>
+              <span className="text-[0.8rem] font-mono font-bold text-blue-700 uppercase tracking-wider hidden md:inline-block">
+                High Retention Moat
+              </span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 6: THÂN BÀI A · 3/6: GIẢI PHÁP
+      // SLIDE 6: GIẢI PHÁP & TRIẾT LÝ SẢN PHẨM (AUGMENT)
       // -------------------------------------------------------------
       case 5:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài A · 3/6: Giải pháp
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Triết lý thiết kế sản phẩm
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                Lộ trình cá nhân hoá: Tối đa 3 việc, kèm link đã kiểm chứng
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Augment: AI đề xuất thông minh — Người học toàn quyền quyết định
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Chúng tôi không xây dựng AI làm thay học viên, mà xây dựng "bộ lọc trọng tâm" giúp họ học có trách nhiệm.
+              </p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mt-6">
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-3">1</div>
-                  <h2 className="text-lg lg:text-xl font-bold text-blue-900 mb-2">Khai báo đơn giản</h2>
-                  <p className="text-sm lg:text-base text-slate-700 font-medium leading-relaxed">
-                    Học viên chỉ cần chọn nền tảng (non-tech / tech / AI), số phút rảnh hôm nay và bài lab tiếp theo cần học.
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-3">2</div>
-                  <h2 className="text-lg lg:text-xl font-bold text-blue-900 mb-2">Quyết định AI có căn cứ</h2>
-                  <p className="text-sm lg:text-base text-slate-700 font-medium leading-relaxed">
-                    AI Mentor trả đúng <strong>≤3 việc trọng tâm</strong>, có lý do rõ ràng, thời lượng vừa vặn và link <strong>chỉ lấy từ catalog đã kiểm chứng</strong>.
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-3">3</div>
-                  <h2 className="text-lg lg:text-xl font-bold text-blue-900 mb-2">Bảo vệ &amp; Guardrail</h2>
-                  <p className="text-sm lg:text-base text-slate-700 font-medium leading-relaxed">
-                    Dưới 30 phút hoặc mâu thuẫn $\rightarrow$ <strong>hỏi lại</strong>. Xin làm hộ, xin đáp án lab, xin deadline $\rightarrow$ <strong>từ chối ngay</strong>.
-                  </p>
-                </div>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-3 gap-[1.5rem]">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2.5rem] h-[2.5rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-[1rem]">1</div>
+                <h3 className="text-[1.15rem] font-semibold text-[#0f172a] mb-[0.5rem]">Nhập liệu tinh giản</h3>
+                <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                  Chỉ mất 30 giây để chọn: Nền tảng hiện tại (Non-tech / Tech / AI) + Số phút rảnh hôm nay + Bài lab tiếp theo.
+                </p>
               </div>
 
-              {/* Augment Callout */}
-              <div className="mt-6 p-5 rounded-2xl bg-emerald-50/80 border border-emerald-200">
-                <h3 className="text-base lg:text-lg font-bold text-emerald-800 mb-1">
-                  Mức tự động hoá: Augment (Hỗ trợ ra quyết định)
-                </h3>
-                <p className="text-sm lg:text-base text-slate-800 font-medium leading-relaxed">
-                  AI chỉ đề xuất, học viên tự tick hoàn thành, tự đổi thứ tự. <strong>Cost-of-error cực thấp:</strong> gợi ý sai chỉ mất vài chục phút đọc nhầm tài liệu — hoàn toàn không ảnh hưởng điểm số, không trễ hạn nộp.
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2.5rem] h-[2.5rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-[1rem]">2</div>
+                <h3 className="text-[1.15rem] font-semibold text-[#0f172a] mb-[0.5rem]">May đo đúng ≤3 việc</h3>
+                <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                  Lộ trình vừa khít với thời gian rảnh; 100% đường dẫn học liệu được bảo đảm có trong catalog nội bộ (Không rác mạng).
+                </p>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2.5rem] h-[2.5rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-[1rem]">3</div>
+                <h3 className="text-[1.15rem] font-semibold text-[#0f172a] mb-[0.5rem]">Liêm chính &amp; Guardrail</h3>
+                <p className="text-[0.875rem] text-slate-600 font-medium leading-relaxed">
+                  Học viên xin đáp án, xin làm hộ bài, xin gian lận deadline $\rightarrow$ AI lập tức từ chối, giải thích nguyên tắc học tập.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Luồng chi tiết: docs/05-ui-flow.md · docs/04-ai-pipeline.md</span>
-              <span className="font-mono text-blue-700 font-bold">spec.md §4, §6</span>
+            {/* HỢP */}
+            <div className="p-[1.25rem] rounded-2xl bg-emerald-50 border border-emerald-200 flex items-center justify-between">
+              <div>
+                <span className="text-[0.8rem] font-bold text-emerald-800 uppercase tracking-wider block">Quản trị rủi ro thấp (Cost-of-Error)</span>
+                <p className="text-[0.95rem] text-slate-800 font-medium mt-[0.25rem]">
+                  Nếu AI gợi ý chưa tối ưu, học viên chỉ tốn 15 phút đọc nhầm một bài đọc — <strong>không ảnh hưởng điểm số, không trễ hạn nộp bài.</strong>
+                </p>
+              </div>
+              <span className="text-emerald-700 font-bold text-[0.85rem] font-mono bg-white px-[0.75rem] py-[0.35rem] rounded-lg border border-emerald-300 shrink-0 hidden sm:inline-block">
+                Zero Risk
+              </span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 7: THÂN BÀI A · 3/6: LIVE DEMO TRÊN SÂN KHẤU
+      // SLIDE 7: LIVE DEMO THỰC TẾ TRÊN WEB
       // -------------------------------------------------------------
       case 6:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài A · 3/6: Live Demo trên sân khấu (60–80s)
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Trải nghiệm thực tế sản phẩm (Live Demo 60–80s)
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                Chứng minh thực tế: 1 Case chuẩn &amp; 2 Case khó
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Chứng minh trực tiếp: 1 Kịch bản chuẩn &amp; 2 Kịch bản thử thách
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Ứng dụng đang chạy thực tế trên production, mời Ban giám khảo trực tiếp quan sát.
+              </p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 mt-4">
-                {/* Case 1 */}
-                <div className="bg-blue-50/70 border border-blue-200 rounded-2xl p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="px-3 py-1 rounded-full bg-blue-900 text-white text-xs font-bold">
-                      ① Case chuẩn (Happy Path)
-                    </span>
-                    <span className="text-xs font-mono font-bold text-emerald-700">ĐÃ CHẠY THẬT</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-blue-950 mb-1">Nền Tech · 60 phút · Lab tiếp theo</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    AI sinh đúng 3 nhiệm vụ, tổng thời lượng không vượt quá 60 phút, 100% link nằm trong catalog đã xác thực, có nhãn "AI".
-                  </p>
-                </div>
-
-                {/* Case 2 */}
-                <div className="bg-rose-50/60 border border-rose-200 rounded-2xl p-6">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="px-3 py-1 rounded-full bg-rose-700 text-white text-xs font-bold">
-                      ② Case từ chối (Guardrail G16)
-                    </span>
-                    <span className="text-xs font-mono font-bold text-rose-700">BẢO VỆ VLEARN</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-rose-950 mb-1">Ghi chú “Làm hộ bài lab / cho đáp án”</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    AI Mentor từ chối dứt khoát, viện dẫn nguyên tắc liêm chính học thuật và chỉ đường kết nối với Lab Coach. Tuyệt đối không leak đáp án.
-                  </p>
-                </div>
-              </div>
-
-              {/* Case 3 & Invitation */}
-              <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between">
-                <div>
-                  <span className="text-xs uppercase font-bold text-slate-600 block">③ Case hỏi lại khi mâu thuẫn (G14)</span>
-                  <span className="text-sm text-slate-800 font-semibold">
-                    Khai non-tech nhưng nói “đã deploy RAG production” $\rightarrow$ AI hỏi lại thay vì bịa đặt đoán mò.
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-2 gap-[1.5rem]">
+              <div className="bg-blue-50/70 border border-blue-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="flex items-center justify-between mb-[0.5rem]">
+                  <span className="px-[0.75rem] py-[0.2rem] rounded-full bg-blue-900 text-white text-[0.75rem] font-bold">
+                    ① KỊCH BẢN CHUẨN (HAPPY PATH)
                   </span>
+                  <span className="text-[0.75rem] font-mono font-bold text-emerald-700">HOÀN TẤT TRONG 30s</span>
                 </div>
-                <span className="px-3 py-1 rounded-lg bg-slate-200 text-slate-800 text-xs font-bold font-mono shrink-0">
-                  Thẻ mời BGK thử
-                </span>
+                <h4 className="text-[1.15rem] font-bold text-blue-950 mb-[0.25rem]">Học viên Tech-base · 60 phút rảnh · Lab 3</h4>
+                <p className="text-[0.875rem] text-slate-700 font-medium leading-relaxed">
+                  AI Mentor lập tức tính toán, trả đúng 3 nhiệm vụ trọng tâm, tổng thời lượng không quá 60 phút, 100% link nội bộ chuẩn catalog.
+                </p>
               </div>
 
-              {/* ACTION BUTTON */}
-              <div className="mt-5">
-                <Link
-                  href="/personalized-path"
-                  target="_blank"
-                  className="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 hover:from-blue-950 hover:to-blue-800 text-white font-extrabold text-sm sm:text-base uppercase tracking-wider shadow-lg shadow-blue-900/20 transition flex items-center justify-center gap-3"
-                >
-                  <Monitor className="w-5 h-5 text-sky-300" />
-                  <span>🚀 MỞ TRANG LIVE DEMO THỰC TẾ (/personalized-path)</span>
-                  <ExternalLink className="w-4 h-4 text-slate-300" />
-                </Link>
+              <div className="bg-rose-50/70 border border-rose-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="flex items-center justify-between mb-[0.5rem]">
+                  <span className="px-[0.75rem] py-[0.2rem] rounded-full bg-rose-700 text-white text-[0.75rem] font-bold">
+                    ② KỊCH BẢN TỪ CHỐI (ANTI-CHEAT G16)
+                  </span>
+                  <span className="text-[0.75rem] font-mono font-bold text-rose-700">BẢO VỆ NHÀ TRƯỜNG</span>
+                </div>
+                <h4 className="text-[1.15rem] font-bold text-rose-950 mb-[0.25rem]">Ghi chú “Làm hộ bài lab và gửi đáp án”</h4>
+                <p className="text-[0.875rem] text-slate-700 font-medium leading-relaxed">
+                  Hệ thống lập tức kích hoạt Guardrail từ chối, giải thích nguyên tắc trung thực học thuật và hướng dẫn kết nối Lab Coach.
+                </p>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Web: k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path · Có video dự phòng</span>
-              <span className="font-mono text-blue-700 font-bold">CP5 Demo Video</span>
+            {/* HỢP & NÚT LIVE DEMO */}
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-[1rem] pt-[0.5rem]">
+              <div className="text-[0.875rem] text-slate-600 font-medium">
+                ③ Kịch bản dự phòng (G14): Học viên khai non-tech nhưng ghi "đã deploy RAG" $\rightarrow$ AI hỏi lại để làm rõ thay vì đoán mò.
+              </div>
+              <Link
+                href="/personalized-path"
+                target="_blank"
+                className="w-full sm:w-auto px-[1.5rem] py-[0.85rem] rounded-xl bg-blue-700 hover:bg-blue-800 text-white font-bold text-[0.9rem] uppercase tracking-wider shadow-md transition flex items-center justify-center gap-[0.5rem] shrink-0"
+              >
+                <Monitor className="w-[1.1rem] h-[1.1rem] text-sky-300" />
+                <span>🚀 MỞ TRANG LIVE DEMO THẬT</span>
+                <ExternalLink className="w-[0.9rem] h-[0.9rem]" />
+              </Link>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 8: THÂN BÀI A · 4/6: KẾT QUẢ ĐO LƯỜNG
+      // SLIDE 8: ĐO LƯỜNG & TRUNG THỰC VỀ SAI SỐ (CASE G02)
       // -------------------------------------------------------------
       case 7:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài A · 4/6: Kết quả đo
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Đo kiểm định lượng &amp; Báo cáo trung thực
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                Đạt Quality Bar khoá tại CP4: AI v2 19/20, 0 link ngoài catalog
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Đạt Quality Bar khoá tại CP4: AI v2 đạt 19/20 (95%)
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Cam kết trung thực tuyệt đối: Giữ nguyên số liệu thật, công khai và phân tích nguồn gốc ca trượt G02.
+              </p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-12 gap-5 lg:gap-6 mt-3">
-                {/* Metric Table */}
-                <div className="md:col-span-6 space-y-4">
-                  <div className="p-3.5 rounded-xl bg-blue-50 border border-blue-200 text-xs sm:text-sm text-slate-800 font-semibold">
-                    Quality Bar (khoá 21:00 · 17/9): ≥18/20 case đạt VÀ 0 URL ngoài VÀ 3/3 refuse.
-                  </div>
-
-                  <div className="overflow-hidden rounded-xl border border-slate-300 shadow-sm">
-                    <table className="w-full text-left text-sm lg:text-base border-collapse">
-                      <thead>
-                        <tr className="bg-[#0f172a] text-white">
-                          <th className="p-3.5 font-bold">Lượt chạy thử nghiệm</th>
-                          <th className="p-3.5 font-bold">Tỷ lệ đạt</th>
-                          <th className="p-3.5 font-bold">Link ngoài</th>
-                        </tr>
-                      </thead>
-                      <tbody className="divide-y divide-slate-200">
-                        <tr className="bg-white">
-                          <td className="p-3.5 font-medium text-slate-800">Baseline luật tĩnh (20 case)</td>
-                          <td className="p-3.5 font-bold text-slate-800">17/20 · 85%</td>
-                          <td className="p-3.5 text-emerald-700 font-bold">0</td>
-                        </tr>
-                        <tr className="bg-white">
-                          <td className="p-3.5 font-medium text-slate-800">AI v1 · Gemini Flash-Lite</td>
-                          <td className="p-3.5 font-bold text-slate-800">18/20 · 90%</td>
-                          <td className="p-3.5 text-emerald-700 font-bold">0</td>
-                        </tr>
-                        <tr className="bg-emerald-50 font-bold text-blue-950">
-                          <td className="p-3.5 text-emerald-800 flex items-center gap-1.5">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                            <span>AI v2 · Gemini Flash-Lite</span>
-                          </td>
-                          <td className="p-3.5 text-emerald-800 text-lg font-black">19/20 · 95%</td>
-                          <td className="p-3.5 text-emerald-800 text-lg font-black">0</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-12 gap-[1.5rem]">
+              <div className="md:col-span-6 space-y-[1rem]">
+                <div className="overflow-hidden rounded-xl border border-slate-300 shadow-sm">
+                  <table className="w-full text-left text-[0.9rem] border-collapse">
+                    <thead>
+                      <tr className="bg-[#0f172a] text-white">
+                        <th className="p-[0.75rem] font-semibold">Lượt chạy nghiệm thu</th>
+                        <th className="p-[0.75rem] font-semibold">Tỷ lệ đạt</th>
+                        <th className="p-[0.75rem] font-semibold">Link ngoài catalog</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-200">
+                      <tr className="bg-white">
+                        <td className="p-[0.75rem] font-medium text-slate-700">Baseline luật tĩnh (20 case)</td>
+                        <td className="p-[0.75rem] font-bold text-slate-800">17/20 (85%)</td>
+                        <td className="p-[0.75rem] font-bold text-emerald-700">0</td>
+                      </tr>
+                      <tr className="bg-white">
+                        <td className="p-[0.75rem] font-medium text-slate-700">AI v1 · Gemini Flash-Lite</td>
+                        <td className="p-[0.75rem] font-bold text-slate-800">18/20 (90%)</td>
+                        <td className="p-[0.75rem] font-bold text-emerald-700">0</td>
+                      </tr>
+                      <tr className="bg-emerald-50 font-bold text-blue-950">
+                        <td className="p-[0.75rem] text-emerald-800 flex items-center gap-[0.5rem]">
+                          <CheckCircle2 className="w-[1rem] h-[1rem] text-emerald-600" />
+                          <span>AI v2 · Gemini Flash-Lite</span>
+                        </td>
+                        <td className="p-[0.75rem] text-emerald-800 text-[1.1rem]">19/20 (95%)</td>
+                        <td className="p-[0.75rem] text-emerald-800 text-[1.1rem]">0</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
 
-                {/* Failure Case G02 */}
-                <div className="md:col-span-6 space-y-4">
-                  <div className="bg-slate-50 rounded-2xl p-5 border border-slate-300">
-                    <h3 className="text-base font-bold text-rose-700 flex items-center gap-2 mb-1.5">
-                      <AlertTriangle className="w-5 h-5" />
-                      <span>Failure đáng kể nhất: Case G02 (Nói thật)</span>
-                    </h3>
-                    <p className="text-xs sm:text-sm text-slate-700 font-medium leading-relaxed">
-                      Gemini chọn đúng tài liệu <code className="bg-white px-1.5 py-0.5 rounded border text-xs font-mono font-bold text-slate-900">ptc-function-calling</code> nhưng xếp thứ ba; hậu kiểm giới hạn 60 phút loại mất item này. Không bịa link, không rơi về baseline — nhóm giữ nguyên con số 19/20, không sửa để lấy điểm ảo.
-                    </p>
-                  </div>
+                <div className="p-[1rem] rounded-xl bg-blue-50 border border-blue-200 text-[0.85rem] text-blue-950 font-medium">
+                  <strong>Chuẩn Quality Bar:</strong> ≥18/20 case đạt VÀ 0 URL ngoài VÀ từ chối 3/3 ca vượt quyền.
+                </div>
+              </div>
 
-                  <div className="p-4 rounded-xl bg-blue-50/70 border border-blue-200 text-xs sm:text-sm text-slate-700 leading-relaxed font-medium">
-                    <span className="font-bold text-blue-950 flex items-center gap-1 mb-1">
-                      <Info className="w-4 h-4 text-blue-600" />
-                      <span>Bộ mở rộng 50 case 2 đối tượng:</span>
-                    </span>
-                    40 case nhu cầu học viên + 10 case bảo vệ nền tảng VLearn (chống leak lab, chống lách deadline, chống DoS, lỗi 404).
+              <div className="md:col-span-6 space-y-[1rem]">
+                <div className="bg-slate-50 border border-slate-300 rounded-xl p-[1.25rem]">
+                  <div className="flex items-center gap-[0.5rem] text-rose-700 font-bold text-[0.95rem] mb-[0.35rem]">
+                    <AlertTriangle className="w-[1.1rem] h-[1.1rem]" />
+                    <span>Sự thật về ca trượt G02 (Học viên 60m)</span>
                   </div>
+                  <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed">
+                    AI chọn đúng tài liệu <code className="bg-white px-[0.35rem] py-[0.1rem] rounded border font-mono text-[0.75rem] font-bold text-slate-800">ptc-function-calling</code> nhưng xếp thứ ba; bộ lọc thời gian 60 phút đã cắt mất mục này. Nhóm <strong>không sửa đề, không can thiệp kết quả</strong> để bảo toàn tính trung thực.
+                  </p>
+                </div>
+
+                <div className="p-[1rem] rounded-xl bg-slate-50 border border-slate-200 text-[0.825rem] text-slate-600 font-medium leading-relaxed">
+                  <strong>Mở rộng 50 case:</strong> 40 ca phục vụ học viên (B2C) + 10 ca bảo vệ hạ tầng VLearn (chống leak lab, chống DoS token 0 phút, chặn lỗi 404).
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Nguồn: eval/run_results.md · eval/latest-ai-results.json</span>
+            {/* HỢP */}
+            <div className="border-t border-slate-200 pt-[1rem] flex justify-between items-center text-[0.85rem] text-slate-500 font-medium">
+              <span>Bằng chứng thực nghiệm: eval/run_results.md · eval/latest-ai-results.json</span>
               <span className="font-mono text-blue-700 font-bold">spec.md §7</span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 9: THÂN BÀI B · 5/6: NGƯỜI DÙNG THẬT NÓI GÌ
+      // SLIDE 9: TIẾNG NÓI KHÁCH HÀNG & MINH BẠCH TIẾN ĐỘ
       // -------------------------------------------------------------
       case 8:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài B · 5/6: Người dùng thật nói gì
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Kiểm chứng người dùng &amp; Minh bạch
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                Chưa hoàn thành 5 buổi dùng thử — Nói thẳng thay vì tô vẽ
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Chưa đủ 5 buổi dùng thử thực tế — Báo cáo thật thay vì ngụy tạo
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Tuân thủ quy định đề bài: Chưa hoàn thành đủ 5 buổi user test bên ngoài thì báo cáo số liệu Golden Set.
+              </p>
+            </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                {/* Real interview */}
-                <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4">
-                  <h3 className="text-lg font-bold text-blue-900">Phỏng vấn sâu trước khi build (16/9)</h3>
-                  <div className="border-l-4 border-blue-600 pl-4 py-1.5">
-                    <p className="text-base italic text-slate-900 font-semibold">
-                      “Mỗi buổi học phải mất ít nhất 20–25 phút chỉ để gom đủ link tài liệu.”
-                    </p>
-                    <span className="text-xs text-slate-500 block mt-1 font-medium">— P01, học viên nền tech</span>
-                  </div>
-                  <div className="border-l-4 border-blue-600 pl-4 py-1.5">
-                    <p className="text-base italic text-slate-900 font-semibold">
-                      “Slide bài giảng dài hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước.”
-                    </p>
-                    <span className="text-xs text-slate-500 block mt-1 font-medium">— P02, học viên nền AI</span>
-                  </div>
-                  <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-sm font-bold text-emerald-800">
-                    ✓ 71/82 (87%) người khảo sát xác nhận sẵn sàng dùng thử ở vòng tiếp theo.
-                  </div>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-2 gap-[1.5rem]">
+              <div className="bg-slate-50 p-[1.5rem] rounded-[1.25rem] border border-slate-200 space-y-[1rem]">
+                <h4 className="text-[1.1rem] font-bold text-blue-900">Tiếng nói phỏng vấn sâu trước khi build</h4>
+                <div className="border-l-4 border-blue-600 pl-[1rem] py-[0.25rem]">
+                  <p className="text-[0.95rem] italic text-slate-900 font-semibold">
+                    “Mỗi buổi học phải mất ít nhất 20–25 phút chỉ để gom đủ link tài liệu.”
+                  </p>
+                  <span className="text-[0.8rem] text-slate-500 font-medium mt-[0.25rem] block">— P01, học viên nền tech</span>
                 </div>
+                <div className="border-l-4 border-blue-600 pl-[1rem] py-[0.25rem]">
+                  <p className="text-[0.95rem] italic text-slate-900 font-semibold">
+                    “Slide bài giảng dài hơn 60 trang, mình chỉ có khoảng 45 phút buổi trưa để đọc trước.”
+                  </p>
+                  <span className="text-[0.8rem] text-slate-500 font-medium mt-[0.25rem] block">— P02, học viên nền AI</span>
+                </div>
+              </div>
 
-                {/* Golden set instead */}
-                <div className="bg-blue-50/60 p-6 rounded-2xl border border-blue-200 space-y-3.5">
-                  <h3 className="text-lg font-bold text-blue-950">Đo kiểm bằng Golden Set (Theo luật đề §5.1)</h3>
-                  <ul className="space-y-3 text-sm sm:text-base text-slate-800 font-medium">
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span>AI v2 <strong>đạt</strong> Quality Bar: 19/20 case, 0 link ngoài catalog.</span>
-                    </li>
-                    <li className="flex items-start gap-2.5">
-                      <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0 mt-0.5" />
-                      <span><strong>3/3 case ngoài phạm vi</strong> (xin đáp án, nộp muộn, system prompt) $\rightarrow$ <strong>từ chối</strong>.</span>
-                    </li>
-                    <li className="flex items-start gap-2.5 text-rose-700">
-                      <AlertTriangle className="w-5 h-5 text-rose-600 shrink-0 mt-0.5" />
-                      <span>Chưa đạt: <strong>G02</strong> — thiếu 1 tài liệu do giới hạn 60 phút.</span>
-                    </li>
-                  </ul>
-                  <div className="pt-2 text-xs text-slate-500 border-t border-slate-200">
-                    Nhật ký dùng thử: <code>validation/log.md</code> (chưa đủ 5 người ngoài nhóm trước hạn nộp).
-                  </div>
+              <div className="bg-blue-50/60 p-[1.5rem] rounded-[1.25rem] border border-blue-200 space-y-[0.75rem]">
+                <h4 className="text-[1.1rem] font-bold text-blue-950">Đo lường thay thế trên Golden Set</h4>
+                <ul className="space-y-[0.65rem] text-[0.875rem] text-slate-700 font-medium">
+                  <li className="flex items-start gap-[0.5rem]">
+                    <CheckCircle2 className="w-[1.1rem] h-[1.1rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
+                    <span>AI v2 đạt Quality Bar 19/20, 0 link ngoài danh mục.</span>
+                  </li>
+                  <li className="flex items-start gap-[0.5rem]">
+                    <CheckCircle2 className="w-[1.1rem] h-[1.1rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
+                    <span>Từ chối 3/3 yêu cầu gian lận học thuật hoặc lách deadline.</span>
+                  </li>
+                  <li className="flex items-start gap-[0.5rem] text-rose-700">
+                    <AlertTriangle className="w-[1.1rem] h-[1.1rem] text-rose-600 shrink-0 mt-[0.1rem]" />
+                    <span>Chưa đạt: Ca G02 thiếu 1 tài liệu do giới hạn 60 phút.</span>
+                  </li>
+                </ul>
+                <div className="pt-[0.5rem] text-[0.8rem] text-slate-500 border-t border-slate-200">
+                  Nhật ký dùng thử: <code>validation/log.md</code> (Chưa đủ 5 người ngoài nhóm trước 13:00).
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Nguồn: docs/research/survey-log.md · 02-guide §5.1</span>
-              <span className="font-mono text-blue-700 font-bold">validation/log.md</span>
+            {/* HỢP */}
+            <div className="p-[1rem] rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-between text-[0.9rem] text-emerald-900 font-semibold">
+              <span>Cơ sở người dùng sẵn sàng: <strong>71/82 (87%)</strong> người khảo sát xác nhận sẵn sàng tham gia thử nghiệm diện rộng ở vòng sau.</span>
+              <span className="font-mono text-emerald-700 font-bold">Willing Users</span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 10: THÂN BÀI B · KIẾN TRÚC KỸ THUẬT AN TOÀN
+      // SLIDE 10: BUSINESS MODEL, BẢO VỆ CHI PHÍ & 4 VAI TRÒ
       // -------------------------------------------------------------
       case 9:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Thân bài B · Kiến trúc kỹ thuật &amp; An toàn
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Mô hình kinh doanh &amp; Quản trị chi phí
               </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                An toàn trước, AI sau: Bảo vệ dữ liệu &amp; Nền tảng
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Kiến trúc 4 vai trò: Tối ưu chi phí API &amp; Tạo phễu chuyển đổi
               </h1>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mt-4">
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-3">
-                    <Lock className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-blue-900 mb-2">BYOK Trình Duyệt</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    API key người dùng chỉ nằm tại LocalStorage trình duyệt, gửi kèm từng request, server không lưu trữ, không log.
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-3">
-                    <ShieldCheck className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-blue-900 mb-2">Pipeline Định Tuyến &amp; Hậu Kiểm</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    Validate Zod $\rightarrow$ Luật cứng $\rightarrow$ Router gọi 7 LLMs $\rightarrow$ Hậu kiểm catalog (loại bỏ 100% URL không xác thực).
-                  </p>
-                </div>
-
-                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6">
-                  <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-3">
-                    <Database className="w-5 h-5" />
-                  </div>
-                  <h3 className="text-lg font-bold text-blue-900 mb-2">.NET 10 CQRS &amp; 4 Vai Trò</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    Clean Architecture, 60 unit/integration tests tự động. Kiểm soát 4 vai trò (Viewer, Student, Lecturer, Admin) chống lạm dụng chi phí LLM.
-                  </p>
-                </div>
-              </div>
-
-              {/* Invariant */}
-              <div className="mt-5 p-4 rounded-xl bg-blue-50/70 border border-blue-200 text-xs sm:text-sm text-slate-800 font-semibold">
-                Bất biến #4: Nội dung người dùng nhập luôn là <strong>DỮ LIỆU</strong>, không phải lệnh — bọc trong thẻ XML riêng biệt trước khi nạp prompt.
-              </div>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Ứng dụng AI giáo dục chỉ khả thi về mặt tài chính khi kiểm soát chặt chẽ biên chi phí token trên từng học viên.
+              </p>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Tài liệu: docs/02-kien-truc.md · docs/04-ai-pipeline.md · docs/06-backend-dotnet.md</span>
-              <span className="font-mono text-blue-700 font-bold">AGENTS.md</span>
-            </div>
-          </div>
-        );
-
-      // -------------------------------------------------------------
-      // SLIDE 11: KẾT LUẬN · NẾU CÓ THÊM 1 TUẦN
-      // -------------------------------------------------------------
-      case 10:
-        return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
-            <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Kết luận · Kế hoạch hành động
-              </div>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black text-[#0f172a] mt-2 mb-4 leading-tight">
-                Nếu có thêm 1 tuần: 3 việc ưu tiên trỏ thẳng vào lỗ hổng
-              </h1>
-
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5 lg:gap-6 mt-4">
-                <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-6 shadow-sm">
-                  <div className="w-8 h-8 rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-sm mb-3">1</div>
-                  <h3 className="text-lg font-bold text-blue-950 mb-1.5">5 buổi user test thật</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    Giao task, ngồi im quan sát, ghi quote nguyên văn — hoàn thành đúng phần còn thiếu ở mốc CP5.
-                  </p>
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-3 gap-[1.5rem]">
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-[0.75rem]">
+                  <Users className="w-[1.2rem] h-[1.2rem]" />
                 </div>
-
-                <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-6 shadow-sm">
-                  <div className="w-8 h-8 rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-sm mb-3">2</div>
-                  <h3 className="text-lg font-bold text-blue-950 mb-1.5">Bài test chẩn đoán từ CV</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    74/82 (90%) học viên muốn có; thay thế dữ liệu tự khai bằng năng lực đo kiểm khách quan.
-                  </p>
-                </div>
-
-                <div className="bg-blue-50/60 border border-blue-200 rounded-2xl p-6 shadow-sm">
-                  <div className="w-8 h-8 rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-sm mb-3">3</div>
-                  <h3 className="text-lg font-bold text-blue-950 mb-1.5">Thư viện tài liệu giảng viên</h3>
-                  <p className="text-sm text-slate-700 font-medium leading-relaxed">
-                    Giảng viên tự tải tài liệu lên, AI Mentor tự động nạp vào thư viện thay cho catalog soạn tay.
-                  </p>
-                </div>
+                <h4 className="text-[1.1rem] font-bold text-blue-900 mb-[0.35rem]">Phễu chuyển đổi (Viewer $\rightarrow$ Student)</h4>
+                <p className="text-[0.85rem] text-slate-600 font-medium leading-relaxed">
+                  Khách vãng lai dùng thử 10 câu AI Helpdesk miễn phí/ngày để làm quen. Khi cần Lộ trình cá nhân hoá, đăng ký để nâng cấp thành Student.
+                </p>
               </div>
 
-              {/* Core Lesson */}
-              <div className="mt-6 p-6 rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-[#1e3a8a] text-white shadow-lg">
-                <div className="text-xs uppercase font-extrabold text-sky-300 tracking-wider mb-1 flex items-center gap-1.5">
-                  <Sparkles className="w-4 h-4 text-sky-300" />
-                  <span>Bài học lớn nhất của nhóm Vinonymus</span>
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-[0.75rem]">
+                  <Lock className="w-[1.2rem] h-[1.2rem]" />
                 </div>
-                <p className="text-lg sm:text-xl lg:text-2xl font-bold leading-relaxed">
-                  Chốt chuẩn “đạt” (Quality Bar) và đo kiểm bằng Golden Set từ sớm giúp nhóm tự tin báo cáo bằng số liệu thật — kể cả khi con số đó chưa hoàn hảo.
+                <h4 className="text-[1.1rem] font-bold text-blue-900 mb-[0.35rem]">Bảo vệ chi phí API (Chống Spam)</h4>
+                <p className="text-[0.85rem] text-slate-600 font-medium leading-relaxed">
+                  Đăng ký tài khoản phải qua Admin phê duyệt; chỉ cấp quyền AI tốn tiền cho người thật. Không có tài khoản rác bào mòn chi phí LLM.
+                </p>
+              </div>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2.25rem] h-[2.25rem] rounded-xl bg-blue-600 text-white flex items-center justify-center font-bold mb-[0.75rem]">
+                  <DollarSign className="w-[1.2rem] h-[1.2rem]" />
+                </div>
+                <h4 className="text-[1.1rem] font-bold text-blue-900 mb-[0.35rem]">Unit Economics Siêu Thấp</h4>
+                <p className="text-[0.85rem] text-slate-600 font-medium leading-relaxed">
+                  Sử dụng Gemini Flash-Lite định tuyến thông minh kết hợp cache: Chi phí AI trung bình ước tính dưới <strong>4.800đ / học viên / tháng</strong>.
                 </p>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Chi tiết 31 task: docs/hackathon/tasks-he-thong-4-vai-tro.md</span>
-              <span className="font-mono text-blue-700 font-bold">spec.md §9</span>
+            {/* HỢP */}
+            <div className="p-[1rem] rounded-xl bg-blue-50 border border-blue-200 flex justify-between items-center text-[0.85rem] text-blue-950 font-semibold">
+              <span>Hạ tầng backend .NET 10 Clean Architecture: 60 automated tests sẵn sàng cho vận hành quy mô lớn.</span>
+              <span className="font-mono text-blue-700 font-bold">Scalable Architecture</span>
             </div>
           </div>
         );
 
       // -------------------------------------------------------------
-      // SLIDE 12: KẾT LUẬN · TỔNG KẾT & HỎI ĐÁP
+      // SLIDE 11: KẾ HOẠCH HÀNH ĐỘNG 1 TUẦN & TĂNG TRƯỞNG
+      // -------------------------------------------------------------
+      case 10:
+        return (
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
+            <div>
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Lộ trình tăng trưởng tiếp theo
+              </div>
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Nếu có thêm 1 tuần: 3 đòn bẩy hoàn thiện sản phẩm
+              </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Ưu tiên nguồn lực vào những khâu nâng cao trải nghiệm người dùng và tự động hoá kho tri thức.
+              </p>
+            </div>
+
+            {/* PHÂN */}
+            <div className="my-[1.5rem] grid grid-cols-1 md:grid-cols-3 gap-[1.5rem]">
+              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2rem] h-[2rem] rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-[0.9rem] mb-[0.75rem]">
+                  1
+                </div>
+                <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">5 buổi User Testing thực tế</h4>
+                <p className="text-[0.875rem] text-slate-700 font-medium leading-relaxed">
+                  Giao bài lab thật, ngồi quan sát thao tác của 5 học viên ngoài nhóm, ghi nhận chỉ số NPS và thời gian hoàn tất.
+                </p>
+              </div>
+
+              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2rem] h-[2rem] rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-[0.9rem] mb-[0.75rem]">
+                  2
+                </div>
+                <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">Sinh bài test chẩn đoán từ CV</h4>
+                <p className="text-[0.875rem] text-slate-700 font-medium leading-relaxed">
+                  Đáp ứng 74/82 (90%) học viên mong muốn: Đọc CV tự động tạo bài test năng lực 5 phút thay cho dữ liệu tự khai.
+                </p>
+              </div>
+
+              <div className="bg-blue-50/60 border border-blue-200 rounded-[1.25rem] p-[1.5rem]">
+                <div className="w-[2rem] h-[2rem] rounded-xl bg-blue-900 text-white flex items-center justify-center font-bold text-[0.9rem] mb-[0.75rem]">
+                  3
+                </div>
+                <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">Cổng tài liệu cho Giảng viên</h4>
+                <p className="text-[0.875rem] text-slate-700 font-medium leading-relaxed">
+                  Giảng viên tải slide / giáo trình lên $\rightarrow$ Hệ sinh thái tự động vector hóa và nạp vào catalog cho AI Mentor.
+                </p>
+              </div>
+            </div>
+
+            {/* HỢP */}
+            <div className="p-[1.25rem] rounded-2xl bg-gradient-to-r from-blue-950 via-blue-900 to-[#1e3a8a] text-white shadow-md">
+              <div className="text-[0.8rem] uppercase font-bold text-sky-300 tracking-wider mb-[0.25rem] flex items-center gap-[0.5rem]">
+                <Sparkles className="w-[1rem] h-[1rem]" />
+                <span>Bài học cốt lõi của Vinonymus</span>
+              </div>
+              <p className="text-[1rem] sm:text-[1.1rem] font-medium leading-relaxed">
+                Chốt chuẩn chất lượng (Quality Bar) sớm và đo kiểm định lượng liên tục là chìa khóa để xây dựng một sản phẩm AI trung thực và bền vững.
+              </p>
+            </div>
+          </div>
+        );
+
+      // -------------------------------------------------------------
+      // SLIDE 12: TỔNG KẾT & MỜI HỎI ĐÁP (Q&A)
       // -------------------------------------------------------------
       case 11:
         return (
-          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif]">
+          <div className="flex flex-col justify-between h-full select-text font-['Montserrat',sans-serif] text-slate-800">
+            {/* TỔNG */}
             <div>
-              <div className="text-sm sm:text-base font-bold text-blue-700 tracking-wider uppercase">
-                Kết luận · Tổng kết &amp; Hỏi đáp (Q&amp;A)
+              <div className="text-[0.85rem] font-semibold text-blue-700 tracking-[0.08em] uppercase">
+                Tổng kết đề án &amp; Hỏi đáp
               </div>
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-[#0f172a] mt-2 mb-6 leading-tight">
-                Cảm ơn Ban giám khảo — Mời đặt câu hỏi
+              <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-semibold text-[#0f172a] mt-[0.5rem] mb-[0.5rem] tracking-[0.02em]">
+                Vinonymus: Giải quyết đúng nỗi đau bằng số liệu thật
               </h1>
+              <p className="text-[1rem] text-slate-600 font-medium">
+                Cảm ơn Ban giám khảo và các bạn học viên. Chúng tôi sẵn sàng cho phần phản biện!
+              </p>
+            </div>
 
-              {/* 4 Key Commitments */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 lg:gap-6 max-w-5xl">
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-base font-bold text-slate-900">Nỗi đau có số liệu thật</div>
-                    <div className="text-sm text-slate-600 font-medium">87% học viên không biết học bù phần nào (71/82 người khảo sát).</div>
-                  </div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-base font-bold text-slate-900">AI Mentor đạt chuẩn chất lượng</div>
-                    <div className="text-sm text-slate-600 font-medium">19/20 case đạt, 0 URL ngoài catalog đã kiểm chứng.</div>
-                  </div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-base font-bold text-slate-900">Biết từ chối, biết hỏi lại</div>
-                    <div className="text-sm text-slate-600 font-medium">3/3 case gian lận bị chặn, bảo vệ liêm chính học thuật VLearn.</div>
-                  </div>
-                </div>
-
-                <div className="p-5 rounded-2xl bg-slate-50 border border-slate-200 flex items-start gap-3.5">
-                  <CheckCircle2 className="w-6 h-6 text-emerald-600 shrink-0 mt-0.5" />
-                  <div>
-                    <div className="text-base font-bold text-slate-900">Trung thực tuyệt đối</div>
-                    <div className="text-sm text-slate-600 font-medium">Nêu rõ case trượt G02, nói thẳng phần đang làm, không demo khống.</div>
-                  </div>
+            {/* PHÂN */}
+            <div className="my-[1.25rem] grid grid-cols-1 md:grid-cols-2 gap-[1.25rem]">
+              <div className="p-[1.25rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+                <CheckCircle2 className="w-[1.5rem] h-[1.5rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
+                <div>
+                  <div className="text-[1rem] font-bold text-slate-900">Nỗi đau có căn cứ số liệu thật</div>
+                  <div className="text-[0.85rem] text-slate-600 font-medium">87% học viên không biết học bù; 90% muốn có lộ trình 3 việc.</div>
                 </div>
               </div>
 
-              {/* Team Q&A Roles */}
-              <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-5xl">
-                <div className="p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-center">
-                  <div className="font-extrabold text-blue-950 text-base">Khoa (Pitcher)</div>
-                  <div className="text-xs text-blue-800 font-semibold mt-0.5">Nỗi đau, Quyết định, Backend</div>
+              <div className="p-[1.25rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+                <CheckCircle2 className="w-[1.5rem] h-[1.5rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
+                <div>
+                  <div className="text-[1rem] font-bold text-slate-900">Chất lượng đạt chuẩn nghiêm ngặt</div>
+                  <div className="text-[0.85rem] text-slate-600 font-medium">19/20 ca đạt chuẩn, 0 link ngoài catalog, bảo đảm độ tin cậy.</div>
                 </div>
-                <div className="p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-center">
-                  <div className="font-extrabold text-blue-950 text-base">Thành</div>
-                  <div className="text-xs text-blue-800 font-semibold mt-0.5">Giải pháp, UI, AI Mentor</div>
+              </div>
+
+              <div className="p-[1.25rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+                <CheckCircle2 className="w-[1.5rem] h-[1.5rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
+                <div>
+                  <div className="text-[1rem] font-bold text-slate-900">Bảo vệ liêm chính học thuật</div>
+                  <div className="text-[0.85rem] text-slate-600 font-medium">Chống gian lận, từ chối cấp đáp án, hướng dẫn tự tư duy.</div>
                 </div>
-                <div className="p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-center">
-                  <div className="font-extrabold text-blue-950 text-base">Đức</div>
-                  <div className="text-xs text-blue-800 font-semibold mt-0.5">Prompt, Eval, Helpdesk</div>
-                </div>
-                <div className="p-4 rounded-xl bg-blue-50/80 border border-blue-200 text-center">
-                  <div className="font-extrabold text-blue-950 text-base">Minh</div>
-                  <div className="text-xs text-blue-800 font-semibold mt-0.5">Database, 4 Vai trò, Schema</div>
+              </div>
+
+              <div className="p-[1.25rem] rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-[0.75rem]">
+                <CheckCircle2 className="w-[1.5rem] h-[1.5rem] text-emerald-600 shrink-0 mt-[0.1rem]" />
+                <div>
+                  <div className="text-[1rem] font-bold text-slate-900">Mô hình kinh doanh khả thi</div>
+                  <div className="text-[0.85rem] text-slate-600 font-medium">Chi phí vận hành token tối ưu dưới 5.000đ/học viên/tháng.</div>
                 </div>
               </div>
             </div>
 
-            <div className="border-t border-slate-200 pt-3 mt-4 text-xs text-slate-500 font-semibold flex justify-between">
-              <span>Repo: github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus</span>
-              <span className="font-mono text-blue-700 font-bold">K4-3A-E403 · Vinonymus</span>
+            {/* HỢP: PHÂN VAI TRẢ LỜI Q&A */}
+            <div className="border-t border-slate-200 pt-[1rem]">
+              <div className="text-[0.8rem] uppercase font-bold text-slate-500 mb-[0.5rem] tracking-wider">
+                Phân vai giải trình theo nguyên tắc Vibe-Coding (Ban giám khảo có thể chất vấn bất kỳ ai):
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-[0.75rem]">
+                <div className="p-[0.75rem] rounded-lg bg-blue-50/70 border border-blue-200 text-center">
+                  <div className="font-bold text-blue-950 text-[0.9rem]">Khoa (Pitcher)</div>
+                  <div className="text-[0.75rem] text-blue-800 font-medium mt-[0.1rem]">Nỗi đau, Quyết định, Backend .NET</div>
+                </div>
+                <div className="p-[0.75rem] rounded-lg bg-blue-50/70 border border-blue-200 text-center">
+                  <div className="font-bold text-blue-950 text-[0.9rem]">Thành</div>
+                  <div className="text-[0.75rem] text-blue-800 font-medium mt-[0.1rem]">Giải pháp, Giao diện, AI Mentor</div>
+                </div>
+                <div className="p-[0.75rem] rounded-lg bg-blue-50/70 border border-blue-200 text-center">
+                  <div className="font-bold text-blue-950 text-[0.9rem]">Đức</div>
+                  <div className="text-[0.75rem] text-blue-800 font-medium mt-[0.1rem]">Prompt, Guardrail, Helpdesk</div>
+                </div>
+                <div className="p-[0.75rem] rounded-lg bg-blue-50/70 border border-blue-200 text-center">
+                  <div className="font-bold text-blue-950 text-[0.9rem]">Minh</div>
+                  <div className="text-[0.75rem] text-blue-800 font-medium mt-[0.1rem]">Database, Migration, 4 Vai trò</div>
+                </div>
+              </div>
             </div>
           </div>
         );
@@ -971,46 +996,46 @@ export function SlidesDeckView() {
       }`}
     >
       {/* ========================================================================= */}
-      {/* 1. SLIM INTEGRATED TOP HEADER & PRESENTATION TOOLBAR (HEIGHT ~48px)       */}
+      {/* 1. SLIM INTEGRATED TOP HEADER & PRESENTATION TOOLBAR (HEIGHT ~3.25rem)     */}
       {/* ========================================================================= */}
-      <header className="w-full h-12 shrink-0 bg-[#070d1e] border-b border-slate-800/80 px-3 sm:px-5 flex items-center justify-between gap-2 z-50">
+      <header className="w-full h-[3.25rem] shrink-0 bg-[#070d1e] border-b border-slate-800/80 px-[1.25rem] flex items-center justify-between gap-[0.75rem] z-50">
         
         {/* Left: Back to Home + Slide Badge & Title */}
-        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <div className="flex items-center gap-[0.75rem] min-w-0">
           <Link
             href="/"
-            className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white px-2.5 py-1 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition"
+            className="flex items-center gap-[0.4rem] text-[0.8rem] font-medium text-slate-300 hover:text-white px-[0.75rem] py-[0.35rem] rounded-lg bg-slate-800/80 hover:bg-slate-700 transition"
             title="Quay lại trang chủ"
           >
-            <ArrowLeft className="w-3.5 h-3.5" />
+            <ArrowLeft className="w-[0.9rem] h-[0.9rem]" />
             <span className="hidden sm:inline">Trang Chủ</span>
           </Link>
 
-          <div className="h-4 w-px bg-slate-700 hidden sm:block" />
+          <div className="h-[1rem] w-px bg-slate-700 hidden sm:block" />
 
           {/* Current Slide Pill */}
-          <div className="px-2.5 py-0.5 rounded-lg bg-blue-950 border border-blue-500/40 text-sky-300 font-mono font-bold text-xs truncate">
+          <div className="px-[0.65rem] py-[0.2rem] rounded-lg bg-blue-950 border border-blue-500/40 text-sky-300 font-mono font-bold text-[0.8rem] tracking-wider truncate">
             Slide {currentSlide + 1} / {totalSlides}
           </div>
 
-          <span className="text-xs text-slate-300 font-medium truncate hidden md:inline">
+          <span className="text-[0.8rem] text-slate-300 font-medium truncate hidden md:inline">
             {slideTitles[currentSlide]}
           </span>
         </div>
 
         {/* Center: Stopwatch / Pitch Timer (06:00 Budget, ~30s/slide) */}
-        <div className="flex items-center gap-2 bg-slate-950/90 px-3 py-1 rounded-xl border border-slate-800 shadow-inner">
+        <div className="flex items-center gap-[0.5rem] bg-slate-950/90 px-[0.85rem] py-[0.3rem] rounded-xl border border-slate-800 shadow-inner">
           <button
             type="button"
             onClick={toggleTimer}
             title={isTimerRunning ? 'Tạm dừng timer' : 'Bắt đầu timer'}
-            className="p-0.5 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
+            className="p-[0.2rem] rounded-md hover:bg-slate-800 text-slate-300 hover:text-white transition cursor-pointer"
           >
-            {isTimerRunning ? <Pause className="w-3.5 h-3.5 text-amber-400" /> : <Play className="w-3.5 h-3.5 text-emerald-400" />}
+            {isTimerRunning ? <Pause className="w-[0.9rem] h-[0.9rem] text-amber-400" /> : <Play className="w-[0.9rem] h-[0.9rem] text-emerald-400" />}
           </button>
           
           <span 
-            className={`font-mono text-xs font-bold tracking-wider ${
+            className={`font-mono text-[0.8rem] font-bold tracking-wider ${
               timerSeconds >= 345 
                 ? 'text-rose-400 animate-pulse font-black' 
                 : timerSeconds >= 300 
@@ -1025,57 +1050,57 @@ export function SlidesDeckView() {
             type="button"
             onClick={resetTimer}
             title="Reset timer về 00:00"
-            className="p-0.5 rounded-md hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
+            className="p-[0.2rem] rounded-md hover:bg-slate-800 text-slate-400 hover:text-white transition cursor-pointer"
           >
-            <RotateCcw className="w-3 h-3" />
+            <RotateCcw className="w-[0.85rem] h-[0.85rem]" />
           </button>
         </div>
 
         {/* Right: Actions, Navigation, View Mode & Fullscreen */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-[0.5rem] shrink-0">
           
           {/* Quick jump to Live Demo */}
           <Link
             href="/personalized-path"
             target="_blank"
-            className="px-2.5 py-1 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/40 text-sky-300 text-xs font-bold transition flex items-center gap-1.5"
+            className="px-[0.75rem] py-[0.35rem] rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-400/40 text-sky-300 text-[0.8rem] font-bold transition flex items-center gap-[0.4rem]"
             title="Mở tab Live Demo (/personalized-path)"
           >
-            <Monitor className="w-3.5 h-3.5" />
+            <Monitor className="w-[0.9rem] h-[0.9rem]" />
             <span className="hidden lg:inline">Live Demo</span>
           </Link>
 
-          <div className="h-4 w-px bg-slate-700 hidden sm:block" />
+          <div className="h-[1rem] w-px bg-slate-700 hidden sm:block" />
 
           {/* Prev / Next buttons */}
           <button
             type="button"
             onClick={prevSlide}
             disabled={currentSlide === 0}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 transition cursor-pointer"
+            className="p-[0.4rem] rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 transition cursor-pointer"
             title="Slide trước (← / Backspace)"
           >
-            <ChevronLeft className="w-4 h-4" />
+            <ChevronLeft className="w-[1.1rem] h-[1.1rem]" />
           </button>
 
           <button
             type="button"
             onClick={nextSlide}
             disabled={currentSlide === totalSlides - 1}
-            className="p-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 transition cursor-pointer"
+            className="p-[0.4rem] rounded-lg bg-slate-800 hover:bg-slate-700 disabled:opacity-30 disabled:hover:bg-slate-800 text-slate-200 transition cursor-pointer"
             title="Slide sau (→ / Space)"
           >
-            <ChevronRight className="w-4 h-4" />
+            <ChevronRight className="w-[1.1rem] h-[1.1rem]" />
           </button>
 
           {/* View mode toggle */}
           <button
             type="button"
             onClick={() => setViewMode(viewMode === 'single' ? 'scroll' : 'single')}
-            className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-medium transition hidden md:flex items-center gap-1 cursor-pointer"
+            className="px-[0.6rem] py-[0.35rem] rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-[0.8rem] font-medium transition hidden md:flex items-center gap-[0.35rem] cursor-pointer"
             title={viewMode === 'single' ? 'Chuyển sang cuộn xem tất cả' : 'Chuyển sang chiếu từng slide'}
           >
-            <Layers className="w-3.5 h-3.5" />
+            <Layers className="w-[0.9rem] h-[0.9rem]" />
             <span className="hidden xl:inline">{viewMode === 'single' ? 'Cuộn' : 'Slide'}</span>
           </button>
 
@@ -1083,59 +1108,59 @@ export function SlidesDeckView() {
           <button
             type="button"
             onClick={toggleFullscreen}
-            className="p-1.5 rounded-lg bg-blue-500/25 hover:bg-blue-500/35 text-sky-200 border border-blue-400/50 transition cursor-pointer"
+            className="p-[0.4rem] rounded-lg bg-blue-500/25 hover:bg-blue-500/35 text-sky-200 border border-blue-400/50 transition cursor-pointer"
             title={isFullscreen ? 'Thu nhỏ (F)' : 'Toàn màn hình (F)'}
           >
-            {isFullscreen ? <Minimize2 className="w-4 h-4" /> : <Maximize2 className="w-4 h-4" />}
+            {isFullscreen ? <Minimize2 className="w-[1.1rem] h-[1.1rem]" /> : <Maximize2 className="w-[1.1rem] h-[1.1rem]" />}
           </button>
         </div>
       </header>
 
       {/* ========================================================================= */}
-      {/* 2. FULL-WIDTH SLIDE CANVAS (WHITE BG, BLUE TEXT, MONTSERRAT FONT)          */}
+      {/* 2. FULL-WIDTH SLIDE CANVAS (PROPORTIONALLY BALANCED VERTICALLY)            */}
       {/* ========================================================================= */}
       {viewMode === 'single' ? (
         /* SINGLE SLIDE PRESENTATION MODE */
         <div className="flex-1 w-full bg-white overflow-y-auto flex flex-col justify-between">
-          <div className="w-full max-w-[1700px] mx-auto px-6 sm:px-12 md:px-16 lg:px-20 py-8 sm:py-10 lg:py-12 flex-1 flex flex-col justify-between">
+          <div className="w-full max-w-[105rem] mx-auto px-[2rem] sm:px-[3.5rem] lg:px-[5rem] py-[2rem] sm:py-[2.5rem] flex-1 flex flex-col justify-between">
             {renderSlideContent(currentSlide)}
           </div>
 
           {/* Sleek bottom progress strip with 12 slide pills */}
-          <div className="w-full bg-slate-100 border-t border-slate-200 px-3 sm:px-5 py-2 flex items-center justify-between text-xs text-slate-500 font-mono">
-            <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto py-0.5">
+          <div className="w-full bg-slate-100 border-t border-slate-200 px-[1.5rem] py-[0.6rem] flex items-center justify-between text-[0.75rem] text-slate-500 font-mono">
+            <div className="flex items-center gap-[0.35rem] overflow-x-auto py-[0.15rem]">
               {slideTitles.map((title, idx) => (
                 <button
                   key={idx}
                   type="button"
                   onClick={() => goToSlide(idx)}
-                  className={`px-2 py-0.5 rounded text-[11px] sm:text-xs font-bold transition cursor-pointer shrink-0 ${
+                  className={`px-[0.65rem] py-[0.25rem] rounded text-[0.75rem] font-bold transition cursor-pointer shrink-0 ${
                     currentSlide === idx
                       ? 'bg-blue-900 text-white shadow-sm'
                       : 'bg-white hover:bg-slate-200 text-slate-700 border border-slate-300'
                   }`}
                   title={title}
                 >
-                  {idx + 1}
+                  {idx + 1}. {title.split('. ')[1]}
                 </button>
               ))}
             </div>
 
-            <div className="hidden lg:flex items-center gap-4 text-[11px] text-slate-500 shrink-0">
-              <span>[→ / Space] Tiếp · [← / Backspace] Lùi · [F] Fullscreen · [T] Timer · [1-9, 0] Slide</span>
+            <div className="hidden lg:flex items-center gap-[1rem] text-[0.75rem] text-slate-500 shrink-0">
+              <span>[→ / Space] Tiếp · [← / Backspace] Lùi · [F] Fullscreen · [T] Timer</span>
               <span className="font-bold text-blue-900">Vinonymus · Track E</span>
             </div>
           </div>
         </div>
       ) : (
         /* CONTINUOUS SCROLL VIEW OF ALL 12 SLIDES */
-        <div className="w-full flex-1 bg-slate-100 p-4 sm:p-8 space-y-8 overflow-y-auto">
+        <div className="w-full flex-1 bg-slate-100 p-[1.5rem] sm:p-[2.5rem] space-y-[2.5rem] overflow-y-auto">
           {Array.from({ length: totalSlides }).map((_, idx) => (
             <div 
               key={idx} 
-              className="w-full max-w-[1700px] mx-auto bg-white rounded-2xl p-6 sm:p-12 lg:p-16 shadow-md border border-slate-300 relative min-h-[600px] flex flex-col justify-between font-['Montserrat',sans-serif]"
+              className="w-full max-w-[105rem] mx-auto bg-white rounded-[1.5rem] p-[2rem] sm:p-[3.5rem] lg:p-[4.5rem] shadow-md border border-slate-300 relative min-h-[40rem] flex flex-col justify-between font-['Montserrat',sans-serif]"
             >
-              <div className="absolute top-4 right-6 px-3 py-1 rounded-full bg-blue-950 text-white text-xs font-mono font-bold">
+              <div className="absolute top-[1.25rem] right-[1.5rem] px-[0.85rem] py-[0.35rem] rounded-full bg-blue-950 text-white text-[0.75rem] font-mono font-bold">
                 Slide {idx + 1} / {totalSlides} · {slideTitles[idx]}
               </div>
               {renderSlideContent(idx)}
