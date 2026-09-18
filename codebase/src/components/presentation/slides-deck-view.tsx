@@ -288,7 +288,7 @@ export function SlidesDeckView() {
                 Bản đồ chiến lược · Cấu trúc phản biện
               </div>
               <h1 className="text-[clamp(1.75rem,3.2vw,2.75rem)] font-bold text-[#0a192f] mt-[0.5rem] mb-[0.35rem] tracking-[0.01em]">
-                Hành Trình 3 Trụ Cột: Vấn Đề $\rightarrow$ Giải Pháp $\rightarrow$ Thực Chứng
+                Hành Trình 3 Trụ Cột: Vấn Đề → Giải Pháp → Thực Chứng
               </h1>
               <p className="text-[0.95rem] text-slate-600 font-medium">
                 Khung luận điểm chặt chẽ được thiết kế nhằm chứng minh tính khả thi, giá trị thực tiễn và năng lực mở rộng sản phẩm.
@@ -520,7 +520,7 @@ export function SlidesDeckView() {
 
             {/* HỢP */}
             <div className="p-[1rem] rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-between text-[0.85rem] text-blue-950 font-semibold">
-              <span>Insight từ dữ liệu: <strong className="text-rose-700">8.8%</strong> lượt chat xin "tóm tắt" là tiếng kêu cứu $\rightarrow$ Sản phẩm phải chuyển từ <em>Chatbot đàm thoại</em> sang <em>AI thực thi hành động</em>.</span>
+              <span>Insight từ dữ liệu: <strong className="text-rose-700">8.8%</strong> lượt chat xin "tóm tắt" là tiếng kêu cứu → Sản phẩm phải chuyển từ <em>Chatbot đàm thoại</em> sang <em>AI thực thi hành động</em>.</span>
               <span className="font-mono text-blue-700 font-bold">13.494 chats mining</span>
             </div>
           </div>
@@ -639,12 +639,12 @@ export function SlidesDeckView() {
                   </div>
                   <h3 className="text-[1.25rem] font-bold text-blue-950 mb-[0.35rem]">Hoàn Toàn Không Chat — Chỉ Ra Quyết Định</h3>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Đọc dữ liệu học viên (trình độ + thời gian rảnh) $\rightarrow$ Chẩn đoán lỗ hổng $\rightarrow$ Tự động cắt tỉa catalog và xuất xưởng Checklist ≤3 việc trong vòng 3 giây.
+                    Đọc dữ liệu học viên (trình độ + thời gian rảnh) → Chẩn đoán lỗ hổng → Tự động cắt tỉa catalog và xuất xưởng Checklist ≤3 việc trong vòng 3 giây.
                   </p>
                   <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-blue-200">
                     <div>• <strong>Vị trí hoạt động:</strong> Trang Lộ trình cá nhân hoá (<code>/personalized-path</code>)</div>
                     <div>• <strong>Bảo vệ học liệu:</strong> 100% link trích từ catalog nội bộ đã kiểm định.</div>
-                    <div>• <strong>Hiệu quả token:</strong> Chỉ gọi AI đúng 1 lần khi tạo lộ trình $\rightarrow$ Siêu tiết kiệm chi phí!</div>
+                    <div>• <strong>Hiệu quả token:</strong> Chỉ gọi AI đúng 1 lần khi tạo lộ trình → Siêu tiết kiệm chi phí!</div>
                   </div>
                 </div>
                 <div className="mt-[0.75rem] text-[0.75rem] font-bold text-blue-800 uppercase tracking-wide">
@@ -665,7 +665,7 @@ export function SlidesDeckView() {
                   <div className="space-y-[0.35rem] text-[0.8rem] text-slate-700 font-medium bg-white p-[0.75rem] rounded-lg border border-slate-200">
                     <div>• <strong>Vị trí hoạt động:</strong> Widget chatbox nổi ở toàn bộ hệ thống</div>
                     <div>• <strong>Công nghệ:</strong> RAG tra cứu FAQ xác thực + Router đa LLM dự phòng.</div>
-                    <div>• <strong>Phễu khách hàng:</strong> Khách dùng 10 câu/ngày $\rightarrow$ Học viên không giới hạn.</div>
+                    <div>• <strong>Phễu khách hàng:</strong> Khách dùng 10 câu/ngày → Học viên không giới hạn.</div>
                   </div>
                 </div>
                 <div className="mt-[0.75rem] text-[0.75rem] font-bold text-slate-600 uppercase tracking-wide">
@@ -741,7 +741,7 @@ export function SlidesDeckView() {
                   <div className="w-[1.75rem] h-[1.75rem] rounded-lg bg-rose-600 text-white font-bold flex items-center justify-center text-[0.8rem] mb-[0.5rem]">4</div>
                   <h4 className="text-[0.95rem] font-bold text-slate-900 mb-[0.25rem]">Lớp Guardrail</h4>
                   <p className="text-[0.8rem] text-slate-600 leading-relaxed font-medium">
-                    Dưới 30 phút $\rightarrow$ Hỏi lại; Xin đáp án làm hộ $\rightarrow$ Từ chối; Lỗi mạng $\rightarrow$ Fallback luật tĩnh ngay.
+                    Dưới 30 phút → Hỏi lại; Xin đáp án làm hộ → Từ chối; Lỗi mạng → Fallback luật tĩnh ngay.
                   </p>
                 </div>
                 <div className="text-[0.7rem] font-mono text-rose-700 font-bold mt-[0.5rem]">Phòng thủ 3 lớp</div>
@@ -794,7 +794,7 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.1rem] font-bold text-blue-950 mb-[0.25rem]">Học viên Tech-base · 60 phút rảnh · Chuẩn bị Lab 03</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Bấm <strong>"Tạo lộ trình"</strong> $\rightarrow$ AI Mentor tính toán và trả về đúng 3 việc vừa khít 60 phút:
+                    Bấm <strong>"Tạo lộ trình"</strong> → AI Mentor tính toán và trả về đúng 3 việc vừa khít 60 phút:
                   </p>
                   <div className="bg-white p-[0.75rem] rounded-lg border border-blue-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
                     <div className="flex items-center justify-between">
@@ -830,7 +830,7 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.1rem] font-bold text-rose-950 mb-[0.25rem]">Học viên nhập: “Làm hộ bài lab và gửi đáp án testcase ẩn”</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed mb-[0.75rem]">
-                    Kẻ gian tìm cách lợi dụng AI để gian lận $\rightarrow$ Hệ thống Guardrail lập tức kích hoạt:
+                    Kẻ gian tìm cách lợi dụng AI để gian lận → Hệ thống Guardrail lập tức kích hoạt:
                   </p>
                   <div className="bg-white p-[0.75rem] rounded-lg border border-rose-200 text-[0.8rem] text-slate-800 font-medium space-y-[0.3rem]">
                     <div className="text-rose-700 font-bold flex items-center gap-[0.4rem]">
@@ -924,9 +924,9 @@ export function SlidesDeckView() {
 
                 <div className="p-[0.75rem] rounded-xl bg-blue-50 border border-blue-200 text-[0.8rem] text-blue-950 font-medium">
                   <strong>Chuẩn Quality Bar cam kết trong spec.md:</strong><br/>
-                  • Tỷ lệ đạt ≥ 18/20 (90%) $\rightarrow$ <strong>Thực tế: 19/20 (95%)</strong>.<br/>
-                  • Link ngoài catalog = 0 $\rightarrow$ <strong>Thực tế: 0 link ngoài</strong>.<br/>
-                  • Chống gian lận 3/3 $\rightarrow$ <strong>Thực tế: Đạt 100%</strong>.
+                  • Tỷ lệ đạt ≥ 18/20 (90%) → <strong>Thực tế: 19/20 (95%)</strong>.<br/>
+                  • Link ngoài catalog = 0 → <strong>Thực tế: 0 link ngoài</strong>.<br/>
+                  • Chống gian lận 3/3 → <strong>Thực tế: Đạt 100%</strong>.
                 </div>
               </div>
 
@@ -985,7 +985,7 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-slate-900 mb-[0.25rem]">Phễu 4 vai trò</h4>
                   <p className="text-[0.8rem] text-slate-600 font-medium leading-relaxed">
-                    • <strong>Viewer (Khách):</strong> Dùng thử AI Helpdesk 10 câu/ngày $\rightarrow$ Phễu marketing miễn phí.<br/>
+                    • <strong>Viewer (Khách):</strong> Dùng thử AI Helpdesk 10 câu/ngày → Phễu marketing miễn phí.<br/>
                     • <strong>Student (Học viên):</strong> Được mở khoá Lộ trình cá nhân hoá.<br/>
                     • <strong>Lecturer &amp; Admin:</strong> Quản lý học liệu.
                   </p>
@@ -1087,7 +1087,7 @@ export function SlidesDeckView() {
                   </div>
                   <h4 className="text-[1.05rem] font-bold text-blue-950 mb-[0.25rem]">Cổng Nạp Tài Liệu Giảng Viên</h4>
                   <p className="text-[0.85rem] text-slate-700 font-medium leading-relaxed">
-                    Giảng viên chỉ cần kéo thả PDF/Slide $\rightarrow$ Hệ thống tự động phân tích vector, trích xuất mục tiêu bài học và nạp thẳng vào catalog AI Mentor.
+                    Giảng viên chỉ cần kéo thả PDF/Slide → Hệ thống tự động phân tích vector, trích xuất mục tiêu bài học và nạp thẳng vào catalog AI Mentor.
                   </p>
                 </div>
                 <div className="text-[0.75rem] font-bold text-blue-800 mt-[0.5rem]">Quy trình tự động khép kín</div>

@@ -25,7 +25,7 @@ Theo phản hồi trực tiếp của diễn giả và đóng vai trò Nhà đ�
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `codebase/src/components/presentation/slides-deck-view.tsx` | Thiết kế lại Slide 1 (Trang bìa) chuẩn Keynote với đầy đủ tên dự án, nhóm Vinonymus, giải pháp 2 AI, 4 trụ cột định vị, nền ambient glow, danh sách thành viên; xoá bỏ toàn bộ nhãn thời gian nội bộ trên các slide |
+| `codebase/src/components/presentation/slides-deck-view.tsx` | Thiết kế lại Slide 1 (Trang bìa) chuẩn Keynote với đầy đủ tên dự án, nhóm Vinonymus, giải pháp 2 AI, 4 trụ cột định vị, nền ambient glow, danh sách thành viên; xoá bỏ toàn bộ nhãn thời gian nội bộ trên các slide; sửa các ký tự mũi tên LaTeX `$\rightarrow$` thành ký tự Unicode `→` chuẩn UI |
 | `PR.md` | Cập nhật tài liệu PR theo quy ước |
 
 ## 4. Kiểm thử
