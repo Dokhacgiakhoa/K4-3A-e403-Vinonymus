@@ -121,3 +121,11 @@ Runner tự tạo `latest-baseline-results.json` hoặc `latest-ai-results.json`
 | 5 | 18/09/2026 13:44 | AI sau fix G02 · Gemini | **44/50** | **88%** | **0** | G02 đã pass với `source = ai`; toàn bộ AI còn dưới quality bar 90% |
 
 Các case AI còn fail ở lượt 5: `G01`, `G19`, `G27`, `G28`, `G29`, `G47`.
+
+## 10. Lượt chạy A-02 CV diagnostic
+
+| Lượt | Thời điểm UTC+7 | Phiên bản | Qua / Tổng | Tỷ lệ | Trạng thái |
+|---|---|---|---:|---:|---|
+| 6 | 18/09/2026 14:03 | CV → bài test năng lực · rule fallback + schema AI | **5/5** | **100%** | Đã có 5 case eval riêng cho A-02 |
+
+Artifact máy đọc được: `eval/latest-cv-diagnostic-results.json`.
