@@ -18,8 +18,9 @@ Phục vụ buổi thuyết trình mốc Checkpoint 6 (CP6) trực tiếp trên 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
+| `codebase/src/app/layout.tsx` | Nhúng font Montserrat chuẩn quốc tế hỗ trợ tiếng Việt |
 | `codebase/src/components/home/home-landing-view.tsx` | Nhúng `ProgramOverviewSection`, `AlumniInsightsSection`, và `SfiaMatrixView` trước phần FAQ |
-| `codebase/src/components/presentation/slides-deck-view.tsx` | Tạo mới component trình chiếu 6 slide HTML chuẩn tỉ lệ 16:9, phím tắt, timer 6 phút, nút Live Demo |
+| `codebase/src/components/presentation/slides-deck-view.tsx` | Tạo mới component trình chiếu 12 slide HTML chuẩn cấu trúc Mở - Thân - Kết, font Montserrat, nền trắng chữ xanh, timer 6 phút (30s/slide), nút Live Demo |
 | `codebase/src/app/about/page.tsx` | Cập nhật render `SlidesDeckView` |
 | `codebase/src/components/layout/app-shell-layout.tsx` | Bỏ giới hạn `max-w-7xl` / `max-w-screen-2xl` khi ở route `/about` để bung full width |
 | `codebase/src/components/layout/main-header.tsx` | Đổi nhãn menu `ABOUT` thành `SLIDES` |
