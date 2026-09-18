@@ -32,6 +32,9 @@ idempotent=true
 
 Không có secret hoặc dữ liệu kiểm thử được ghi vào repository.
 
+Sau đó đã chạy seed thật bằng role `aiia_backend` (không rollback) để nạp dữ
+liệu mẫu cho backend; chạy lại lần nữa vẫn cho `modules=3, topics=3`.
+
 ## Issue liên quan
 
 Closes #88
