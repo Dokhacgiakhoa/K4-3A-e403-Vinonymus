@@ -2,36 +2,10 @@ using AIIANotebook.Domain.Enums;
 
 namespace AIIANotebook.Application.Features.Quizzes;
 
-public record QuizQuestionDto(
-    Guid Id,
-    SFIALevel Level,
-    string QuestionText,
-    string OptionA,
-    string OptionB,
-    string OptionC,
-    string OptionD,
-    string CorrectOption,
-    string Explanation,
-    bool IsSimulationMock
-);
-
-public record SubmitQuizRequest(
-    Guid UserId,
-    Guid? ModuleId,
-    Dictionary<Guid, string> UserAnswers
-);
-
-public record SubmitQuizResult(
-    int TotalQuestions,
-    int CorrectCount,
-    double ScorePercentage,
-    bool IsPassed,
-    string FeedbackMessage
-);
-
-public static class QuizService
+// Bộ câu hỏi mô phỏng tự soạn, không dùng đề thi thật (tuân thủ NDA).
+public static class SimulationQuestionBank
 {
-    public static List<QuizQuestionDto> GetSimulationMockQuestions(SFIALevel level)
+    public static List<QuizQuestionDto> For(SFIALevel level)
     {
         return new List<QuizQuestionDto>
         {
@@ -60,31 +34,5 @@ public static class QuizService
                 true
             )
         };
-    }
-
-    public static SubmitQuizResult EvaluateSubmission(SubmitQuizRequest request, List<QuizQuestionDto> questions)
-    {
-        int correct = 0;
-        foreach (var q in questions)
-        {
-            if (request.UserAnswers.TryGetValue(q.Id, out var answer) && 
-                string.Equals(answer.Trim(), q.CorrectOption.Trim(), StringComparison.OrdinalIgnoreCase))
-            {
-                correct++;
-            }
-        }
-
-        double pct = questions.Count > 0 ? (double)correct / questions.Count * 100.0 : 0.0;
-        bool passed = pct >= 70.0;
-
-        return new SubmitQuizResult(
-            TotalQuestions: questions.Count,
-            CorrectCount: correct,
-            ScorePercentage: pct,
-            IsPassed: passed,
-            FeedbackMessage: passed 
-                ? $"Xuất sắc! Bạn đã vượt qua bài thi với {pct:F1}% số điểm chuẩn SFIA." 
-                : $"Bạn đạt {pct:F1}%. Cần tối thiểu 70% để vượt qua cấp độ này."
-        );
     }
 }
