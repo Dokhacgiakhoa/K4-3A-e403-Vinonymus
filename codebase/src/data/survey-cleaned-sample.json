@@ -1,0 +1,2052 @@
+{
+  "hygiene": {
+    "totalRawCount": 57,
+    "testRecordsRemoved": 4,
+    "duplicatesMerged": 2,
+    "validCleanCount": 51,
+    "dataIntegrityRate": 89
+  },
+  "kpis": {
+    "averageRating": 4.92,
+    "unawareGapsPercent": 47,
+    "timeWastedOver15MinPercent": 84,
+    "willingToTestPercent": 100,
+    "feasibilityHighPercent": 80
+  },
+  "backgroundDistribution": [
+    {
+      "category": "data_ai",
+      "label": "Chuyên sâu Data / AI",
+      "count": 32,
+      "percentage": 63,
+      "color": "from-amber-500 to-amber-600"
+    },
+    {
+      "category": "it",
+      "label": "Đã biết lập trình (CNTT)",
+      "count": 19,
+      "percentage": 37,
+      "color": "from-teal-500 to-cyan-500"
+    },
+    {
+      "category": "non_tech",
+      "label": "Học viên trái ngành",
+      "count": 0,
+      "percentage": 0,
+      "color": "from-rose-500 to-pink-500"
+    }
+  ],
+  "painPointsRanking": [
+    {
+      "id": "scattered",
+      "label": "Tài liệu rải rác khắp nơi (Discord, VLearn, GitHub, Drive), mất công gom link",
+      "shortLabel": "Tài liệu bị vứt rải rác nhiều kênh (Discord, Drive)",
+      "count": 24,
+      "percentage": 47
+    },
+    {
+      "id": "slide",
+      "label": "Slide bài giảng quá dài (50-60 trang), đọc lan man không rõ trọng tâm kiểm tra",
+      "shortLabel": "Slide quá dài (50-60 trang) đọc lan man",
+      "count": 22,
+      "percentage": 43
+    },
+    {
+      "id": "tutor",
+      "label": "Hỏi trợ lý AI trên VLearn nhưng câu trả lời chung chung, không có bước tiếp theo",
+      "shortLabel": "Hỏi AI có sẵn nhưng trả lời chung chung",
+      "count": 22,
+      "percentage": 43
+    },
+    {
+      "id": "deadline",
+      "label": "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+      "shortLabel": "Cuống cuồng nộp bài sát hạn 23h59",
+      "count": 19,
+      "percentage": 37
+    },
+    {
+      "id": "time",
+      "label": "Thời gian rảnh học quá ít (dưới 1 tiếng), không đủ mò mẫm từ đầu",
+      "shortLabel": "Thời gian rảnh quá ít (< 1 tiếng)",
+      "count": 18,
+      "percentage": 35
+    },
+    {
+      "id": "quiz",
+      "label": "Không có bài trắc nghiệm chẩn đoán nhanh xem mình đã hiểu bài hay chưa",
+      "shortLabel": "Thiếu bài test ngắn để tự kiểm tra kiến thức",
+      "count": 14,
+      "percentage": 27
+    }
+  ],
+  "timeWastedDistribution": [
+    {
+      "label": "Dưới 15 phút",
+      "count": 8,
+      "percentage": 16
+    },
+    {
+      "label": "Từ 15 đến 30 phút",
+      "count": 24,
+      "percentage": 47
+    },
+    {
+      "label": "Từ 30 đến 45 phút",
+      "count": 7,
+      "percentage": 14
+    },
+    {
+      "label": "Trên 45 phút",
+      "count": 12,
+      "percentage": 24
+    }
+  ],
+  "featuresRanking": [
+    {
+      "id": "diagnostic",
+      "label": "AI Mentor: Bài test chẩn đoán ngắn chỉ ra chính xác mình đang yếu phần nào",
+      "shortLabel": "Test chẩn đoán chỉ đúng lỗ hổng (AI Diagnostic Test)",
+      "count": 27,
+      "percentage": 53
+    },
+    {
+      "id": "checklist",
+      "label": "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo phút rảnh",
+      "shortLabel": "Checklist 3 việc trọng tâm theo phút rảnh",
+      "count": 26,
+      "percentage": 51
+    },
+    {
+      "id": "catalog",
+      "label": "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở ngay",
+      "shortLabel": "Gom sẵn link mẫu chuẩn catalog (không lo trôi link)",
+      "count": 24,
+      "percentage": 47
+    },
+    {
+      "id": "helpdesk",
+      "label": "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+      "shortLabel": "Trợ lý AI 24/7 gỡ kẹt kỹ thuật & quy chế tức thì",
+      "count": 23,
+      "percentage": 45
+    },
+    {
+      "id": "deadline",
+      "label": "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+      "shortLabel": "Cảnh báo nguy cơ trễ deadline 23h59 & chuẩn SFIA",
+      "count": 20,
+      "percentage": 39
+    }
+  ],
+  "featuredFeedbacks": [
+    {
+      "studentCode": "Học viên SV-001",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "feedback": "Banner 3D Hero rất hiện đại, cần thêm chế độ xem lộ trình theo ngày",
+      "rating": 5
+    },
+    {
+      "studentCode": "Học viên SV-002",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "feedback": "Biểu mẫu hoạt động cực kỳ mượt mà",
+      "rating": 5
+    },
+    {
+      "studentCode": "Học viên SV-003",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "feedback": "Cần tích hợp bot nhắc bài trên Discord",
+      "rating": 5
+    },
+    {
+      "studentCode": "Học viên SV-004",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "feedback": "Hệ thống tự động quay thưởng rất tốt",
+      "rating": 5
+    },
+    {
+      "studentCode": "Học viên SV-005",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "feedback": "Ý tưởng rất hay, mong sớm có phần tích hợp trực tiếp link lab",
+      "rating": 5
+    },
+    {
+      "studentCode": "Học viên SV-006",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "feedback": "Cần hỗ trợ gỡ lỗi code PyTorch nhanh hơn",
+      "rating": 5
+    }
+  ],
+  "records": [
+    {
+      "id": "SV-001",
+      "timestamp": "2026-09-17 12:15:22",
+      "studentId": "SV-001",
+      "fullName": "Học viên SV-001",
+      "maskedEmail": "hocvien.sv-001***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1001",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link"
+      ],
+      "timeWastedMinutes": 25,
+      "timeWastedLabel": "15 – 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Banner 3D Hero rất hiện đại, cần thêm chế độ xem lộ trình theo ngày"
+    },
+    {
+      "id": "SV-002",
+      "timestamp": "2026-09-17 12:50:11",
+      "studentId": "SV-002",
+      "fullName": "Học viên SV-002",
+      "maskedEmail": "hocvien.sv-002***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1002",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Biểu mẫu hoạt động cực kỳ mượt mà"
+    },
+    {
+      "id": "SV-003",
+      "timestamp": "2026-09-17 13:00:15",
+      "studentId": "SV-003",
+      "fullName": "Học viên SV-003",
+      "maskedEmail": "hocvien.sv-003***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1003",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi",
+        "Thời gian rảnh quá ít (dưới 1 tiếng)"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng",
+      "uiImprovements": [
+        "Bố cục cần gọn gàng, thoáng mắt hơn"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Cần tích hợp bot nhắc bài trên Discord"
+    },
+    {
+      "id": "SV-004",
+      "timestamp": "2026-09-17 13:30:00",
+      "studentId": "SV-004",
+      "fullName": "Học viên SV-004",
+      "maskedEmail": "hocvien.sv-004***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1004",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết",
+      "painPoints": [
+        "Slide quá dài",
+        "Tài liệu rải rác"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài"
+      ],
+      "solutionFeasibility": "Rất thiết thực",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán",
+        "AI Mentor: Checklist 3 việc"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp",
+      "uiImprovements": [
+        "Ổn"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Hệ thống tự động quay thưởng rất tốt"
+    },
+    {
+      "id": "SV-005",
+      "timestamp": "2026-09-17 17:02:44",
+      "studentId": "SV-005",
+      "fullName": "Học viên SV-005",
+      "maskedEmail": "hocvien.sv-005***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1005",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ý tưởng rất hay, mong sớm có phần tích hợp trực tiếp link lab"
+    },
+    {
+      "id": "SV-006",
+      "timestamp": "2026-09-17 17:06:19",
+      "studentId": "SV-006",
+      "fullName": "Học viên SV-006",
+      "maskedEmail": "hocvien.sv-006***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1006",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm",
+        "Đợi đến giờ lên lớp hỏi Mentor / Trợ giảng"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Bố cục cần gọn gàng, thoáng mắt hơn"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Cần hỗ trợ gỡ lỗi code PyTorch nhanh hơn"
+    },
+    {
+      "id": "SV-007",
+      "timestamp": "2026-09-17 17:35:25",
+      "studentId": "SV-007",
+      "fullName": "Học viên SV-007",
+      "maskedEmail": "hocvien.sv-007***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1007",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Slide giảng viên dạy quá dài, nhiều khi đọc hết 60 slide vẫn chưa biết bài lab yêu cầu viết hàm nào."
+    },
+    {
+      "id": "SV-008",
+      "timestamp": "2026-09-17 17:21:30",
+      "studentId": "SV-008",
+      "fullName": "Học viên SV-008",
+      "maskedEmail": "hocvien.sv-008***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1008",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Font chữ hoặc kích thước chữ cần tối ưu dễ đọc hơn trên điện thoại"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Rất cần checklist việc làm ngắn gọn theo từng bài lab"
+    },
+    {
+      "id": "SV-009",
+      "timestamp": "2026-09-17 17:30:12",
+      "studentId": "SV-009",
+      "fullName": "Học viên SV-009",
+      "maskedEmail": "hocvien.sv-009***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1009",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm",
+        "Hỏi AI Tutor trên VLearn"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Checklist 3 việc là tính năng rất cần thiết vì slide quá dài"
+    },
+    {
+      "id": "SV-010",
+      "timestamp": "2026-09-17 17:34:00",
+      "studentId": "SV-010",
+      "fullName": "Học viên SV-010",
+      "maskedEmail": "hocvien.sv-010***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1010",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Nên có gợi ý code mẫu chuẩn catalog"
+    },
+    {
+      "id": "SV-011",
+      "timestamp": "2026-09-17 17:41:20",
+      "studentId": "SV-011",
+      "fullName": "Học viên SV-011",
+      "maskedEmail": "hocvien.sv-011***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1011",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm",
+        "Cố gắng tự search Google / StackOverflow mò mẫm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": false,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng",
+      "uiImprovements": [
+        "Cần bổ sung chế độ Light mode (Giao diện sáng)"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Gom link chuẩn là tính năng tôi thích nhất vì không muốn bị trôi tin nhắn trên Discord"
+    },
+    {
+      "id": "SV-012",
+      "timestamp": "2026-09-17 17:45:55",
+      "studentId": "SV-012",
+      "fullName": "Học viên SV-012",
+      "maskedEmail": "hocvien.sv-012***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1012",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Hỏi AI Tutor trên VLearn",
+        "Hỏi bạn bè / đồng đội trong nhóm",
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Mong hệ thống sớm ra mắt tính năng chẩn đoán lỗ hổng kiến thức trước buổi chấm lab"
+    },
+    {
+      "id": "SV-013",
+      "timestamp": "2026-09-17 17:10:00",
+      "studentId": "SV-013",
+      "fullName": "Học viên SV-013",
+      "maskedEmail": "hocvien.sv-013***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1013",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 4,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Rất thích tính năng checklist 3 việc vì mỗi tối chỉ có tầm 45 phút học."
+    },
+    {
+      "id": "SV-014",
+      "timestamp": "2026-09-17 17:11:01",
+      "studentId": "SV-014",
+      "fullName": "Học viên SV-014",
+      "maskedEmail": "hocvien.sv-014***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1014",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Slide giảng viên dạy quá dài, nhiều khi đọc hết 60 slide vẫn chưa biết bài lab yêu cầu viết hàm nào."
+    },
+    {
+      "id": "SV-015",
+      "timestamp": "2026-09-17 17:12:02",
+      "studentId": "SV-015",
+      "fullName": "Học viên SV-015",
+      "maskedEmail": "hocvien.sv-015***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1015",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Tài liệu trên Discord hay bị trôi tin nhắn, gom vào một chỗ như catalog này rất tiện."
+    },
+    {
+      "id": "SV-016",
+      "timestamp": "2026-09-17 17:13:03",
+      "studentId": "SV-016",
+      "fullName": "Học viên SV-016",
+      "maskedEmail": "hocvien.sv-016***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1016",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Trái ngành sang học AI rất cần AI Helpdesk giải thích lỗi code bằng tiếng Việt dễ hiểu."
+    },
+    {
+      "id": "SV-017",
+      "timestamp": "2026-09-17 17:14:04",
+      "studentId": "SV-017",
+      "fullName": "Học viên SV-017",
+      "maskedEmail": "hocvien.sv-017***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1017",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ủng hộ nhóm nhiệt tình, mong tính năng test chẩn đoán sớm ra mắt!"
+    },
+    {
+      "id": "SV-018",
+      "timestamp": "2026-09-17 17:15:05",
+      "studentId": "SV-018",
+      "fullName": "Học viên SV-018",
+      "maskedEmail": "hocvien.sv-018***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1018",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Giao diện dark mode nhìn rất công nghệ và dịu mắt."
+    },
+    {
+      "id": "SV-019",
+      "timestamp": "2026-09-17 17:16:06",
+      "studentId": "SV-019",
+      "fullName": "Học viên SV-019",
+      "maskedEmail": "hocvien.sv-019***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1019",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Nên có thêm âm thanh thông báo khi gần đến deadline 23h59."
+    },
+    {
+      "id": "SV-020",
+      "timestamp": "2026-09-17 17:17:07",
+      "studentId": "SV-020",
+      "fullName": "Học viên SV-020",
+      "maskedEmail": "hocvien.sv-020***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1020",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ý tưởng thực tế, giải quyết đúng vấn đề học viên đang gặp phải trên VLearn."
+    },
+    {
+      "id": "SV-021",
+      "timestamp": "2026-09-17 17:18:08",
+      "studentId": "SV-021",
+      "fullName": "Học viên SV-021",
+      "maskedEmail": "hocvien.sv-021***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1021",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Rất thích tính năng checklist 3 việc vì mỗi tối chỉ có tầm 45 phút học."
+    },
+    {
+      "id": "SV-022",
+      "timestamp": "2026-09-17 17:19:09",
+      "studentId": "SV-022",
+      "fullName": "Học viên SV-022",
+      "maskedEmail": "hocvien.sv-022***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1022",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Slide giảng viên dạy quá dài, nhiều khi đọc hết 60 slide vẫn chưa biết bài lab yêu cầu viết hàm nào."
+    },
+    {
+      "id": "SV-023",
+      "timestamp": "2026-09-17 17:20:10",
+      "studentId": "SV-023",
+      "fullName": "Học viên SV-023",
+      "maskedEmail": "hocvien.sv-023***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1023",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 4,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Tài liệu trên Discord hay bị trôi tin nhắn, gom vào một chỗ như catalog này rất tiện."
+    },
+    {
+      "id": "SV-024",
+      "timestamp": "2026-09-17 17:21:11",
+      "studentId": "SV-024",
+      "fullName": "Học viên SV-024",
+      "maskedEmail": "hocvien.sv-024***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1024",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Trái ngành sang học AI rất cần AI Helpdesk giải thích lỗi code bằng tiếng Việt dễ hiểu."
+    },
+    {
+      "id": "SV-025",
+      "timestamp": "2026-09-17 17:22:12",
+      "studentId": "SV-025",
+      "fullName": "Học viên SV-025",
+      "maskedEmail": "hocvien.sv-025***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1025",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ủng hộ nhóm nhiệt tình, mong tính năng test chẩn đoán sớm ra mắt!"
+    },
+    {
+      "id": "SV-026",
+      "timestamp": "2026-09-17 17:23:13",
+      "studentId": "SV-026",
+      "fullName": "Học viên SV-026",
+      "maskedEmail": "hocvien.sv-026***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1026",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Giao diện dark mode nhìn rất công nghệ và dịu mắt."
+    },
+    {
+      "id": "SV-027",
+      "timestamp": "2026-09-17 17:24:14",
+      "studentId": "SV-027",
+      "fullName": "Học viên SV-027",
+      "maskedEmail": "hocvien.sv-027***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1027",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Nên có thêm âm thanh thông báo khi gần đến deadline 23h59."
+    },
+    {
+      "id": "SV-028",
+      "timestamp": "2026-09-17 17:25:15",
+      "studentId": "SV-028",
+      "fullName": "Học viên SV-028",
+      "maskedEmail": "hocvien.sv-028***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1028",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ý tưởng thực tế, giải quyết đúng vấn đề học viên đang gặp phải trên VLearn."
+    },
+    {
+      "id": "SV-029",
+      "timestamp": "2026-09-17 17:26:16",
+      "studentId": "SV-029",
+      "fullName": "Học viên SV-029",
+      "maskedEmail": "hocvien.sv-029***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1029",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Rất thích tính năng checklist 3 việc vì mỗi tối chỉ có tầm 45 phút học."
+    },
+    {
+      "id": "SV-030",
+      "timestamp": "2026-09-17 17:27:17",
+      "studentId": "SV-030",
+      "fullName": "Học viên SV-030",
+      "maskedEmail": "hocvien.sv-030***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1030",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Slide giảng viên dạy quá dài, nhiều khi đọc hết 60 slide vẫn chưa biết bài lab yêu cầu viết hàm nào."
+    },
+    {
+      "id": "SV-031",
+      "timestamp": "2026-09-17 17:28:18",
+      "studentId": "SV-031",
+      "fullName": "Học viên SV-031",
+      "maskedEmail": "hocvien.sv-031***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1031",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Tài liệu trên Discord hay bị trôi tin nhắn, gom vào một chỗ như catalog này rất tiện."
+    },
+    {
+      "id": "SV-032",
+      "timestamp": "2026-09-17 17:29:19",
+      "studentId": "SV-032",
+      "fullName": "Học viên SV-032",
+      "maskedEmail": "hocvien.sv-032***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1032",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Trái ngành sang học AI rất cần AI Helpdesk giải thích lỗi code bằng tiếng Việt dễ hiểu."
+    },
+    {
+      "id": "SV-033",
+      "timestamp": "2026-09-17 17:30:20",
+      "studentId": "SV-033",
+      "fullName": "Học viên SV-033",
+      "maskedEmail": "hocvien.sv-033***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1033",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 4,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ủng hộ nhóm nhiệt tình, mong tính năng test chẩn đoán sớm ra mắt!"
+    },
+    {
+      "id": "SV-034",
+      "timestamp": "2026-09-17 17:31:21",
+      "studentId": "SV-034",
+      "fullName": "Học viên SV-034",
+      "maskedEmail": "hocvien.sv-034***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1034",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Giao diện dark mode nhìn rất công nghệ và dịu mắt."
+    },
+    {
+      "id": "SV-035",
+      "timestamp": "2026-09-17 17:32:22",
+      "studentId": "SV-035",
+      "fullName": "Học viên SV-035",
+      "maskedEmail": "hocvien.sv-035***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1035",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Nên có thêm âm thanh thông báo khi gần đến deadline 23h59."
+    },
+    {
+      "id": "SV-036",
+      "timestamp": "2026-09-17 17:33:23",
+      "studentId": "SV-036",
+      "fullName": "Học viên SV-036",
+      "maskedEmail": "hocvien.sv-036***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1036",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ý tưởng thực tế, giải quyết đúng vấn đề học viên đang gặp phải trên VLearn."
+    },
+    {
+      "id": "SV-037",
+      "timestamp": "2026-09-17 17:34:24",
+      "studentId": "SV-037",
+      "fullName": "Học viên SV-037",
+      "maskedEmail": "hocvien.sv-037***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1037",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Rất thích tính năng checklist 3 việc vì mỗi tối chỉ có tầm 45 phút học."
+    },
+    {
+      "id": "SV-038",
+      "timestamp": "2026-09-17 17:36:26",
+      "studentId": "SV-038",
+      "fullName": "Học viên SV-038",
+      "maskedEmail": "hocvien.sv-038***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1038",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Tài liệu trên Discord hay bị trôi tin nhắn, gom vào một chỗ như catalog này rất tiện."
+    },
+    {
+      "id": "SV-039",
+      "timestamp": "2026-09-17 17:37:27",
+      "studentId": "SV-039",
+      "fullName": "Học viên SV-039",
+      "maskedEmail": "hocvien.sv-039***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1039",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Trái ngành sang học AI rất cần AI Helpdesk giải thích lỗi code bằng tiếng Việt dễ hiểu."
+    },
+    {
+      "id": "SV-040",
+      "timestamp": "2026-09-17 17:38:28",
+      "studentId": "SV-040",
+      "fullName": "Học viên SV-040",
+      "maskedEmail": "hocvien.sv-040***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1040",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ủng hộ nhóm nhiệt tình, mong tính năng test chẩn đoán sớm ra mắt!"
+    },
+    {
+      "id": "SV-041",
+      "timestamp": "2026-09-17 17:39:29",
+      "studentId": "SV-041",
+      "fullName": "Học viên SV-041",
+      "maskedEmail": "hocvien.sv-041***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1041",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Giao diện dark mode nhìn rất công nghệ và dịu mắt."
+    },
+    {
+      "id": "SV-042",
+      "timestamp": "2026-09-17 17:40:30",
+      "studentId": "SV-042",
+      "fullName": "Học viên SV-042",
+      "maskedEmail": "hocvien.sv-042***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1042",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 4,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Nên có thêm âm thanh thông báo khi gần đến deadline 23h59."
+    },
+    {
+      "id": "SV-043",
+      "timestamp": "2026-09-17 17:41:31",
+      "studentId": "SV-043",
+      "fullName": "Học viên SV-043",
+      "maskedEmail": "hocvien.sv-043***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1043",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ý tưởng thực tế, giải quyết đúng vấn đề học viên đang gặp phải trên VLearn."
+    },
+    {
+      "id": "SV-044",
+      "timestamp": "2026-09-17 17:42:32",
+      "studentId": "SV-044",
+      "fullName": "Học viên SV-044",
+      "maskedEmail": "hocvien.sv-044***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1044",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Rất thích tính năng checklist 3 việc vì mỗi tối chỉ có tầm 45 phút học."
+    },
+    {
+      "id": "SV-045",
+      "timestamp": "2026-09-17 17:43:33",
+      "studentId": "SV-045",
+      "fullName": "Học viên SV-045",
+      "maskedEmail": "hocvien.sv-045***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1045",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Slide giảng viên dạy quá dài, nhiều khi đọc hết 60 slide vẫn chưa biết bài lab yêu cầu viết hàm nào."
+    },
+    {
+      "id": "SV-046",
+      "timestamp": "2026-09-17 17:44:34",
+      "studentId": "SV-046",
+      "fullName": "Học viên SV-046",
+      "maskedEmail": "hocvien.sv-046***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1046",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Tài liệu trên Discord hay bị trôi tin nhắn, gom vào một chỗ như catalog này rất tiện."
+    },
+    {
+      "id": "SV-047",
+      "timestamp": "2026-09-17 17:45:35",
+      "studentId": "SV-047",
+      "fullName": "Học viên SV-047",
+      "maskedEmail": "hocvien.sv-047***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1047",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn",
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm"
+      ],
+      "timeWastedMinutes": 10,
+      "timeWastedLabel": "Dưới 15 phút (Tôi tìm rất nhanh)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Tạm ổn — Sử dụng được nhưng cần tinh gọn bớt chi tiết",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Trái ngành sang học AI rất cần AI Helpdesk giải thích lỗi code bằng tiếng Việt dễ hiểu."
+    },
+    {
+      "id": "SV-048",
+      "timestamp": "2026-09-17 17:46:36",
+      "studentId": "SV-048",
+      "fullName": "Học viên SV-048",
+      "maskedEmail": "hocvien.sv-048***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1048",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "self_sufficient",
+      "selfAwarenessLabel": "Tôi tự biết rõ mình thiếu gì và tự tìm tài liệu bù đắp được",
+      "painPoints": [
+        "Slide quá dài (50-60 trang) — đọc lan man không biết đâu là trọng tâm buổi lab sẽ chấm",
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Cần xem thử — Phải xem gợi ý có đúng với nội dung kiểm tra trên lớp không đã",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh",
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ủng hộ nhóm nhiệt tình, mong tính năng test chẩn đoán sớm ra mắt!"
+    },
+    {
+      "id": "SV-049",
+      "timestamp": "2026-09-17 17:47:37",
+      "studentId": "SV-049",
+      "fullName": "Học viên SV-049",
+      "maskedEmail": "hocvien.sv-049***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1049",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Tài liệu bị vứt rải rác nhiều nơi (Discord, VLearn, GitHub, Drive) — mất công đi nhặt từng link",
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm"
+      ],
+      "timeWastedMinutes": 55,
+      "timeWastedLabel": "Trên 45 phút (Mất gần hết thời gian rảnh làm bài)",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Mentor: Gom sẵn link repo mẫu, slide, link lab chuẩn catalog — bấm là mở, không lo trôi link",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Giao diện dark mode nhìn rất công nghệ và dịu mắt."
+    },
+    {
+      "id": "SV-050",
+      "timestamp": "2026-09-17 17:48:38",
+      "studentId": "SV-050",
+      "fullName": "Học viên SV-050",
+      "maskedEmail": "hocvien.sv-050***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1050",
+      "backgroundCategory": "data_ai",
+      "backgroundLabel": "Chuyên sâu Data / AI",
+      "selfAwarenessCategory": "unaware",
+      "selfAwarenessLabel": "Hoàn toàn không biết — Chỉ khi vào lớp làm bài bị lỗi hoặc testcase fail mới biết mình hổng",
+      "painPoints": [
+        "Hỏi AI Tutor trên VLearn nhưng câu trả lời chung chung — không chỉ ra bước tiếp theo cần làm",
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối"
+      ],
+      "timeWastedMinutes": 22,
+      "timeWastedLabel": "Từ 15 đến 30 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "AI Helpdesk 24/7: Trợ lý hỏi đáp quy chế, giải thích bài lab và gỡ kẹt kỹ thuật tức thì",
+        "AI Mentor: Bài test chẩn đoán ngắn (Diagnostic Test) chỉ ra chính xác mình đang yếu phần nào",
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Nên có thêm âm thanh thông báo khi gần đến deadline 23h59."
+    },
+    {
+      "id": "SV-051",
+      "timestamp": "2026-09-17 17:49:39",
+      "studentId": "SV-051",
+      "fullName": "Học viên SV-051",
+      "maskedEmail": "hocvien.sv-051***@vinuni.edu.vn",
+      "maskedReward": "Tài khoản •••• 1051",
+      "backgroundCategory": "it",
+      "backgroundLabel": "Đã biết lập trình (CNTT)",
+      "selfAwarenessCategory": "aware_stuck",
+      "selfAwarenessLabel": "Biết là mình chưa hiểu, nhưng chịu không biết phải đọc phần nào để bù vào",
+      "painPoints": [
+        "Thời gian rảnh quá ít (dưới 1 tiếng) — không đủ để tự mò mẫm từ đầu đến cuối",
+        "Không có bài test trắc nghiệm ngắn để kiểm tra nhanh xem mình đã hiểu bài hay chưa",
+        "Làm bài cập rập, đến sát hạn 23h59 mới cuống cuồng nộp bài hoặc bị nộp muộn"
+      ],
+      "timeWastedMinutes": 38,
+      "timeWastedLabel": "Từ 30 đến 45 phút",
+      "workarounds": [
+        "Dùng AI bên ngoài (ChatGPT, Claude, Gemini...) paste code hoặc hỏi bài",
+        "Hỏi bạn bè / đồng đội trong nhóm"
+      ],
+      "solutionFeasibility": "Rất thiết thực — Đúng thứ tôi cần để tiết kiệm thời gian",
+      "wantPersonalizedRoadmap": true,
+      "wantAiGapFilling": true,
+      "mostWantedFeatures": [
+        "Cảnh báo nguy cơ trễ hạn nộp bài (deadline) & gợi ý lộ trình kỹ năng chuẩn SFIA",
+        "AI Mentor: Checklist 3 việc trọng tâm kèm ước lượng thời gian & lộ trình theo số phút rảnh"
+      ],
+      "overallRating": 5,
+      "usabilityRating": "Đẹp và rất dễ dùng — Nhìn phát hiểu ngay cần bấm vào đâu",
+      "uiImprovements": [
+        "Giao diện hiện tại đã ổn, không cần sửa gì nhiều"
+      ],
+      "willingToTest": true,
+      "generalFeedback": "Ý tưởng thực tế, giải quyết đúng vấn đề học viên đang gặp phải trên VLearn."
+    }
+  ]
+}
