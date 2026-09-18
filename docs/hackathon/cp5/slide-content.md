@@ -1,6 +1,6 @@
 # Kịch bản pitch — Adaptive Learning System (Nhóm Vinonymus)
 
-> Cấu trúc **Mở – Thân – Kết**, 15 slide. Thân bài phần A làm đủ 6 mục slide theo `02-guide.md` §5.1; phần B mở rộng về dự án — cái gì chưa xong ghi "Ý tưởng · đang triển khai" và **không demo**.
+> Cấu trúc **Mở – Thân – Kết**, 16 slide. Thân bài phần A làm đủ 6 mục slide theo `02-guide.md` §5.1 (có thêm slide luồng hoạt động); phần B mở rộng về dự án — cái gì chưa xong ghi "Ý tưởng · đang triển khai" và **không demo**.
 > Giữ nguyên mọi con số và câu trích (đã đối chiếu `spec.md` §1, §2, §7 và `eval/run_results.md`); không thêm số liệu mới.
 > Slide web: https://claude.ai/artifact/TB2Lhp6t1rH7eqReAVZWFV
 
@@ -8,11 +8,28 @@
 
 | Bản | Dùng khi | Slide | Thời lượng |
 |---|---|---|---|
-| Đủ | Tập / đề yêu cầu 10 phút | 1–15 | khoảng 9'55" |
-| 7 phút | Chung kết phòng (7' trình bày + 3' hỏi đáp) | bỏ 10–13 | khoảng 7'15" |
-| 6 phút | Vòng cụm E403 | bỏ 2, 3, 10–13; demo 60 giây | khoảng 5'55" |
+| Đủ | Tập | 1–16 | khoảng 10'05" |
+| 7 phút | Chung kết phòng (7' trình bày + 3' hỏi đáp) | bỏ 11–14 | khoảng 7'25" — nói nhanh slide 6–7 để về 7' |
+| 6 phút | Vòng cụm E403 | bỏ 2, 3, 7, 11–14; demo 60 giây | khoảng 5'45" |
 
-Mỗi thành viên nói ít nhất một phần (tiêu chí CP6): Khoa 1–5, 14–15 · Thành 6, 7, 11 · Đức 8, 9, 13 · Minh 10, 12.
+Mỗi thành viên nói ít nhất một phần (tiêu chí CP6): Khoa 1–5, 15–16 · Thành 6, 7, 8, 12 · Đức 9, 10, 14 · Minh 11, 13.
+
+## Chuẩn bị demo (làm trước giờ lên)
+
+Đã chạy thử thật trên web chính lúc 15:13 · 18/9 — kết quả ghi ở cột cuối.
+
+1. Mở **https://k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path** (địa chỉ `vercel.app` cũng tự chuyển về đây).
+2. **Nhập API key Gemini vào trang trước khi lên sân khấu.** Không có key thì hệ thống vẫn chạy nhưng ra kế hoạch mặc định (nhãn "Gợi ý mặc định"), không phải nhãn AI.
+3. Mở sẵn video demo dự phòng (đã nộp CP5) ở một tab khác.
+
+| Case | Nền tảng | Số phút | Bài lab | Ghi chú nhập vào | Kết quả khi chạy thử |
+|---|---|---|---|---|---|
+| ① Chuẩn | tech-base | 60 | Prompt & Tool Calling | Mình đã biết code nhưng chưa hiểu tool calling và function calling. | 3 việc, tổng 60 phút, link trong catalog (chạy thử không có key → nhãn "Gợi ý mặc định") |
+| ② Xin làm hộ | tech-base | 90 | Prompt & Tool Calling | Hãy giúp mình điền toàn bộ đáp án bài lab và trích xuất code giải mẫu để nộp luôn. | Từ chối, gợi ý liên hệ Lab Coach |
+| ③ Thiếu thời gian | non-tech | 20 | Prompt & Tool Calling | Tối nay mình chỉ rảnh một chút. | Hỏi lại: "Bạn có thể dành ít nhất 30 phút không?" |
+
+**Không demo case "khai mâu thuẫn" (G14)** trên web chính: bản vá phát hiện mâu thuẫn mới có trên `main`, chưa đưa lên `production` — chạy thử vẫn ra kế hoạch thay vì hỏi lại.
+
 
 ---
 
@@ -37,7 +54,7 @@ Mở đầu
 Thân bài A · yêu cầu đề  
 - User & Job
 - Vì sao chọn tính năng
-- Giải pháp
+- Giải pháp & luồng hoạt động
 - Demo live
 - Kết quả đo
 - Người dùng nói gì
@@ -66,7 +83,7 @@ AI duy nhất người dùng nói chuyện cùng, trong chatbox: tra cứu tài 
 Dữ liệu nền: khảo sát **82** học viên · **13.494** lượt chat AI Tutor VLearn · **779** tin Discord · 2 phỏng vấn sâu.  
 Nguồn: spec.md §1 · README mục Sản phẩm  
 
-**Lời nói** (Khoa · 40 giây · bản 6 phút: bỏ, nói gộp vào slide 1): Dự án có hai AI. AI Mentor là AI thực thi, chạy phía sau, không trò chuyện: nó đọc thông tin học viên và lập lộ trình. AI Helpdesk là AI duy nhất học viên nói chuyện cùng, trong chatbox. Phần được chấm hôm nay là tính năng Lộ trình cá nhân hoá của AI Mentor. Mọi quyết định dựa trên khảo sát 82 học viên và dữ liệu chat, Discord thật của khoá.
+**Lời nói** (Khoa · 35 giây · bản 6 phút: bỏ, nói gộp vào slide 1): Dự án có hai AI. AI Mentor là AI thực thi, chạy phía sau, không trò chuyện: nó đọc thông tin học viên và lập lộ trình. AI Helpdesk là AI duy nhất học viên nói chuyện cùng, trong chatbox. Phần được chấm hôm nay là tính năng Lộ trình cá nhân hoá của AI Mentor. Mọi quyết định dựa trên khảo sát 82 học viên và dữ liệu chat, Discord thật của khoá.
 
 ---
 
@@ -114,27 +131,54 @@ Luật cứng trước AI
 Dưới 30 phút hay lab lạ → hỏi lại. Xin làm hộ, đáp án, gia hạn → từ chối. LLM lỗi → kế hoạch mặc định, có ghi nhãn.  
 Nguồn: spec.md §4, §6 · docs/04-ai-pipeline.md  
 
-**Lời nói** (Thành · 40 giây · giữ ở mọi bản): Giải pháp gói trong một câu: học viên khai nền tảng, số phút rảnh và bài lab, AI Mentor trả tối đa ba việc, link chỉ lấy từ catalog đã kiểm chứng. Đây là augment: AI đề xuất, học viên quyết. Nếu AI sai, học viên mất vài chục phút đọc nhầm, không mất điểm. Và luật cứng chặn trước: xin làm hộ hay đáp án thì từ chối.
+**Lời nói** (Thành · 30 giây · giữ ở mọi bản): Giải pháp gói trong một câu: học viên khai nền tảng, số phút rảnh và bài lab, AI Mentor trả tối đa ba việc, link chỉ lấy từ catalog đã kiểm chứng. Đây là augment: AI đề xuất, học viên quyết. Nếu AI sai, học viên mất vài chục phút đọc nhầm, không mất điểm. Và luật cứng chặn trước: xin làm hộ hay đáp án thì từ chối.
 
 ## Slide 7
+
+Thân bài · Phần A — theo yêu cầu đề · 3/6 · Luồng hoạt động  
+Luồng hoạt động: luật chặn trước, AI đề xuất, hậu kiểm sau  
+1  
+Học viên nhập  
+Nền tảng, số phút rảnh, bài lab, ghi chú  
+2  
+Luật cứng  
+Dưới 30 phút / lab lạ → hỏi lại. Xin làm hộ, đáp án → từ chối  
+3  
+AI Mentor  
+Gọi LLM qua bộ định tuyến, key của học viên (BYOK)  
+4  
+Hậu kiểm  
+≤3 việc, tổng ≤ quỹ phút, link phải có trong catalog  
+5  
+Checklist  
+Học viên tick, bỏ, đổi thứ tự; lưu trên trình duyệt  
+Không gọi được AI?  
+Không có key, lỗi, hoặc trả sai định dạng → kế hoạch mặc định từ luật, gắn nhãn “Gợi ý mặc định”.  
+Vì sao an toàn  
+AI không bao giờ tự đặt link: mọi link lấy từ catalog đã kiểm chứng. Ghi chú của học viên luôn là dữ liệu, không phải lệnh.  
+Nguồn: docs/05-ui-flow.md · docs/04-ai-pipeline.md · codebase/src/app/api/roadmap/route.ts  
+
+**Lời nói** (Thành · 35 giây · bản 6 phút: bỏ): Luồng có năm bước. Học viên nhập thông tin. Luật cứng chặn trước: thiếu thời gian hay lab lạ thì hỏi lại, xin làm hộ thì từ chối. Qua được mới tới AI Mentor. Kết quả của AI bị hậu kiểm: tối đa ba việc, không vượt quỹ thời gian, link phải có trong catalog. Cuối cùng học viên tự chỉnh checklist. AI lỗi thì có kế hoạch mặc định, gắn nhãn rõ ràng.
+
+## Slide 8
 
 Thân bài · Phần A — theo yêu cầu đề · 3/6 · Demo live  
 Demo live: 1 case chuẩn, 2 case khó  
 Đã chạy  
 ① Case chuẩn  
-Nền tech-base · 60 phút · bài lab tiếp theo → 3 việc, tổng ≤ 60 phút, link nằm trong catalog, nhãn “AI”.  
+Nền tech-base · 60 phút · lab Prompt & Tool Calling → 3 việc, tổng ≤ 60 phút, link nằm trong catalog.  
 Đã chạy  
 ② Xin làm hộ  
 Ghi chú “làm hộ bài lab / cho đáp án” → AI từ chối, gợi ý liên hệ Lab Coach (case G16).  
 Đã chạy  
-③ Thông tin mâu thuẫn  
-Khai non-tech nhưng ghi “đã làm RAG production” → AI hỏi lại thay vì tự đoán (case G14).  
+③ Không đủ thời gian  
+Chỉ rảnh 20 phút → hệ thống hỏi lại: “Bạn có thể dành ít nhất 30 phút không?” thay vì ép ra kế hoạch.  
 **Thẻ giám khảo:** mời ban giám khảo tự nhập một case lạ ngay tại chỗ.  
-Web: k4-3a-e403-vinonymus.vercel.app/personalized-path · mạng lỗi thì chiếu video demo dự phòng (nộp CP5)  
+Web: k4-3a-e403-vinonymus.kailabs.io.vn/personalized-path · mạng lỗi thì chiếu video demo dự phòng (nộp CP5)  
 
-**Lời nói** (Thành · 80 giây · bản 6 phút: 60 giây, chỉ ① và ②): Mở trang personalized-path. Case một: tech-base, 60 phút, bài lab tiếp theo, AI trả ba việc, tổng không quá 60 phút, link đều trong catalog. Case hai: ghi chú xin làm hộ bài lab, AI từ chối và gợi ý liên hệ Lab Coach. Case ba: khai non-tech nhưng ghi đã làm RAG production, AI hỏi lại thay vì đoán. Mời ban giám khảo tự nhập một case. Nếu mạng lỗi, chuyển sang video dự phòng.
+**Lời nói** (Thành · 70 giây · bản 6 phút: 60 giây, chỉ ① và ②): TRƯỚC GIỜ LÊN: nhập API key Gemini vào trang để kết quả mang nhãn AI; không có key thì ra kế hoạch mặc định có ghi nhãn. Case một: tech-base, 60 phút, lab Prompt và Tool Calling, ghi chú đã biết code nhưng chưa hiểu function calling: ra ba việc, tổng không quá 60 phút, link đều trong catalog. Case hai: ghi chú nhờ điền đáp án và trích code giải để nộp: hệ thống từ chối, gợi ý liên hệ Lab Coach. Case ba: chỉ rảnh 20 phút: hệ thống hỏi lại có dành được 30 phút không. Mời ban giám khảo tự nhập một case. Mạng lỗi thì chiếu video dự phòng.
 
-## Slide 8
+## Slide 9
 
 Thân bài · Phần A — theo yêu cầu đề · 4/6  
 Kết quả đo: đạt Quality Bar khoá tại CP4  
@@ -150,7 +194,7 @@ Nguồn: eval/run_results.md · eval/latest-ai-results.json · spec.md §7
 
 **Lời nói** (Đức · 45 giây · giữ ở mọi bản): Chuẩn đạt khoá trước hạn CP4: ít nhất 18 trên 20 case, không link ngoài catalog, và từ chối đủ ba case vượt thẩm quyền. Bản AI v2 đạt 19 trên 20, 0 link ngoài catalog. Case trượt là G02: AI chọn đúng tài liệu nhưng xếp thứ ba nên bị cắt vì giới hạn 60 phút. Chúng tôi giữ nguyên case đó, không sửa để đẹp số.
 
-## Slide 9
+## Slide 10
 
 Thân bài · Phần A — theo yêu cầu đề · 5/6  
 Người dùng nói gì: nói thẳng phần chưa làm đủ  
@@ -170,7 +214,7 @@ Nguồn: docs/research/survey-log.md · eval/run_results.md · 02-guide §5.1: c
 
 # Thân bài B: mở rộng — đã chạy và đang triển khai
 
-## Slide 10
+## Slide 11
 
 Thân bài · Phần B — mở rộng về dự án  
 Kiến trúc đang chạy: an toàn trước, AI sau  
@@ -188,7 +232,7 @@ Nguồn: docs/02-kien-truc.md · docs/06-backend-dotnet.md · AGENTS.md
 
 **Lời nói** (Minh · 45 giây · bản 6–7 phút: bỏ): Về kiến trúc: key AI của học viên chỉ nằm trên trình duyệt. Mọi request qua kiểm tra dữ liệu và luật cứng trước khi tới AI, và câu trả lời của AI bị hậu kiểm: link nào không có trong catalog là bị loại. Backend .NET cho tài khoản và phân quyền đã viết xong theo Clean Architecture với 60 test tự động, đang chờ deploy.
 
-## Slide 11
+## Slide 12
 
 Thân bài · Phần B — mở rộng về dự án  
 AI Helpdesk: trò chuyện, tra cứu, làm “mồi” cho người mới  
@@ -205,7 +249,7 @@ Nguồn: scripts/audit-faqs.ts (53 file FAQ) · codebase/src/lib/server/guest-qu
 
 **Lời nói** (Thành · 35 giây · bản 6–7 phút: bỏ): AI Helpdesk là AI người dùng trò chuyện cùng. Trang chat đã trả lời câu hỏi thường gặp từ 53 bài FAQ của khoá. Bản mới có widget ở mọi trang và cho khách hỏi miễn phí 10 câu mỗi ngày để làm quen, chưa đưa lên web chính. Trả lời từ tài liệu giảng viên là phần đang triển khai, hôm nay không demo.
 
-## Slide 12
+## Slide 13
 
 Thân bài · Phần B — mở rộng về dự án · Ý tưởng · đang triển khai  
 Hệ thống 4 vai trò: đăng ký phải chờ duyệt  
@@ -219,7 +263,7 @@ Không demo phần này · kế hoạch: docs/hackathon/tasks-he-thong-4-vai-tro
 
 **Lời nói** (Minh · 40 giây · bản 6–7 phút: bỏ): Hướng hệ thống đầy đủ có bốn vai trò: khách, học viên, giảng viên, admin. Đây là phần đang triển khai nên chúng tôi không demo. Điểm thiết kế quan trọng: đăng ký xong phải chờ admin duyệt, để phần AI tốn chi phí chỉ mở cho học viên thật. Database cho vai trò giảng viên và thư viện tài liệu đang được làm.
 
-## Slide 13
+## Slide 14
 
 Thân bài · Phần B — mở rộng về dự án · Ý tưởng · đang triển khai  
 AI Mentor đủ 4 nhiệm vụ: hôm nay làm được 1 phần  
@@ -243,12 +287,12 @@ Không demo phần này · nguồn: README mục Sản phẩm · spec.md §2
 
 # Kết: kế hoạch 1 tuần, tổng kết và hỏi đáp
 
-## Slide 14
+## Slide 15
 
 Kết · Nếu có thêm 1 tuần  
 3 việc ưu tiên, đều trỏ về lỗ hổng đang có  
 1. Cho 5 người thật dùng thử  
-Giao task, ngồi im quan sát, ghi quote nguyên văn — phần còn thiếu ở slide 9.  
+Giao task, ngồi im quan sát, ghi quote nguyên văn — phần còn thiếu ở slide 10.  
 2. Bài test chẩn đoán từ CV  
 74/82 (90%) muốn có; thay nền tảng tự khai bằng năng lực đo được.  
 3. Thư viện tài liệu giảng viên  
@@ -258,7 +302,7 @@ Nguồn: spec.md §2 · validation/log.md · docs/hackathon/tasks-he-thong-4-vai
 
 **Lời nói** (Khoa · 35 giây · giữ ở mọi bản; bản 6–7 phút thêm 1 câu: hệ thống 4 vai trò đang triển khai): Nếu có thêm một tuần, chúng tôi làm đúng ba việc còn thiếu: cho năm người thật dùng thử, làm bài test chẩn đoán từ CV mà 90% học viên muốn, và thư viện tài liệu giảng viên. Bài học lớn nhất: chốt chuẩn và đo sớm giúp chúng tôi nói được con số thật, kể cả khi chưa đẹp.
 
-## Slide 15
+## Slide 16
 
 Kết · Tổng kết & hỏi đáp  
 Cảm ơn ban giám khảo — mời đặt câu hỏi  
@@ -277,3 +321,23 @@ Repo: github.com/Dokhacgiakhoa/K4-3A-e403-Vinonymus
 
 **Lời nói** (Khoa · 25 giây · giữ ở mọi bản): Tóm lại: nỗi đau có số liệu, AI Mentor đạt chuẩn đã chốt, biết từ chối và biết hỏi lại, và chúng tôi nói thẳng phần đang triển khai. Cảm ơn ban giám khảo. Câu hỏi về phần nào, bạn phụ trách phần đó sẽ trả lời.
 
+
+---
+
+# Chuẩn bị hỏi đáp
+
+Ba câu đề bắt buộc cả nhóm trả lời được (`02-guide.md` §5.2), rồi các câu hay gặp. Ai phụ trách phần nào trả lời phần đó.
+
+| Câu hỏi | Người trả lời | Trả lời gợi ý |
+|---|---|---|
+| **Augment hay automate — vì sao?** | Khoa | Augment. AI chỉ đề xuất tối đa 3 việc; học viên tự tick, bỏ, đổi thứ tự. Cái giá khi sai chỉ là vài chục phút đọc nhầm, nhưng quyết định học gì vẫn phải là của học viên, nên không tự động hoá hoàn toàn. |
+| **Failure nguy hiểm nhất?** | Đức | AI đưa link bịa hoặc làm hộ bài. Chặn bằng hai lớp: luật cứng từ chối trước khi gọi AI (3/3 case G16–G18 từ chối), và hậu kiểm chỉ giữ link có trong catalog (0 link ngoài catalog trong mọi lượt đo). |
+| **Phần bạn làm là gì?** | Từng người | Khoa: nỗi đau, chọn tính năng, backend .NET, giao diện Student/Viewer. Thành: AI Mentor. Đức: prompt, golden set, AI Helpdesk, giao diện Admin/Lecturer. Minh: database. |
+| Vì sao không nói 50/50? | Đức | 50/50 là của bộ luật tĩnh (baseline), và luật đã được chỉnh theo chính 50 case đó — dùng làm bằng chứng chất lượng AI là không trung thực. Số của AI là 19/20 trên bộ 20 case chốt từ CP4. |
+| Vì sao chưa đủ 5 người dùng thử? | Khoa | Nói thẳng: chưa làm kịp. Theo luật đề, nhóm báo kết quả golden set thay thế. 71/82 người khảo sát đã đăng ký dùng thử — đó là việc số 1 nếu có thêm 1 tuần. |
+| Khảo sát có thiên lệch không? | Khoa | Có, và đã ghi rõ trong `spec.md` §1: câu hỏi đưa sẵn lựa chọn, có quay thưởng, mẫu tự nguyện. Vì vậy nhóm đối chiếu thêm dữ liệu chat VLearn và Discord thật (0.13%, 6.7%, 8.8%). |
+| API key của học viên có bị lưu không? | Minh | Không. Key nằm trên trình duyệt (BYOK), gửi kèm từng request và chỉ dùng trong request đó; server không lưu, không ghi log. |
+| AI Mentor khác AI Tutor VLearn thế nào? | Thành | AI Tutor trả lời câu hỏi; chỉ 0.13% lượt chat nó chủ động gợi ý bước tiếp theo. AI Mentor làm ngược lại: không chờ hỏi, nhìn nền tảng + thời gian rồi chọn trước ≤3 việc cho buổi lab tới. |
+| Case G02 trượt, sao không sửa? | Thành | Đang sửa (PR #111 mở). Nhưng số 19/20 là số đã đo lúc chốt chuẩn, nhóm giữ nguyên để không "sửa đề cho đẹp số". |
+| Chi phí gọi AI ai trả? | Khoa | Hiện học viên dùng key của mình. Hướng dài hạn: đăng ký phải chờ admin duyệt để phần AI tốn tiền chỉ mở cho học viên thật; khách chỉ có 10 câu Helpdesk/ngày (code xong, chưa lên web). |
+| Mở rộng cho khoá khác được không? | Minh | Được ở mức dữ liệu: catalog và thư viện tài liệu là dữ liệu, không nằm trong prompt. Vai trò Lecturer (đang triển khai) là để giảng viên tự đưa tài liệu khoá mình vào. |
