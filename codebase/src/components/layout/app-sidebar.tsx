@@ -25,6 +25,7 @@ import { clientStorage, type StoredUser } from '@/lib/client-storage';
 import { DEMO_ACCOUNTS, DEMO_HOME, getUserRole, isDemoUser, ROLE_LABELS, startDemoSession } from '@/lib/demo/demo-accounts';
 import { FocusModeButton } from '@/components/learning/focus-mode-controller';
 import { DisclaimerModal } from '@/components/legal/disclaimer-modal';
+import { ThemeToggle } from '@/components/theme/theme-toggle';
 
 interface AppSidebarProps {
   user: StoredUser;
@@ -53,11 +54,12 @@ export function AppSidebar({ user }: AppSidebarProps) {
   const roleNav: NavItem[] =
     role === 'lecturer'
       ? [
-          { href: '/lecturer/documents', label: 'Tài liệu của tôi', icon: FileText },
+          { href: '/lecture', label: 'Không gian giảng viên', icon: FileText },
           { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
         ]
       : role === 'admin'
         ? [
+            { href: '/lecture', label: 'Không gian giảng viên', icon: FileText },
             { href: '/admin/documents', label: 'Duyệt tài liệu', icon: FileCheck },
             { href: '/learning', label: 'Thư Viện Học Tập', icon: Library },
           ]
@@ -202,6 +204,10 @@ export function AppSidebar({ user }: AppSidebarProps) {
           isCollapsed ? 'p-1.5' : 'p-2.5'
         }`}>
           
+          <div className={isCollapsed ? 'flex justify-center' : ''}>
+            <ThemeToggle compact={isCollapsed} />
+          </div>
+
           {/* Admin Management Link (Chỉ hiển thị cho Admin) */}
           {isAdmin && (
             <Link
