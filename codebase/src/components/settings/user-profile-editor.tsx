@@ -46,6 +46,24 @@ interface DiagnosticQuestion {
   explanation: string;
 }
 
+interface CvDiagnosticApiQuestion {
+  skillId: string;
+  question: string;
+  choices: { text: string }[];
+  correctChoiceIndex: number;
+  explanation: string;
+}
+
+interface CvDiagnosticApiResponse {
+  source: 'ai' | 'rules';
+  analysis: {
+    profileSummary: string;
+    knownSkills: { skillId: string }[];
+    weakSkillIds: string[];
+  };
+  questions: CvDiagnosticApiQuestion[];
+}
+
 const SAMPLE_DIAGNOSTIC_QUESTIONS: DiagnosticQuestion[] = [
   {
     id: 1,
@@ -133,6 +151,7 @@ export function UserProfileEditor({ onLogout }: UserProfileEditorProps) {
   const [quizAnswers, setQuizAnswers] = useState<Record<number, string>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
   const [quizScore, setQuizScore] = useState(0);
+  const [diagnosticQuestions, setDiagnosticQuestions] = useState<DiagnosticQuestion[]>(SAMPLE_DIAGNOSTIC_QUESTIONS);
 
   useEffect(() => {
     const current = clientStorage.getUser();
@@ -168,6 +187,39 @@ export function UserProfileEditor({ onLogout }: UserProfileEditorProps) {
     }
 
     setIsAiProcessing(true);
+    const cvText =
+      inputType === 'text'
+        ? rawTextInput
+        : `Hoc vien tai len ${inputType.toUpperCase()}: ${
+            uploadedFileName || (inputType === 'pdf' ? 'CV_KySu_AI_2026.pdf' : 'BangDiem_ChungChi.png')
+          }. Can AI Mentor phan tich CV va tao bai test nang luc online.`;
+    void fetch('/api/ai-mentor/cv-diagnostic', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        student_id: user?.email || 'current-user',
+        lab_id: 'lab-prompt-tool-calling',
+        cv_text: cvText,
+        goal: 'Tao bai test chan doan nang luc tu ho so hoc vien',
+        max_questions: 5,
+      }),
+    })
+      .then((response) => (response.ok ? response.json() as Promise<CvDiagnosticApiResponse> : null))
+      .then((result) => {
+        if (!result) return;
+        setDiagnosticQuestions(result.questions.map((question, questionIndex) => ({
+          id: questionIndex + 1,
+          question: question.question,
+          options: question.choices.map((choice, choiceIndex) => ({
+            id: String.fromCharCode(65 + choiceIndex),
+            text: choice.text,
+          })),
+          correctOption: String.fromCharCode(65 + question.correctChoiceIndex),
+          skillTag: question.skillId,
+          explanation: question.explanation,
+        })));
+      })
+      .catch(() => setDiagnosticQuestions(SAMPLE_DIAGNOSTIC_QUESTIONS));
     setTimeout(() => {
       setIsAiProcessing(false);
       const isDevClaim = rawTextInput.toLowerCase().includes('python') || rawTextInput.toLowerCase().includes('code') || inputType === 'pdf';
@@ -202,7 +254,7 @@ export function UserProfileEditor({ onLogout }: UserProfileEditorProps) {
     const verified: string[] = [];
     const gaps: string[] = [];
 
-    SAMPLE_DIAGNOSTIC_QUESTIONS.forEach(q => {
+    diagnosticQuestions.forEach(q => {
       if (quizAnswers[q.id] === q.correctOption) {
         correct++;
         verified.push(q.skillTag);
@@ -211,7 +263,7 @@ export function UserProfileEditor({ onLogout }: UserProfileEditorProps) {
       }
     });
 
-    const scorePercent = Math.round((correct / SAMPLE_DIAGNOSTIC_QUESTIONS.length) * 100);
+    const scorePercent = Math.round((correct / diagnosticQuestions.length) * 100);
     setQuizScore(scorePercent);
     setQuizSubmitted(true);
 
@@ -664,7 +716,7 @@ export function UserProfileEditor({ onLogout }: UserProfileEditorProps) {
             {/* Questions List */}
             {!quizSubmitted ? (
               <div className="space-y-6">
-                {SAMPLE_DIAGNOSTIC_QUESTIONS.map((q, qIndex) => (
+                {diagnosticQuestions.map((q, qIndex) => (
                   <div key={q.id} className="p-4 rounded-2xl bg-[#0b1329] border border-slate-800 space-y-3">
                     <div className="flex items-start gap-2.5">
                       <span className="w-6 h-6 rounded-lg bg-cyan-500/20 text-cyan-400 font-mono font-bold text-xs flex items-center justify-center shrink-0 mt-0.5">
@@ -719,7 +771,7 @@ export function UserProfileEditor({ onLogout }: UserProfileEditorProps) {
                   <button
                     type="button"
                     onClick={handleDiagnosticQuizSubmit}
-                    disabled={Object.keys(quizAnswers).length < SAMPLE_DIAGNOSTIC_QUESTIONS.length}
+                    disabled={Object.keys(quizAnswers).length < diagnosticQuestions.length}
                     className="py-3 px-6 rounded-xl bg-gradient-to-r from-cyan-400 to-indigo-500 text-slate-950 font-black text-xs uppercase tracking-wider shadow-lg shadow-cyan-500/25 hover:opacity-95 transition cursor-pointer disabled:opacity-40"
                   >
                     Nộp Bài & Chấm Điểm Thẩm Định
