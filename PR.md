@@ -1,48 +1,46 @@
-# PR: Prepare isolated Supabase database for .NET backend
+# PR: Add lecturer document versions and approval history
 
-> **Task:** D-01 · **Issue:** #84 · **Branch:** `feat/D-01-supabase-dotnet-database`
+> **Task:** D-02 · **Issue:** #85 · **Branch:** `feat/D-02-lecture-documents`
 > **Người thực hiện:** Trần Nhật Minh (`@Minh`) · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
 
-Tách bảng nghiệp vụ của backend .NET vào schema `app`, không lẫn với FAQ/RAG
-hiện có ở `public`. Chuẩn bị quy trình tạo role `aiia_backend` theo nguyên tắc
-ít quyền và kết nối backend mà không đưa secret vào repo.
+Thêm ba bảng PostgreSQL thuần cho quy trình tài liệu giảng viên trong schema
+`app`: tài liệu, snapshot phiên bản và lịch sử duyệt. Thiết kế dùng `app.users`
+thay cho Supabase Auth/profiles của PR cũ.
 
 ## 2. Truy vết
 
 | Thay đổi | Yêu cầu liên quan |
 |---|---|
-| Schema `app`, migration và role backend | D-01 / #84 |
+| `lecture_documents`, versions, reviews | D-02 / #85; thiết kế nền từ PR #69 |
+| Sơ đồ quan hệ và FK tới `app.users` | D-02 / D-01 |
 
 ## 3. File thay đổi
 
 | File | Thay đổi |
 |---|---|
-| `codebase/database/migrations/*.sql` | Đặt migration .NET vào schema `app`. |
-| `codebase/backend-core/src/Infrastructure/Data/*` | EF Core mặc định dùng `app`; quota SQL chỉ rõ schema. |
-| `docs/supabase-dotnet-setup.md` | Đề xuất, lệnh vận hành và kiểm thử bàn giao. |
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-01. |
+| `codebase/database/migrations/20260918_lecture_documents_review.sql` | Tạo bảng tài liệu, phiên bản, lịch sử duyệt; index, CHECK, FK và quyền role backend. |
+| `docs/diagrams/database-class-diagram.mmd` | Bổ sung quan hệ tài liệu–phiên bản–duyệt và `AppUser`. |
+| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Cập nhật trạng thái D-02. |
+| `PR.md` | Ghi kiểm thử thật của PR này. |
 
 ## 4. Kiểm thử
 
-- Kết nối pooler Supabase thật bằng chuỗi admin được cung cấp (secret không ghi
-  vào repo/log): thành công.
-- 5/5 migration áp dụng thành công; role `aiia_backend` tạo và cấp quyền trên
-  schema `app` thành công.
-- Kiểm thử bằng role backend: `current_user=aiia_backend`, `users_count=0`,
-  `app_table_count=11`.
-- `dotnet restore` thành công; test .NET chạy từ thư mục tạm ngoài OneDrive:
-  Domain `6/6`, Application `41/41`, WebApi Integration `13/13` — tổng `60/60`.
-- Guard tĩnh cho migration và wiring EF Core: pass.
+- Migration chạy thành công trên Supabase: `20260918_lecture_documents_review.sql`.
+- Chạy lại lần hai thành công (idempotent).
+- Kiểm tra schema: đủ 3 bảng; tổng `41` constraint (FK/CHECK/UNIQUE).
+- Kết nối bằng role `aiia_backend`: đọc thành công cả ba bảng; dữ liệu ban đầu
+  `documents=0`, `versions=0`, `reviews=0`.
+- Không ghi connection string hoặc secret vào repository/log.
 
 ## 5. Tài liệu & changelog
 
-- Thêm `docs/supabase-dotnet-setup.md`.
+- Cập nhật `docs/diagrams/database-class-diagram.mmd` theo đúng migration.
 
 ## 6. Rủi ro / việc còn lại
 
-- Cần @Khoa duyệt đề xuất schema `app` trên PR; không còn thao tác database nào
-  cần tài khoản quản trị để bàn giao.
+- API tạo phiên bản, gửi duyệt và duyệt tài liệu thuộc các task backend tiếp theo.
+- Cần @Khoa review schema trước khi merge.
 
-Closes #84
+Closes #85
