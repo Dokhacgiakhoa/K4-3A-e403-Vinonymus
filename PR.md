@@ -1,35 +1,37 @@
-# PR: Đặt hạn cho task hệ thống 4 vai trò (hạn chót 21:00 · 18/9)
+# PR: Slide CP5 (6 trang PDF)
 
-> **Task:** quản lý task · **Issue:** #75 → #103 (28 issue đang mở) · **Branch:** `docs/task-deadlines`
+> **Task:** T5-06 (#33) · **Issue:** #33 · **Branch:** `docs/cp5-slides`
 > **Người thực hiện:** Đỗ Khắc Gia Khoa (`@Khoa`) với Claude Code · **Hỗ trợ:** —
 
 ## 1. Mục tiêu
-PM chốt hạn chót 21:00 hôm nay cho mọi task. PR này chia giờ nội bộ cho từng task theo thứ tự phụ thuộc, chừa giờ nộp CP5 (13:00) và tập/thuyết trình CP6 (16:30–18:30).
+Nộp slide 6 trang PDF cho CP5 (hạn 13:00 · 18/9) theo `02-guide.md` §5.1: mỗi trang có ≥1 con số / quote có nguồn.
 
 ## 2. Truy vết
-| Thay đổi | Liên quan |
+| Slide | Nguồn số liệu |
 |---|---|
-| Cột "Hạn" + mục 8 "Lịch hôm nay" | 28 task còn mở trong milestone "Hệ thống 4 vai trò" |
+| 1 User & Job | `spec.md` §1 (khảo sát n = 82, vlearn-pack, phỏng vấn P02) |
+| 2 Vì sao chọn | `spec.md` §2 |
+| 3 Giải pháp & demo | `docs/05-ui-flow.md`, golden case G16, G14 |
+| 4 Kết quả đo | `eval/run_results.md`, `spec.md` §7 |
+| 5 User thật nói gì | Quote P01, P02 (`docs/research/survey-log.md`) + kết quả golden set (validation chưa đủ 5 người) |
+| 6 Thêm 1 tuần | Lỗ hổng còn lại + `spec.md` §2 (90% muốn bài test chẩn đoán) |
 
 ## 3. File thay đổi
 | File | Thay đổi |
 |---|---|
-| `docs/hackathon/tasks-he-thong-4-vai-tro.md` | Thêm cột "Hạn" vào 4 bảng task; dòng hạn chót ở đầu file; mục 8 lịch theo giờ cho từng người |
+| `demo-slides.pdf` | Slide 6 trang (vị trí README đã hẹn) |
+| `docs/hackathon/cp5/demo-slides.html` | Bản nguồn để sửa và xuất lại PDF |
+| `docs/hackathon/cp5/slide-content.md` | Nội dung 6 slide (tiêu đề, nội dung, nguồn, lời nói) để đưa vào NotebookLM tạo PDF |
 | `PR.md` | Mô tả PR này |
 
-Thay đổi trên GitHub (ngoài diff): milestone #7 đặt hạn 18/9, mô tả ghi 21:00; 28 issue đang mở thêm dòng "Hạn nội bộ".
-
 ## 4. Kiểm thử
-- Script kiểm tra thứ tự: với cả 28 task, hạn của task luôn muộn hơn hạn của mọi task nó phải chờ — **0 vi phạm**.
-- Mỗi người làm tuần tự, không trùng giờ; không xếp task nào vào 16:30–18:30.
-- Kiểm tra cột bảng: mọi dòng task đủ 6 cột.
-- Đọc lại issue mẫu #80 (B-08): có "Hạn nội bộ 19:45 · 18/9".
-- `npm run verify` chạy qua hook pre-push khi push nhánh này.
+- Xuất PDF bằng Edge headless: đúng 6 trang, khổ 1280×720; chụp ảnh cả 6 trang kiểm tra bằng mắt, không tràn chữ.
+- Đối chiếu từng con số với `spec.md` §1, §2, §7 và `eval/run_results.md`.
+- Slide 4 ghi rõ bộ 50 case chỉ chạy baseline luật tĩnh (luật đã chỉnh theo chính các case) nên không dùng làm bằng chứng chất lượng AI; Quality Bar đo trên AI v2 19/20.
 
 ## 5. Tài liệu & changelog
 Không ghi `spec.md` §9.
 
 ## 6. Rủi ro / việc còn lại
-- **Lịch rất sát.** Buổi tối (18:30–21:00) dồn nhiều task nặng: B-08 (tải file + xử lý nền), A-03, A-05, A-06, U-05 → U-08. Chậm một task ở chiều là kéo trễ cả chuỗi phía sau.
-- **B-03 (deploy) cần PM chọn nơi chạy** và có thể phải trả phí; nếu chưa chọn trước 14:00 thì B-04, B-05 cũng trễ.
-- Giờ tập pitch/thuyết trình CP6 là giả định (16:30–18:30); lịch thật khác thì dời các task buổi chiều/tối tương ứng.
+- Slide 5 ghi **chưa đủ 5 buổi người ngoài dùng thử** vì `validation/log.md` còn trống. Nếu đã có buổi dùng thử nhưng chưa ghi, cần điền log và sửa slide 5.
+- Video demo dự phòng (T5-07, Thành) không nằm trong PR này.
