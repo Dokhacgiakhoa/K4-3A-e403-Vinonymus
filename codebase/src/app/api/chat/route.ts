@@ -38,7 +38,7 @@ const chatRequestSchema = z
 
 function readHelpdeskKeys(req: NextRequest): ChatApiHeaderKeys {
   return {
-    // Helpdesk tạm khóa một model giống Planner để kết quả/eval có thể so sánh được.
+    fpt: req.headers.get('x-fpt-key') || process.env.FPT_API_KEY,
     gemini:
       req.headers.get('x-gemini-key') ||
       req.headers.get('x-llm-key') ||
@@ -56,7 +56,7 @@ function withGuestCookie(response: Response, guestToken?: string): Response {
 }
 
 async function resolveMemory(req: NextRequest) {
-  const identity = await resolveBackendUserIdentity(req.headers.get('authorization'));
+  const identity = await resolveBackendUserIdentity(req.headers.get('authorization'), req.nextUrl.origin);
   const memory = await openChatMemorySession(
     identity,
     req.cookies.get(CHAT_SESSION_COOKIE)?.value,
@@ -65,10 +65,10 @@ async function resolveMemory(req: NextRequest) {
 }
 
 export async function GET(req: NextRequest) {
-  const { memory } = await resolveMemory(req);
+  const { identity, memory } = await resolveMemory(req);
   const messages = await loadChatMemory(memory.sessionId, 50);
   return withGuestCookie(
-    Response.json({ messages }, { headers: { 'Cache-Control': 'no-store' } }),
+    Response.json({ messages, role: identity.role }, { headers: { 'Cache-Control': 'no-store', 'x-helpdesk-role': identity.role } }),
     memory.guestToken,
   );
 }

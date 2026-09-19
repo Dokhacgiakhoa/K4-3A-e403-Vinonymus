@@ -36,6 +36,7 @@ function activeConversationId(): string {
 export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatBoxProps) {
   const [messages, setMessages] = useState<ChatMessage[]>(() => [createWelcomeMessage()]);
   const [memoryReady, setMemoryReady] = useState(false);
+  const [authVersion, setAuthVersion] = useState(0);
 
   const [stageStatus, setStageStatus] = useState<string | null>(null);
   const [isStreaming, setIsStreaming] = useState(false);
@@ -52,20 +53,32 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
   }, [messages, stageStatus, showNeedKey]);
 
   useEffect(() => {
+    const refresh = () => setAuthVersion((version) => version + 1);
+    window.addEventListener('aiia_auth_changed', refresh);
+    return () => window.removeEventListener('aiia_auth_changed', refresh);
+  }, []);
+
+  useEffect(() => {
     let active = true;
+    setMemoryReady(false);
+    setMessages([createWelcomeMessage()]);
+    setShowNeedKey(false);
+    setStageStatus(null);
     const hydrateMemory = async () => {
       const conversationId = activeConversationId();
       conversationIdRef.current = conversationId;
-      const saved = clientStorage
-        .getConversations()
-        .find((conversation) => conversation.id === conversationId);
-      if (saved?.messages.some((message) => message.role === 'user')) {
-        setMessages(saved.messages.map((message) => ({ ...message, isStreaming: false })));
+      const token = authBackendClient.getToken();
+      if (!token) {
+        const saved = clientStorage
+          .getConversations()
+          .find((conversation) => conversation.id === conversationId);
+        if (saved?.messages.some((message) => message.role === 'user')) {
+          setMessages(saved.messages.map((message) => ({ ...message, isStreaming: false })));
+        }
       }
 
       try {
         const headers: Record<string, string> = {};
-        const token = authBackendClient.getToken();
         if (token) headers.Authorization = `Bearer ${token}`;
         const response = await fetch('/api/chat', {
           method: 'GET',
@@ -89,10 +102,11 @@ export function ChatBox({ initialQuestion, onCloseMobile, isMobileModal }: ChatB
     return () => {
       active = false;
     };
-  }, []);
+  }, [authVersion]);
 
   useEffect(() => {
     if (!memoryReady || isStreaming) return;
+    if (authBackendClient.getToken()) return;
     const conversationId = conversationIdRef.current;
     if (!conversationId) return;
     const firstQuestion = messages.find((message) => message.role === 'user')?.content.trim();

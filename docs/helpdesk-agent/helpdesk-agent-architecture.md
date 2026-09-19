@@ -149,7 +149,7 @@ BYOK có thể được lưu trong `localStorage` của chính trình duyệt qu
 |---|---|---|
 | Widget thật | `components/chat/floating-ai-widget.tsx` | Đã gắn `ChatBox` vào layout toàn app |
 | Chat UI/SSE | `components/chat/chat-box.tsx` | Đã nối GET/POST/DELETE `/api/chat`, hiển thị tối đa 50 tin và fallback local |
-| Session memory | `lib/chat-session-memory.ts`, migration `0016_chat_session_memory.sql` | Supabase là nguồn chính; guest cookie hoặc backend user ID; localStorage fallback |
+| Session memory | `lib/chat-session-memory.ts`, migration `0022_chat_session_memory.sql` | Supabase là nguồn chính; guest cookie hoặc backend user ID; localStorage fallback |
 | Learner context | `lib/learner-context.ts` | Rút gọn roadmap, Zod validate, tách khỏi memory và loại bỏ với `Visitor` |
 | API boundary | `app/api/chat/route.ts` | Zod, xác thực role qua backend, key precedence, SSE, logging |
 | Access control | `lib/auth/helpdesk-access.ts` | Giữ nguyên role backend; `canAccessLearningFeatures` chỉ suy ra quyền; lỗi → `Visitor` |
@@ -162,12 +162,12 @@ BYOK có thể được lưu trong `localStorage` của chính trình duyệt qu
 ## 11. Giới hạn có chủ ý
 
 - Không dùng LangGraph hoặc multi-agent; hiện chỉ cần một quyết định có cấu trúc trước retrieval.
-- Session database cần migration `0016_chat_session_memory.sql`; trước khi migration được áp dụng, Helpdesk tự fallback về history/localStorage và không chặn luồng trả lời.
+- Session database cần migration `0022_chat_session_memory.sql`; trước khi migration được áp dụng, Helpdesk tự fallback về history/localStorage và không chặn luồng trả lời.
 - Tài khoản đăng nhập đồng bộ memory đa thiết bị theo backend `user_id`; guest chỉ tiếp tục được session trên trình duyệt còn cookie, hết hạn sau 7 ngày.
 - Chưa tạo session summary; với giới hạn 50 tin và cửa sổ prompt 6 tin, đây là chủ ý cho phạm vi hackathon.
 - Learner context lấy từ roadmap cục bộ `vinonymus_planner_v2`; khi roadmap được lưu ở backend, chỉ cần thay nguồn đọc trong `lib/learner-context.ts`.
 - Vector RAG và logging phụ thuộc Supabase; local FAQ vẫn dùng khi Supabase lỗi.
-- Migration `0015_private_learning_documents.sql` và lượt sync thật phải được áp dụng trên Supabase trước khi corpus Day 1–15 hoạt động ở môi trường triển khai; trước thời điểm đó app chỉ dùng kho đã có.
+- Migration `0021_private_learning_documents.sql` và lượt sync thật phải được áp dụng trên Supabase trước khi corpus Day 1–15 hoạt động ở môi trường triển khai; trước thời điểm đó app chỉ dùng kho đã có.
 - Golden set 20 ca của CP3 thuộc AI Mentor/Planner; Helpdesk chỉ duy trì smoke/regression test cho các nhánh chính trước mỗi lần phát hành.
 - Helpdesk là tính năng nền, không thay đổi Quality Bar đã khóa của Planner trong `spec.md` §7.
 
